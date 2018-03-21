@@ -2,3 +2,9 @@ STM01/*
 !STM01/Makefile
 !STM01/Src/
 !STM01/Inc/
+
+STM02/*
+!STM02/platformio.ini
+!STM02/Makefile
+!STM02/Src/
+!STM02/Inc/
