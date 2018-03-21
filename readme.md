@@ -8,8 +8,11 @@
 
 Install platformio http://docs.platformio.org/en/latest/installation.html#local-download-mac-linux-windows
 
-    cd STM02
-    pio run -t upload
+To download this repo, compile and upload with platformIO:
+
+    git clone https://github.com/TrystanLea/STM32Dev.git
+    cd STM32Dev/STM02
+    sudo pio run -t upload
 
 To view serial output:
 
