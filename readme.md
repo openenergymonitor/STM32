@@ -4,6 +4,13 @@
 
 ---
 
+## PlatformIO
+
+    cd STM02
+    sudo pio run -t upload
+
+## Using makefile
+
 Compilation:
 
     make
