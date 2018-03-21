@@ -4,12 +4,18 @@
 
 ---
 
-## PlatformIO
+## Option 1: PlatformIO
+
+Install platformio http://docs.platformio.org/en/latest/installation.html#local-download-mac-linux-windows
 
     cd STM02
-    sudo pio run -t upload
+    pio run -t upload
 
-## Using makefile
+To view serial output:
+
+    pio device monitor 
+
+## Option 2: Using makefile
 
 Compilation:
 
