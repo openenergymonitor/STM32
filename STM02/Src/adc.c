@@ -44,6 +44,12 @@
 #include "dma.h"
 
 /* USER CODE BEGIN 0 */
+#define true 1
+#define false 0
+
+volatile uint16_t adc1_dma_buff[ADC1_DMA_BUFFSIZE];
+volatile uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
+volatile uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
 
 /* USER CODE END 0 */
 
@@ -179,6 +185,43 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
+{
+  //
+  // If the flag is already set, process level has been too slow
+  // clearing it down.
+  //
+  if (adc1_half_conv_complete) {
+    adc1_half_conv_overrun = true;
+    adc1_half_conv_complete = false;
+  } else
+    adc1_half_conv_complete = true;
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+  //
+  // If the flag is already set, process level has been too slow
+  // clearing it down.
+  //
+  if (adc1_full_conv_complete) {
+    adc1_full_conv_overrun = true;
+    adc1_full_conv_complete = false;
+  } else
+    adc1_full_conv_complete = true;
+}
+
+void calibrate_ADC1 (void) {
+
+  // HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+}
+
+void start_ADC1 (void) {
+
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc1_dma_buff, ADC1_DMA_BUFFSIZE);
+}
+
+
 
 /* USER CODE END 1 */
 

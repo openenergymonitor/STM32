@@ -45,6 +45,8 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#define true 1
+#define false 0
 
 /* USER CODE END Includes */
 
@@ -52,6 +54,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+
+char log_buffer[100];
 
 /* USER CODE END PV */
 
@@ -100,13 +104,79 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
+  
+  snprintf(log_buffer, sizeof(log_buffer),
+	   "\nOEM ADC Demo 1.0\n");
+  debug_printf(log_buffer);
 
+  calibrate_ADC1();
+
+  //
+  // Start it all running.  We do continuous sampling in the followin channel order:
+  // 1,3,4,1,5,6,1,7,8,1,9,11,1,12,14  (15 readings per sequence)
+  // The DMA buffer is set to 100x15 and will interrupt us when half full, and full.
+  // Once full it wraps back to the beginning.
+  //
+  start_ADC1();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+    // Conversions take sample_time + 12.5 cycles  (all ADC cycles at 72MHz)
+    // where sample_time is how long you want it to spend charging the S&H cap
+    // In the GUI we configured sampling time to 1.5 cycles on every channel, so each sample takes 14 ADC cycles
+    // There are 15 conversion in the sequence (also chosen in the GUI)
+    // CAUTION:  a sampling time of 1.5 cycles with a 72MHz clock is a crazy-low sampling time (20.8 nsecs)
+    // You'd need a seriously low source impedance for that to give stable results, but hey, this is just
+    // example code to show what's possible.  Sampling time can be set as large as 601.5 cycles (8.3 usecs)
+    // Or you can slow the ADC clock down (see Clock Configuration Tab in GUI).
+    //
+    if (adc1_half_conv_complete && !adc1_half_conv_overrun) {
+      //
+      // You've got ~150 usecs to process the bottom 50 x 15 readings
+      // to be found in adc2_dma_buff[0..749], before they get overwritten
+      // In this demo we don't even look at the data, but toggle the LED so
+      // we can measure with the scope how often the data comes around.
+      //
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
+      adc1_half_conv_complete = false;
+    }
+
+    if (adc1_full_conv_complete && !adc1_full_conv_overrun) {
+      //
+      // You've got ~150 usecs to process the top  50 x 15 readings
+      // to be found in adc2_dma_buff[750..1449], before they get overwritten
+      // In this demo we don't even look at the data, but toggle the LED so
+      // we can measure with the scope how often the data comes around.
+      //
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
+      adc1_full_conv_complete = false;
+      
+      
+      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[800]);
+      debug_printf(log_buffer);
+      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[801]);
+      debug_printf(log_buffer);
+      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[802]);
+      debug_printf(log_buffer);
+      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[803]);
+      debug_printf(log_buffer);
+    }
+
+    //
+    // See if we've overrun and lost our place.
+    //
+    if (adc1_half_conv_overrun || adc1_full_conv_overrun) {
+      snprintf(log_buffer, sizeof(log_buffer), "Data overrun!!!\n");
+      debug_printf(log_buffer);
+      adc1_full_conv_complete = adc1_half_conv_complete = adc1_full_conv_overrun = adc1_half_conv_overrun = false;
+    }
 
   /* USER CODE END WHILE */
 
