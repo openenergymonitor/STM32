@@ -54,6 +54,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+float VCAL = 268.97;
+float ICAL = 60.606;
 
 char log_buffer[100];
 
@@ -136,6 +138,9 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  float V_RATIO = VCAL * (3.3 / 4096.0);
+  float I_RATIO = ICAL * (3.3 / 4096.0);
+
 
   /* USER CODE END Init */
 
@@ -159,7 +164,7 @@ int main(void)
 	   "\nOEM ADC Demo 1.0\r\n");
   debug_printf(log_buffer);
   
-  sprintf(log_buffer,"meanA0\trmsA0\trmsV\tmeanA1\trmsA1\trmsI\trealPower\r\n");
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\r\n");
   debug_printf(log_buffer);
 
   calibrate_ADC1();
@@ -214,17 +219,16 @@ int main(void)
       process_frame(2000); // 2000 to 4000
       
       // 4000 Samples all together divided by 2 inputs = 2000 samples per input
-      int meanA0 = sumA0 / 2000;
+      
+      // int meanA0 = sumA0 / 2000;
+      // int meanA1 = sumA1 / 2000;
+      
       int rmsA0 = sqrt(sqsumA0 / 2000);
-      int meanA1 = sumA1 / 2000;
       int rmsA1 = sqrt(sqsumA1 / 2000);
       int meanA0A1 = (sumA0A1 / 2000);
 
 
-      float VCAL = 268.97;
-      float ICAL = 60.606;
-      float V_RATIO = VCAL * (3.3 / 4096.0);
-      float I_RATIO = ICAL * (3.3 / 4096.0);
+
       
       float Vrms = V_RATIO * rmsA0;
       float Irms = I_RATIO * rmsA1;
@@ -232,11 +236,8 @@ int main(void)
       float realPower = V_RATIO * I_RATIO * meanA0A1;
       float apparentPower = Vrms * Irms;
       float powerFactor = realPower / apparentPower;
-  
-      int rmsVi = Vrms;
-      int rmsIi = Irms;
-      int realPoweri = realPower;
-      sprintf(log_buffer,"%i\t%i\t%i\t%i\t%i\t%i\t%i\r\n",meanA0,rmsA0,rmsVi,meanA1,rmsA1,rmsIi,realPoweri);
+      
+      sprintf(log_buffer,"%.2f\t%.2f\t%.0f\t%.0f\t%.3f\r\n", Vrms, Irms, realPower, apparentPower, powerFactor);
       debug_printf(log_buffer);
       
       sumA0 = 0;
