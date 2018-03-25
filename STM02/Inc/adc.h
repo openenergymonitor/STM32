@@ -49,7 +49,7 @@
 
 /* USER CODE BEGIN Includes */
 
-#define ADC1_DMA_BUFFSIZE 15*100    // 15 samples in a sequence, 100 sequences
+#define ADC1_DMA_BUFFSIZE 4000    // must me integer multiple of number of channels?
 volatile uint16_t adc1_dma_buff[ADC1_DMA_BUFFSIZE];
 volatile uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
 volatile uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;

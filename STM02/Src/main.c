@@ -57,6 +57,21 @@
 
 char log_buffer[100];
 
+long shiftedFCL = 0;
+
+int sampleA0 = 0;
+int last_sampleA0 = 0;
+long shifted_filterA0 = -10000;
+
+int sampleA1 = 0;
+int last_sampleA1 = 0;
+long shifted_filterA1 = -10000;
+
+long sumA0 = 0;
+unsigned long sqsumA0 = 0;
+long sumA1 = 0;
+unsigned long sqsumA1 = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,6 +79,33 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+
+
+void process_frame(int offset)
+{
+    for (int i=0; i<2000; i+=2) {
+        last_sampleA0 = sampleA0;
+        sampleA0 = adc1_dma_buff[offset+i];
+        
+        shiftedFCL = shifted_filterA0 + (long)((sampleA0 - last_sampleA0)<<8);
+        shifted_filterA0 = shiftedFCL - (shiftedFCL>>8);
+        long filtered_A0 = (shifted_filterA0+128)>>8;
+        
+        sumA0 += filtered_A0;
+        sqsumA0 += filtered_A0 * filtered_A0;
+    
+        
+        last_sampleA1 = sampleA1;
+        sampleA1 = adc1_dma_buff[offset+i+1];
+        
+        shiftedFCL = shifted_filterA1 + (long)((sampleA1 - last_sampleA1)<<8);
+        shifted_filterA1 = shiftedFCL - (shiftedFCL>>8);
+        long filtered_A1 = (shifted_filterA1+128)>>8;
+        
+        sumA1 += filtered_A1;
+        sqsumA1 += filtered_A1 * filtered_A1;
+    }
+}
 
 /* USER CODE END PFP */
 
@@ -108,7 +150,10 @@ int main(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
   
   snprintf(log_buffer, sizeof(log_buffer),
-	   "\nOEM ADC Demo 1.0\n");
+	   "\nOEM ADC Demo 1.0\r\n");
+  debug_printf(log_buffer);
+  
+  sprintf(log_buffer,"meanA0\trmsA0\trmsV\tmeanA1\trmsA1\trmsI\r\n");
   debug_printf(log_buffer);
 
   calibrate_ADC1();
@@ -146,6 +191,8 @@ int main(void)
       //
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
       adc1_half_conv_complete = false;
+      
+      process_frame(0);  // 0 to 2000
     }
 
     if (adc1_full_conv_complete && !adc1_full_conv_overrun) {
@@ -158,15 +205,27 @@ int main(void)
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
       adc1_full_conv_complete = false;
       
+      process_frame(2000); // 2000 to 4000
       
-      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[800]);
+      // 4000 Samples all together divided by 2 inputs = 2000 samples per input
+      int meanA0 = sumA0 / 2000;
+      int rmsA0 = sqrt(sqsumA0 / 2000);
+      int meanA1 = sumA1 / 2000;
+      int rmsA1 = sqrt(sqsumA1 / 2000);
+      
+      float rmsV = 268.97 * 3.3 * (rmsA0 / 4096.0); // 268.97 * 3.3 / 4096
+      float rmsI = 60.606 * 3.3 * (rmsA1 / 4096.0); // 60.606 * 3.3 / 4096
+      int rmsVi = rmsV;
+      int rmsIi = rmsI;
+      sprintf(log_buffer,"%i\t%i\t%i\t%i\t%i\t%i\r\n",meanA0,rmsA0,rmsVi,meanA1,rmsA1,rmsIi);
       debug_printf(log_buffer);
-      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[801]);
-      debug_printf(log_buffer);
-      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[802]);
-      debug_printf(log_buffer);
-      sprintf(log_buffer,"%i\r\n",adc1_dma_buff[803]);
-      debug_printf(log_buffer);
+      
+      sumA0 = 0;
+      sqsumA0 = 0;
+      sumA1 = 0;
+      sqsumA1 = 0;
+      
+
     }
 
     //
