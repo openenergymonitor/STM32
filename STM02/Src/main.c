@@ -72,6 +72,8 @@ unsigned long sqsumA0 = 0;
 long sumA1 = 0;
 unsigned long sqsumA1 = 0;
 
+unsigned long sumA0A1 = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,6 +106,10 @@ void process_frame(int offset)
         
         sumA1 += filtered_A1;
         sqsumA1 += filtered_A1 * filtered_A1;
+        
+        
+        sumA0A1 += filtered_A0 * filtered_A1;
+        
     }
 }
 
@@ -153,7 +159,7 @@ int main(void)
 	   "\nOEM ADC Demo 1.0\r\n");
   debug_printf(log_buffer);
   
-  sprintf(log_buffer,"meanA0\trmsA0\trmsV\tmeanA1\trmsA1\trmsI\r\n");
+  sprintf(log_buffer,"meanA0\trmsA0\trmsV\tmeanA1\trmsA1\trmsI\trealPower\r\n");
   debug_printf(log_buffer);
 
   calibrate_ADC1();
@@ -212,18 +218,32 @@ int main(void)
       int rmsA0 = sqrt(sqsumA0 / 2000);
       int meanA1 = sumA1 / 2000;
       int rmsA1 = sqrt(sqsumA1 / 2000);
+      int meanA0A1 = (sumA0A1 / 2000);
+
+
+      float VCAL = 268.97;
+      float ICAL = 60.606;
+      float V_RATIO = VCAL * (3.3 / 4096.0);
+      float I_RATIO = ICAL * (3.3 / 4096.0);
       
-      float rmsV = 268.97 * 3.3 * (rmsA0 / 4096.0); // 268.97 * 3.3 / 4096
-      float rmsI = 60.606 * 3.3 * (rmsA1 / 4096.0); // 60.606 * 3.3 / 4096
-      int rmsVi = rmsV;
-      int rmsIi = rmsI;
-      sprintf(log_buffer,"%i\t%i\t%i\t%i\t%i\t%i\r\n",meanA0,rmsA0,rmsVi,meanA1,rmsA1,rmsIi);
+      float Vrms = V_RATIO * rmsA0;
+      float Irms = I_RATIO * rmsA1;
+
+      float realPower = V_RATIO * I_RATIO * meanA0A1;
+      float apparentPower = Vrms * Irms;
+      float powerFactor = realPower / apparentPower;
+  
+      int rmsVi = Vrms;
+      int rmsIi = Irms;
+      int realPoweri = realPower;
+      sprintf(log_buffer,"%i\t%i\t%i\t%i\t%i\t%i\t%i\r\n",meanA0,rmsA0,rmsVi,meanA1,rmsA1,rmsIi,realPoweri);
       debug_printf(log_buffer);
       
       sumA0 = 0;
       sqsumA0 = 0;
       sumA1 = 0;
       sqsumA1 = 0;
+      sumA0A1 = 0;
       
 
     }
