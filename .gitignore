@@ -10,6 +10,7 @@ STM02/*
 !STM02/Inc/
 
 dBC_txshield_demo/*
+!dBC_txshield_demo/platformio.ini
 !dBC_txshield_demo/Makefile
 !dBC_txshield_demo/Src/
 !dBC_txshield_demo/Inc/
