@@ -12,11 +12,11 @@ To download this repo, compile and upload with platformIO:
 
     git clone https://github.com/TrystanLea/STM32Dev.git
     cd STM32Dev/STM02
-    sudo pio run -t upload
+    pio run -t upload
 
 To view serial output:
 
-    pio device monitor 
+    pio device monitor
 
 ## Option 2: Using makefile
 
