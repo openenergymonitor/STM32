@@ -49,14 +49,16 @@
 
 /* USER CODE BEGIN Includes */
 
-#define ADC1_DMA_BUFFSIZE 4000    // must me integer multiple of number of channels?
-volatile uint16_t adc1_dma_buff[ADC1_DMA_BUFFSIZE];
-volatile uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-volatile uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
+#define ADC_DMA_BUFFSIZE 4000    // must me integer multiple of number of channels?
+volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
+volatile uint16_t adc2_dma_buff[ADC_DMA_BUFFSIZE];
+volatile uint16_t adc_half_conv_complete, adc_full_conv_complete;
+volatile uint16_t adc_half_conv_overrun, adc_full_conv_overrun;
 
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
 
 /* USER CODE BEGIN Private defines */
 
@@ -65,6 +67,7 @@ extern ADC_HandleTypeDef hadc1;
 extern void _Error_Handler(char *, int);
 
 void MX_ADC1_Init(void);
+void MX_ADC2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
