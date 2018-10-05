@@ -86,3 +86,48 @@ Recompile
 Upload:
 
     cp build/Blink.bin /media/username/NODE_F303RE/
+    
+## Serial Output
+
+![STMCube5a.png](images/STMCube5a.png)
+
+![STMCube5b.png](images/STMCube5b.png)
+
+In main.c:
+
+    /* USER CODE BEGIN PV */
+    /* Private variables ---------------------------------------------------------*/
+    char log_buffer[100];
+
+and
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      
+      sprintf(log_buffer,"Hello World\r\n");
+      debug_printf(log_buffer);
+      
+      HAL_Delay(200);
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
+    }
+    /* USER CODE END 3 */
+    
+In usart.c:
+
+    /* USER CODE BEGIN 1 */
+    void debug_printf (char* p) {
+      HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 1000);
+    }
+    /* USER CODE END 1 */
+    
+    
+Serial monitor with minicom:
+
+    minicom -b115200 -D/dev/ttyACM0
+
