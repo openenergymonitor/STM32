@@ -31,3 +31,25 @@ Upload:
 Serial monitor:
 
     minicom -F -b115200 -D/dev/ttyACM0
+
+## Arduino IDE: STM32Duino
+
+Preferences: Additional boards manager link
+
+    https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
+    
+Select STM32 Cores from Boards Manager, install or update.
+
+To test: select example 'blink', Board: Nucleo-64 & Part number: Nucleo F303RE.
+Compile and upload.
+
+**EmonTxShield with EmonLib**
+
+Clone EmonLib into your Arduino libraries folder using git.
+
+    git clone https://github.com/openenergymonitor/EmonLib.git
+    git checkout STM32
+    
+Open example 'voltage_and_current'. See post for Shield hardware modifications:
+[https://community.openenergymonitor.org/t/stm32-development/6815/4](https://community.openenergymonitor.org/t/stm32-development/6815/4)
+
