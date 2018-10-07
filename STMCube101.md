@@ -304,6 +304,8 @@ Remove the analogRead function from adc.c that we added in the previous examples
     
 **Analog read on completion interrupt**
 
+This example replaces the polling for completed ADC conversions with an callback function called via an interrupt.
+
 - Enable 'Scan Conversion Mode' in the ADC configuration window. 
 - Keep End of Conversion Selection on 'End of single conversion'.
 - NVIC Settings: Enable ADC1 and ADC2 interrupts.

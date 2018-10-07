@@ -1,6 +1,7 @@
 # STM32 Development
 
-[STM32 Development thread](https://community.openenergymonitor.org/t/stm32-development)
+-[STM32 Development thread](https://community.openenergymonitor.org/t/stm32-development)
+-[Getting started with STM32 Cube MX 101](STMCube101.md)
 
 ## Installation
 
