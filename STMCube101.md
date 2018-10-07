@@ -229,6 +229,8 @@ Modify the analagRead function to include the following channel configuration se
       return ADCValue;
     }
     
+This configuration code is copied straight from the bottom of the MX_ADC1_Init function.
+    
 Call the modified function from main.c:
 
     /* Infinite loop */
@@ -263,3 +265,41 @@ Example output with PA0 connected to ground and PA1 connected to 3.3V:
     ADCValue 2: 4037
     ADCValue 1: 0
     ADCValue 2: 4037
+    
+**Reading from two analog inputs sequentially with scan mode**
+
+The last example configure's, starts, reads and then stops the ADC for each channel. With scan conversion mode its possible to automatically read through a configured list of channels sequentially.
+
+Enable 'Scan Conversion Mode' in the ADC configuration window. 
+
+Keep End of Conversion Selection on 'End of single conversion'.
+
+![STMCubeADC3.png](images/STMCubeADC3.png)
+
+Remove the analogRead function from adc.c that we added in the previous examples. Replace the code in the main.c loop with:
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+
+      HAL_ADC_Start(&hadc1);
+      
+      if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK) {
+          ADCValue = HAL_ADC_GetValue(&hadc1);
+          sprintf(log_buffer, "ADCValue 1: %d\r\n", ADCValue);
+          debug_printf(log_buffer);
+      }
+      
+      if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK) {
+          ADCValue = HAL_ADC_GetValue(&hadc1);
+          sprintf(log_buffer, "ADCValue 2: %d\r\n", ADCValue);
+          debug_printf(log_buffer);
+      }
+      
+      HAL_ADC_Stop(&hadc1);
+      HAL_Delay(200);
+          
+      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      HAL_Delay(100);
+    /* USER CODE END WHILE */
