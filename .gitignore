@@ -7,6 +7,9 @@ ADC/.pioenvs/*
 DMA/build/*
 DMA/.pioenvs/*
 
+Emon/build/*
+Emon/.pioenvs/*
+
 STM02/build/*
 STM02/.pioenvs/*
 
