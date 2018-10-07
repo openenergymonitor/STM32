@@ -342,3 +342,13 @@ In main.c:
       HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
       HAL_Delay(500);
     /* USER CODE END WHILE */
+    
+## DMA
+
+Starting from where we left off in the previous example with ADC1 channel 1 and 2 enabled and configured.
+
+- Enable Continuous Conversions
+- Enable DMA Continuous Requests
+- End of Conversion to be End of Sequence
+- Add DMA channel in the DMA Settings tab.
+- Select Circular mode

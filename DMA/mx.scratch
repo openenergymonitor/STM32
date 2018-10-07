@@ -151,6 +151,10 @@
                                 </file>
 
                                 <file>
+                                 <name>Src/dma.c</name>
+                                </file>
+
+                                <file>
                                  <name>Src/usart.c</name>
                                 </file>
 
@@ -179,6 +183,15 @@
                     <name>main.c</name>
                                     <file>
                                             <name>Src/main.c</name>
+                                    </file>
+                    </group>
+    </group>
+    <group>
+        <name>Src</name>
+                    <group>
+                    <name>dma.c</name>
+                                    <file>
+                                            <name>Src/dma.c</name>
                                     </file>
                     </group>
     </group>

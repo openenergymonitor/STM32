@@ -40,6 +40,7 @@
 #include "main.h"
 #include "stm32f3xx_hal.h"
 #include "adc.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -51,6 +52,13 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+char log_buffer[100];
+#define true 1
+#define false 0
+int sampleA0 = 0;
+int sampleA1 = 0;
+long sumA0 = 0;
+long sumA1 = 0;
 
 /* USER CODE END PV */
 
@@ -63,6 +71,16 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+void process_frame(int offset)
+{
+  for(int i=0; i<2000; i+=2) 
+  {
+    sampleA0 = adc1_dma_buff[offset+i];
+    sumA0 += sampleA0;
+    sampleA1 = adc1_dma_buff[offset+i+1];
+    sumA1 += sampleA1;
+  }
+}
 
 /* USER CODE END 0 */
 
@@ -95,19 +113,44 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-
+  start_ADC1();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_ADC_Start_IT(&hadc1);
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    HAL_Delay(500);
+    if (adc1_half_conv_complete && !adc1_half_conv_overrun) 
+    {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
+      adc1_half_conv_complete = false;
+      process_frame(0);  // 0 to 2000
+    }
+
+    if (adc1_full_conv_complete && !adc1_full_conv_overrun) 
+    {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);        // LED on
+      adc1_full_conv_complete = false;
+      process_frame(2000); // 2000 to 4000
+      
+      // 4000 Samples all together divided by 2 inputs = 2000 samples per input
+      int meanA0 = sumA0 / 2000;
+      int meanA1 = sumA1 / 2000;
+      
+      sprintf(log_buffer,"Mean A0 %d\r\n", meanA0);
+      debug_printf(log_buffer);
+
+      sprintf(log_buffer,"Mean A1 %d\r\n", meanA1);
+      debug_printf(log_buffer);
+      
+      sumA0 = 0;
+      sumA1 = 0;
+    }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
