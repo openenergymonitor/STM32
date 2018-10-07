@@ -2,6 +2,7 @@ Blink/*
 !Blink/Makefile
 !Blink/startup_stm32f303xe.s
 !Blink/STM32F303RETx_FLASH.ld
+!Blink/platformio.ini
 !Blink/Src/
 !Blink/Inc/
 !Blink/Drivers/
@@ -10,6 +11,7 @@ ADC/*
 !ADC/Makefile
 !ADC/startup_stm32f303xe.s
 !ADC/STM32F303RETx_FLASH.ld
+!ADC/platformio.ini
 !ADC/Src/
 !ADC/Inc/
 !ADC/Drivers/
