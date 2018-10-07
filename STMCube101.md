@@ -390,7 +390,7 @@ adc.c:
 
 In main.c there are two additions:
 
-1. A function for processing a frame/block of samples:
+1) A function for processing a frame/block of samples:
 
     /* USER CODE BEGIN 0 */
     void process_frame(int offset)
@@ -405,7 +405,7 @@ In main.c there are two additions:
     }
     /* USER CODE END 0 */
     
-2. The main loop:
+2) The main loop:
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
