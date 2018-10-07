@@ -289,9 +289,7 @@ Remove the analogRead function from adc.c that we added in the previous examples
           ADCValue = HAL_ADC_GetValue(&hadc1);
           sprintf(log_buffer, "ADCValue 1: %d\r\n", ADCValue);
           debug_printf(log_buffer);
-      }
-      
-      if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK) {
+          
           ADCValue = HAL_ADC_GetValue(&hadc1);
           sprintf(log_buffer, "ADCValue 2: %d\r\n", ADCValue);
           debug_printf(log_buffer);
@@ -302,4 +300,43 @@ Remove the analogRead function from adc.c that we added in the previous examples
           
       HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
       HAL_Delay(100);
+    /* USER CODE END WHILE */
+    
+**Analog read on completion interrupt**
+
+- Enable 'Scan Conversion Mode' in the ADC configuration window. 
+- Keep End of Conversion Selection on 'End of single conversion'.
+- NVIC Settings: Enable ADC1 and ADC2 interrupts.
+
+In adc.c:
+
+    /* USER CODE BEGIN 0 */
+    char log_buffer[100];
+
+    /* USER CODE END 0 */
+    
+    ---
+
+    /* USER CODE BEGIN 1 */
+    void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc1)
+    {
+      uint32_t ADCValue = HAL_ADC_GetValue(hadc1);
+      sprintf(log_buffer, "ADCValue 1: %d\r\n", ADCValue);
+      debug_printf(log_buffer);
+
+      ADCValue = HAL_ADC_GetValue(hadc1);
+      sprintf(log_buffer, "ADCValue 2: %d\r\n", ADCValue);
+      debug_printf(log_buffer);
+    }
+    /* USER CODE END 1 */
+    
+In main.c:
+
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {     
+      HAL_ADC_Start_IT(&hadc1);
+      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      HAL_Delay(500);
     /* USER CODE END WHILE */
