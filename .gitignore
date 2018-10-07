@@ -6,6 +6,14 @@ Blink/*
 !Blink/Inc/
 !Blink/Drivers/
 
+ADC/*
+!ADC/Makefile
+!ADC/startup_stm32f303xe.s
+!ADC/STM32F303RETx_FLASH.ld
+!ADC/Src/
+!ADC/Inc/
+!ADC/Drivers/
+
 STM01/*
 !STM01/Makefile
 !STM01/Src/
