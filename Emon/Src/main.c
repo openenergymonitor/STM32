@@ -55,33 +55,42 @@
 #define true 1
 #define false 0
 
-float VCAL = 268.97;
-float ICAL = 60.606;
+int8_t readings_ready = false;
+
+// Readings
+double Vrms = 0;
+double Irms = 0;
+double realPower = 0;
+double apparentPower = 0;
+double powerFactor = 0;
+uint64_t lastSampleCount = 0;
+
+// Calibration
+double VCAL = 268.97;
+double ICAL = 60.606;
 
 char log_buffer[100];
 
-long shiftedFCL = 0;
+int32_t shiftedFCL = 0;
 
-int sampleA0 = 0;
-int last_sampleA0 = 0;
-long shifted_filterA0 = -10000;
+int32_t sampleA0 = 0;
+int32_t last_sampleA0 = 0;
+int32_t shifted_filterA0 = -10000;
 
-int sampleA1 = 0;
-int last_sampleA1 = 0;
-long shifted_filterA1 = -10000;
+int32_t sampleA1 = 0;
+int32_t last_sampleA1 = 0;
+int32_t shifted_filterA1 = -10000;
 
-long sumA0 = 0;
 uint64_t sqsumA0 = 0;
-long sumA1 = 0;
-unsigned long sqsumA1 = 0;
-unsigned long sumA0A1 = 0;
+uint64_t sqsumA1 = 0;
+int64_t sumA0A1 = 0;
 
-int checkVCross = 0;
-int lastVCross = 0;
-int crossCount = 0;
-unsigned long sampleCount = 0;
-float V_RATIO = 0;
-float I_RATIO = 0;
+uint8_t checkVCross = 0;
+uint8_t lastVCross = 0;
+uint8_t crossCount = 0;
+uint64_t sampleCount = 0;
+double V_RATIO = 0;
+double I_RATIO = 0;
 
 /* USER CODE END PV */
 
@@ -94,28 +103,26 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-void process_frame(int offset)
+void process_frame(uint16_t offset)
 {
   for (int i=0; i<2000; i+=2) {
     // -------------------------------------------------------------------
     last_sampleA0 = sampleA0;
     sampleA0 = adc1_dma_buff[offset+i];
     // filter
-    shiftedFCL = shifted_filterA0 + (long)((sampleA0 - last_sampleA0)<<8);
+    shiftedFCL = shifted_filterA0 + (int32_t)((sampleA0 - last_sampleA0)<<8);
     shifted_filterA0 = shiftedFCL - (shiftedFCL>>8);
-    long filtered_A0 = (shifted_filterA0+128)>>8;
+    int32_t filtered_A0 = (shifted_filterA0+128)>>8;
     // sum and sqsum
-    sumA0 += filtered_A0;
     sqsumA0 += filtered_A0 * filtered_A0;
     // -------------------------------------------------------------------
     last_sampleA1 = sampleA1;
     sampleA1 = adc1_dma_buff[offset+i+1];
     // filter
-    shiftedFCL = shifted_filterA1 + (long)((sampleA1 - last_sampleA1)<<8);
+    shiftedFCL = shifted_filterA1 + (int32_t)((sampleA1 - last_sampleA1)<<8);
     shifted_filterA1 = shiftedFCL - (shiftedFCL>>8);
-    long filtered_A1 = (shifted_filterA1+128)>>8;
+    int32_t filtered_A1 = (shifted_filterA1+128)>>8;
     // sum and sqsum
-    sumA1 += filtered_A1;
     sqsumA1 += filtered_A1 * filtered_A1;
     // -------------------------------------------------------------------
     sumA0A1 += filtered_A0 * filtered_A1;
@@ -126,29 +133,25 @@ void process_frame(int offset)
     if (filtered_A0 > 0) checkVCross = true; else checkVCross = false;
     if (lastVCross != checkVCross) crossCount++;
     
-    if (crossCount>100) {
+    if (crossCount>=250) {
       crossCount = 0;
-        
-      int rmsA0 = sqrt(sqsumA0 / sampleCount);
-      int rmsA1 = sqrt(sqsumA1 / sampleCount);
-      int meanA0A1 = (sumA0A1 / sampleCount);
       
-      float Vrms = V_RATIO * rmsA0;
-      float Irms = I_RATIO * rmsA1;
-
-      float realPower = V_RATIO * I_RATIO * meanA0A1;
-      float apparentPower = Vrms * Irms;
-      float powerFactor = realPower / apparentPower;
-      
-      sprintf(log_buffer,"%.2f\t%.2f\t%d\t%d\t%.3f\r\n", Vrms, Irms, realPower, apparentPower, powerFactor);
-      debug_printf(log_buffer);
-      
-      sumA0 = 0;
+      double rmsA0 = sqrt(sqsumA0 * (1.0 / sampleCount));
       sqsumA0 = 0;
-      sumA1 = 0;
+      double rmsA1 = sqrt(sqsumA1 * (1.0 / sampleCount));
       sqsumA1 = 0;
+      double meanA0A1 = sumA0A1 * (1.0 / sampleCount);
       sumA0A1 = 0;
+      lastSampleCount = sampleCount;
       sampleCount = 0;
+      
+      Vrms = V_RATIO * rmsA0;
+      Irms = I_RATIO * rmsA1;
+      realPower = V_RATIO * I_RATIO * meanA0A1;
+      apparentPower = Vrms * Irms;
+      powerFactor = realPower / apparentPower;
+      
+      readings_ready = true;
     }
   }
 }
@@ -201,19 +204,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if (adc1_half_conv_complete && !adc1_half_conv_overrun) 
-    {
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
-      adc1_half_conv_complete = false;
-      process_frame(0);  // 0 to 2000
-    }
-
-    if (adc1_full_conv_complete && !adc1_full_conv_overrun) 
-    {
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);        // LED on
-      adc1_full_conv_complete = false;
-      process_frame(2000); // 2000 to 4000
-    }
+     if (readings_ready) {
+       readings_ready = false;   
+     
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, lastSampleCount);
+       debug_printf(log_buffer);
+     }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

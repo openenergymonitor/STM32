@@ -185,20 +185,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 /* USER CODE BEGIN 1 */
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if (adc1_half_conv_complete) {
-    adc1_half_conv_overrun = true;
-    adc1_half_conv_complete = false;
-  } else
-    adc1_half_conv_complete = true;
+  process_frame(0);
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if (adc1_full_conv_complete) {
-    adc1_full_conv_overrun = true;
-    adc1_full_conv_complete = false;
-  } else
-    adc1_full_conv_complete = true;
+  process_frame(2000);
 }
 
 void start_ADC1 (void) {
