@@ -52,12 +52,15 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+
+// Serial output buffer
+char log_buffer[100];
+
 #define true 1
 #define false 0
 
-int8_t readings_ready = false;
-
 // Readings
+int8_t readings_ready = false;
 double Vrms = 0;
 double Irms = 0;
 double realPower = 0;
@@ -69,8 +72,7 @@ uint64_t lastSampleCount = 0;
 double VCAL = 268.97;
 double ICAL = 60.606;
 
-char log_buffer[100];
-
+// Sampling & Filter
 int32_t shiftedFCL = 0;
 
 int32_t sampleA0 = 0;
