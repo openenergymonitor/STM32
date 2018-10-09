@@ -13,5 +13,8 @@ Emon/.pioenvs/*
 Emon2/build/*
 Emon2/.pioenvs/*
 
+BluePillBlink/build/*
+BluePillBlink/.pioenvs/*
+
 dBC_txshield_demo/build/*
 dBC_txshield_demo/.pioenvs/*

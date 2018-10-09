@@ -2,6 +2,8 @@
 
 An alternative to the integrated ST-Link-v2 programming board that comes with nucleo development boards is to use a ST-Link adapter.
 
+![stlink5.JPG](../images/stlink5.JPG)
+
 Installation of st-flash
 
 Dependencies:

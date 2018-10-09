@@ -23,6 +23,10 @@ Firmware Examples:
 - [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
 - [5. Emon2](Emon2): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
 
+Other:
+
+- [STM32F103 BluePill Blink](docs/bluepill.md)
+
 ## Installation
 
 Install toolchain
