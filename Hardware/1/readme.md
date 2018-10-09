@@ -1,5 +1,11 @@
 ## STM32 Hardware 01
 
+See forum posts:
+
+- [https://community.openenergymonitor.org/t/stm32-hardware-development/7135/18](https://community.openenergymonitor.org/t/stm32-hardware-development/7135/18)
+- [https://community.openenergymonitor.org/t/stm32-hardware-development/7135/26](https://community.openenergymonitor.org/t/stm32-hardware-development/7135/26)
+
+
 First outline of an STM32 design. STM32F303 64pin as a starting point.
 
 The design so far:
