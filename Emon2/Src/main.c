@@ -46,8 +46,6 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#define true 1
-#define false 0
 
 /* USER CODE END Includes */
 
@@ -55,34 +53,47 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-float VCAL = 268.97;
-float ICAL = 60.606;
 
+// Serial output buffer
 char log_buffer[100];
 
-long shiftedFCL = 0;
+#define true 1
+#define false 0
 
-int sampleA0 = 0;
-int last_sampleA0 = 0;
-long shifted_filterA0 = -10000;
+// Readings
+int8_t readings_ready = false;
+double Vrms = 0;
+double Irms = 0;
+double realPower = 0;
+double apparentPower = 0;
+double powerFactor = 0;
+uint64_t lastSampleCount = 0;
 
-int sampleA1 = 0;
-int last_sampleA1 = 0;
-long shifted_filterA1 = -10000;
+// Calibration
+double VCAL = 268.97;
+double ICAL = 60.606;
 
-long sumA0 = 0;
+// Sampling & Filter
+int32_t shiftedFCL = 0;
+
+int32_t sampleA0 = 0;
+int32_t last_sampleA0 = 0;
+int32_t shifted_filterA0 = -10000;
+
+int32_t sampleA1 = 0;
+int32_t last_sampleA1 = 0;
+int32_t shifted_filterA1 = -10000;
+
 uint64_t sqsumA0 = 0;
-long sumA1 = 0;
-unsigned long sqsumA1 = 0;
+uint64_t sqsumA1 = 0;
+int64_t sumA0A1 = 0;
 
-unsigned long sumA0A1 = 0;
-
-int checkVCross = 0;
-int lastVCross = 0;
-int crossCount = 0;
-unsigned long sampleCount = 0;
-float V_RATIO = 0;
-float I_RATIO = 0;
+uint8_t checkVCross = 0;
+uint8_t lastVCross = 0;
+uint8_t crossCount = 0;
+uint64_t sampleCount = 0;
+double V_RATIO = 0;
+double I_RATIO = 0;
 
 /* USER CODE END PV */
 
@@ -92,72 +103,61 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
-
-void process_frame(int offset)
-{
-    for (int i=0; i<2000; i++) {
-        last_sampleA0 = sampleA0;
-        sampleA0 = adc1_dma_buff[offset+i];
-        
-        shiftedFCL = shifted_filterA0 + (long)((sampleA0 - last_sampleA0)<<8);
-        shifted_filterA0 = shiftedFCL - (shiftedFCL>>8);
-        long filtered_A0 = (shifted_filterA0+128)>>8;
-        
-        sumA0 += filtered_A0;
-        sqsumA0 += filtered_A0 * filtered_A0;
-    
-        
-        last_sampleA1 = sampleA1;
-        sampleA1 = adc2_dma_buff[offset+i];
-        
-        shiftedFCL = shifted_filterA1 + (long)((sampleA1 - last_sampleA1)<<8);
-        shifted_filterA1 = shiftedFCL - (shiftedFCL>>8);
-        long filtered_A1 = (shifted_filterA1+128)>>8;
-        
-        sumA1 += filtered_A1;
-        sqsumA1 += filtered_A1 * filtered_A1;
-        
-        sumA0A1 += filtered_A0 * filtered_A1;
-        
-        sampleCount ++;
-        
-        lastVCross = checkVCross;
-        if (filtered_A0 > 0) checkVCross = true; else checkVCross = false;
-        if (lastVCross != checkVCross) crossCount++;
-        
-        
-        if (crossCount>50) {
-          crossCount = 0;
-            
-          int rmsA0 = sqrt(sqsumA0 / sampleCount);
-          int rmsA1 = sqrt(sqsumA1 / sampleCount);
-          int meanA0A1 = (sumA0A1 / sampleCount);
-          
-          float Vrms = V_RATIO * rmsA0;
-          float Irms = I_RATIO * rmsA1;
-
-          float realPower = V_RATIO * I_RATIO * meanA0A1;
-          float apparentPower = Vrms * Irms;
-          float powerFactor = realPower / apparentPower;
-          
-          sprintf(log_buffer,"%.2f\t%.2f\t%.0f\t%.0f\t%.3f\t%lu\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, sampleCount);
-          debug_printf(log_buffer);
-          
-          sumA0 = 0;
-          sqsumA0 = 0;
-          sumA1 = 0;
-          sqsumA1 = 0;
-          sumA0A1 = 0;
-          sampleCount = 0;
-        }  
-        
-
-    }
-}
-
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+void process_frame(uint16_t offset)
+{
+  for (int i=0; i<2000; i++) {
+    // -------------------------------------------------------------------
+    last_sampleA0 = sampleA0;
+    sampleA0 = adc1_dma_buff[offset+i];
+    // filter
+    shiftedFCL = shifted_filterA0 + (int32_t)((sampleA0 - last_sampleA0)<<8);
+    shifted_filterA0 = shiftedFCL - (shiftedFCL>>8);
+    int32_t filtered_A0 = (shifted_filterA0+128)>>8;
+    // sum and sqsum
+    sqsumA0 += filtered_A0 * filtered_A0;
+    // -------------------------------------------------------------------
+    last_sampleA1 = sampleA1;
+    sampleA1 = adc2_dma_buff[offset+i];
+    // filter
+    shiftedFCL = shifted_filterA1 + (int32_t)((sampleA1 - last_sampleA1)<<8);
+    shifted_filterA1 = shiftedFCL - (shiftedFCL>>8);
+    int32_t filtered_A1 = (shifted_filterA1+128)>>8;
+    // sum and sqsum
+    sqsumA1 += filtered_A1 * filtered_A1;
+    // -------------------------------------------------------------------
+    sumA0A1 += filtered_A0 * filtered_A1;
+    
+    sampleCount ++;
+    
+    lastVCross = checkVCross;
+    if (filtered_A0 > 0) checkVCross = true; else checkVCross = false;
+    if (lastVCross != checkVCross) crossCount++;
+    
+    if (crossCount>=250) {
+      crossCount = 0;
+      
+      double rmsA0 = sqrt(sqsumA0 * (1.0 / sampleCount));
+      sqsumA0 = 0;
+      double rmsA1 = sqrt(sqsumA1 * (1.0 / sampleCount));
+      sqsumA1 = 0;
+      double meanA0A1 = sumA0A1 * (1.0 / sampleCount);
+      sumA0A1 = 0;
+      lastSampleCount = sampleCount;
+      sampleCount = 0;
+      
+      Vrms = V_RATIO * rmsA0;
+      Irms = I_RATIO * rmsA1;
+      realPower = V_RATIO * I_RATIO * meanA0A1;
+      apparentPower = Vrms * Irms;
+      powerFactor = realPower / apparentPower;
+      
+      readings_ready = true;
+    }
+  }
+}
 
 /* USER CODE END 0 */
 
@@ -180,8 +180,6 @@ int main(void)
   /* USER CODE BEGIN Init */
   V_RATIO = VCAL * (3.3 / 4096.0);
   I_RATIO = ICAL * (3.3 / 4096.0);
-
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -194,30 +192,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
   MX_USART2_UART_Init();
+  MX_ADC1_Init();
   MX_ADC2_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-  
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
-  
-  snprintf(log_buffer, sizeof(log_buffer),
-	   "\nOEM ADC Demo 1.0\r\n");
-  debug_printf(log_buffer);
-  
+
   sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\r\n");
   debug_printf(log_buffer);
-
-  calibrate_ADCS();
-
-  //
-  // Start it all running.  We do continuous sampling in the followin channel order:
-  // 1,3,4,1,5,6,1,7,8,1,9,11,1,12,14  (15 readings per sequence)
-  // The DMA buffer is set to 100x15 and will interrupt us when half full, and full.
-  // Once full it wraps back to the beginning.
-  //
-  start_ADCS();
+  
+  start_ADCs();
   
   /* USER CODE END 2 */
 
@@ -225,51 +209,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    // Conversions take sample_time + 12.5 cycles  (all ADC cycles at 72MHz)
-    // where sample_time is how long you want it to spend charging the S&H cap
-    // In the GUI we configured sampling time to 1.5 cycles on every channel, so each sample takes 14 ADC cycles
-    // There are 15 conversion in the sequence (also chosen in the GUI)
-    // CAUTION:  a sampling time of 1.5 cycles with a 72MHz clock is a crazy-low sampling time (20.8 nsecs)
-    // You'd need a seriously low source impedance for that to give stable results, but hey, this is just
-    // example code to show what's possible.  Sampling time can be set as large as 601.5 cycles (8.3 usecs)
-    // Or you can slow the ADC clock down (see Clock Configuration Tab in GUI).
-    //
-    if (adc_half_conv_complete && !adc_half_conv_overrun) {
-      //
-      // You've got ~150 usecs to process the bottom 50 x 15 readings
-      // to be found in adc2_dma_buff[0..749], before they get overwritten
-      // In this demo we don't even look at the data, but toggle the LED so
-      // we can measure with the scope how often the data comes around.
-      //
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
-      adc_half_conv_complete = false;
-      
-      process_frame(0);  // 0 to 2000
-    }
-
-    if (adc_full_conv_complete && !adc_full_conv_overrun) {
-      //
-      // You've got ~150 usecs to process the top  50 x 15 readings
-      // to be found in adc2_dma_buff[750..1449], before they get overwritten
-      // In this demo we don't even look at the data, but toggle the LED so
-      // we can measure with the scope how often the data comes around.
-      //
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);      // LED on
-      adc_full_conv_complete = false;
-      
-      process_frame(2000); // 2000 to 4000
-    }
-    
-    //
-    // See if we've overrun and lost our place.
-    //
-    if (adc_half_conv_overrun || adc_full_conv_overrun) {
-      snprintf(log_buffer, sizeof(log_buffer), "Data overrun!!!\n");
-      debug_printf(log_buffer);
-      adc_full_conv_complete = adc_half_conv_complete = adc_full_conv_overrun = adc_half_conv_overrun = false;
-    }
-
+     if (readings_ready) {
+       readings_ready = false;   
+     
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, lastSampleCount);
+       debug_printf(log_buffer);
+     }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -295,7 +240,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+  RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -315,8 +263,10 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_TIM8
+                              |RCC_PERIPHCLK_ADC12;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {

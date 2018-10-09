@@ -1,16 +1,12 @@
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * @file    system_stm32f3xx.h
+  * @author  MCD Application Team
+  * @brief   CMSIS Cortex-M4 Device System Source File for STM32F3xx devices.  
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,44 +31,92 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
+  */ 
+
+/** @addtogroup CMSIS
+  * @{
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H__
-#define __MAIN_H__
-
-/* Includes ------------------------------------------------------------------*/
-
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Private define ------------------------------------------------------------*/
-
-#define ADC_TRIG_Pin GPIO_PIN_7
-#define ADC_TRIG_GPIO_Port GPIOC
-
-/* ########################## Assert Selection ############################## */
+/** @addtogroup stm32f3xx_system
+  * @{
+  */  
+  
 /**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
-  *        HAL drivers code
+  * @brief Define to prevent recursive inclusion
   */
-/* #define USE_FULL_ASSERT    1U */
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
+#ifndef __SYSTEM_STM32F3XX_H
+#define __SYSTEM_STM32F3XX_H
 
 #ifdef __cplusplus
  extern "C" {
-#endif
-void _Error_Handler(char *, int);
+#endif 
 
-#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
+/** @addtogroup STM32F3xx_System_Includes
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+
+/** @addtogroup STM32F3xx_System_Exported_types
+  * @{
+  */
+  /* This variable is updated in three ways:
+      1) by calling CMSIS function SystemCoreClockUpdate()
+      3) by calling HAL API function HAL_RCC_GetHCLKFreq()
+      3) by calling HAL API function HAL_RCC_ClockConfig()
+         Note: If you use this function to configure the system clock; then there
+               is no need to call the 2 first functions listed above, since SystemCoreClock
+               variable is updated automatically.
+  */
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+extern const uint8_t AHBPrescTable[16];   /*!< AHB prescalers table values */
+extern const uint8_t APBPrescTable[8];    /*!< APB prescalers table values */
+
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F3xx_System_Exported_Constants
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F3xx_System_Exported_Macros
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F3xx_System_Exported_Functions
+  * @{
+  */
+  
+extern void SystemInit(void);
+extern void SystemCoreClockUpdate(void);
+/**
+  * @}
+  */
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __MAIN_H__ */
+#endif /*__SYSTEM_STM32F3XX_H */
 
+/**
+  * @}
+  */
+  
+/**
+  * @}
+  */  
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

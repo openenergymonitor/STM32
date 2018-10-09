@@ -10,11 +10,8 @@ DMA/.pioenvs/*
 Emon/build/*
 Emon/.pioenvs/*
 
-STM02/build/*
-STM02/.pioenvs/*
-
-STM02b/build/*
-STM02b/.pioenvs/*
+Emon2/build/*
+Emon2/.pioenvs/*
 
 dBC_txshield_demo/build/*
 dBC_txshield_demo/.pioenvs/*

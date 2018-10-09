@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  * @file           : main.h
+  * @brief          : Header for main.c file.
+  *                   This file contains the common defines of the application.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,54 +36,40 @@
   *
   ******************************************************************************
   */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
 
 /* USER CODE BEGIN Includes */
 
-#define ADC_DMA_BUFFSIZE 4000    // must me integer multiple of number of channels?
-volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
-volatile uint16_t adc2_dma_buff[ADC_DMA_BUFFSIZE];
-volatile uint16_t adc_half_conv_complete, adc_full_conv_complete;
-volatile uint16_t adc_half_conv_overrun, adc_full_conv_overrun;
-
 /* USER CODE END Includes */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc2;
+/* Private define ------------------------------------------------------------*/
+
+/* ########################## Assert Selection ############################## */
+/**
+  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
+  *        HAL drivers code
+  */
+/* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-extern void _Error_Handler(char *, int);
+#ifdef __cplusplus
+ extern "C" {
+#endif
+void _Error_Handler(char *, int);
 
-void MX_ADC1_Init(void);
-void MX_ADC2_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
+#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+#endif /* __MAIN_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

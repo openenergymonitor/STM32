@@ -67,11 +67,6 @@ void MX_TIM8_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  if (HAL_TIM_OnePulse_Init(&htim8, TIM_OPMODE_SINGLE) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_OC2REF;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
@@ -140,12 +135,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     /**TIM8 GPIO Configuration    
     PC7     ------> TIM8_CH2 
     */
-    GPIO_InitStruct.Pin = ADC_TRIG_Pin;
+    GPIO_InitStruct.Pin = GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF4_TIM8;
-    HAL_GPIO_Init(ADC_TRIG_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* USER CODE BEGIN TIM8_MspPostInit 1 */
 
@@ -171,23 +166,12 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-
-//
-// The timer is configured with /71 pre-scaler to bring it down to 1MHz and
-// then a /9999 to give us 10msec total durations (positive+negative).
-// PWM output is high for the value set in the h/w register.  We trigger our
-// ADCs on the negative pulse, therefore we need to subtract the requested
-// pulse duration from 10000 before writing it to the h/w.  A long pulse
-// from our caller, means a small positive pulse out of the PWM and a long
-// negative pulse.
-//
 void pulse_tim8_ch2 (int pulse_width_usec) {
 
   HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);         // In case it's running
   LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
 }
-
 /* USER CODE END 1 */
 
 /**
