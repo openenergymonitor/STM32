@@ -2,6 +2,8 @@
 
 An alternative to the integrated ST-Link-v2 programming board that comes with nucleo development boards is to use a ST-Link adapter.
 
+**Place a jumper between BOOT0 and VDD to select the serial upload mode.**
+
 Installation of st-flash
 
 Dependencies:
@@ -37,6 +39,7 @@ Upload firmware:
     2018-10-09T20:12:38 INFO common.c: SRAM size: 0x10000 bytes (64 KiB), Flash: 0 bytes (0 KiB) in pages of 2048 bytes
     Unknown memory region
 
+Place a jumper between BOOT0 and VDD to select the serial upload mode. Press reset and try again.
 
     
     
