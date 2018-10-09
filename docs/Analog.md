@@ -4,11 +4,11 @@
 
 Start by setting PA0 to a single-ended ADC1 analog input.
 
-![STMCubeADC1.png](images/STMCubeADC1.png)
+![STMCubeADC1.png](../images/STMCubeADC1.png)
 
 Navigate to the configuration tab for ADC1 and configure as follows:
 
-![STMCubeADC2.png](images/STMCubeADC2.png)
+![STMCubeADC2.png](../images/STMCubeADC2.png)
 
 Project > Generate Code
 
@@ -134,7 +134,7 @@ Enable 'Scan Conversion Mode' in the ADC configuration window.
 
 Keep End of Conversion Selection on 'End of single conversion'.
 
-![STMCubeADC3.png](images/STMCubeADC3.png)
+![STMCubeADC3.png](../images/STMCubeADC3.png)
 
 Remove the analogRead function from adc.c that we added in the previous examples. Replace the code in the main.c loop with:
 

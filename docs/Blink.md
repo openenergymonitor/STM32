@@ -2,20 +2,20 @@
 
 1. Download and start STMCubeMX.
 
-![STMCube1.png](images/STMCube1.png)
+![STMCube1.png](../images/STMCube1.png)
 
 2. Start a new project. This tutorial uses the STM32F303RE Nucleo development board. Select STM32F303 from the Line category. Select LQFP64 from the Package category. Select STM32F303RE from the MCU List. Finally click on Start Project.
 
-![STMCube2.png](images/STMCube2.png)
+![STMCube2.png](../images/STMCube2.png)
 
 3. The indicator LED is on portA pin5. Click on PA5 in the Pinout MCU viewer, set to GPIO_Output. 
 
-![STMCube3.png](images/STMCube3.png)
+![STMCube3.png](../images/STMCube3.png)
 
 4. Open Project Settings. Name your project e.g Blink, Select Makefile for Toolchain / IDE.
 On the Code Generator page, choosen settings suggested by @dBC.
 
-![STMCube4.png](images/STMCube4.png)
+![STMCube4.png](../images/STMCube4.png)
 
 Finaly click Project > Generate Code. This generates the source tree for your project, including most of the HAL calls needed. The code is full of sections such as:
 

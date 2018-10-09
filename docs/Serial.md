@@ -2,11 +2,11 @@
 
 To enable USART output enable the RX and TX pins for USART2 (PA2 & PA3) using the pinout viewer:
 
-![STMCube5a.png](images/STMCube5a.png)
+![STMCube5a.png](../images/STMCube5a.png)
 
 Click on Configuration, USART2 and then Parameter Settings and enter your desired baud rate, worth length:
 
-![STMCube5b.png](images/STMCube5b.png)
+![STMCube5b.png](../images/STMCube5b.png)
 
 Click on 'Generate Code' again and open main.c in an editor again. Add a char array to hold output contents at the top of the file in the private variables section:
 
