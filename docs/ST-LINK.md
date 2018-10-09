@@ -4,11 +4,9 @@ The nucleo development boards come with an integrated ST-Link-v2 programming boa
 
 > The ST-LINK/V2 is an in-circuit debugger and programmer for the STM8 and STM32 microcontroller families. The single wire interface module (SWIM) and JTAG/serial wire debugging (SWD) interfaces are used to communicate with any STM8 or STM32 microcontroller located on an application board.
 
-ST-LINK-V2: http://www.st.com/en/development-tools/st-link-v2.html
+ST-LINK-V2: [http://www.st.com/en/development-tools/st-link-v2.html](http://www.st.com/en/development-tools/st-link-v2.html)
 
-
-
-![M-07723|640x480](../images/stlink1.png)
+![M-07723|640x480](../images/stlink1.jpg)
 
 Alternatively you can buy cheap [ST-Link-v2 programmers on ebay](https://www.ebay.co.uk/itm/ST-Link-V2-Emulator-Downloader-Programmer-STM32F103C8T6-STM8-STM32-w-Cable/302106332464?hash=item4656f0cd30:g:yq4AAOSwNRdYAEmj) that avoid the need to add the full st-link programmer hardware to a STM32 hardware design. Ken's ARMiGO design above has a 5-pin connector for programming with an external ST-LINK programmer.
 
@@ -37,6 +35,6 @@ Then on the nucleo development board part, the schematic indicates the position 
 
 Picture of the connected boards:
 
-![IMG_0849|511x500](../images/stlink4.png)
+![IMG_0849|511x500](../images/stlink4.JPG)
 
 and firmware upload worked just the same as pre snapping off the ST-link board :)
