@@ -1,4 +1,5 @@
-**Serial/UART Firmware Upload** 
+## Serial/UART Firmware Upload
+
 A second firmware upload method is to use serial (UART) upload, which works in much the same way as the standard way of uploading code to an Arduino. Like in the case of the Arduino serial upload this approach relies on a pre-uploaded bootloader. My understanding is that the Nucleo boards already have this bootloader in place.
 
 **UART to Nucleo connections**
