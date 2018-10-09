@@ -9,6 +9,10 @@ Getting started with STM32CubeMX:
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
 
+Hardware:
+
+- [1. ST-LINK JTAG/SWD](docs/ST-LINK.md)
+
 Firmware Examples:
 
 - [1. Blink](Blink)
