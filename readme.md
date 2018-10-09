@@ -14,7 +14,6 @@ Hardware:
 - [1. ST-LINK nucleo](docs/ST-LINK.md)
 - [2. ST-LINK adapters](docs/st-link2.md)
 - [3. Serial/UART Upload](docs/uartupload.md)
-
 - [Eagle design 01](Hardware/1)
 
 Firmware Examples:
