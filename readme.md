@@ -9,6 +9,14 @@ Getting started with STM32CubeMX:
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
 
+Firmware Examples:
+
+- [1. Blink](Blink)
+- [2. ADC](ADC)
+- [3. DMA](DMA)
+- [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
+- [5. Emon2](Emon2): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
+
 ## Installation
 
 Install toolchain
