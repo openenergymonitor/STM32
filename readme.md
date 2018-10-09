@@ -15,6 +15,8 @@ Hardware:
 - [2. ST-LINK adapters](docs/st-link2.md)
 - [3. Serial/UART Upload](docs/uartupload.md)
 
+- [Eagle design 01](Hardware/1)
+
 Firmware Examples:
 
 - [1. Blink](Blink)
