@@ -11,7 +11,9 @@ Getting started with STM32CubeMX:
 
 Hardware:
 
-- [1. ST-LINK JTAG/SWD](docs/ST-LINK.md)
+- [1. ST-LINK nucleo](docs/ST-LINK.md)
+- [2. ST-LINK adapters](docs/st-link2.md)
+- [3. Serial/UART Upload](docs/uartupload.md)
 
 Firmware Examples:
 
