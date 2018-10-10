@@ -9,7 +9,7 @@ Modifications to Emon2 example:
 
 Anti-alias filter based on: 
 
-![antialias.JPG](../images/antialias.JPG)
+![antialias.png](../images/antialias.png)
 
 Two 1k resistors + 22pF capacitors to ground, biased with output from voltage follower.
 
