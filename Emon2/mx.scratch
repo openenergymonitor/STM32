@@ -79,6 +79,12 @@
 							<name>Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc_ex.c</name>
 						</file>
 						<file>
+							<name>Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c</name>
+						</file>
+						<file>
+							<name>Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp_ex.c</name>
+						</file>
+						<file>
 							<name>Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c</name>
 						</file>
 						<file>
@@ -155,6 +161,10 @@
                                 </file>
 
                                 <file>
+                                 <name>Src/opamp.c</name>
+                                </file>
+
+                                <file>
                                  <name>Src/tim.c</name>
                                 </file>
 
@@ -223,6 +233,15 @@
                     <name>stm32f3xx_hal_msp.c</name>
                                     <file>
                                             <name>Src/stm32f3xx_hal_msp.c</name>
+                                    </file>
+                    </group>
+    </group>
+    <group>
+        <name>Src</name>
+                    <group>
+                    <name>opamp.c</name>
+                                    <file>
+                                            <name>Src/opamp.c</name>
                                     </file>
                     </group>
     </group>

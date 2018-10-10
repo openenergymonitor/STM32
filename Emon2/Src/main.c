@@ -41,6 +41,7 @@
 #include "stm32f3xx_hal.h"
 #include "adc.h"
 #include "dma.h"
+#include "opamp.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -71,7 +72,7 @@ uint64_t lastSampleCount = 0;
 
 // Calibration
 double VCAL = 268.97;
-double ICAL = 60.606;
+double ICAL = 20.0;
 
 // Sampling & Filter
 int32_t shiftedFCL = 0;
@@ -196,7 +197,10 @@ int main(void)
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_TIM8_Init();
+  MX_OPAMP2_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_OPAMP_Start(&hopamp2);
 
   sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\r\n");
   debug_printf(log_buffer);
