@@ -64,8 +64,9 @@ Serial output (toaster):
 
 No filter cap on CT input:
 
-![100pfV.png](../images/DS/100pfV.png)
+![nocapCT.png](../images/DS/nocapCT.png)
 
 100pF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
 
-![nocapCT.png](../images/DS/nocapCT.png)
+![100pfV.png](../images/DS/100pfV.png)
+
