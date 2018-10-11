@@ -68,7 +68,6 @@ double Irms = 0;
 double realPower = 0;
 double apparentPower = 0;
 double powerFactor = 0;
-uint64_t lastSampleCount = 0;
 
 // Calibration
 double VCAL = 268.97;
@@ -89,10 +88,15 @@ uint64_t sqsumA0 = 0;
 uint64_t sqsumA1 = 0;
 int64_t sumA0A1 = 0;
 
+uint64_t sqsumA0_copy = 0;
+uint64_t sqsumA1_copy = 0;
+int64_t sumA0A1_copy = 0;
+
 uint8_t checkVCross = 0;
 uint8_t lastVCross = 0;
 uint8_t crossCount = 0;
 uint64_t sampleCount = 0;
+uint64_t sampleCount_copy = 0;
 double V_RATIO = 0;
 double I_RATIO = 0;
 
@@ -140,21 +144,15 @@ void process_frame(uint16_t offset)
     if (crossCount>=250) {
       crossCount = 0;
       
-      double rmsA0 = sqrt(sqsumA0 * (1.0 / sampleCount));
+      sqsumA0_copy = sqsumA0;
       sqsumA0 = 0;
-      double rmsA1 = sqrt(sqsumA1 * (1.0 / sampleCount));
+      sqsumA1_copy = sqsumA1;
       sqsumA1 = 0;
-      double meanA0A1 = sumA0A1 * (1.0 / sampleCount);
+      sumA0A1_copy = sumA0A1;
       sumA0A1 = 0;
-      lastSampleCount = sampleCount;
+      sampleCount_copy = sampleCount;
       sampleCount = 0;
-      
-      Vrms = V_RATIO * rmsA0;
-      Irms = I_RATIO * rmsA1;
-      realPower = V_RATIO * I_RATIO * meanA0A1;
-      apparentPower = Vrms * Irms;
-      powerFactor = realPower / apparentPower;
-      
+            
       readings_ready = true;
     }
   }
@@ -214,9 +212,19 @@ int main(void)
   while (1)
   {
      if (readings_ready) {
-       readings_ready = false;   
+       readings_ready = false;  
+       
+       double rmsA0 = sqrt(sqsumA0_copy * (1.0 / sampleCount_copy));
+       double rmsA1 = sqrt(sqsumA1_copy * (1.0 / sampleCount_copy));
+       double meanA0A1 = sumA0A1_copy * (1.0 / sampleCount_copy);
+      
+       Vrms = V_RATIO * rmsA0;
+       Irms = I_RATIO * rmsA1;
+       realPower = V_RATIO * I_RATIO * meanA0A1;
+       apparentPower = Vrms * Irms;
+       powerFactor = realPower / apparentPower; 
      
-       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, lastSampleCount);
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, sampleCount_copy);
        debug_printf(log_buffer);
      }
   /* USER CODE END WHILE */
@@ -246,7 +254,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -257,20 +265,18 @@ void SystemClock_Config(void)
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_TIM8
-                              |RCC_PERIPHCLK_ADC12;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
