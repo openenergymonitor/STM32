@@ -34,4 +34,22 @@ Serial output (toaster):
     235.62  0.046   1.3     10.9    0.124   65458
     235.44  0.046   1.2     10.9    0.114   65464
     235.58  0.047   1.3     11.0    0.119   65467
+    
+22pF filter cap on CT input:
+
+![22pfCT.png](../images/DS/22pfCT.png)
+
+100pF filter cap on CT input:
+
+![100pfCT.png](../images/DS/100pfCT.png)
+
+No filter cap on CT input:
+
+![100pfV.png](../images/DS/100pfV.png)
+
+100pF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
+
+![nocapCT.png](../images/DS/nocapCT.png)
+
+
 
