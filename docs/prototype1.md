@@ -9,7 +9,7 @@ Modifications to Emon2 example:
 
 Anti-alias filter based on: 
 
-![antialias.JPG](../images/antialias.JPG)
+![antialias.png](../images/antialias.png)
 
 Two 1k resistors + 22pF capacitors to ground, biased with output from voltage follower.
 
@@ -34,6 +34,25 @@ Serial output (toaster):
     235.62  0.046   1.3     10.9    0.124   65458
     235.44  0.046   1.2     10.9    0.114   65464
     235.58  0.047   1.3     11.0    0.119   65467
+
+40W incandescent lightbulb:
+
+    225.69  0.045   0.5     10.1    0.051   65367
+    225.20  0.045   0.5     10.1    0.050   65374
+    225.65  0.046   0.5     10.4    0.052   65380
+    225.37  0.046   0.5     10.3    0.048   65378
+    225.86  0.046   0.5     10.4    0.045   65379
+    225.60  0.047   0.5     10.7    0.048   65381
+    225.80  0.105   9.7     23.7    0.411   65395
+    225.35  0.182   39.4    41.0    0.960   65413
+    225.55  0.182   39.3    40.9    0.960   65427
+    225.22  0.181   39.2    40.8    0.961   65434
+    225.66  0.182   39.4    41.0    0.960   65430
+    225.27  0.181   39.2    40.8    0.960   65433
+    225.66  0.181   39.3    40.9    0.960   65428
+    225.19  0.181   39.2    40.8    0.960   65433
+    225.60  0.181   39.3    40.9    0.961   65431
+    225.15  0.179   39.1    40.4    0.967   65429
     
 22pF filter cap on CT input:
 
@@ -50,6 +69,3 @@ No filter cap on CT input:
 100pF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
 
 ![nocapCT.png](../images/DS/nocapCT.png)
-
-
-
