@@ -2,10 +2,14 @@
 
 ![prototype1.JPG](../images/prototype1.JPG)
 
-[Emon3 Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon3):
+[Emon1CT Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon1CT):
 
 - Voltage follower on PA6 & PA7 for bias buffer (note: HAL_OPAMP_Start(&hopamp2); required)
 - Implements @Robert.Wall's offset removal technique
+
+[Emon3CT Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon3CT):
+
+- Extension of the 1CT example to 3 CT inputs.
 
 Anti-alias filter based on: 
 
