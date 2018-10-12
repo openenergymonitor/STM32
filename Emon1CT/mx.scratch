@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>/home/trystan/Desktop/Development/STM32Dev/Emon3/\Emon3</ProjectName>
+<ProjectName>/home/trystan/Desktop/Development/STM32Dev/Emon1CT/\Emon1CT</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>Drivers/CMSIS</CMSIS>
 <HAL_Driver>/home/trystan/STM32Cube/Repository//STM32Cube_FW_F3_V1.9.1/Drivers/CMSIS</HAL_Driver>
@@ -22,7 +22,7 @@
 
 <configs>
   <config>
-    <name>Emon3</name>				
+    <name>Emon1CT</name>				
     <device>STM32F303RETx</device>		 
     <heapSize>0x200</heapSize>
     <stackSize>0x400</stackSize>
