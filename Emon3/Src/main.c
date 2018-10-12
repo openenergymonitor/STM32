@@ -55,58 +55,39 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-// Serial output buffer
-char log_buffer[100];
-
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
 
-// Readings
+// Serial output buffer
+char log_buffer[100];
+
+// Flag
 int8_t readings_ready = false;
-double Vrms = 0;
-double Irms = 0;
-double realPower = 0;
-double apparentPower = 0;
-double powerFactor = 0;
 
 // Calibration
 double VCAL = 268.97;
 double ICAL = 20.0;
 
-// Sampling
+// ISR accumulators
+int64_t sum_P = 0;
+uint64_t sum_V_sq = 0;
+uint64_t sum_I_sq = 0;
+int64_t sum_V = 0;
+int64_t sum_I = 0;
+uint64_t count = 0;
 
-int32_t sampleA0 = 0;
-int32_t signed_volt = 0;
+// Copy for main loop processing
+int64_t sum_P_copy;
+uint64_t sum_V_sq_copy;
+uint64_t sum_I_sq_copy;
+int64_t sum_V_copy;
+int64_t sum_I_copy;
+uint64_t count_copy;
 
-int32_t sampleA1 = 0;
-int32_t signed_curr = 0;
-
-uint64_t sumA0 = 0;
-uint64_t sumA1 = 0;
-uint64_t sumA0_copy = 0;
-uint64_t sumA1_copy = 0;
-
-uint64_t sqsumA0 = 0;
-uint64_t sqsumA1 = 0;
-int64_t sumA0A1 = 0;
-
-int64_t sum_volt = 0;
-int64_t sum_curr = 0;
-int64_t sum_volt_copy = 0;
-int64_t sum_curr_copy = 0;
-
-uint64_t sqsumA0_copy = 0;
-uint64_t sqsumA1_copy = 0;
-int64_t sumA0A1_copy = 0;
-
-uint8_t checkVCross = 0;
-uint8_t lastVCross = 0;
+uint8_t positive_V = 0;
+uint8_t last_positive_V = 0;
 uint8_t crossCount = 0;
-uint64_t sampleCount = 0;
-uint64_t sampleCount_copy = 0;
-double V_RATIO = 0;
-double I_RATIO = 0;
 
 /* USER CODE END PV */
 
@@ -121,52 +102,50 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void process_frame(uint16_t offset)
 {
+  int32_t sample_V, sample_I, signed_V, signed_I;
+  
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
   for (int i=0; i<2000; i++) {
-    // -------------------------------------------------------------------
-    sampleA0 = adc1_dma_buff[offset+i];
-    sumA0 += sampleA0;
+    // ----------------------------------------
+    // Voltage
+    sample_V = adc1_dma_buff[offset+i];
+    signed_V = sample_V - MID_ADC_READING;
+    sum_V += signed_V;
+    sum_V_sq += signed_V * signed_V;
+    // ----------------------------------------
+    // Current
+    sample_I = adc2_dma_buff[offset+i];
+    signed_I = sample_I - MID_ADC_READING;
+    sum_I += signed_I;
+    sum_I_sq += signed_I * signed_I;
+    // ----------------------------------------
+    // Power
+    sum_P += signed_V * signed_I;
     
-    signed_volt = sampleA0 - MID_ADC_READING;
-    sum_volt += signed_volt;
-    sqsumA0 += signed_volt * signed_volt;
-    // -------------------------------------------------------------------
-    sampleA1 = adc2_dma_buff[offset+i];
-    sumA1 += sampleA1;
+    count ++;
     
-    signed_curr = sampleA1 - MID_ADC_READING;
-    sum_curr += signed_curr;
-    sqsumA1 += signed_curr * signed_curr;
-    // -------------------------------------------------------------------
-    sumA0A1 += signed_volt * signed_curr;
+    // Zero crossing detection
+    last_positive_V = positive_V;
+    if (signed_V > 0) positive_V = true; else positive_V = false;
+    if (last_positive_V != positive_V) crossCount++;
     
-    sampleCount ++;
-    
-    lastVCross = checkVCross;
-    if (signed_volt > 0) checkVCross = true; else checkVCross = false;
-    if (lastVCross != checkVCross) crossCount++;
-    
+    // 250 zero crossings = 125 cycles or 2.5 seconds
     if (crossCount>=250) {
       crossCount = 0;
       
-      sumA0_copy = sumA0;
-      sumA0 = 0;
-      sumA1_copy = sumA1;
-      sumA1 = 0;
-
-      sum_volt_copy = sum_volt;
-      sum_volt = 0;
-      sum_curr_copy = sum_curr;
-      sum_curr = 0;
-
-      sqsumA0_copy = sqsumA0;
-      sqsumA0 = 0;
-      sqsumA1_copy = sqsumA1;
-      sqsumA1 = 0;
-      sumA0A1_copy = sumA0A1;
-      sumA0A1 = 0;
-      sampleCount_copy = sampleCount;
-      sampleCount = 0;
+      sum_P_copy = sum_P;
+      sum_V_sq_copy = sum_V_sq;
+      sum_I_sq_copy = sum_I_sq;
+      sum_V_copy = sum_V;
+      sum_I_copy = sum_I;
+      count_copy = count;
+      
+      sum_P = 0;
+      sum_V_sq = 0;
+      sum_I_sq = 0;
+      sum_V = 0;
+      sum_I = 0;
+      count = 0;
             
       readings_ready = true;
     }
@@ -193,8 +172,8 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  V_RATIO = VCAL * (3.3 / 4096.0);
-  I_RATIO = ICAL * (3.3 / 4096.0);
+  double V_RATIO = VCAL * (3.3 / 4096.0);
+  double I_RATIO = ICAL * (3.3 / 4096.0);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -216,7 +195,7 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\r\n");
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
@@ -230,32 +209,24 @@ int main(void)
      if (readings_ready) {
        readings_ready = false;
        
-       uint64_t count = sampleCount_copy;
+       double Vmean = sum_V_copy * (1.0 / count_copy);
+       double Imean = sum_I_copy * (1.0 / count_copy);
        
-       double Vmean = sum_volt_copy * (1.0 / count);
-       double Imean = sum_curr_copy * (1.0 / count);
+       sum_V_sq_copy *= (1.0 / count_copy);
+       sum_V_sq_copy -= (Vmean*Vmean);
+       double Vrms = V_RATIO * sqrt((double)sum_V_sq_copy);
        
-       sqsumA0_copy *= (1.0 / count);
-       sqsumA1_copy *= (1.0 / count);
+       sum_I_sq_copy *= (1.0 / count_copy);
+       sum_I_sq_copy -= (Imean*Imean);
+       double Irms = I_RATIO * sqrt((double)sum_I_sq_copy);
        
-       sqsumA0_copy -= (Vmean*Vmean);
-       sqsumA1_copy -= (Imean*Imean);
+       double mean_P = (sum_P_copy * (1.0 / count_copy)) - (Vmean*Imean);
+       double realPower = V_RATIO * I_RATIO * mean_P;
        
-       double rmsA0 = sqrt((double)sqsumA0_copy);
-       double rmsA1 = sqrt((double)sqsumA1_copy);
-       double meanA0A1 = sumA0A1_copy * (1.0 / count);
-       double meanA0 = sumA0_copy * (1.0 / count);
-       double meanA1 = sumA1_copy * (1.0 / count); 
-       
-       meanA0A1 -= (Vmean*Imean);
-       
-       Vrms = V_RATIO * rmsA0;
-       Irms = I_RATIO * rmsA1;
-       realPower = V_RATIO * I_RATIO * meanA0A1;
-       apparentPower = Vrms * Irms;
-       powerFactor = realPower / apparentPower; 
+       double apparentPower = Vrms * Irms;
+       double powerFactor = realPower / apparentPower; 
      
-       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\t%.1f\t%.1f\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, count, Vmean, Imean);
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, count_copy);
        debug_printf(log_buffer);
      }
   /* USER CODE END WHILE */
