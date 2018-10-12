@@ -55,50 +55,36 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
+#define true 1
+#define false 0
+#define MID_ADC_READING 2048
+
 // Serial output buffer
 char log_buffer[100];
 
-#define true 1
-#define false 0
-
-// Readings
+// Flag
 int8_t readings_ready = false;
-double Vrms = 0;
-double Irms = 0;
-double realPower = 0;
-double apparentPower = 0;
-double powerFactor = 0;
 
 // Calibration
 double VCAL = 268.97;
 double ICAL = 20.0;
 
-// Sampling & Filter
-int32_t shiftedFCL = 0;
+// ISR accumulators
+typedef struct channel_ {
+  int64_t sum_P;
+  uint64_t sum_V_sq;
+  uint64_t sum_I_sq;
+  int64_t sum_V;
+  int64_t sum_I;
+  uint64_t count;
 
-int32_t sampleA0 = 0;
-int32_t last_sampleA0 = 0;
-int32_t shifted_filterA0 = -10000;
+  uint8_t positive_V;
+  uint8_t last_positive_V;
+  uint8_t cycles;
+} channel_t;
 
-int32_t sampleA1 = 0;
-int32_t last_sampleA1 = 0;
-int32_t shifted_filterA1 = -10000;
-
-uint64_t sqsumA0 = 0;
-uint64_t sqsumA1 = 0;
-int64_t sumA0A1 = 0;
-
-uint64_t sqsumA0_copy = 0;
-uint64_t sqsumA1_copy = 0;
-int64_t sumA0A1_copy = 0;
-
-uint8_t checkVCross = 0;
-uint8_t lastVCross = 0;
-uint8_t crossCount = 0;
-uint64_t sampleCount = 0;
-uint64_t sampleCount_copy = 0;
-double V_RATIO = 0;
-double I_RATIO = 0;
+static channel_t channels[3];
+static channel_t channels_copy[3];
 
 /* USER CODE END PV */
 
@@ -113,49 +99,56 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void process_frame(uint16_t offset)
 {
-  for (int i=0; i<2000; i++) {
-    // -------------------------------------------------------------------
-    last_sampleA0 = sampleA0;
-    sampleA0 = adc1_dma_buff[offset+i];
-    // filter
-    shiftedFCL = shifted_filterA0 + (int32_t)((sampleA0 - last_sampleA0)<<8);
-    shifted_filterA0 = shiftedFCL - (shiftedFCL>>8);
-    int32_t filtered_A0 = (shifted_filterA0+128)>>8;
-    // sum and sqsum
-    sqsumA0 += filtered_A0 * filtered_A0;
-    // -------------------------------------------------------------------
-    last_sampleA1 = sampleA1;
-    sampleA1 = adc2_dma_buff[offset+i];
-    // filter
-    shiftedFCL = shifted_filterA1 + (int32_t)((sampleA1 - last_sampleA1)<<8);
-    shifted_filterA1 = shiftedFCL - (shiftedFCL>>8);
-    int32_t filtered_A1 = (shifted_filterA1+128)>>8;
-    // sum and sqsum
-    sqsumA1 += filtered_A1 * filtered_A1;
-    // -------------------------------------------------------------------
-    sumA0A1 += filtered_A0 * filtered_A1;
-    
-    sampleCount ++;
-    
-    lastVCross = checkVCross;
-    if (filtered_A0 > 0) checkVCross = true; else checkVCross = false;
-    if (lastVCross != checkVCross) crossCount++;
-    
-    if (crossCount>=250) {
-      crossCount = 0;
+  int32_t sample_V, sample_I, signed_V, signed_I;
+  
+  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+  for (int i=0; i<3000; i+=3) {
+    // Cycle through channels
+    for (int n=0; n<3; n++) {
+      channel_t* channel = &channels[n];
       
-      sqsumA0_copy = sqsumA0;
-      sqsumA0 = 0;
-      sqsumA1_copy = sqsumA1;
-      sqsumA1 = 0;
-      sumA0A1_copy = sumA0A1;
-      sumA0A1 = 0;
-      sampleCount_copy = sampleCount;
-      sampleCount = 0;
-            
-      readings_ready = true;
+      // ----------------------------------------
+      // Voltage
+      sample_V = adc1_dma_buff[offset+i+n];
+      signed_V = sample_V - MID_ADC_READING;
+      channel->sum_V += signed_V;
+      channel->sum_V_sq += signed_V * signed_V;
+      // ----------------------------------------
+      // Current
+      sample_I = adc2_dma_buff[offset+i+n];
+      signed_I = sample_I - MID_ADC_READING;
+      channel->sum_I += signed_I;
+      channel->sum_I_sq += signed_I * signed_I;
+      // ----------------------------------------
+      // Power
+      channel->sum_P += signed_V * signed_I;
+      
+      channel->count ++;
+    
+    
+      // Zero crossing detection
+      channel->last_positive_V = channel->positive_V;
+      if (signed_V > 0) channel->positive_V = true; else channel->positive_V = false;
+      if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
+      
+      // 125 cycles or 2.5 seconds
+      if (channel->cycles>=125) {
+        channel->cycles = 0;
+        
+        channel_t* channel_copy = &channels_copy[n];
+        // Copy accumulators for use in main loop 
+        memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
+        // Reset accumulators to zero ready for next set of measurements
+        memset((void*)channel, 0, sizeof(channel_t));
+        
+        if (n==2) {
+          readings_ready = true;
+        }
+      }
     }
   }
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
 }
 
 /* USER CODE END 0 */
@@ -168,7 +161,7 @@ void process_frame(uint16_t offset)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -177,8 +170,8 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  V_RATIO = VCAL * (3.3 / 4096.0);
-  I_RATIO = ICAL * (3.3 / 4096.0);
+  double V_RATIO = VCAL * (3.3 / 4096.0);
+  double I_RATIO = ICAL * (3.3 / 4096.0);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -200,7 +193,7 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\r\n");
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
@@ -212,19 +205,34 @@ int main(void)
   while (1)
   {
      if (readings_ready) {
-       readings_ready = false;  
+       readings_ready = false;
        
-       double rmsA0 = sqrt(sqsumA0_copy * (1.0 / sampleCount_copy));
-       double rmsA1 = sqrt(sqsumA1_copy * (1.0 / sampleCount_copy));
-       double meanA0A1 = sumA0A1_copy * (1.0 / sampleCount_copy);
-      
-       Vrms = V_RATIO * rmsA0;
-       Irms = I_RATIO * rmsA1;
-       realPower = V_RATIO * I_RATIO * meanA0A1;
-       apparentPower = Vrms * Irms;
-       powerFactor = realPower / apparentPower; 
-     
-       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, sampleCount_copy);
+       for (int n=0; n<3; n++) {
+         channel_t* chn = &channels_copy[n];
+       
+         double Vmean = chn->sum_V * (1.0 / chn->count);
+         double Imean = chn->sum_I * (1.0 / chn->count);
+         
+         chn->sum_V_sq *= (1.0 / chn->count);
+         chn->sum_V_sq -= (Vmean*Vmean);
+         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
+         
+         chn->sum_I_sq *= (1.0 / chn->count);
+         chn->sum_I_sq -= (Imean*Imean);
+         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
+         
+         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
+         double realPower = V_RATIO * I_RATIO * mean_P;
+         
+         double apparentPower = Vrms * Irms;
+         double powerFactor = realPower / apparentPower; 
+       
+         sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
+         debug_printf(log_buffer);
+       
+       }
+       
+       sprintf(log_buffer,"\r\n");
        debug_printf(log_buffer);
      }
   /* USER CODE END WHILE */

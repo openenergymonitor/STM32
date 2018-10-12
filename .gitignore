@@ -10,11 +10,11 @@ DMA/.pioenvs/*
 Emon/build/*
 Emon/.pioenvs/*
 
-Emon2/build/*
-Emon2/.pioenvs/*
+Emon1CT/build/*
+Emon1CT/.pioenvs/*
 
-Emon3/build/*
-Emon3/.pioenvs/*
+Emon3CT/build/*
+Emon3CT/.pioenvs/*
 
 BluePillBlink/build/*
 BluePillBlink/.pioenvs/*
