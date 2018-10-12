@@ -24,6 +24,8 @@ Firmware Examples:
 - [3. DMA](DMA)
 - [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
 - [5. Emon2](Emon2): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
+- [6. Emon3](Emon3): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example - improved
+
 
 Other:
 
