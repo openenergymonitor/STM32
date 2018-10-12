@@ -2,7 +2,7 @@
 
 ![prototype1.JPG](../images/prototype1.JPG)
 
-[Emon3 Firmmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon3):
+[Emon3 Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon3):
 
 - Voltage follower on PA6 & PA7 for bias buffer (note: HAL_OPAMP_Start(&hopamp2); required)
 - Implements @Robert.Wall's offset removal technique
