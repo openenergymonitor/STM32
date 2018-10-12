@@ -16,15 +16,15 @@ Two 1k resistors + 22pF capacitors to ground, biased with output from voltage fo
 40W incandescent lightbulb:
 
     Vrms    Irms    RP      AP      PF      Count
-    237.94  0.185   43.5    44.0    0.988   163927
-    238.05  0.186   43.6    44.2    0.985   161526
-    238.05  0.185   43.5    44.1    0.987   167429
-    238.01  0.185   43.6    44.1    0.990   175712
-    238.08  0.185   43.5    44.1    0.986   175654
-    238.06  0.186   43.5    44.2    0.984   172129
-    238.08  0.186   43.6    44.2    0.986   167423
+    239.86  0.184   43.8    44.1    0.995   287122
+    239.85  0.183   43.8    43.9    0.998   289544
+    239.94  0.184   43.9    44.1    0.995   289507
+    240.07  0.183   43.9    43.9    0.999   287142
+    240.12  0.184   43.9    44.1    0.996   289462
+    239.98  0.184   43.9    44.1    0.995   282377
+    239.76  0.184   43.8    44.0    0.995   284698
 
-Readings are printed every ~2.5 seconds (125 cycles 50Hz), ~164000 VI sample pairs every 2.5s = 65.6 kHz
+Readings are printed every ~2.5 seconds (125 cycles 50Hz), ~287122 VI sample pairs every 2.5s = 115 kHz
 
 22pF filter cap on CT input:
 
