@@ -87,7 +87,7 @@ uint64_t count_copy;
 
 uint8_t positive_V = 0;
 uint8_t last_positive_V = 0;
-uint8_t crossCount = 0;
+uint8_t cycles = 0;
 
 /* USER CODE END PV */
 
@@ -127,11 +127,11 @@ void process_frame(uint16_t offset)
     // Zero crossing detection
     last_positive_V = positive_V;
     if (signed_V > 0) positive_V = true; else positive_V = false;
-    if (last_positive_V != positive_V) crossCount++;
+    if (!last_positive_V && positive_V) cycles++;
     
-    // 250 zero crossings = 125 cycles or 2.5 seconds
-    if (crossCount>=250) {
-      crossCount = 0;
+    // 125 cycles or 2.5 seconds
+    if (cycles>=125) {
+      cycles = 0;
       
       sum_P_copy = sum_P;
       sum_V_sq_copy = sum_V_sq;
