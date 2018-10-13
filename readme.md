@@ -16,6 +16,7 @@ Hardware:
 - [3. Serial/UART Upload](docs/uartupload.md)
 - [Eagle design 01](Hardware/1)
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
+- [Eagle design 02](Hardware/2)
 
 Firmware Examples:
 
