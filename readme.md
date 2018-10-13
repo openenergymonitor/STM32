@@ -17,6 +17,7 @@ Hardware:
 - [Eagle design 01](Hardware/1)
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
 - [Eagle design 02](Hardware/2)
+- [Eagle design 03](Hardware/3)
 
 Firmware Examples:
 
