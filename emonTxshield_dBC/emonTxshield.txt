@@ -1,0 +1,104 @@
+Configuration	emonTxshield
+STM32CubeMX 	4.25.1
+Date	06/02/2018
+MCU	STM32F303RETx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+ADC1	IN1 Single-ended	ADC1_IN1	PA0
+ADC1	IN2 Single-ended	ADC1_IN2	PA1
+ADC1	IN6 Single-ended	ADC1_IN6	PC0
+ADC1	IN8 Single-ended	ADC1_IN8	PC2
+ADC1	IN9 Single-ended	ADC1_IN9	PC3
+ADC1	IN14 Single-ended	ADC1_IN14	PB11
+ADC1	Single-ended	ADC1_TempSens_Input	VP_ADC1_TempSens_Input
+ADC2	IN1 Single-ended	ADC2_IN1	PA4
+ADC2	IN5 Single-ended	ADC2_IN5	PC4
+ADC2	IN7 Single-ended	ADC2_IN7	PC1
+ADC2	IN12 Single-ended	ADC2_IN12	PB2
+ADC2	VOPAMP2 Channel	ADC2_OPAMP_INTERNAL2	VP_ADC2_OPAMP_INTERNAL2
+ADC3	IN1 Single-ended	ADC3_IN1	PB1
+ADC3	IN5 Single-ended	ADC3_IN5	PB13
+ADC3	IN12 Single-ended	ADC3_IN12	PB0
+ADC3	Vrefint Channel	ADC3_Vref_Input	VP_ADC3_Vref_Input
+ADC4	IN3 Single-ended	ADC4_IN3	PB12
+ADC4	IN4 Single-ended	ADC4_IN4	PB14
+ADC4	IN5 Single-ended	ADC4_IN5	PB15
+OPAMP2	Follower	OPAMP2_VINP	PA7
+OPAMP2	Follower	OPAMP2_VOUT	PA6
+RCC	BYPASS Clock Source	RCC_OSC_IN	PF0-OSC_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM8	PWM Generation CH2	TIM8_CH2	PC7
+TIM8	One pulse	TIM8_VS_OPM	VP_TIM8_VS_OPM
+USART1	Single Wire (Half-Duplex)	USART1_TX	PA9
+USART2	Asynchronous	USART2_RX	PA3
+USART2	Asynchronous	USART2_TX	PA2
+USART3	Single Wire (Half-Duplex)	USART3_TX	PB10
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13	GPIO_EXTI13	B1 [Blue PushButton]
+3	PC14-OSC32_IN	RCC_OSC32_IN	
+4	PC15-OSC32_OUT	RCC_OSC32_OUT	
+5	PF0-OSC_IN	RCC_OSC_IN	
+6	PF1-OSC_OUT*	RCC_OSC_OUT	
+8	PC0	ADC1_IN6	
+9	PC1	ADC2_IN7	ADC2_IN7(CT2.4)
+10	PC2	ADC1_IN8	
+11	PC3	ADC1_IN9	
+14	PA0	ADC1_IN1	
+15	PA1	ADC1_IN2	ADC1_IN2(CT2.1)
+16	PA2	USART2_TX	USART_TX
+17	PA3	USART2_RX	USART_RX
+20	PA4	ADC2_IN1	ADC2_IN1(CT2.2)
+21	PA5	GPIO_Output	LD2 [Green Led]
+22	PA6	OPAMP2_VOUT	
+23	PA7	OPAMP2_VINP	
+24	PC4	ADC2_IN5	
+26	PB0	ADC3_IN12	ADC3_IN12(CT2.3)
+27	PB1	ADC3_IN1	
+28	PB2	ADC2_IN12	
+29	PB10	USART3_TX	OneWire_2
+30	PB11	ADC1_IN14	
+33	PB12	ADC4_IN3	VT1
+34	PB13	ADC3_IN5	
+35	PB14	ADC4_IN4	VT2
+36	PB15	ADC4_IN5	VT3
+38	PC7	TIM8_CH2	ADC_TRIG
+42	PA9	USART1_TX	OneWire_1
+46	PA13	SYS_JTMS-SWDIO	TMS
+49	PA14	SYS_JTCK-SWCLK	TCK
+55	PB3*	SYS_JTDO-TRACESWO	SWO
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : emonTxshield
+Project Folder : /home/dbath/STM32CubeMX/Projects/emonTxshield
+Toolchain / IDE : Makefile
+Firmware Package Name and Version : STM32Cube FW_F3 V1.9.1
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : Yes
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : Yes
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+
