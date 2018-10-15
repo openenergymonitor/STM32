@@ -19,12 +19,16 @@ If you are familiar with the Arduino platform getting the basics working using t
 
 ### Introducing STM32CubeMX
 
+ADC access using the Arduino analogRead command gives limited performance, its possible to sample much faster across many channels by using the lower level STM32 HAL (Hardware Access Layer) provided by ST. The development pathway to access these features is different and quite daunting if your primarily familiar with the Arduino platform. There is a tool called STM32CubeMX which is a kind of project builder that you can use to generate the initial outline of your project, from there you can enter your own 'user code' into the relevant placeholders in the generated project. The following set of guides give an introduction to this process:
+
 - [1. Blink](docs/Blink.md)
 - [2. Serial](docs/Serial.md)
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
 
-Hardware:
+### Hardware
+
+Notes on hardware development and initial designs:
 
 - [1. ST-LINK nucleo](docs/ST-LINK.md)
 - [2. ST-LINK adapters](docs/st-link2.md)
@@ -34,7 +38,9 @@ Hardware:
 - [Eagle design 02](Hardware/2)
 - [Eagle design 03](Hardware/3)
 
-Firmware Examples:
+### Firmware Examples
+
+Firmware examples included in this repository:
 
 - [1. Blink](Blink)
 - [2. ADC](ADC)
@@ -44,29 +50,6 @@ Firmware Examples:
 - [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
 
 
-Other:
+### Other:
 
 - [STM32F103 BluePill Blink](docs/bluepill.md)
-
-## Installation
-
-Install toolchain
-    
-    sudo apt-get install gcc-arm-none-eabi
-    
-Clone this repo:
-
-    git clone https://github.com/TrystanLea/STM32Dev.git
-
-## Blink, using makefile
-
-    cd STM32Dev/Blink
-    make
-    cp build/Blink.bin /media/username/NODE_F303RE
-
-## Blink: PlatformIO
-
-Install platformio http://docs.platformio.org/en/latest/installation.html#local-download-mac-linux-windows
-
-    cd STM32Dev/Blink
-    pio run -t upload
