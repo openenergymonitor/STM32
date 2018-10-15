@@ -26,7 +26,7 @@ ADC access using the Arduino analogRead command gives limited performance, its p
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
 
-Hardware:
+### Hardware:
 
 - [1. ST-LINK nucleo](docs/ST-LINK.md)
 - [2. ST-LINK adapters](docs/st-link2.md)
@@ -36,7 +36,7 @@ Hardware:
 - [Eagle design 02](Hardware/2)
 - [Eagle design 03](Hardware/3)
 
-Firmware Examples:
+### Firmware Examples:
 
 - [1. Blink](Blink)
 - [2. ADC](ADC)
@@ -46,6 +46,6 @@ Firmware Examples:
 - [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
 
 
-Other:
+### Other:
 
 - [STM32F103 BluePill Blink](docs/bluepill.md)
