@@ -27,5 +27,5 @@ Click ok to complete.
 
 5. **Compile and upload.** The on-board LED should now blink once a second. Try increasing the blink speed by reducing the delay in the example sketch.
 
-Next: Basic NUCLEO-F303RE energy monitor using an EmonTxShield & EmonLib discreet sampling STM32Duino library.
+Next: [Basic NUCLEO-F303RE energy monitor using an EmonTxShield & EmonLib discreet sampling STM32Duino library.](https://github.com/TrystanLea/STM32Dev/blob/master/docs/STM32Duino/EmonLib.md)
 
