@@ -26,7 +26,9 @@ ADC access using the Arduino analogRead command gives limited performance, its p
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
 
-### Hardware:
+### Hardware
+
+Notes on hardware development and initial designs:
 
 - [1. ST-LINK nucleo](docs/ST-LINK.md)
 - [2. ST-LINK adapters](docs/st-link2.md)
@@ -36,7 +38,9 @@ ADC access using the Arduino analogRead command gives limited performance, its p
 - [Eagle design 02](Hardware/2)
 - [Eagle design 03](Hardware/3)
 
-### Firmware Examples:
+### Firmware Examples
+
+Firmware examples included in this repository:
 
 - [1. Blink](Blink)
 - [2. ADC](ADC)
