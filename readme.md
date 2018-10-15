@@ -49,26 +49,3 @@ Firmware Examples:
 Other:
 
 - [STM32F103 BluePill Blink](docs/bluepill.md)
-
-## Installation
-
-Install toolchain
-    
-    sudo apt-get install gcc-arm-none-eabi
-    
-Clone this repo:
-
-    git clone https://github.com/TrystanLea/STM32Dev.git
-
-## Blink, using makefile
-
-    cd STM32Dev/Blink
-    make
-    cp build/Blink.bin /media/username/NODE_F303RE
-
-## Blink: PlatformIO
-
-Install platformio http://docs.platformio.org/en/latest/installation.html#local-download-mac-linux-windows
-
-    cd STM32Dev/Blink
-    pio run -t upload
