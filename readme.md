@@ -1,8 +1,23 @@
-# STM32 Development
+# STM32 Energy Monitoring
+
+The STM32 platform is a family of microcontrollers based on the Arm Cortex M processor, offering among many powerful features, plenty of 12-bit analog inputs and high speed sampling, making them particularly suitable for energy monitoring applications.
+
+The following resources are a work in progress guide to using the STM32 platform for energy monitoring, being written as part of development work into the next generation of OpenEnergyMonitor hardware. To be included as a section in [http://learn.openenergymonitor.org](http://learn.openenergymonitor.org)
+
+### OpenEnergyMonitor Forum threads:**
 
 - [STM32 Development thread](https://community.openenergymonitor.org/t/stm32-development)
+- [STM32 Hardware Development](https://community.openenergymonitor.org/t/stm32-hardware-development/7135)
+- [STM32 PlatformIO](https://community.openenergymonitor.org/t/stm32-platformio/7015)
 
-Getting started with STM32CubeMX:
+### Getting started: STM32 (Arduino integration)**
+
+If you are familiar with the Arduino platform getting the basics working using the familiarity of the Arduino IDE and the STM32Dunio Arduino integration is a good place to start.
+
+- 1. [Blinking an LED using the NUCLEO-F303RE Development board & STM32Duino](docs/STM32Duino/Blink.md)
+- 2. [Basic NUCLEO-F303RE energy monitor using an EmonTxShield & EmonLib discreet sampling STM32Duino library](docs/STM32Duino/EmonLib.md)
+
+### Introducing STM32CubeMX**
 
 - [1. Blink](docs/Blink.md)
 - [2. Serial](docs/Serial.md)
@@ -55,25 +70,3 @@ Install platformio http://docs.platformio.org/en/latest/installation.html#local-
 
     cd STM32Dev/Blink
     pio run -t upload
-
-## Arduino IDE: STM32Duino
-
-Preferences: Additional boards manager link
-
-    https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json
-    
-Select STM32 Cores from Boards Manager, install or update.
-
-To test: select example 'blink', Board: Nucleo-64 & Part number: Nucleo F303RE.
-Compile and upload.
-
-**EmonTxShield with EmonLib**
-
-Clone EmonLib into your Arduino libraries folder using git.
-
-    git clone https://github.com/openenergymonitor/EmonLib.git
-    git checkout STM32
-    
-Open example 'voltage_and_current'. See post for Shield hardware modifications:
-[https://community.openenergymonitor.org/t/stm32-development/6815/4](https://community.openenergymonitor.org/t/stm32-development/6815/4)
-
