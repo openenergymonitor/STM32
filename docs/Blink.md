@@ -1,6 +1,6 @@
-## STMCubeMX 101: Blink
+## STM32CubeMX 101: Blink
 
-1. Download and start STMCubeMX.
+1. Download and start [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html).
 
 ![STMCube1.png](../images/STMCube1.png)
 
@@ -47,6 +47,11 @@ For some reason the section that starts:
 
 is full of duplicate entries which causes the compiler to fail, remove the duplicate entries until the compilation is successful.
 
+
+**Install toolchain for compilation**
+    
+    sudo apt-get install gcc-arm-none-eabi
+
 **Compile and Upload**
 
 To compile, just type make in terminal:
@@ -86,3 +91,13 @@ Recompile
 Upload:
 
     cp build/Blink.bin /media/username/NODE_F303RE/
+
+
+## Optional: Compile & Upload using PlatformIO
+
+An alternative to using the Makefile is to compile and upload using PlatformIO:
+
+Install platformio http://docs.platformio.org/en/latest/installation.html#local-download-mac-linux-windows
+
+    cd STM32Dev/Blink
+    pio run -t upload
