@@ -19,6 +19,8 @@ If you are familiar with the Arduino platform getting the basics working using t
 
 ### Introducing STM32CubeMX
 
+ADC access using the Arduino analogRead command gives limited performance, its possible to sample much faster across many channels by using the lower level STM32 HAL (Hardware Access Layer) provided by ST. The development pathway to access these features is different and quite daunting if your primarily familiar with the Arduino platform. There is a tool called STM32CubeMX which is a kind of project builder that you can use to generate the initial outline of your project, from there you can enter your own 'user code' into the relevant placeholders in the generated project. The following set of guides give an introduction to this process:
+
 - [1. Blink](docs/Blink.md)
 - [2. Serial](docs/Serial.md)
 - [3. Analog](docs/Analog.md)
