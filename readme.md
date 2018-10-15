@@ -48,6 +48,7 @@ Firmware examples included in this repository:
 - [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
 - [5. Emon1CT](Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
 - [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
+- [7. emonTxshield_dBC](emonTxshield_dBC): Latest mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
 
 
 ### Other:
