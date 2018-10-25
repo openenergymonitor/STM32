@@ -52,7 +52,7 @@ Readings are printed every ~2.5 seconds (125 cycles 50Hz), ~287122 VI sample pai
 
 ![22pfCT.png](../images/DS/22pfCT.png)
 
-100pF filter cap on CT input:
+100nF filter cap on CT input:
 
 ![100pfCT.png](../images/DS/100pfCT.png)
 
@@ -60,7 +60,7 @@ No filter cap on CT input:
 
 ![nocapCT.png](../images/DS/nocapCT.png)
 
-100pF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
+100nF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
 
 ![100pfV.png](../images/DS/100pfV.png)
 
