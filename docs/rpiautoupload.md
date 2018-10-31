@@ -5,10 +5,12 @@ The following example demonstrates serial firmware upload on a raspberrypi inclu
 **RPI to Nucleo connections**
 
 - Connect GND and 5V for power. 
-- Connect PA2 to UART0_RXD (10:GPIO15)
-- Connect PA3 to UART0_TXD (8:GPIO14)
+- Connect UART2:PA2 to UART0_RXD (10:GPIO15)
+- Connect UART2:PA3 to UART0_TXD (8:GPIO14)
 - Connect BOOT0 to 7:GPIO4
 - Connect NRST to 11:GPIO17
+
+*UART1:PA9 & PA10 also work for upload, UART3 has a capacitor connected on the Nucleo development board stopping uart upload from working.*
 
 ![Raspberry-Pi-GPIO.png](../images/Raspberry-Pi-GPIO.png)
 

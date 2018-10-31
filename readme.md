@@ -33,6 +33,7 @@ Notes on hardware development and initial designs:
 - [1. ST-LINK nucleo](docs/ST-LINK.md)
 - [2. ST-LINK adapters](docs/st-link2.md)
 - [3. Serial/UART Upload](docs/uartupload.md)
+- [4. RaspberryPi UART Upload + autoreset](docs/rpiautoupload.md)
 - [Eagle design 01](Hardware/1)
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
 - [Eagle design 02](Hardware/2)
