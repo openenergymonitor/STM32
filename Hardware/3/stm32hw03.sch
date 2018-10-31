@@ -7475,7 +7475,7 @@ Modified by Ciseco for Rapid Part 24-0357</description>
 <part name="C3" library="resistor" deviceset="C-EU" device="C0603" value="4.7uF"/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
-<part name="C4" library="resistor" deviceset="C-EU" device="C0603" value="1uF"/>
+<part name="C4" library="resistor" deviceset="C-EU" device="C0603" value="4.7uF"/>
 <part name="C5" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
 <part name="C6" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
 <part name="C7" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
@@ -7588,6 +7588,7 @@ Modified by Ciseco for Rapid Part 24-0357</description>
 <part name="RASPBERRYPI" library="con-lsta" deviceset="FE05-2" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
+<part name="C22" library="resistor" deviceset="C-EU" device="C0603" value="1uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -7765,6 +7766,7 @@ capactiors to GND here</text>
 <instance part="RASPBERRYPI" gate="G$1" x="220.98" y="-83.82"/>
 <instance part="GND5" gate="1" x="205.74" y="-86.36"/>
 <instance part="GND7" gate="1" x="256.54" y="-86.36"/>
+<instance part="C22" gate="G$1" x="58.42" y="167.64" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -7828,7 +7830,8 @@ capactiors to GND here</text>
 <wire x1="3.81" y1="162.56" x2="15.24" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="162.56" x2="26.67" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="26.67" y1="162.56" x2="36.83" y2="162.56" width="0.1524" layer="91"/>
-<wire x1="36.83" y1="162.56" x2="46.99" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="36.83" y1="162.56" x2="45.72" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="162.56" x2="46.99" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="3.81" y1="165.1" x2="3.81" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="C6" gate="G$1" pin="1"/>
 <wire x1="15.24" y1="165.1" x2="15.24" y2="162.56" width="0.1524" layer="91"/>
@@ -7840,6 +7843,9 @@ capactiors to GND here</text>
 <wire x1="36.83" y1="165.1" x2="36.83" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
 <junction x="-25.4" y="158.75"/>
+<wire x1="46.99" y1="162.56" x2="58.42" y2="162.56" width="0.1524" layer="91"/>
+<pinref part="C22" gate="G$1" pin="1"/>
+<wire x1="58.42" y1="162.56" x2="58.42" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
@@ -8103,7 +8109,10 @@ capactiors to GND here</text>
 <pinref part="C8" gate="G$1" pin="2"/>
 <junction x="36.83" y="172.72"/>
 <pinref part="C9" gate="G$1" pin="2"/>
-<wire x1="36.83" y1="172.72" x2="46.99" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="36.83" y1="172.72" x2="45.72" y2="172.72" width="0.1524" layer="91"/>
+<pinref part="C22" gate="G$1" pin="2"/>
+<wire x1="45.72" y1="172.72" x2="46.99" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="46.99" y1="172.72" x2="58.42" y2="172.72" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="127" y1="111.76" x2="114.3" y2="111.76" width="0.1524" layer="91"/>
