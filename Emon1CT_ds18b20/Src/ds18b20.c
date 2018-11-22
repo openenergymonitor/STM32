@@ -66,7 +66,7 @@ static uint8_t crc8(const uint8_t *addr, uint8_t len)
 void init_ds18b20s (void) {
 
   init_uarts();
-  
+
   for (int i=0; i<MAX_1WIRE_BUS; i++)
     bus_status[i] = onewire_reset(i);
 
@@ -85,7 +85,7 @@ void init_ds18b20s (void) {
 
   for (int i=0; i<MAX_1WIRE_BUS; i++) {
     snprintf(log_buffer, sizeof(log_buffer),
-	     "bus%d status: 0x%02x, crc: %s, addr: 0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+	     "bus%d status: 0x%02x, crc: %s, addr: 0x%02x%02x%02x%02x%02x%02x%02x%02x \r\n",
 	     i, bus_status[i], crc_status[i] ? "bad" : " ok",
 	     romaddr[i][0], romaddr[i][1], romaddr[i][2], romaddr[i][3], 
 	     romaddr[i][4], romaddr[i][5], romaddr[i][6], romaddr[i][7]);
@@ -135,7 +135,7 @@ void process_ds18b20s (void) {
       temp_i[i] = ((int16_t)rx_buff[i][1] << 11 | (int16_t)rx_buff[i][0] << 3);
       temp_f[i] = temp_i[i] * 0.0078125;
       snprintf(log_buffer, sizeof(log_buffer),
-	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\n", i,
+	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\r\n", i,
 	       bus_status[i], crc_status[i] ? "bad" : " ok", temp_f[i]);
       debug_printf(log_buffer);
     }

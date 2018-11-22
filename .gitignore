@@ -13,6 +13,9 @@ Emon/.pioenvs/*
 Emon1CT/build/*
 Emon1CT/.pioenvs/*
 
+Emon1CT_ds18b20/build/*
+Emon1CT_ds18b20/.pioenvs/*
+
 Emon3CT/build/*
 Emon3CT/.pioenvs/*
 

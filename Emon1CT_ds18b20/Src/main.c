@@ -188,18 +188,21 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART2_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_TIM8_Init();
   MX_OPAMP2_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   
   
 
   HAL_OPAMP_Start(&hopamp2);
 
+  sprintf(log_buffer,"init init_ds18b20s\r\n");
+  debug_printf(log_buffer);
+  
   init_ds18b20s();
 
   sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
@@ -216,7 +219,7 @@ int main(void)
      if (readings_ready) {
        readings_ready = false;
        
-       //process_ds18b20s();
+       process_ds18b20s();
        
        double Vmean = sum_V_copy * (1.0 / count_copy);
        double Imean = sum_I_copy * (1.0 / count_copy);
