@@ -87,6 +87,8 @@ int64_t sum_V_copy;
 int64_t sum_I_copy;
 uint64_t count_copy;
 
+uint64_t pulseCount = 0;
+
 uint8_t positive_V = 0;
 uint8_t last_positive_V = 0;
 uint8_t cycles = 0;
@@ -205,7 +207,7 @@ int main(void)
   
   init_ds18b20s();
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
@@ -236,10 +238,14 @@ int main(void)
        double realPower = V_RATIO * I_RATIO * mean_P;
        
        double apparentPower = Vrms * Irms;
-       double powerFactor = realPower / apparentPower; 
+       double powerFactor = realPower / apparentPower;
      
-       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, count_copy);
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\t", Vrms, Irms, realPower, apparentPower, powerFactor, count_copy);
        debug_printf(log_buffer);
+       
+       sprintf(log_buffer,"%d\r\n",pulseCount);
+       debug_printf(log_buffer);
+       
      }
   /* USER CODE END WHILE */
 
@@ -312,6 +318,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void onPulse() {
+    pulseCount ++;
+}
+
 
 /* USER CODE END 4 */
 

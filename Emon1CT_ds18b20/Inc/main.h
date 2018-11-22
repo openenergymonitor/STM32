@@ -45,6 +45,8 @@
 
 /* USER CODE BEGIN Includes */
 
+void onPulse();
+
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/

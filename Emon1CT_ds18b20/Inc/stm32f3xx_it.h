@@ -52,7 +52,9 @@ void DMA1_Channel1_IRQHandler(void);
 void DMA1_Channel4_IRQHandler(void);
 void DMA1_Channel5_IRQHandler(void);
 void USART1_IRQHandler(void);
+void EXTI15_10_IRQHandler(void);
 void DMA2_Channel1_IRQHandler(void);
+uint64_t get_pulse_count();
 
 #ifdef __cplusplus
 }

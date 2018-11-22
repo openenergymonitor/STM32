@@ -34,6 +34,7 @@
 #include "stm32f3xx_hal.h"
 #include "stm32f3xx.h"
 #include "stm32f3xx_it.h"
+#include "main.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -126,6 +127,22 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[15:10] interrupts.
+*/
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+  if(__HAL_GPIO_EXTI_GET_FLAG(GPIO_PIN_10)){ 
+      onPulse();
+  } 
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /**
