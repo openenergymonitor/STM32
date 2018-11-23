@@ -71,8 +71,7 @@ Could have:
 - Voltage on ADC4_IN3, 6 CT’s on ADC1 and 5 CT’s on ADC2
 - Voltage on ADC4_IN3, 2 CT’s on ADC1 and 9 CT’s on ADC2, further 3 on ADC3 and 1 on ADC4
 
-route on the left ADC1 if routing is easier on the left
-route on the bottom ADC2 if routing is easier on the bottom...
+route on the left ADC1 if routing is easier on the left, route on the bottom ADC2 if routing is easier on the bottom...
 
 ### UART Selection
 
