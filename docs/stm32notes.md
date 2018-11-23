@@ -82,11 +82,7 @@ When designing our own board we do not need to use PA2 and PA3 for Uart2 as used
 
 ## STM32F303CBT6 Peripheral pinout selection
 
-![stm32f303cbt6_adc.png](../images/stm32f303cb/stm32f303cbt6_adc.png){:height="50%" width="50%"}
-
-![stm32f303cbt6_opamps.png](../images/stm32f303cb/stm32f303cbt6_opamps.png)
-
-![stm32f303cbt6_uarts.png](../images/stm32f303cb/stm32f303cbt6_uarts.png)
+![stm32f303cbt6_merged.png](../images/stm32f303cb/stm32f303cbt6_merged.png)
 
 ADC’s again on the bottom edge.
 
