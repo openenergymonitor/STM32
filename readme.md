@@ -38,6 +38,7 @@ Notes on hardware development and initial designs:
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
 - [Eagle design 02](Hardware/2)
 - [Eagle design 03](Hardware/3)
+- [Design Notes v4](stm32notes.md)
 
 ### Firmware Examples
 
