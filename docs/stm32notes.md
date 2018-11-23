@@ -10,6 +10,10 @@ The board would be primarily designed for use with the RaspberryPi 3B+ for full 
 
 ![stm32rpiboard.png](../images/stm32rpiboard.png)
 
+Eagle schematic and board files:
+
+[https://github.com/openenergymonitor/STM32/tree/master/Hardware/4](https://github.com/openenergymonitor/STM32/tree/master/Hardware/4)
+
 The idea is to then use this as the basis for expanding the design into the fully fledged expandable board with custom enclosure. A small board like this provides a manageable first step in order to get the core parts right: power supply, programming, oscillators, opamp and filter design for CT & ACAC input etc.
 
 “Like to have” extras:
