@@ -127,4 +127,7 @@ https://uk.rsonline.com/web/p/products/1712795
 
 https://github.com/openenergymonitor/STM32/blob/master/docs/rpiautoupload.md
 
+![stm32_v4_programming.png](../images/stm32_v4_programming.png)
+
+
 ## Filter design
