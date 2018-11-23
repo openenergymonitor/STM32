@@ -132,8 +132,14 @@ https://github.com/openenergymonitor/STM32/blob/master/docs/rpiautoupload.md
 
 Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
 
+Uses UART1_TX on PA9, Mode single wire half duplex.
+
 ## pulse counting input
 
 Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
+
+Uses GPIO_EXTI10 (PA10)
+
+
 
 ## Filter design
