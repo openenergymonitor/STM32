@@ -94,16 +94,16 @@ UART’s on the top edge apart from UART3.
 
 ![stm32powersupply.png](../images/stm32powersupply.png)
 
-**VREG Input Capacitance**<br&gt;
+**VREG Input Capacitance**
 MCP1825 Datasheet: “A typical input capacitance value of 1 μF to 10 μF should be sufficient for most applications.“ 4.7uF selected
 
-**VREG Output Capacitance**<br&gt;
+**VREG Output Capacitance**
 The MCP1825 requires a minimum output capacitance of 1 μF for output voltage stability. Ceramic capacitors are recommended because of their size, cost and environmental robustness qualities. A maximum of 22 μF is recommended. STM32 Hardware Guide AN4206 suggests 4.7uF on VDD and 1uF on VDDA.
 
-**Decoupling**<br&gt;
+**Decoupling**
 Power supply and ground pins should have as low an impedance as possible (thick track widths, dedicated power supply panes). Each power supply should be decoupled with a 100nF filtering ceramic capacitor (AN4206).
 
-**Power requirements?**<br&gt;
+**Power requirements?**
 MCP1825 is capable of providing plenty for Atmega328 and ESP8266. What are the power requirements of the STM32?
 
 ## Oscillator selection
