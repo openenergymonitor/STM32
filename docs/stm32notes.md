@@ -21,7 +21,6 @@ The idea is to then use this as the basis for expanding the design into the full
 - USB DFM programmer
 - RFM69 radio transceiver
 - ESP8266 footprint onboard
-- MBUS reader
 
 ## Choosing the right core
 
@@ -129,5 +128,12 @@ https://github.com/openenergymonitor/STM32/blob/master/docs/rpiautoupload.md
 
 ![stm32_v4_programming.png](../images/stm32_v4_programming.png)
 
+## ds18b20 temperature sensing
+
+Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
+
+## pulse counting input
+
+Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
 
 ## Filter design
