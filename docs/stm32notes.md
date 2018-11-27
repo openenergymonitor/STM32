@@ -143,3 +143,19 @@ Uses GPIO_EXTI10 (PA10)
 
 
 ## Filter design
+
+- YHDC SCT013-000 Working frequency from datasheet 50 Hz - 1 kHz
+- https://www.analog.com/media/en/technical-documentation/data-sheets/ADE7753.pdf suggests 14 kHz bandwidth capability
+- ATmega328 based designs, have been sampling at a frequency of 2.5 kHz
+- STM32 designs will sample at around 10 kHz per channel, I've tested a single channel sampling at 115 kHz.
+
+Passive Filter Tutorial
+https://www.electronics-tutorials.ws/filter/filter_2.html
+
+RC Filter Cutoff Frequency Calculator
+https://www.electronicproducts.com/RC_Filter_Cutoff_Frequency_Calculator.aspx
+
+Values to try:
+
+- 330R + 100nF = 4.8 kHz
+- 100R + 100nF = 15.9 kHz
