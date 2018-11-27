@@ -149,10 +149,10 @@ Uses GPIO_EXTI10 (PA10)
 - ATmega328 based designs, have been sampling at a frequency of 2.5 kHz
 - STM32 designs will sample at around 10 kHz per channel, I've tested a single channel sampling at 115 kHz.
 
-Passive Filter Tutorial
+Passive Filter Tutorial<br>
 https://www.electronics-tutorials.ws/filter/filter_2.html
 
-RC Filter Cutoff Frequency Calculator
+RC Filter Cutoff Frequency Calculator<br>
 https://www.electronicproducts.com/RC_Filter_Cutoff_Frequency_Calculator.aspx
 
 Values to try:
