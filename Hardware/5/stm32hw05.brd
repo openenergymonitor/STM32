@@ -3506,7 +3506,7 @@ Source: 008-0260-0_E.pdf</description>
 <clearance class="2" value="0.254"/>
 </class>
 </classes>
-<designrules name="default">
+<designrules name="default *">
 <description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
 &lt;p&gt;
 Die Standard-Design-Rules sind so gewählt, dass sie für 
@@ -3574,7 +3574,7 @@ design rules under a new name.</description>
 <param name="mlMaxStopFrame" value="4mil"/>
 <param name="mlMinCreamFrame" value="0mil"/>
 <param name="mlMaxCreamFrame" value="0mil"/>
-<param name="mlViaStopLimit" value="0mil"/>
+<param name="mlViaStopLimit" value="0.6mm"/>
 <param name="srRoundness" value="0"/>
 <param name="srMinRoundness" value="0mil"/>
 <param name="srMaxRoundness" value="0mil"/>
@@ -4485,54 +4485,54 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <errors>
+<approved hash="5,1,8e897753345943fc"/>
 <approved hash="5,1,e9f2f7ab15e96ef6"/>
 <approved hash="5,1,44491b89ec49515a"/>
-<approved hash="5,1,8e897753345943fc"/>
 <approved hash="5,1,0e469d3c4c4403c0"/>
 <approved hash="5,1,9cc664a4c3c8458f"/>
 <approved hash="5,1,ea9c1c25a24b2ad5"/>
 <approved hash="5,1,f55a02a4c28a4b13"/>
-<approved hash="5,1,cb9e36bd261c6552"/>
-<approved hash="5,1,08fb082a3720d171"/>
-<approved hash="5,1,3623642a29a58352"/>
 <approved hash="5,1,9afb8eac0f82c58f"/>
+<approved hash="5,1,3623642a29a58352"/>
+<approved hash="5,1,08fb082a3720d171"/>
+<approved hash="5,1,cb9e36bd261c6552"/>
 <approved hash="5,1,e21dc6bfd61cbcd1"/>
 <approved hash="5,1,442fb164d58c5ea2"/>
-<approved hash="5,1,3c9cc1bd241c6750"/>
-<approved hash="5,1,fff9ff28a020d173"/>
-<approved hash="5,1,c1219328daa58350"/>
 <approved hash="5,1,edf9776482c92ad5"/>
+<approved hash="5,1,c1219328daa58350"/>
 <approved hash="5,1,151f31bfd41cbed3"/>
-<approved hash="5,1,6ef66e275120d17c"/>
-<approved hash="5,1,ad9350bd261c655f"/>
-<approved hash="5,1,fcf6e73d0131cb13"/>
+<approved hash="5,1,fff9ff28a020d173"/>
+<approved hash="5,1,3c9cc1bd241c6750"/>
 <approved hash="5,1,502e02274ba5835f"/>
+<approved hash="5,1,fcf6e73d0131cb13"/>
+<approved hash="5,1,ad9350bd261c655f"/>
+<approved hash="5,1,6ef66e275120d17c"/>
 <approved hash="5,1,8410a0bfd61cbcdc"/>
 <approved hash="5,1,0e822164d24c83cf"/>
 <approved hash="5,1,1ec33067cdcb82ca"/>
-<approved hash="5,1,371213bfd81cb2de"/>
-<approved hash="5,1,e86a777120110509"/>
-<approved hash="5,1,a32c30a7bf93542b"/>
-<approved hash="5,1,4ff4568e0aa0dea2"/>
-<approved hash="5,1,e32cb125c4a5835d"/>
-<approved hash="5,1,3feb5ef0df13d388"/>
 <approved hash="5,1,ddf4dd25c220d17e"/>
 <approved hash="5,1,1e91e3bd281c6b5d"/>
-<approved hash="5,1,8968a394718a818d"/>
-<approved hash="5,1,c99337bd2ec5727f"/>
-<approved hash="5,1,c993cb6bbff5c330"/>
-<approved hash="5,1,a61782bfde1cb4db"/>
-<approved hash="5,1,596fe674b111050c"/>
-<approved hash="5,1,7229202075a58358"/>
+<approved hash="5,1,3feb5ef0df13d388"/>
+<approved hash="5,1,4ff4568e0aa0dea2"/>
+<approved hash="5,1,e32cb125c4a5835d"/>
+<approved hash="5,1,a32c30a7bf93542b"/>
+<approved hash="5,1,e86a777120110509"/>
+<approved hash="5,1,371213bfd81cb2de"/>
 <approved hash="5,1,3229a1a7bf93542e"/>
-<approved hash="5,1,8f9472bd2e1c6d58"/>
-<approved hash="5,1,8eeecff54e13d38d"/>
+<approved hash="5,1,7229202075a58358"/>
 <approved hash="5,1,5fe98a178f8a570c"/>
 <approved hash="5,1,e282274254bb49fe"/>
-<approved hash="5,1,c3cfc31eec20d145"/>
-<approved hash="5,1,00aafdbd2c1c6f66"/>
-<approved hash="5,1,d1cf435fd9353f96"/>
+<approved hash="5,1,a61782bfde1cb4db"/>
+<approved hash="5,1,596fe674b111050c"/>
+<approved hash="5,1,8eeecff54e13d38d"/>
+<approved hash="5,1,8f9472bd2e1c6d58"/>
+<approved hash="5,1,c99337bd2ec5727f"/>
+<approved hash="5,1,8968a394718a818d"/>
+<approved hash="5,1,c993cb6bbff5c330"/>
 <approved hash="5,1,1a562caafe8a81b3"/>
+<approved hash="5,1,d1cf435fd9353f96"/>
+<approved hash="5,1,00aafdbd2c1c6f66"/>
+<approved hash="5,1,c3cfc31eec20d145"/>
 <approved hash="5,1,c651694a3e110532"/>
 <approved hash="5,1,29290dbfdc1cb6e5"/>
 <approved hash="5,1,72c3370aca74cbc0"/>
@@ -4540,24 +4540,24 @@ design rules under a new name.</description>
 <approved hash="5,1,11b7708ed7299854"/>
 <approved hash="5,1,a2327d766935ebc0"/>
 <approved hash="5,1,926a6d39c8153242"/>
+<approved hash="5,1,71a88cbd2e1c6d64"/>
+<approved hash="5,1,b2cdb21c9d20d147"/>
 <approved hash="5,1,bdd5742b718a5730"/>
-<approved hash="5,1,582b7cbfde1cb4e7"/>
+<approved hash="5,1,8c15de1c97a58364"/>
 <approved hash="5,1,4ccd3bf56531d19e"/>
 <approved hash="5,1,4559b26cb4cc3d9e"/>
-<approved hash="5,1,8c15de1c97a58364"/>
-<approved hash="5,1,b2cdb21c9d20d147"/>
-<approved hash="5,1,71a88cbd2e1c6d64"/>
+<approved hash="5,1,582b7cbfde1cb4e7"/>
 <approved hash="5,1,84122b5d518c009f"/>
-<approved hash="5,1,1f124d1b00a58363"/>
-<approved hash="5,1,cb2cefbfd81cb2e0"/>
 <approved hash="5,1,e2af1fbd281c6b63"/>
-<approved hash="5,1,7a2e5ebfd61cbce2"/>
+<approved hash="5,1,cb2cefbfd81cb2e0"/>
+<approved hash="5,1,1f124d1b00a58363"/>
 <approved hash="5,1,95563a4d6d110535"/>
+<approved hash="5,1,7a2e5ebfd61cbce2"/>
 <approved hash="5,1,53adaebd261c6561"/>
 <approved hash="5,1,c4a039bd241c676c"/>
 <approved hash="5,1,ed23c9bfd41cbeef"/>
-<approved hash="5,1,025bad40fa110538"/>
 <approved hash="5,1,d044d197272208ce"/>
+<approved hash="5,1,025bad40fa110538"/>
 </errors>
 </board>
 </drawing>
