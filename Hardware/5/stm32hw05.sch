@@ -11030,6 +11030,13 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="33.02" y1="-30.48" x2="40.64" y2="-30.48" width="0.1524" layer="91"/>
 <label x="40.64" y="-30.48" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="RASPBERRYPI" gate="G$1" pin="3"/>
+<pinref part="RASPBERRYPI" gate="G$1" pin="1"/>
+<wire x1="129.54" y1="-27.94" x2="129.54" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="-30.48" x2="129.54" y2="-35.56" width="0.1524" layer="91"/>
+<label x="124.46" y="-35.56" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="+3V3" class="0">
 <segment>
@@ -11064,12 +11071,6 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="R22" gate="G$1" pin="2"/>
 <wire x1="177.8" y1="60.96" x2="177.8" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="+3V4" gate="G$1" pin="+3V3"/>
-</segment>
-<segment>
-<pinref part="RASPBERRYPI" gate="G$1" pin="2"/>
-<wire x1="144.78" y1="-30.48" x2="152.4" y2="-30.48" width="0.1524" layer="91"/>
-<label x="152.4" y="-30.48" size="1.778" layer="95"/>
-<junction x="144.78" y="-30.48"/>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
