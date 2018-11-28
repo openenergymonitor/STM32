@@ -21,7 +21,6 @@ The idea is to then use this as the basis for expanding the design into the full
 - USB DFM programmer
 - RFM69 radio transceiver
 - ESP8266 footprint onboard
-- MBUS reader
 
 ## Choosing the right core
 
@@ -129,5 +128,34 @@ https://github.com/openenergymonitor/STM32/blob/master/docs/rpiautoupload.md
 
 ![stm32_v4_programming.png](../images/stm32_v4_programming.png)
 
+## ds18b20 temperature sensing
+
+Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
+
+Uses UART1_TX on PA9, Mode single wire half duplex.
+
+## pulse counting input
+
+Firmware example: [https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20](https://github.com/openenergymonitor/STM32/tree/master/Emon1CT_ds18b20)
+
+Uses GPIO_EXTI10 (PA10)
+
+
 
 ## Filter design
+
+- YHDC SCT013-000 Working frequency from datasheet 50 Hz - 1 kHz
+- https://www.analog.com/media/en/technical-documentation/data-sheets/ADE7753.pdf suggests 14 kHz bandwidth capability
+- ATmega328 based designs, have been sampling at a frequency of 2.5 kHz
+- STM32 designs will sample at around 10 kHz per channel, I've tested a single channel sampling at 115 kHz.
+
+Passive Filter Tutorial<br>
+https://www.electronics-tutorials.ws/filter/filter_2.html
+
+RC Filter Cutoff Frequency Calculator<br>
+https://www.electronicproducts.com/RC_Filter_Cutoff_Frequency_Calculator.aspx
+
+Values to try:
+
+- 330R + 100nF = 4.8 kHz
+- 100R + 100nF = 15.9 kHz
