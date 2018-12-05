@@ -12019,14 +12019,14 @@ SWDIO + SWCLK added to the top</text>
 <label x="154.432" y="81.534" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="STM32" gate="A" pin="PA9"/>
-<wire x1="124.46" y1="55.88" x2="137.16" y2="55.88" width="0.1524" layer="91"/>
-<label x="132.08" y="55.88" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="DS18B20" gate="G$1" pin="2"/>
 <wire x1="226.06" y1="25.4" x2="213.36" y2="25.4" width="0.1524" layer="91"/>
 <label x="213.36" y="25.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32" gate="A" pin="PB10"/>
+<wire x1="68.58" y1="50.8" x2="55.88" y2="50.8" width="0.1524" layer="91"/>
+<label x="55.88" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PULSE" class="0">
@@ -12043,9 +12043,9 @@ SWDIO + SWCLK added to the top</text>
 <label x="213.36" y="15.24" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="STM32" gate="A" pin="PA10"/>
-<wire x1="124.46" y1="58.42" x2="137.16" y2="58.42" width="0.1524" layer="91"/>
-<label x="132.08" y="58.42" size="1.778" layer="95"/>
+<pinref part="STM32" gate="A" pin="PB15"/>
+<wire x1="124.46" y1="50.8" x2="137.16" y2="50.8" width="0.1524" layer="91"/>
+<label x="132.08" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LSE_IN" class="0">
@@ -12075,17 +12075,12 @@ SWDIO + SWCLK added to the top</text>
 <label x="19.812" y="60.452" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="STM32" gate="A" pin="PA8"/>
-<wire x1="124.46" y1="53.34" x2="137.16" y2="53.34" width="0.1524" layer="91"/>
-<label x="132.08" y="53.34" size="1.778" layer="95"/>
+<pinref part="STM32" gate="A" pin="PB14"/>
+<wire x1="124.46" y1="48.26" x2="137.16" y2="48.26" width="0.1524" layer="91"/>
+<label x="132.08" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="UART_RX" class="0">
-<segment>
-<pinref part="STM32" gate="A" pin="PB4"/>
-<wire x1="124.46" y1="81.28" x2="137.16" y2="81.28" width="0.1524" layer="91"/>
-<label x="132.08" y="81.28" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="GND" gate="G$1" pin="4"/>
 <wire x1="33.02" y1="-27.94" x2="40.64" y2="-27.94" width="0.1524" layer="91"/>
@@ -12096,13 +12091,13 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="129.54" y1="-22.86" x2="119.38" y2="-22.86" width="0.1524" layer="91"/>
 <label x="119.38" y="-22.86" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="STM32" gate="A" pin="PA10"/>
+<wire x1="124.46" y1="58.42" x2="137.16" y2="58.42" width="0.1524" layer="91"/>
+<label x="132.08" y="58.42" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="UART_TX" class="0">
-<segment>
-<pinref part="STM32" gate="A" pin="PB3"/>
-<wire x1="124.46" y1="78.74" x2="137.16" y2="78.74" width="0.1524" layer="91"/>
-<label x="132.08" y="78.74" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="GND" gate="G$1" pin="5"/>
 <wire x1="33.02" y1="-25.4" x2="40.64" y2="-25.4" width="0.1524" layer="91"/>
@@ -12112,6 +12107,11 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="RASPBERRYPI" gate="G$1" pin="9"/>
 <wire x1="129.54" y1="-20.32" x2="119.38" y2="-20.32" width="0.1524" layer="91"/>
 <label x="119.38" y="-20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32" gate="A" pin="PA9"/>
+<wire x1="124.46" y1="55.88" x2="137.16" y2="55.88" width="0.1524" layer="91"/>
+<label x="132.08" y="55.88" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
