@@ -62,7 +62,7 @@
 #define MID_ADC_READING 2048
 
 // Serial output buffer
-char log_buffer[100];
+char log_buffer[150];
 
 // Flag
 int8_t readings_ready = false;
@@ -238,7 +238,7 @@ int main(void)
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower; 
        
-         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%d ", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
+         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%d,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
          debug_printf(log_buffer);
        
        }
