@@ -52,6 +52,7 @@
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
 
@@ -60,8 +61,16 @@ extern UART_HandleTypeDef huart1;
 extern void _Error_Handler(char *, int);
 
 void MX_USART1_UART_Init(void);
+void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+
+void onewire_rx1(int channel, uint8_t* p, int len);
+void onewire_rx2(int channel, uint8_t* p, int len);
+void onewire_tx(int channel, uint8_t* p, int len);
+void debug_printf(char* p);   
+void init_uarts(void);   
+uint8_t onewire_reset(int channel);
 
 /* USER CODE END Prototypes */
 

@@ -48,6 +48,8 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "ds18b20.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -82,6 +84,8 @@ typedef struct channel_ {
   uint8_t last_positive_V;
   uint8_t cycles;
 } channel_t;
+
+uint64_t pulseCount = 0;
 
 static channel_t channels[3];
 static channel_t channels_copy[3];
@@ -189,11 +193,17 @@ int main(void)
   MX_ADC1_Init();
   MX_ADC4_Init();
   MX_TIM8_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
+  sprintf(log_buffer,"init init_ds18b20s\r\n");
+  debug_printf(log_buffer);
+  
+  init_ds18b20s();
+
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
@@ -206,6 +216,7 @@ int main(void)
   {
      if (readings_ready) {
        readings_ready = false;
+       process_ds18b20s();
        
        for (int n=0; n<3; n++) {
          channel_t* chn = &channels_copy[n];
@@ -234,6 +245,10 @@ int main(void)
        
        sprintf(log_buffer,"\r\n");
        debug_printf(log_buffer);
+       
+       sprintf(log_buffer,"%d\r\n",pulseCount);
+       debug_printf(log_buffer);
+       
      }
   /* USER CODE END WHILE */
 
@@ -283,8 +298,10 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART3
+                              |RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -304,6 +321,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void onPulse() {
+    pulseCount ++;
+}
+
 
 /* USER CODE END 4 */
 

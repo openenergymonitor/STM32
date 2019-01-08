@@ -45,6 +45,8 @@
 
 /* USER CODE BEGIN Includes */
 
+void onPulse();
+
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +59,8 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+
+#define MAX_1WIRE_BUS 1
 
 /* USER CODE END Private defines */
 
