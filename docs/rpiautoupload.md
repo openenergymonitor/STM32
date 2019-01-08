@@ -1,5 +1,7 @@
 ## Serial/UART Firmware Upload using RaspberryPi, auto boot0 & reset
 
+NOTE: GPIO4 and GPIO17 are swapped around on development board.
+
 The following example demonstrates serial firmware upload on a raspberrypi including automatic setting of boot0 to high and automatic reset to go in an out of firmware upload mode - making OTA firmware updates possible.
 
 **RPI to Nucleo connections**
