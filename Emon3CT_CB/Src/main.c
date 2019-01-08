@@ -198,13 +198,13 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"init init_ds18b20s\r\n");
-  debug_printf(log_buffer);
+  //sprintf(log_buffer,"init init_ds18b20s\r\n");
+  //debug_printf(log_buffer);
   
   init_ds18b20s();
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
-  debug_printf(log_buffer);
+  //sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
+  //debug_printf(log_buffer);
   
   start_ADCs();
   
@@ -238,13 +238,13 @@ int main(void)
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower; 
        
-         sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
+         sprintf(log_buffer,"%d %.2f %.3f %.1f %.1f %.3f %d ", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
          debug_printf(log_buffer);
        
        }
        
-       sprintf(log_buffer,"\r\n");
-       debug_printf(log_buffer);
+       //sprintf(log_buffer,"\r\n");
+       //debug_printf(log_buffer);
        
        sprintf(log_buffer,"%d\r\n",pulseCount);
        debug_printf(log_buffer);
