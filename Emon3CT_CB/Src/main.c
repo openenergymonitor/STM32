@@ -238,7 +238,7 @@ int main(void)
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower; 
        
-         sprintf(log_buffer,"%d %.2f %.3f %.1f %.1f %.3f %d ", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
+         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%d ", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
          debug_printf(log_buffer);
        
        }
@@ -246,7 +246,7 @@ int main(void)
        //sprintf(log_buffer,"\r\n");
        //debug_printf(log_buffer);
        
-       sprintf(log_buffer,"%d\r\n",pulseCount);
+       sprintf(log_buffer,"PC:%d\r\n",pulseCount);
        debug_printf(log_buffer);
        
      }

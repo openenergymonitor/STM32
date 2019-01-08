@@ -134,9 +134,12 @@ void process_ds18b20s (void) {
       crc_status[i] = crc8(rx_buff[i], 9);
       temp_i[i] = ((int16_t)rx_buff[i][1] << 11 | (int16_t)rx_buff[i][0] << 3);
       temp_f[i] = temp_i[i] * 0.0078125;
-      snprintf(log_buffer, sizeof(log_buffer),
-	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\r\n", i,
-	       bus_status[i], crc_status[i] ? "bad" : " ok", temp_f[i]);
+      //snprintf(log_buffer, sizeof(log_buffer),
+	    //   "bus%d status: 0x%02x, crc: %s, temp: %.3fC\r\n", i,
+	    //   bus_status[i], crc_status[i] ? "bad" : " ok", temp_f[i]);
+      //debug_printf(log_buffer);
+      
+      snprintf(log_buffer, sizeof(log_buffer),"T:%.3f\r\n",temp_f[i]);
       debug_printf(log_buffer);
     }
 
