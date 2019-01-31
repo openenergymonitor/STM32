@@ -82,7 +82,20 @@ uint16_t freqBand = 433;
   #define RF69_433MHZ            433
   #define RF69_868MHZ            868
   #define RF69_915MHZ            915
+  see registers.h for more.
   */
+uint8_t toAddress = 1;
+bool requestACK = false;
+
+typedef struct {
+  unsigned long nodeId; //store this nodeId
+  unsigned long uptime; //uptime in ms
+  //float         temp;   //temperature maybe?
+} Payload;
+Payload theData;
+
+
+
 
 /* USER CODE END PV */
 
@@ -150,16 +163,31 @@ int main(void) {
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
+/*
+    // sample receiving code
     if (RFM69_ReadDIO0Pin()) {
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
       RFM69_interruptHandler();
     }
     if (RFM69_receiveDone()) {
-    debug_printf("Payload Received!\r\n");
+      debug_printf("Payload Received!\r\n");
       PrintRawBytes();
       PrintStruct();
+      PrintByteByByte();
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
     }
+
+    // sample sending code
+    theData.nodeId = 20;
+    theData.uptime = HAL_GetTick();
+    RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
+    HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
+    HAL_Delay(2000);                         // send every ____ milliseconds.
+    debug_printf("Payload Sent!\r\n");
+*/
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

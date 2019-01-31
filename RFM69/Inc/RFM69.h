@@ -104,5 +104,6 @@ void RFM69_select(void);
 void RFM69_Listening(void);
 void PrintRawBytes(void);
 void PrintStruct(void);
+void PrintByteByByte(void);
 
 #endif
