@@ -1,7 +1,8 @@
 ### RFM69 Test Code
 
-STM32CubeMX v5.0.1
 Tried and tested on the STM32F303RE Nucleo Board.
+STM32CubeMX v4.27.0
+LowPowerLab RFM69 library based Tx/Rx code.
 The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
 
 Pinout  
@@ -14,7 +15,8 @@ PB15 - MOSI
 
 PA5 for the Onboard LED  
 
-RFM69 Library in C, for the STM32 <https://github.com/cristi85/RFM69>  
+RFM69 Library written in C, based on LowPowerLab library.   <https://github.com/cristi85/RFM69>  
+Thanks to @cristi85.
 
 ATMEGA_test_examples folder contains LowPowerLabs Tx/Rx examples for Arduino / ATMEGA, used for testing.  
 Memory structure differences between STM32 and ATMEGA can result in the struct not working the same between the two.

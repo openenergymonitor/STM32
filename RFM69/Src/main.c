@@ -164,7 +164,7 @@ int main(void) {
   /* USER CODE BEGIN WHILE */
   while (1) {
 /*
-    // sample receiving code
+    // SAMPLE RECEIVE CODE
     if (RFM69_ReadDIO0Pin()) {
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
       RFM69_interruptHandler();
@@ -177,7 +177,7 @@ int main(void) {
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
     }
 
-    // sample sending code
+    // SAMPLE TRANSMIT CODE
     theData.nodeId = 20;
     theData.uptime = HAL_GetTick();
     RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);

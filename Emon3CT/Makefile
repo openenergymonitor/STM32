@@ -14,7 +14,7 @@
 # target
 ######################################
 TARGET = Emon3CT
-
+-include binpath.mak
 
 ######################################
 # building variables
@@ -98,7 +98,7 @@ PERIFLIB_SOURCES =
 #######################################
 # binaries
 #######################################
-BINPATH = /usr/bin
+
 PREFIX = arm-none-eabi-
 CC = $(BINPATH)/$(PREFIX)gcc
 AS = $(BINPATH)/$(PREFIX)gcc -x assembler-with-cpp
