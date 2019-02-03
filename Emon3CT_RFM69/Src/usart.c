@@ -43,7 +43,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-
+#include <string.h>
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart2;
@@ -124,7 +124,11 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 void debug_printf (char* p) {
-  HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 1000);
+  HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 100);
+}
+
+void SerialPrint (char* p) {
+  HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 100);
 }
 /* USER CODE END 1 */
 

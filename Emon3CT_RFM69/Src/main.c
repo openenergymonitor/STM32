@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -48,6 +48,9 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include "RFM69.h"
+#include "RFM69_externs.h"
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
@@ -55,16 +58,28 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+char log_buffer[150];
+uint16_t networkID = 210; // a.k.a. Network Group
+uint8_t nodeID = 1;
+uint16_t freqBand = 433;
+  /*
+  // available frequency bands
+  #define RF69_315MHZ            315
+  #define RF69_433MHZ            433
+  #define RF69_868MHZ            868
+  #define RF69_915MHZ            915
+  see registers.h for more.
+  */
+uint8_t toAddress = 1;
+bool requestACK = false;
 
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
 
-// Serial output buffer
-char log_buffer[100];
 
 // Flag
-int8_t readings_ready = false;
+bool readings_ready = false;
 
 // Calibration
 double VCAL = 268.97;
@@ -101,14 +116,14 @@ void SystemClock_Config(void);
 void process_frame(uint16_t offset)
 {
   int32_t sample_V, sample_I, signed_V, signed_I;
-  
-  
+
+
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
   for (int i=0; i<3000; i+=3) {
     // Cycle through channels
     for (int n=0; n<3; n++) {
       channel_t* channel = &channels[n];
-      
+
       // ----------------------------------------
       // Voltage
       sample_V = adc1_dma_buff[offset+i+n];
@@ -124,25 +139,25 @@ void process_frame(uint16_t offset)
       // ----------------------------------------
       // Power
       channel->sum_P += signed_V * signed_I;
-      
+
       channel->count ++;
-    
-    
+
+
       // Zero crossing detection
       channel->last_positive_V = channel->positive_V;
       if (signed_V > 0) channel->positive_V = true; else channel->positive_V = false;
       if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
-      
+
       // 125 cycles or 2.5 seconds
       if (channel->cycles>=125) {
         channel->cycles = 0;
-        
+
         channel_t* channel_copy = &channels_copy[n];
-        // Copy accumulators for use in main loop 
+        // Copy accumulators for use in main loop
         memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
         // Reset accumulators to zero ready for next set of measurements
         memset((void*)channel, 0, sizeof(channel_t));
-        
+
         if (n==2) {
           readings_ready = true;
         }
@@ -162,7 +177,7 @@ void process_frame(uint16_t offset)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -185,21 +200,31 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART2_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
-  MX_TIM8_Init();
   MX_OPAMP2_Init();
   MX_SPI2_Init();
+  MX_TIM8_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  RFM69_RST();
+  HAL_Delay(10);
+  if (RFM69_initialize(freqBand, nodeID, networkID)) {
+    sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
+    debug_printf(log_buffer);
+  }
+  else {
+    sprintf(log_buffer, "RFM69 not connected.\r\n");
+    debug_printf(log_buffer);
+  }
 
   HAL_OPAMP_Start(&hopamp2);
 
   sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
   debug_printf(log_buffer);
-  
+
   start_ADCs();
-  
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -208,35 +233,60 @@ int main(void)
   {
      if (readings_ready) {
        readings_ready = false;
-       
+
        for (int n=0; n<3; n++) {
          channel_t* chn = &channels_copy[n];
-       
+
          double Vmean = chn->sum_V * (1.0 / chn->count);
          double Imean = chn->sum_I * (1.0 / chn->count);
-         
+
          chn->sum_V_sq *= (1.0 / chn->count);
          chn->sum_V_sq -= (Vmean*Vmean);
          double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
-         
+
          chn->sum_I_sq *= (1.0 / chn->count);
          chn->sum_I_sq -= (Imean*Imean);
          double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
-         
+
          double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
          double realPower = V_RATIO * I_RATIO * mean_P;
-         
+
          double apparentPower = Vrms * Irms;
-         double powerFactor = realPower / apparentPower; 
-       
+         double powerFactor = realPower / apparentPower;
+
          sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
          debug_printf(log_buffer);
-       
+
        }
-       
+
        sprintf(log_buffer,"\r\n");
        debug_printf(log_buffer);
      }
+
+/*
+    // SAMPLE RECEIVE CODE
+    if (RFM69_ReadDIO0Pin()) {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
+      RFM69_interruptHandler();
+    }
+    if (RFM69_receiveDone()) {
+      debug_printf("Payload Received!\r\n");
+      PrintRawBytes();
+      PrintStruct();
+      PrintByteByByte();
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
+    }
+
+    // SAMPLE TRANSMIT CODE
+    theData.nodeId = 20;
+    theData.uptime = HAL_GetTick();
+    RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
+    HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
+    HAL_Delay(2000);                         // send every ____ milliseconds.
+    debug_printf("Payload Sent!\r\n");
+*/
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -257,7 +307,7 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -271,7 +321,7 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -293,11 +343,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure the Systick interrupt time 
+    /**Configure the Systick interrupt time
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-    /**Configure the Systick 
+    /**Configure the Systick
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -334,7 +384,7 @@ void _Error_Handler(char *file, int line)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
