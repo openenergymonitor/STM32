@@ -102,6 +102,7 @@ Payload theData;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
@@ -109,8 +110,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//#define NELEMS(x) (sizeof(x) / sizeof((x)[0]))
-// size_t ni = NELEMS(data);
 
 /* USER CODE END 0 */
 

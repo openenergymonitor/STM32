@@ -58,28 +58,16 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-char log_buffer[150];
-uint16_t networkID = 210; // a.k.a. Network Group
-uint8_t nodeID = 1;
-uint16_t freqBand = 433;
-  /*
-  // available frequency bands
-  #define RF69_315MHZ            315
-  #define RF69_433MHZ            433
-  #define RF69_868MHZ            868
-  #define RF69_915MHZ            915
-  see registers.h for more.
-  */
-uint8_t toAddress = 1;
-bool requestACK = false;
 
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
 
+// Serial output buffer
+char log_buffer[100];
 
 // Flag
-bool readings_ready = false;
+int8_t readings_ready = false;
 
 // Calibration
 double VCAL = 268.97;
@@ -101,6 +89,28 @@ typedef struct channel_ {
 
 static channel_t channels[3];
 static channel_t channels_copy[3];
+
+
+uint16_t networkID = 210; // a.k.a. Network Group
+uint8_t nodeID = 1;
+uint16_t freqBand = 433;
+  /*
+  // available frequency bands
+  #define RF69_315MHZ            315
+  #define RF69_433MHZ            433
+  #define RF69_868MHZ            868
+  #define RF69_915MHZ            915
+  see registers.h for more.
+  */
+uint8_t toAddress = 1;
+bool requestACK = false;
+
+typedef struct {
+  unsigned long nodeId; //store this nodeId
+  unsigned long uptime; //uptime in ms
+  //float         temp;   //temperature maybe?
+} Payload;
+Payload theData;
 
 /* USER CODE END PV */
 
@@ -200,13 +210,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_USART2_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
+  MX_TIM8_Init();
   MX_OPAMP2_Init();
   MX_SPI2_Init();
-  MX_TIM8_Init();
-  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+
   RFM69_RST();
   HAL_Delay(10);
   if (RFM69_initialize(freqBand, nodeID, networkID)) {
@@ -218,9 +229,11 @@ int main(void)
     debug_printf(log_buffer);
   }
 
+  //RFM69_readAllRegs();
+
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
+  sprintf(log_buffer,"CH\tVrms\tIrms\tRP\tAP\tPF\tCount\r\n");
   debug_printf(log_buffer);
 
   start_ADCs();
@@ -231,6 +244,30 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // SAMPLE RECEIVE CODE
+    if (RFM69_ReadDIO0Pin()) {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
+      RFM69_interruptHandler();
+    }
+    if (RFM69_receiveDone()) {
+      debug_printf("Payload Received!\r\n");
+      PrintRawBytes();
+      //PrintStruct();
+      //PrintByteByByte();
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
+    }
+/*
+    // SAMPLE TRANSMIT CODE
+    theData.nodeId = 20;
+    theData.uptime = HAL_GetTick();
+    RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
+    HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
+    HAL_Delay(2000);                         // send every ____ milliseconds.
+    debug_printf("Payload Sent!\r\n");
+*/
+
      if (readings_ready) {
        readings_ready = false;
 
@@ -262,31 +299,6 @@ int main(void)
        sprintf(log_buffer,"\r\n");
        debug_printf(log_buffer);
      }
-
-/*
-    // SAMPLE RECEIVE CODE
-    if (RFM69_ReadDIO0Pin()) {
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
-      RFM69_interruptHandler();
-    }
-    if (RFM69_receiveDone()) {
-      debug_printf("Payload Received!\r\n");
-      PrintRawBytes();
-      PrintStruct();
-      PrintByteByByte();
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
-    }
-
-    // SAMPLE TRANSMIT CODE
-    theData.nodeId = 20;
-    theData.uptime = HAL_GetTick();
-    RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 1); // turn on LED
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0); // turn off LED
-    HAL_Delay(2000);                         // send every ____ milliseconds.
-    debug_printf("Payload Sent!\r\n");
-*/
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

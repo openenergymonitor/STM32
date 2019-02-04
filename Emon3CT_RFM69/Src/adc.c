@@ -268,11 +268,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
-    /* Be sure that all peripheral instances that share the same clock need to be disabled */
-    /**  HAL_RCC_ADC12_CLK_ENABLED--;
-    *  if(HAL_RCC_ADC12_CLK_ENABLED==0){
-    *    __HAL_RCC_ADC12_CLK_DISABLE();
-    **/
+    HAL_RCC_ADC12_CLK_ENABLED--;
+    if(HAL_RCC_ADC12_CLK_ENABLED==0){
+      __HAL_RCC_ADC12_CLK_DISABLE();
+    }
   
     /**ADC1 GPIO Configuration    
     PA0     ------> ADC1_IN1 
@@ -291,11 +290,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC2_MspDeInit 0 */
     /* Peripheral clock disable */
-    /* Be sure that all peripheral instances that share the same clock need to be disabled */
-    /**  HAL_RCC_ADC12_CLK_ENABLED--;
-    *  if(HAL_RCC_ADC12_CLK_ENABLED==0){
-    *    __HAL_RCC_ADC12_CLK_DISABLE();
-    **/
+    HAL_RCC_ADC12_CLK_ENABLED--;
+    if(HAL_RCC_ADC12_CLK_ENABLED==0){
+      __HAL_RCC_ADC12_CLK_DISABLE();
+    }
   
     /**ADC2 GPIO Configuration    
     PC0     ------> ADC2_IN6
@@ -328,13 +326,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 void start_ADCs (void) {
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_ADC_Stop_DMA(&hadc2);
-  
+
   pulse_tim8_ch2(1);
   HAL_Delay(20);
-  
+
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc1_dma_buff, ADC_DMA_BUFFSIZE);
   HAL_ADC_Start_DMA(&hadc2, (uint32_t*)adc2_dma_buff, ADC_DMA_BUFFSIZE);
-  
+
   pulse_tim8_ch2(1);
 }
 /* USER CODE END 1 */
