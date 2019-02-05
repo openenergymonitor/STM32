@@ -51,7 +51,7 @@
 #define RF69_MODE_RX            3 // RX MODE
 #define RF69_MODE_TX            4 // TX MODE
 
-// available frequency bands
+// frequency bands
 #define RF69_315MHZ            315
 #define RF69_433MHZ            433
 #define RF69_868MHZ            868
@@ -72,7 +72,7 @@
 #define ISRFM69HW  0
 
 // used function prototypes
-bool RFM69_initialize(uint8_t freqBand, uint8_t nodeID, uint16_t networkID);
+bool RFM69_initialize(uint16_t freqBand, uint8_t nodeID, uint16_t networkID);
 void RFM69_writeReg(uint8_t addr, uint8_t val);
 uint8_t RFM69_readReg(uint8_t addr);
 void RFM69_setAddress(uint8_t addr);
