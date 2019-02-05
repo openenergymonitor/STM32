@@ -40,10 +40,3 @@ void loop() {
     Serial.println();
   }
 }
-/*
--- 
-@openenergymon, @TrystanLea
-openenergymonitor.org
-megni.co.uk
-07796843333
-*/

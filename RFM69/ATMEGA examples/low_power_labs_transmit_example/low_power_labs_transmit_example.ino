@@ -38,10 +38,3 @@ void loop() {
     lastPeriod=currPeriod;
   }
 }
-/*
--- 
-@openenergymon, @TrystanLea
-openenergymonitor.org
-megni.co.uk
-07796843333
-*/
