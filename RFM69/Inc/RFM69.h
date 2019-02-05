@@ -31,9 +31,10 @@
 #ifndef RFM69_h
 #define RFM69_h
 
-#include <stdio.h>
 #include <stdbool.h>
-#include "RFM69_externs.h"
+#include <stdint.h>
+#include <stdio.h>
+#include "usart.h"
 
 #define RF69_MAX_DATA_LEN       61 // to take advantage of the built in AES/CRC we want to limit the frame size to the internal FIFO size (66 bytes - 3 bytes overhead - 2 bytes crc)
 #define RF69_SPI_CS             SS // SS is the SPI slave select pin, for instance D10 on ATmega328
@@ -67,20 +68,18 @@
 #define RFM69_CTL_SENDACK   0x80
 #define RFM69_CTL_REQACK    0x40
 
-//define the ..HW version of the RF module.
+//
 #define ISRFM69HW  0
 
 // used function prototypes
-bool RFM69_initialize(uint16_t freqBand, uint8_t nodeID, uint16_t networkID);
+bool RFM69_initialize(uint8_t freqBand, uint8_t nodeID, uint16_t networkID);
 void RFM69_writeReg(uint8_t addr, uint8_t val);
 uint8_t RFM69_readReg(uint8_t addr);
 void RFM69_setAddress(uint8_t addr);
 void setMode(uint8_t mode);
 uint32_t RFM69_getFrequency();
 void RFM69_setFrequency(uint32_t freqHz);
-void RFM69_setHighPower(bool onOff);
 void RFM69_setHighPowerRegs(bool onOff);
-void RFM69_setMode(uint8_t newMode);
 void RFM69_sleep(void);
 void RFM69_setNetwork(uint16_t networkID);
 void RFM69_setPowerLevel(uint8_t level); // reduce/increase transmit power level
@@ -101,9 +100,10 @@ void RFM69_rcCalibration(void); // calibrate the internal RC oscillator for use 
 void RFM69_encrypt(const char* key);
 int16_t RFM69_readRSSI(bool forceTrigger);
 void RFM69_select(void);
-void RFM69_Listening(void);
-void PrintRawBytes(void);
+void RFM69_setHighPower(void);
+void RFM69_setMode(uint8_t newMode);
 void PrintStruct(void);
 void PrintByteByByte(void);
+void PrintRawBytes(void);
 
 #endif
