@@ -193,7 +193,7 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
+  sprintf(log_buffer,"CH\tVrms\tIrms\tRP\tAP\tPF\tCount\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
