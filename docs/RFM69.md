@@ -5,7 +5,7 @@ STM32CubeMX v4.27.0
 LowPowerLab RFM69 library based Tx/Rx code.
 The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
 
-[Hardware Pinout](../images/rfm69_images//nucleo f303re pinout.png)  
+[Hardware Pinout](../images/rfm69_images/nucleo f303re pinout.png)  
 _Nucleo - RFM69_  
 PA9 - DIO0  
 PB3 - SEL  
