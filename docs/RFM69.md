@@ -207,7 +207,7 @@ Once all the code has been brought in and set up, again go to Terminal and go:
 
     Make clean && Make
 
-to recompile the project. 'Make clean' normally has to be done only when the .h header files are changed.
+to recompile the project. 'Make clean' normally has to be done only when there are changes to any .h header files.
 
 The RFM69_RST() is an optional function, to enable it revisit the CubeMX project, set PA10 (or your choice of pin) as GPIO Output and click Generate Code again. Otherwise comment the function out.
 Note that in this program 'interrupts' are not really used. The DIO0 output on the RFM69 goes high to signal a ready received payload, this suggests the potential for an interrupt based method for getting notification of a received packet, however this is not the method chosen here.
