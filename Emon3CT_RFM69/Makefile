@@ -57,7 +57,7 @@ Src/gpio.c \
 Src/usart.c \
 Src/stm32f3xx_it.c \
 Src/stm32f3xx_hal_msp.c \
-Src/RFM69_externs.c \
+Src/RFM69_ext.c \
 Src/RFM69.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
@@ -154,6 +154,7 @@ C_INCLUDES =  \
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CFLAGS += -std=gnu99
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
@@ -174,6 +175,7 @@ LDSCRIPT = STM32F303RETx_FLASH.ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS += -Xlinker --no-wchar-size-warning
 LDFLAGS += -u _printf_float
 
 # default action: build all

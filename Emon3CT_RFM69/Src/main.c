@@ -49,9 +49,9 @@
 
 /* USER CODE BEGIN Includes */
 #include "RFM69.h"
-#include "RFM69_externs.h"
-#include <stdint.h>
-
+#include "RFM69_ext.h"
+#include <string.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -59,8 +59,6 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-#define true 1
-#define false 0
 #define MID_ADC_READING 2048
 
 // Serial output buffer
@@ -100,7 +98,6 @@ uint16_t freqBand = 433;
   #define RF69_433MHZ            433
   #define RF69_868MHZ            868
   #define RF69_915MHZ            915
-  see registers.h for more.
   */
 uint8_t toAddress = 1;
 bool requestACK = false;
@@ -291,7 +288,7 @@ int main(void)
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower;
 
-         sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
+         sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%lld\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
          debug_printf(log_buffer);
 
        }

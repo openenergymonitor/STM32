@@ -21,9 +21,9 @@ PA10 - RST
 
 #### CubeMX Settings  
 
-1. Create new Cube project with the required board, here it's the Nucleo STM32F303RE, and Save the project at the desired location.  
-2. Set the UART, SPI and GPIO pins as shown below. USART and SPI will first be orange, this indicates not being initialized, a mode requires selecting. See the Configuration to the left and scroll down to SPI2 and USART2.  
-The pins I've chosen here relate to convenient use of the Nucleo, other pins which perform the same function can be used.
+1. Create new Cube project with the chosen board, here it's the Nucleo STM32F303RE, and Save the project somewhere.  
+2. Set the UART, SPI and GPIO pins as shown below. USART and SPI pins will be highlighted orange at first, this indicates not being initialized, a mode requires selecting. See the Configuration to the left and scroll down to SPI2 and USART2. Set the SPI as 'Full Duplex Master' and USART as 'Asynchronous'.  
+The pins I've chosen here relate to a convenient use of the Nucleo, other pins able to perform the same functions can be used.
 
 ![pinout](../images/rfm69_images/1.jpeg)  
 
