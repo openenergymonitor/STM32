@@ -12,7 +12,6 @@ How to connect a RFM69 transceiver module to a STM32. This guide uses:
 - STM32CubeMX v4.25.0  and F3 firmware package v1.9.0.
 - LowPowerLab RFM69 library based Tx/Rx code.
 
-
 ![Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)
 
     _Nucleo - RFM69_  
