@@ -4,6 +4,8 @@ Pinout for inputs.
 
 ![Analog Pinout](../images/emon3ct_pins.jpg)
 
+###### Nucleo Pinout:  
+
 |  VT Input |  CT Input |
 |--:|---|
 |A0|A2, A4, A5|
