@@ -25,6 +25,7 @@ ADC access using the Arduino analogRead command gives limited performance, its p
 - [2. Serial](docs/Serial.md)
 - [3. Analog](docs/Analog.md)
 - [4. DMA](docs/DMA.md)
+- [5. RFM69](docs/RFM69.md)
 
 ### Hardware
 
@@ -51,6 +52,7 @@ Firmware examples included in this repository:
 - [5. Emon1CT](Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
 - [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
 - [7. emonTxshield_dBC (v13)](emonTxshield_dBC): Latest mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
+- [8. RFM69](RFM69): RFM69 library and examples.
 
 
 ### Other:
