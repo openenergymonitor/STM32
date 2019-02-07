@@ -2,7 +2,7 @@
 
 Pinout for inputs.
 
-![Analog Pinout](../images/emonc3t_pins.jpg)
+![Analog Pinout](../images/emon3ct_pins.jpg)
 
 |  VT Input |  CT Input |
 |--:|---|
