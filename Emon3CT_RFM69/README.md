@@ -11,7 +11,7 @@ LowPowerLab RFM69 library based Tx/Rx code.
 
 See RFM69 doco page and RFM69 project folder for details on the radio implementation.  
 
-CubeMX was used again to initialize the extra SPI and GPIO pins, as per RFM69 doco.
+CubeMX was used again to initialize the extra SPI and GPIO pins, as per RFM69 doco.  
 
 The Makefile was modified to include the RFM69 C sources.  
 
