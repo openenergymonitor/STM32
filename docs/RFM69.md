@@ -1,23 +1,26 @@
-### RFM69 Test Code
+## RFM69
 
-Tried and tested on the STM32F303RE Nucleo Board.  
-STM32CubeMX v4.25.0
-LowPowerLab RFM69 library based Tx/Rx code.
-The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
+Author: @danbates2
 
-[Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)  
-_Nucleo - RFM69_  
-PA9 - DIO0  
-PB3 - SEL  
-PB13 - CLK  
-PB14 - MISO  
-PB15 - MOSI  
-optional:  
-PA10 - RST  
+How to connect a RFM69 transceiver module to a STM32. This guide uses:
+
+- STM32F303RE Nucleo Board.  
+- STM32CubeMX v4.25.0
+- LowPowerLab RFM69 library based Tx/Rx code.
+- The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
+
+[Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)
+
+    _Nucleo - RFM69_  
+    PA9 - DIO0  
+    PB3 - SEL  
+    PB13 - CLK  
+    PB14 - MISO  
+    PB15 - MOSI  
+    optional:  
+    PA10 - RST  
 
 ![wiring](../images/rfm69_images/rfm69_wiring.jpg)  
-
-
 
 #### CubeMX Settings  
 
