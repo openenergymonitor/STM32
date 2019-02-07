@@ -2,16 +2,16 @@
 
 ![prototype1.JPG](../images/prototype1.JPG)
 
-[Emon1CT Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon1CT):
+[Emon1CT Firmware](https://github.com/openenergymonitor/STM32Dev/tree/master/Emon1CT):
 
 - Voltage follower on PA6 & PA7 for bias buffer (note: HAL_OPAMP_Start(&hopamp2); required)
 - Implements @Robert.Wall's offset removal technique
 
-[Emon3CT Firmware](https://github.com/TrystanLea/STM32Dev/tree/master/Emon3CT):
+[Emon3CT Firmware](https://github.com/openenergymonitor/STM32Dev/tree/master/Emon3CT):
 
 - Extension of the 1CT example to 3 CT inputs.
 
-Anti-alias filter based on: 
+Anti-alias filter based on:
 
 ![antialias.png](../images/antialias.png)
 
@@ -27,7 +27,7 @@ Two 1k resistors + 22pF capacitors to ground, biased with output from voltage fo
     240.12  0.184   43.9    44.1    0.996   289462
     239.98  0.184   43.9    44.1    0.995   282377
     239.76  0.184   43.8    44.0    0.995   284698
-    
+
 Electric room heater:
 
     229.96  7.908   1816.4  1818.5  0.999   289401
@@ -36,7 +36,7 @@ Electric room heater:
     230.05  7.907   1816.9  1819.0  0.999   289500
     230.07  7.907   1817.2  1819.2  0.999   287145
     230.05  7.906   1816.7  1818.8  0.999   291873
-    
+
 Laptop:
 
     239.41  0.134   17.1    32.0    0.535   287153
@@ -63,4 +63,3 @@ No filter cap on CT input:
 100nF filter cap on Voltage input (22pF on other screenshots), showing to low cut off frequency:
 
 ![100pfV.png](../images/DS/100pfV.png)
-
