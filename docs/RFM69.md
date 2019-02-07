@@ -9,7 +9,7 @@ How to connect a RFM69 transceiver module to a STM32. This guide uses:
 - LowPowerLab RFM69 library based Tx/Rx code.
 - The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
 
-[Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)
+![Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)
 
     _Nucleo - RFM69_  
     PA9 - DIO0  
