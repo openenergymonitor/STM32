@@ -4,7 +4,9 @@ Tried and tested on the STM32F303RE Nucleo Board.
 STM32CubeMX v4.25.0
 LowPowerLab RFM69 library based Tx/Rx code.  
 
-![Hardware Pinout](../images/rfm69_images/emon3ct_rfm69_cubemx_pinout.jpg)
+![Wiring](../images/rfm69_images/emon3ct_rfm69_wiring.jpg)
+
+![Pinout](../images/rfm69_images/emon3ct_rfm69_cubemx_pinout.jpg)
 
 
 See RFM69 doco page and RFM69 project folder for details on the radio implementation.  
