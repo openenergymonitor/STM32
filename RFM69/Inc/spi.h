@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -44,6 +44,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
@@ -56,10 +57,12 @@ extern SPI_HandleTypeDef hspi2;
 
 /* USER CODE END Private defines */
 
+extern void _Error_Handler(char *, int);
+
 void MX_SPI2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+uint8_t SPI_transfer8 (uint8_t tx_byte);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

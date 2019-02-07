@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
+  * USER CODE END. Other portions of this file, whether
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -60,12 +60,12 @@ extern TIM_HandleTypeDef htim8;
 extern void _Error_Handler(char *, int);
 
 void MX_TIM8_Init(void);
-                    
+
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                
+
 
 /* USER CODE BEGIN Prototypes */
-
+void pulse_tim8_ch2 (int pulse_width_usec);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -1,6 +1,9 @@
-#include "RFM69_externs.h"
+// module interface, platform specific functions
+
+#include "RFM69_ext.h"
 #include "gpio.h"
 #include "usart.h"
+#include "spi.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -11,7 +14,7 @@ char log_buffer[30];
 
 void RFM69_RST(void) {
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 1);
-  HAL_Delay(1);
+  HAL_Delay(10);
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 0);
   HAL_Delay(50);
 }
@@ -50,18 +53,17 @@ bool RFM69_ReadDIO0Pin(void)       // function to read GPIO connected to RFM69 D
 //functions below provided elsewhere.
 uint8_t SPI_transfer8(uint8_t)     // function to transfer 1byte on SPI with readback
 {
-
+find me in spi.c
 }
 
 
 void SerialPrint(char*)            // function to print to serial port a string
 {
-
+find me in usart.c
 }
 */
-static uint32_t thistimeout1;
-static uint32_t thistimeout2;
 
+static uint32_t thistimeout1;
 bool Timeout_IsTimeout1(void)      // function for timeout handling, checks if previously set timeout expired
 {
   if(HAL_GetTick() >= thistimeout1)
@@ -75,53 +77,7 @@ bool Timeout_IsTimeout1(void)      // function for timeout handling, checks if p
     return false;
   }
 }
-
 void Timeout_SetTimeout1(uint16_t settimeoutvalue) // function for timeout handling, sets a timeout, parameter is in milliseconds (ms)
 {
   thistimeout1 = HAL_GetTick() + settimeoutvalue;
-  //sprintf(log_buffer,"TimeOutSet %d and Millis = %d\r\n",thistimeout1, HAL_GetTick());
-  //debug_printf(log_buffer);
 }
-
-
-
-bool Timeout_IsTimeout2(void)      // function for timeout handling, checks if previously set timeout expired
-{
-  if(HAL_GetTick() >= thistimeout2)
-    {
-      sprintf(log_buffer,"TimeOut2!\r\n");
-      debug_printf(log_buffer);
-      return true;
-    }
-  else
-  {
-    return false;
-  }
-}
-
-void Timeout_SetTimeout2(uint16_t settimeoutvalue) // function for timeout handling, sets a timeout, parameter is in milliseconds (ms)
-{
-  thistimeout2 = HAL_GetTick() + settimeoutvalue;
-}
-
-/*
-uint32_t rfm_timeout1 = 0;
-uint32_t gettick = 0;
-uint8_t setthistimeout = 0;
-
-bool Timeout_IsTimeout1(void)      // function for timeout handling, checks if previously set timeout expired
-{
-  gettick = HAL_GetTick();
-  if (gettick >= rfm_timeout1) {
-  return true;
-  }
-  else {
-    return false;
-  }
-}
-
-void Timeout_SetTimeout1(uint8_t setthistimeout) // function for timeout handling, sets a timeout, parameter is in milliseconds (ms)
-{
-rfm_timeout1 == HAL_GetTick() + setthistimeout;
-}
-*/
