@@ -51,7 +51,7 @@
 #define RF69_MODE_RX            3 // RX MODE
 #define RF69_MODE_TX            4 // TX MODE
 
-// frequency bands
+// available frequency bands
 #define RF69_315MHZ            315
 #define RF69_433MHZ            433
 #define RF69_868MHZ            868

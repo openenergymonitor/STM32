@@ -31,7 +31,7 @@
 #include <RFM69.h>
 #include <RFM69registers.h>
 #include <RFM69_ext.h>
-#include "usart.h"
+
 
 char log_buffer[150];
 uint8_t data[RF69_MAX_DATA_LEN]; // recv/xmit buf, including header & crc bytes
@@ -52,58 +52,6 @@ uint8_t _mode = RF69_MODE_STANDBY;
 
 
 
-// for the STM32, simple decoding of radio payloads into structs must happen in 4-byte blocks to avoid padding issues.
-// Valid types are: Long, Unsigned Long, and Float.
-// https://stackoverflow.com/questions/119123/why-isnt-sizeof-for-a-struct-equal-to-the-sum-of-sizeof-of-each-member
-typedef struct {
-  uint32_t nodeId; // store this nodeId
-  uint32_t uptime; // uptime in ms
-} dataSTR;
-dataSTR theData;
-// function below
-void PrintStruct(void) {
-  if (datalen != sizeof(dataSTR)) {
-    debug_printf("Invalid payload received, not matching data struct!\r\n");
-    }
-  else {
-    theData = *(dataSTR *)data;
-    sprintf(log_buffer, " nodeId=%ld\r\n", theData.nodeId);
-    debug_printf(log_buffer);
-    sprintf(log_buffer, " uptime=%ld\r\n", theData.uptime);
-    debug_printf(log_buffer);
-    //sprintf(log_buffer, " size of the struct=%d\r\n", sizeof(PayloadSTR));
-    //debug_printf(log_buffer); // 12
-  }
-}
-
-
-// if the sending device is setup to send data structures NOT multiples of 4-bytes,
-// this is a manual method for decoding each byte into the relevant datatypes
-uint16_t firstdata = 0;
-uint32_t seconddata = 0;
-void PrintByteByByte(void) {
-  firstdata = RFM69_DATA(0) + (RFM69_DATA(1) << 8);
-  seconddata = RFM69_DATA(2) + (RFM69_DATA(3) << 8) + (RFM69_DATA(4) << 16) + (RFM69_DATA(5) << 24);
-  sprintf(log_buffer, "first_data: %d\r\n", firstdata);
-  debug_printf(log_buffer);
-  sprintf(log_buffer, "second_data: %ld\r\n", seconddata);
-  debug_printf(log_buffer);
-}
-
-
-// printing the raw bytes as received.
-void PrintRawBytes(void) {
-  for (int i = 0; i < datalen; i++) {
-    sprintf(log_buffer, "Byte%d Value: %d\r\n", i, RFM69_DATA(i));
-    debug_printf(log_buffer);
-  }
-  // debugging
-  //sprintf(log_buffer, "PayloadLen = %d\r\n", payloadLen);
-  //debug_printf(log_buffer);
-  //sprintf(log_buffer, "datalen %d\r\n", datalen);
-  //debug_printf(log_buffer);
-}
-
 
 bool RFM69_initialize(uint16_t freqBand, uint8_t nodeID, uint16_t networkID)
 {
@@ -111,16 +59,24 @@ bool RFM69_initialize(uint16_t freqBand, uint8_t nodeID, uint16_t networkID)
   {
     /* 0x01 */ { REG_OPMODE, RF_OPMODE_SEQUENCER_ON | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY },
     /* 0x02 */ { REG_DATAMODUL, RF_DATAMODUL_DATAMODE_PACKET | RF_DATAMODUL_MODULATIONTYPE_FSK | RF_DATAMODUL_MODULATIONSHAPING_00 }, // no shaping
-
     /* 0x03 */ { REG_BITRATEMSB, RF_BITRATEMSB_55555}, // default: 4.8 KBPS
     /* 0x04 */ { REG_BITRATELSB, RF_BITRATELSB_55555},
-
     /* 0x05 */ { REG_FDEVMSB, RF_FDEVMSB_50000}, // default: 5KHz, (FDEV + BitRate / 2 <= 500KHz)
     /* 0x06 */ { REG_FDEVLSB, RF_FDEVLSB_50000},
 
     /* 0x07 */ { REG_FRFMSB, (freqBand == RF69_315MHZ ? RF_FRFMSB_315 : (freqBand == RF69_433MHZ ? RF_FRFMSB_433 : (freqBand == RF69_868MHZ ? RF_FRFMSB_868 : RF_FRFMSB_915))) },
     /* 0x08 */ { REG_FRFMID, (freqBand == RF69_315MHZ ? RF_FRFMID_315 : (freqBand == RF69_433MHZ ? RF_FRFMID_433 : (freqBand == RF69_868MHZ ? RF_FRFMID_868 : RF_FRFMID_915))) },
     /* 0x09 */ { REG_FRFLSB, (freqBand == RF69_315MHZ ? RF_FRFLSB_315 : (freqBand == RF69_433MHZ ? RF_FRFLSB_433 : (freqBand == RF69_868MHZ ? RF_FRFLSB_868 : RF_FRFLSB_915))) },
+    //* 0x07 */ { REG_FRFMSB, RF_FRFMSB_433 },
+    //* 0x08 */ { REG_FRFMID, RF_FRFMID_433 },
+    //* 0x09 */ { REG_FRFLSB, RF_FRFLSB_433 },
+    /*
+    // available frequency bands
+    #define RF69_315MHZ            315 // non trivial values to avoid misconfiguration
+    #define RF69_433MHZ            433
+    #define RF69_868MHZ            868
+    #define RF69_915MHZ            915
+    */
 
     // looks like PA1 and PA2 are not implemented on RFM69W, hence the max output power is 13dBm
     // +17dBm and +20dBm are possible on RFM69HW
@@ -879,4 +835,57 @@ void RFM69_unselect()
 {
   RFM69_SetCSPin(1);
   interrupts();
+}
+
+
+// for the STM32, simple decoding of radio payloads into structs must happen in 4-byte blocks to avoid padding issues.
+// Valid types are: Long, Unsigned Long, and Float.
+// https://stackoverflow.com/questions/119123/why-isnt-sizeof-for-a-struct-equal-to-the-sum-of-sizeof-of-each-member
+typedef struct {
+  uint32_t nodeId; // store this nodeId
+  uint32_t uptime; // uptime in ms
+} dataSTR;
+dataSTR theData;
+// function below
+void PrintStruct(void) {
+  if (datalen != sizeof(dataSTR)) {
+    debug_printf("Invalid payload received, not matching data struct!\r\n");
+    }
+  else {
+    theData = *(dataSTR *)data;
+    sprintf(log_buffer, " nodeId=%ld\r\n", theData.nodeId);
+    debug_printf(log_buffer);
+    sprintf(log_buffer, " uptime=%ld\r\n", theData.uptime);
+    debug_printf(log_buffer);
+    //sprintf(log_buffer, " size of the struct=%d\r\n", sizeof(PayloadSTR));
+    //debug_printf(log_buffer); // 12
+  }
+}
+
+
+// if the sending device is setup to send data structures NOT multiples of 4-bytes,
+// this is a manual method for decoding each byte into the relevant datatypes
+uint16_t firstdata = 0;
+uint32_t seconddata = 0;
+void PrintByteByByte(void) {
+  firstdata = RFM69_DATA(0) + (RFM69_DATA(1) << 8);
+  seconddata = RFM69_DATA(2) + (RFM69_DATA(3) << 8) + (RFM69_DATA(4) << 16) + (RFM69_DATA(5) << 24);
+  sprintf(log_buffer, "first_data: %d\r\n", firstdata);
+  debug_printf(log_buffer);
+  sprintf(log_buffer, "second_data: %ld\r\n", seconddata);
+  debug_printf(log_buffer);
+}
+
+
+// printing the raw bytes as received.
+void PrintRawBytes(void) {
+  for (int i = 0; i < datalen; i++) {
+    sprintf(log_buffer, "Byte%d Value: %d\r\n", i, RFM69_DATA(i));
+    debug_printf(log_buffer);
+  }
+  // debugging
+  //sprintf(log_buffer, "PayloadLen = %d\r\n", payloadLen);
+  //debug_printf(log_buffer);
+  //sprintf(log_buffer, "datalen %d\r\n", datalen);
+  //debug_printf(log_buffer);
 }
