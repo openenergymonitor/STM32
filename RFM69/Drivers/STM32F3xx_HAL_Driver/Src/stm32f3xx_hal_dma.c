@@ -194,6 +194,12 @@ HAL_StatusTypeDef HAL_DMA_Init(DMA_HandleTypeDef *hdma)
      by HAL_DMA_IRQHandler() and HAL_DMA_PollForTransfer() */
   DMA_CalcBaseAndBitshift(hdma);
   
+  /* Clean callbacks */
+  hdma->XferCpltCallback = NULL;
+  hdma->XferHalfCpltCallback = NULL;
+  hdma->XferErrorCallback = NULL;
+  hdma->XferAbortCallback = NULL;
+  
   /* Initialise the error code */
   hdma->ErrorCode = HAL_DMA_ERROR_NONE;
 
@@ -244,16 +250,10 @@ HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
   /* Clear all flags */
   hdma->DmaBaseAddress->IFCR = DMA_FLAG_GL1 << hdma->ChannelIndex;
 
-  /* Clean callbacks */
-  hdma->XferCpltCallback = NULL;
-  hdma->XferHalfCpltCallback = NULL;
-  hdma->XferErrorCallback = NULL;
-  hdma->XferAbortCallback = NULL;
-
-  /* Reset the error code */
+  /* Initialize the error code */
   hdma->ErrorCode = HAL_DMA_ERROR_NONE;
 
-  /* Reset the DMA state */
+  /* Initialize the DMA state */
   hdma->State = HAL_DMA_STATE_RESET;
 
   /* Release Lock */

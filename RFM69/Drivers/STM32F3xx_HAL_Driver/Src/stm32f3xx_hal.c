@@ -68,11 +68,11 @@
   * @{
   */
 /**
- * @brief STM32F3xx HAL Driver version number V1.5.2
+ * @brief STM32F3xx HAL Driver version number V1.5.0
    */
 #define __STM32F3xx_HAL_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
 #define __STM32F3xx_HAL_VERSION_SUB1   (0x05U) /*!< [23:16] sub1 version */
-#define __STM32F3xx_HAL_VERSION_SUB2   (0x02U) /*!< [15:8]  sub2 version */
+#define __STM32F3xx_HAL_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
 #define __STM32F3xx_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32F3xx_HAL_VERSION         ((__STM32F3xx_HAL_VERSION_MAIN << 24U)\
                                         |(__STM32F3xx_HAL_VERSION_SUB1 << 16U)\
@@ -85,13 +85,11 @@
   */
   
 /* Private macro -------------------------------------------------------------*/
-/* Exported variables --------------------------------------------------------*/
-/** @defgroup HAL_Exported_Variables HAL Exported Variables
+/* Private variables ---------------------------------------------------------*/
+/** @defgroup HAL_Private_Variables HAL Private Variables
   * @{
   */
 __IO uint32_t uwTick;
-uint32_t uwTickPrio   = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
-HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
 /**
   * @}
   */
@@ -111,12 +109,12 @@ HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
  ===============================================================================
     [..]  This section provides functions allowing to:
       (+) Initializes the Flash interface, the NVIC allocation and initial clock 
-          configuration. It initializes the systick also when timeout is needed
-          and the backup domain when enabled.
+          configuration. It initializes the source of time base also when timeout 
+          is needed and the backup domain when enabled.
       (+) de-Initializes common part of the HAL.
       (+) Configure The time base source to have 1ms time base with a dedicated 
           Tick interrupt priority. 
-        (++) SysTick timer is used by default as source of time base, but user 
+        (++) Systick timer is used by default as source of time base, but user 
              can eventually implement his proper time base source (a general purpose 
              timer for example or other time source), keeping in mind that Time base 
              duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
@@ -172,7 +170,8 @@ HAL_StatusTypeDef HAL_Init(void)
 }
 
 /**
-  * @brief  This function de-Initializes common part of the HAL and stops the systick.
+  * @brief  This function de-Initializes common part of the HAL and stops the source
+  *         of time base.
   * @note This function is optional.
   * @retval HAL status
   */
@@ -196,23 +195,23 @@ HAL_StatusTypeDef HAL_DeInit(void)
 }
 
 /**
-  * @brief  Initialize the MSP.
+  * @brief  Initializes the MSP.
   * @retval None
   */
 __weak void HAL_MspInit(void)
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
+  /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_MspInit could be implemented in the user file
    */
 }
 
 /**
-  * @brief  DeInitialize the MSP.
+  * @brief  DeInitializes the MSP.
   * @retval None
   */
 __weak void HAL_MspDeInit(void)
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
+  /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_MspDeInit could be implemented in the user file
    */
 }
@@ -226,7 +225,7 @@ __weak void HAL_MspDeInit(void)
   * @note   In the default implementation , SysTick timer is the source of time base. 
   *         It is used to generate interrupts at regular time intervals. 
   *         Care must be taken if HAL_Delay() is called from a peripheral ISR process, 
-  *         The SysTick interrupt must have higher priority (numerically lower) 
+  *         The the SysTick interrupt must have higher priority (numerically lower) 
   *         than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
   *         The function is declared as __Weak  to be overwritten  in case of other
   *         implementation  in user file.
@@ -235,22 +234,12 @@ __weak void HAL_MspDeInit(void)
   */
 __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 {
-  /* Configure the SysTick to have interrupt in 1ms time basis*/
-  if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U)
-  {
-    return HAL_ERROR;
-  }
+  /*Configure the SysTick to have interrupt in 1ms time basis*/
+  HAL_SYSTICK_Config(SystemCoreClock / 1000U);
+ 
+  /*Configure the SysTick IRQ priority */
+  HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority ,0U);
 
-  /* Configure the SysTick IRQ priority */
-  if (TickPriority < (1UL << __NVIC_PRIO_BITS))
-  {
-    HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
-    uwTickPrio = TickPriority;
-  }
-  else
-  {
-    return HAL_ERROR;
-  }
    /* Return function status */
   return HAL_OK;
 }
@@ -286,14 +275,14 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   * @brief  This function is called to increment  a global variable "uwTick"
   *         used as application time base.
   * @note In the default implementation, this variable is incremented each 1ms
-  *         in SysTick ISR.
+  *         in Systick ISR.
   * @note This function is declared as __weak to be overwritten in case of other 
   *         implementations  in user file.
   * @retval None
   */
 __weak void HAL_IncTick(void)
 {
-  uwTick += uwTickFreq;
+  uwTick++;
 }
 
 /**
@@ -308,44 +297,6 @@ __weak uint32_t HAL_GetTick(void)
 }
 
 /**
-  * @brief This function returns a tick priority.
-  * @retval tick priority
-  */
-uint32_t HAL_GetTickPrio(void)
-{
-  return uwTickPrio;
-}
-
-/**
-  * @brief Set new tick Freq.
-  * @retval Status
-  */
-HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
-{
-  HAL_StatusTypeDef status  = HAL_OK;
-  assert_param(IS_TICKFREQ(Freq));
-
-  if (uwTickFreq != Freq)
-  {
-    uwTickFreq = Freq;
-
-    /* Apply the new tick Freq  */
-    status = HAL_InitTick(uwTickPrio);
-  }
-
-  return status;
-}
-
-/**
-  * @brief Return tick frequency.
-  * @retval tick period in Hz
-  */
-HAL_TickFreqTypeDef HAL_GetTickFreq(void)
-{
-  return uwTickFreq;
-}
-
-/**
   * @brief  This function provides accurate delay (in milliseconds) based 
   *         on variable incremented.
   * @note   In the default implementation , SysTick timer is the source of time base. 
@@ -356,15 +307,15 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void)
   * @param  Delay specifies the delay time length, in milliseconds.
   * @retval None
   */
-__weak void HAL_Delay(uint32_t Delay)
+__weak void HAL_Delay(__IO uint32_t Delay)
 {
   uint32_t tickstart = HAL_GetTick();
   uint32_t wait = Delay;
   
-  /* Add freq to guarantee minimum wait */
+  /* Add a period to guarantee minimum wait */
   if (wait < HAL_MAX_DELAY)
   {
-    wait += (uint32_t)(uwTickFreq);
+     wait++;
   }
   
   while((HAL_GetTick() - tickstart) < wait)
@@ -409,7 +360,7 @@ __weak void HAL_ResumeTick(void)
 
 /**
   * @brief  This function returns the HAL revision
-  * @retval version 0xXYZR (8bits for each decimal, R for RC)
+  * @retval version : 0xXYZR (8bits for each decimal, R for RC)
   */
 uint32_t HAL_GetHalVersion(void)
 {
