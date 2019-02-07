@@ -9,9 +9,8 @@ Credit to @dBC and @cristi85 for their help getting this to work.
 How to connect a RFM69 transceiver module to a STM32. This guide uses:
 
 - STM32F303RE Nucleo Board.  
-- STM32CubeMX v4.25.0
+- STM32CubeMX v4.25.0  and F3 firmware package v1.9.0.
 - LowPowerLab RFM69 library based Tx/Rx code.
-- The RFM69.c has some untested code, an attempt at creating compatibility to receive JeeLib packets.
 
 ![Hardware Pinout](../images/rfm69_images/nucleo-f303re-pinout.png)
 
