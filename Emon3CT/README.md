@@ -14,4 +14,4 @@ Pinout for inputs.
 
 The bias input is Vcc/2.
 
-See prototype1 doco [here](../doco/prototype1.md).  
+See prototype1 doco [here](../docs/prototype1.md).  
