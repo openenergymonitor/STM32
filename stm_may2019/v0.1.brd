@@ -7,7 +7,7 @@
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.2" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -2880,7 +2880,7 @@
 <text x="15.274753125" y="53.3769" size="1.778" layer="25">VT2</text>
 <text x="3.51758125" y="78.51649375" size="1.778" layer="25">VT1</text>
 <text x="54.288984375" y="59.012290625" size="1.397" layer="25" ratio="11" rot="R90" align="center-left">SJ1</text>
-<text x="52.96060625" y="69.69305" size="2.1844" layer="25" ratio="20" align="center-left">UART</text>
+<text x="47.88060625" y="69.82005" size="2.1844" layer="25" ratio="20" align="center-left">UART</text>
 <text x="62.2" y="110.8" size="2.1844" layer="51" ratio="11" align="center-left">128.92 x
 99.45 y</text>
 </plain>
@@ -4094,6 +4094,111 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 </package>
 </packages>
 </library>
+<library name="con-lsta-RFM69Pi">
+<description>&lt;b&gt;Female Headers etc.&lt;/b&gt;&lt;p&gt;
+Naming:&lt;p&gt;
+FE = female&lt;p&gt;
+# contacts - # rows&lt;p&gt;
+W = angled&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="FE12-2" urn="urn:adsk.eagle:footprint:8120/1">
+<description>&lt;b&gt;FEMALE HEADER&lt;/b&gt;</description>
+<wire x1="-15.24" y1="-2.413" x2="-15.24" y2="2.413" width="0.1524" layer="21"/>
+<wire x1="-15.24" y1="2.413" x2="-14.605" y2="3.048" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-15.24" y1="-2.413" x2="-14.605" y2="-3.048" width="0.1524" layer="21" curve="90"/>
+<wire x1="-14.605" y1="3.048" x2="14.605" y2="3.048" width="0.1524" layer="21"/>
+<wire x1="15.24" y1="-2.413" x2="15.24" y2="2.413" width="0.1524" layer="21"/>
+<wire x1="-14.605" y1="-3.048" x2="14.605" y2="-3.048" width="0.1524" layer="21"/>
+<wire x1="14.605" y1="3.048" x2="15.24" y2="2.413" width="0.1524" layer="21" curve="-90"/>
+<wire x1="14.605" y1="-3.048" x2="15.24" y2="-2.413" width="0.1524" layer="21" curve="90"/>
+<circle x="-13.97" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-13.97" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-11.43" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-11.43" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-8.89" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-8.89" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-6.35" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-6.35" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-3.81" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-3.81" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-13.97" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-13.97" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-11.43" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-8.89" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-6.35" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-3.81" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-11.43" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-8.89" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-6.35" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-3.81" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-1.27" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-1.27" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="1.27" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="1.27" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="3.81" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="3.81" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="6.35" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="6.35" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="8.89" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="8.89" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="-1.27" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="-1.27" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="1.27" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="3.81" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="6.35" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="8.89" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="1.27" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="3.81" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="6.35" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="8.89" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="11.43" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="11.43" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="13.97" y="-1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="13.97" y="1.27" radius="0.127" width="0.4064" layer="51"/>
+<circle x="11.43" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="11.43" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="13.97" y="1.27" radius="0.889" width="0.1524" layer="51"/>
+<circle x="13.97" y="-1.27" radius="0.889" width="0.1524" layer="51"/>
+<pad name="1" x="-13.97" y="1.27" drill="0.9144"/>
+<pad name="2" x="-13.97" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="3" x="-11.43" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="4" x="-11.43" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="5" x="-8.89" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="6" x="-8.89" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="7" x="-6.35" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="8" x="-6.35" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="9" x="-3.81" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="10" x="-3.81" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="11" x="-1.27" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="12" x="-1.27" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="13" x="1.27" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="14" x="1.27" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="15" x="3.81" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="16" x="3.81" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="17" x="6.35" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="18" x="6.35" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="19" x="8.89" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="20" x="8.89" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="21" x="11.43" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="22" x="11.43" y="-1.27" drill="0.9144" shape="octagon"/>
+<pad name="23" x="13.97" y="1.27" drill="0.9144" shape="octagon"/>
+<pad name="24" x="13.97" y="-1.27" drill="0.9144" shape="octagon"/>
+<text x="-10.16" y="3.429" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-14.351" y="3.429" size="1.27" layer="21" ratio="10">1</text>
+<text x="13.081" y="-4.699" size="1.27" layer="21" ratio="10">24</text>
+<text x="-15.24" y="-4.699" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
+</packages>
+<packages3d>
+<package3d name="FE12-2" urn="urn:adsk.eagle:package:8178/1" type="box">
+<description>FEMALE HEADER</description>
+<packageinstances>
+<packageinstance name="FE12-2"/>
+</packageinstances>
+</package3d>
+</packages3d>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -4332,13 +4437,12 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <element name="C10" library="resistor" package="C0603" value="100nF" x="63.346096875" y="35.099075" smashed="yes" rot="R180">
 <attribute name="NAME" x="64.799603125" y="33.965753125" size="1.016" layer="25" font="vector" ratio="11" rot="R180"/>
 </element>
-<element name="GND" library="con-lsta" package="FE05-1" value="UART" x="56.779715625" y="66.62955625" smashed="yes">
-<attribute name="MF" value="" x="56.779715625" y="66.62955625" size="1.778" layer="27" display="off"/>
-<attribute name="MPN" value="" x="56.779715625" y="66.62955625" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="50.586021875" y="64.28790625" size="0.8128" layer="25" font="vector" ratio="20"/>
-<attribute name="OC_FARNELL" value="unknown" x="56.779715625" y="66.62955625" size="1.778" layer="27" display="off"/>
-<attribute name="OC_NEWARK" value="unknown" x="56.779715625" y="66.62955625" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="53.779715625" y="64.12955625" size="0.8128" layer="27" font="vector" ratio="20" rot="R180"/>
+<element name="GND" library="con-lsta" package="FE05-1" value="UART" x="54.239715625" y="66.62955625" smashed="yes">
+<attribute name="MF" value="" x="54.239715625" y="66.62955625" size="1.778" layer="27" display="off"/>
+<attribute name="MPN" value="" x="54.239715625" y="66.62955625" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="47.919021875" y="64.03390625" size="0.8128" layer="25" font="vector" ratio="20"/>
+<attribute name="OC_FARNELL" value="unknown" x="54.239715625" y="66.62955625" size="1.778" layer="27" display="off"/>
+<attribute name="OC_NEWARK" value="unknown" x="54.239715625" y="66.62955625" size="1.778" layer="27" display="off"/>
 </element>
 <element name="CT1" library="IotaWatt_parts" package="STEREO_SMT" value="STEREO_SMD" x="13.97" y="98.68755625" smashed="yes">
 <attribute name="NAME" x="9.47" y="94.18755625" size="1.6764" layer="25" rot="R270" align="center-left"/>
@@ -4442,7 +4546,7 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 </element>
 <element name="LOGO1" library="ohw-logo" package="OSHW_6X200_NOTEXT" value="OSHW_LOGO_6MILX0200-NT" x="27.889715625" y="49.42144375" smashed="yes" rot="MR0"/>
 <element name="VT3" library="adafruit" package="DCJACK_2MM_SMT" value="2.1MMJACKSMT" x="4.13061875" y="43.18" smashed="yes"/>
-<element name="SJ1" library="SparkFun" package="SJ_2S-NO" value="SOLDERJUMPERNO" x="54.2499375" y="63.73536875" smashed="yes" rot="R270"/>
+<element name="SJ1" library="SparkFun" package="SJ_2S-NO" value="SOLDERJUMPERNO" x="51.8369375" y="62.97336875" smashed="yes" rot="R270"/>
 <element name="CT6" library="IotaWatt_parts" package="STEREO_SMT" value="STEREO_SMD" x="77.47" y="98.68755625" smashed="yes">
 <attribute name="NAME" x="72.97" y="94.18755625" size="1.6764" layer="25" rot="R270" align="center-left"/>
 </element>
@@ -4618,6 +4722,14 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <element name="U$6" library="OMNIMATE_LSF" package="OMNIMATE_LSF_3" value="OMNIMATE_LSF_3" x="35.997" y="5.665" smashed="yes"/>
 <element name="U$11" library="OMNIMATE_LSF" package="OMNIMATE_LSF_2" value="OMNIMATE_LSF_2" x="109.119075" y="6.33566875" smashed="yes"/>
 <element name="U$1" library="con-molex-usb" package="47589-0001" value="MICRO-USB-RECEPTACLE47589-0001" x="127.1469625" y="20.777296875" smashed="yes" rot="R180"/>
+<element name="MODULE_HEADER" library="con-lsta-RFM69Pi" package="FE12-2" package3d_urn="urn:adsk.eagle:package:8178/1" value="" x="77.47" y="66.04" smashed="yes">
+<attribute name="MF" value="" x="77.47" y="66.04" size="1.778" layer="27" display="off"/>
+<attribute name="MPN" value="" x="77.47" y="66.04" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="67.31" y="69.469" size="1.27" layer="25" ratio="10"/>
+<attribute name="OC_FARNELL" value="unknown" x="77.47" y="66.04" size="1.778" layer="27" display="off"/>
+<attribute name="OC_NEWARK" value="unknown" x="77.47" y="66.04" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="62.23" y="61.341" size="1.27" layer="27" ratio="10"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
@@ -4720,13 +4832,13 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="111.5568" y1="24.1808" x2="109.1184" y2="26.6192" width="0.4064" layer="1"/>
 <wire x1="109.1184" y1="31.0896" x2="108.943371875" y2="31.10643125" width="0.4064" layer="1"/>
 <wire x1="111.5568" y1="24.1808" x2="111.697759375" y2="24.0387" width="0.4064" layer="1"/>
-<wire x1="56.896" y1="54.4576" x2="56.896" y2="66.4464" width="0.4064" layer="16"/>
+<wire x1="56.896" y1="54.4576" x2="56.896" y2="62.44571875" width="0.4064" layer="16"/>
 <wire x1="85.310184375" y1="26.043415625" x2="56.896" y2="54.4576" width="0.4064" layer="16"/>
 <wire x1="102.229175" y1="26.011925" x2="102.197684375" y2="26.043415625" width="0.4064" layer="16"/>
 <wire x1="102.197684375" y1="26.043415625" x2="85.310184375" y2="26.043415625" width="0.4064" layer="16"/>
 <wire x1="102.229175" y1="26.011925" x2="107.323665625" y2="31.106415625" width="0.4064" layer="1"/>
 <wire x1="108.943371875" y1="31.10643125" x2="107.323665625" y2="31.106415625" width="0.4064" layer="1"/>
-<wire x1="56.896" y1="66.4464" x2="56.779715625" y2="66.62955625" width="0.4064" layer="16"/>
+<wire x1="56.896" y1="62.44571875" x2="54.239715625" y2="66.62955625" width="0.4064" layer="16"/>
 <via x="102.229175" y="26.011925" extent="1-16" drill="0.5"/>
 <contactref element="U$1" pad="1"/>
 <wire x1="124.3469625" y1="19.477296875" x2="118.108253125" y2="19.477296875" width="0.4064" layer="1"/>
@@ -4757,9 +4869,9 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <contactref element="U$4" pad="P$1"/>
 <contactref element="U$5" pad="P$2"/>
 <contactref element="U$5" pad="P$1"/>
-<wire x1="54.0512" y1="63.3984" x2="49.9872" y2="59.3344" width="0.254" layer="1"/>
+<wire x1="52.322471875" y1="61.669671875" x2="49.9872" y2="59.3344" width="0.254" layer="1"/>
 <wire x1="49.9872" y1="59.3344" x2="49.838546875" y2="59.3224" width="0.254" layer="1"/>
-<wire x1="54.0512" y1="63.3984" x2="54.2499375" y2="63.28536875" width="0.254" layer="1"/>
+<wire x1="52.322471875" y1="61.669671875" x2="51.8369375" y2="62.52336875" width="0.254" layer="1"/>
 <wire x1="64.8208" y1="55.6768" x2="66.724065625" y2="55.6768" width="0.254" layer="1"/>
 <wire x1="64.4144" y1="55.2704" x2="64.8208" y2="55.6768" width="0.254" layer="1"/>
 <wire x1="66.724065625" y1="55.6768" x2="66.773503125" y2="56.51558125" width="0.254" layer="1"/>
@@ -4983,10 +5095,8 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="78.8416" y1="80.264" x2="79.010890625" y2="80.087328125" width="0.254" layer="1"/>
 <wire x1="78.232" y1="82.9056" x2="78.17" y2="82.98755625" width="0.254" layer="1"/>
 <wire x1="65.96979375" y1="47.752" x2="64.4144" y2="47.752" width="0.254" layer="1"/>
-<wire x1="68.29521875" y1="50.077425" x2="65.96979375" y2="47.752" width="0.254" layer="1"/>
-<wire x1="68.29521875" y1="59.96401875" x2="68.29521875" y2="50.077425" width="0.254" layer="1"/>
-<wire x1="76.4032" y1="68.072" x2="68.29521875" y2="59.96401875" width="0.254" layer="1"/>
-<wire x1="76.4032" y1="77.216" x2="76.4032" y2="68.072" width="0.254" layer="1"/>
+<wire x1="65.96979375" y1="47.752" x2="68.29521875" y2="50.077425" width="0.254" layer="1"/>
+<wire x1="76.4032" y1="71.12" x2="76.4032" y2="77.216" width="0.254" layer="1"/>
 <wire x1="76.6064" y1="77.4192" x2="76.4032" y2="77.216" width="0.254" layer="1"/>
 <wire x1="78.0288" y1="77.4192" x2="76.6064" y2="77.4192" width="0.254" layer="1"/>
 <wire x1="78.8416" y1="78.232" x2="78.0288" y2="77.4192" width="0.254" layer="1"/>
@@ -5160,6 +5270,16 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="117.0432" y1="77.8256" x2="116.2304" y2="77.0128" width="0.254" layer="1"/>
 <wire x1="117.0432" y1="79.8576" x2="117.0432" y2="77.8256" width="0.254" layer="1"/>
 <wire x1="117.0432" y1="79.8576" x2="117.19943125" y2="80.038559375" width="0.254" layer="1"/>
+<wire x1="70.1548" y1="65.1698" x2="70.7202" y2="65.7352" width="0.254" layer="1"/>
+<wire x1="70.7202" y1="65.7352" x2="71.0184" y2="65.7352" width="0.254" layer="1"/>
+<wire x1="71.0184" y1="65.7352" x2="72.6948" y2="67.4116" width="0.254" layer="1"/>
+<wire x1="72.6948" y1="67.4116" x2="72.6948" y2="67.7098" width="0.254" layer="1"/>
+<wire x1="72.6948" y1="67.7098" x2="73.2602" y2="68.2752" width="0.254" layer="1"/>
+<wire x1="73.2602" y1="68.2752" x2="73.5584" y2="68.2752" width="0.254" layer="1"/>
+<wire x1="73.5584" y1="68.2752" x2="76.4032" y2="71.12" width="0.254" layer="1"/>
+<wire x1="68.29521875" y1="60.02819375" x2="70.1548" y2="61.887775" width="0.254" layer="1"/>
+<wire x1="70.1548" y1="61.887775" x2="70.1548" y2="65.1698" width="0.254" layer="1"/>
+<wire x1="68.29521875" y1="50.077425" x2="68.29521875" y2="60.02819375" width="0.254" layer="1"/>
 </signal>
 <signal name="N$2">
 <contactref element="CT1" pad="P$2"/>
@@ -5424,28 +5544,28 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <signal name="UART_RX">
 <contactref element="GND" pad="4"/>
 <contactref element="STM32F303VB" pad="69"/>
-<wire x1="53.4416" y1="60.7568" x2="53.4416" y2="57.0992" width="0.254" layer="1"/>
-<wire x1="59.1312" y1="66.4464" x2="53.4416" y2="60.7568" width="0.254" layer="1"/>
+<wire x1="53.4416" y1="62.7888" x2="53.4416" y2="57.0992" width="0.254" layer="1"/>
+<wire x1="56.8452" y1="66.1924" x2="53.4416" y2="62.7888" width="0.254" layer="1"/>
 <wire x1="53.4416" y1="57.0992" x2="53.511421875" y2="57.00955" width="0.254" layer="1"/>
-<wire x1="59.1312" y1="66.4464" x2="59.319715625" y2="66.62955625" width="0.254" layer="1"/>
+<wire x1="56.8452" y1="66.1924" x2="57.204446875" y2="66.1924" width="0.254" layer="1"/>
+<wire x1="57.204446875" y1="66.1924" x2="56.779715625" y2="66.62955625" width="0.254" layer="1"/>
 </signal>
 <signal name="UART_TX">
 <contactref element="GND" pad="5"/>
 <contactref element="STM32F303VB" pad="68"/>
-<wire x1="54.0512" y1="59.1312" x2="54.0512" y2="57.0992" width="0.254" layer="1"/>
-<wire x1="61.3664" y1="66.4464" x2="54.0512" y2="59.1312" width="0.254" layer="1"/>
-<wire x1="61.7728" y1="66.4464" x2="61.3664" y2="66.4464" width="0.254" layer="1"/>
+<wire x1="54.0512" y1="61.2902" x2="54.0512" y2="57.0992" width="0.254" layer="1"/>
+<wire x1="55.78193125" y1="63.02093125" x2="54.0512" y2="61.2902" width="0.254" layer="1"/>
 <wire x1="54.0512" y1="57.0992" x2="54.011421875" y2="57.00955" width="0.254" layer="1"/>
-<wire x1="61.7728" y1="66.4464" x2="61.859715625" y2="66.62955625" width="0.254" layer="1"/>
+<wire x1="55.845909375" y1="63.15575" x2="55.78193125" y2="63.02093125" width="0.254" layer="1"/>
+<wire x1="55.845909375" y1="63.15575" x2="59.319715625" y2="66.62955625" width="0.254" layer="1"/>
 </signal>
 <signal name="N$3">
 </signal>
 <signal name="N$1">
 <contactref element="GND" pad="2"/>
 <contactref element="SJ1" pad="1"/>
-<wire x1="54.2544" y1="66.4464" x2="54.2544" y2="64.2112" width="0.254" layer="1"/>
-<wire x1="54.2544" y1="64.2112" x2="54.2499375" y2="64.18536875" width="0.254" layer="1"/>
-<wire x1="54.2544" y1="66.4464" x2="54.239715625" y2="66.62955625" width="0.254" layer="1"/>
+<wire x1="51.699715625" y1="66.62955625" x2="51.699715625" y2="63.560590625" width="0.254" layer="1"/>
+<wire x1="51.8369375" y1="63.42336875" x2="51.699715625" y2="63.560590625" width="0.254" layer="1"/>
 </signal>
 <signal name="VBUS">
 <contactref element="J2" pad="VBUS"/>
@@ -5655,12 +5775,20 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="61.982409375" y1="53.183590625" x2="62.671940625" y2="53.873121875" width="0.254" layer="1"/>
 <wire x1="62.671940625" y1="53.873121875" x2="62.779765625" y2="53.873121875" width="0.254" layer="1"/>
 <via x="62.779765625" y="53.873121875" extent="1-16" drill="0.5"/>
-<wire x1="62.779765625" y1="53.873121875" x2="78.13535625" y2="69.2287125" width="0.254" layer="16"/>
-<wire x1="78.13535625" y1="69.2287125" x2="78.13535625" y2="75.044240625" width="0.254" layer="16"/>
+<wire x1="62.779765625" y1="53.873121875" x2="71.128321875" y2="62.221678125" width="0.254" layer="16"/>
 <via x="78.13535625" y="75.044240625" extent="1-16" drill="0.5"/>
+<wire x1="78.13535625" y1="71.12" x2="78.13535625" y2="75.044240625" width="0.254" layer="16"/>
 <wire x1="78.13535625" y1="75.044240625" x2="78.17754375" y2="75.086428125" width="0.254" layer="1"/>
 <wire x1="78.17754375" y1="75.086428125" x2="78.17754375" y2="76.4032" width="0.254" layer="1"/>
 <wire x1="63.122221875" y1="47.25955" x2="61.982409375" y2="48.3993625" width="0.254" layer="1"/>
+<wire x1="72.0852" y1="64.3702" x2="72.0852" y2="65.06984375" width="0.254" layer="16"/>
+<wire x1="72.0852" y1="65.06984375" x2="73.36015625" y2="66.3448" width="0.254" layer="16"/>
+<wire x1="73.36015625" y1="66.3448" x2="74.0598" y2="66.3448" width="0.254" layer="16"/>
+<wire x1="74.0598" y1="66.3448" x2="74.6252" y2="66.9102" width="0.254" layer="16"/>
+<wire x1="74.6252" y1="66.9102" x2="74.6252" y2="67.60984375" width="0.254" layer="16"/>
+<wire x1="74.6252" y1="67.60984375" x2="78.13535625" y2="71.12" width="0.254" layer="16"/>
+<wire x1="71.128321875" y1="62.221678125" x2="71.128321875" y2="63.413321875" width="0.254" layer="16"/>
+<wire x1="71.128321875" y1="63.413321875" x2="72.0852" y2="64.3702" width="0.254" layer="16"/>
 </signal>
 <signal name="CT5">
 <contactref element="CF5" pad="2"/>
@@ -5675,9 +5803,9 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="61.11464375" y1="53.59624375" x2="61.11464375" y2="48.307684375" width="0.254" layer="1"/>
 <wire x1="62.031021875" y1="64.188034375" x2="62.031021875" y2="54.512621875" width="0.254" layer="16"/>
 <wire x1="62.031021875" y1="54.512621875" x2="61.976" y2="54.4576" width="0.254" layer="16"/>
-<wire x1="64.4144" y1="66.4613625" x2="62.141071875" y2="64.188034375" width="0.254" layer="1"/>
-<wire x1="62.141071875" y1="64.188034375" x2="62.031021875" y2="64.188034375" width="0.254" layer="1"/>
-<wire x1="64.4144" y1="76.2" x2="64.4144" y2="66.4613625" width="0.254" layer="1"/>
+<wire x1="64.4144" y1="70.2713625" x2="62.031021875" y2="67.887984375" width="0.254" layer="1"/>
+<wire x1="62.031021875" y1="64.188034375" x2="62.031021875" y2="67.887984375" width="0.254" layer="1"/>
+<wire x1="64.4144" y1="76.2" x2="64.4144" y2="70.2713625" width="0.254" layer="1"/>
 <wire x1="64.2112" y1="46.736" x2="64.261421875" y2="46.75955" width="0.254" layer="1"/>
 <wire x1="64.4144" y1="76.2" x2="64.615565625" y2="76.21231875" width="0.254" layer="1"/>
 <via x="61.976" y="54.4576" extent="1-16" drill="0.5"/>
@@ -5710,13 +5838,21 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="88.392" y1="76.4032" x2="88.356234375" y2="76.228140625" width="0.254" layer="1"/>
 <wire x1="90.0176" y1="76.4032" x2="90.05715" y2="76.340446875" width="0.254" layer="1"/>
 <wire x1="62.7888" y1="52.832" x2="64.2112" y2="52.832" width="0.254" layer="1"/>
-<wire x1="85.344" y1="75.3872" x2="62.7888" y2="52.832" width="0.254" layer="16"/>
 <wire x1="87.376" y1="75.3872" x2="85.344" y2="75.3872" width="0.254" layer="1"/>
 <wire x1="88.1888" y1="76.2" x2="87.376" y2="75.3872" width="0.254" layer="1"/>
 <wire x1="64.2112" y1="52.832" x2="64.261421875" y2="52.75955" width="0.254" layer="1"/>
 <wire x1="88.1888" y1="76.2" x2="88.356234375" y2="76.228140625" width="0.254" layer="1"/>
 <via x="62.7888" y="52.832" extent="1-16" drill="0.5"/>
 <via x="85.344" y="75.3872" extent="1-16" drill="0.5"/>
+<wire x1="73.7616" y1="63.8048" x2="74.0598" y2="63.8048" width="0.254" layer="16"/>
+<wire x1="74.0598" y1="63.8048" x2="74.6252" y2="64.3702" width="0.254" layer="16"/>
+<wire x1="74.6252" y1="64.3702" x2="74.6252" y2="64.6684" width="0.254" layer="16"/>
+<wire x1="74.6252" y1="64.6684" x2="76.3016" y2="66.3448" width="0.254" layer="16"/>
+<wire x1="76.3016" y1="66.3448" x2="76.5998" y2="66.3448" width="0.254" layer="16"/>
+<wire x1="76.5998" y1="66.3448" x2="77.1652" y2="66.9102" width="0.254" layer="16"/>
+<wire x1="77.1652" y1="66.9102" x2="77.1652" y2="67.2084" width="0.254" layer="16"/>
+<wire x1="77.1652" y1="67.2084" x2="85.344" y2="75.3872" width="0.254" layer="16"/>
+<wire x1="62.7888" y1="52.832" x2="73.7616" y2="63.8048" width="0.254" layer="16"/>
 </signal>
 <signal name="CT8">
 <contactref element="CF8" pad="2"/>
@@ -5729,13 +5865,21 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="66.53924375" y1="52.133225" x2="65.43406875" y2="53.2384" width="0.254" layer="1"/>
 <wire x1="72.136" y1="53.0352" x2="71.234025" y2="52.133225" width="0.254" layer="16"/>
 <wire x1="71.234025" y1="52.133225" x2="66.53924375" y2="52.133225" width="0.254" layer="16"/>
-<wire x1="94.488" y1="75.3872" x2="72.136" y2="53.0352" width="0.254" layer="1"/>
-<wire x1="102.4128" y1="75.3872" x2="94.488" y2="75.3872" width="0.254" layer="1"/>
+<wire x1="94.488" y1="75.3872" x2="102.4128" y2="75.3872" width="0.254" layer="1"/>
 <wire x1="102.616" y1="75.5904" x2="102.4128" y2="75.3872" width="0.254" layer="1"/>
 <wire x1="64.4144" y1="53.2384" x2="64.261421875" y2="53.25955" width="0.254" layer="1"/>
 <wire x1="102.616" y1="75.5904" x2="102.645946875" y2="75.749440625" width="0.254" layer="1"/>
 <via x="66.53924375" y="52.133225" extent="1-16" drill="0.5"/>
 <via x="72.136" y="53.0352" extent="1-16" drill="0.5"/>
+<wire x1="84.2198" y1="63.8048" x2="84.7852" y2="64.3702" width="0.254" layer="1"/>
+<wire x1="86.7598" y1="66.3448" x2="87.3252" y2="66.9102" width="0.254" layer="1"/>
+<wire x1="84.7852" y1="65.6844" x2="85.4456" y2="66.3448" width="0.254" layer="1"/>
+<wire x1="82.9056" y1="63.8048" x2="84.2198" y2="63.8048" width="0.254" layer="1"/>
+<wire x1="84.7852" y1="64.3702" x2="84.7852" y2="65.6844" width="0.254" layer="1"/>
+<wire x1="85.4456" y1="66.3448" x2="86.7598" y2="66.3448" width="0.254" layer="1"/>
+<wire x1="87.3252" y1="66.9102" x2="87.3252" y2="68.2244" width="0.254" layer="1"/>
+<wire x1="87.3252" y1="68.2244" x2="94.488" y2="75.3872" width="0.254" layer="1"/>
+<wire x1="72.136" y1="53.0352" x2="82.9056" y2="63.8048" width="0.254" layer="1"/>
 </signal>
 <signal name="CT9">
 <contactref element="CF9" pad="2"/>
@@ -5746,16 +5890,25 @@ Micro-USB AB Receptacle, Bottom Mount, SMT, Lead-Free&lt;/a&gt; (&lt;a href="htt
 <wire x1="113.792" y1="77.8256" x2="113.906846875" y2="77.86710625" width="0.254" layer="1"/>
 <wire x1="62.5856" y1="60.1472" x2="62.5856" y2="57.0992" width="0.254" layer="1"/>
 <wire x1="62.3824" y1="60.3504" x2="62.5856" y2="60.1472" width="0.254" layer="1"/>
-<wire x1="62.3824" y1="62.615534375" x2="62.3824" y2="60.3504" width="0.254" layer="1"/>
-<wire x1="72.136" y1="72.369134375" x2="62.3824" y2="62.615534375" width="0.254" layer="1"/>
-<wire x1="72.136" y1="88.1888" x2="72.136" y2="72.369134375" width="0.254" layer="1"/>
-<wire x1="73.5584" y1="89.6112" x2="72.136" y2="88.1888" width="0.254" layer="1"/>
+<wire x1="62.3824" y1="62.615534375" x2="62.3824" y2="62.23" width="0.254" layer="1"/>
+<wire x1="62.3824" y1="62.23" x2="62.3824" y2="60.3504" width="0.254" layer="1"/>
+<wire x1="72.136" y1="88.1888" x2="73.5584" y2="89.6112" width="0.254" layer="1"/>
 <wire x1="99.568" y1="89.6112" x2="73.5584" y2="89.6112" width="0.254" layer="1"/>
 <wire x1="104.4448" y1="84.7344" x2="99.568" y2="89.6112" width="0.254" layer="1"/>
 <wire x1="105.0544" y1="84.7344" x2="104.4448" y2="84.7344" width="0.254" layer="1"/>
 <wire x1="111.76" y1="78.0288" x2="105.0544" y2="84.7344" width="0.254" layer="1"/>
 <wire x1="62.5856" y1="57.0992" x2="62.511421875" y2="57.00955" width="0.254" layer="1"/>
 <wire x1="111.76" y1="78.0288" x2="111.8078375" y2="77.856953125" width="0.254" layer="1"/>
+<wire x1="62.3824" y1="62.23" x2="65.0748" y2="64.9224" width="0.254" layer="1"/>
+<wire x1="65.0748" y1="64.9224" x2="65.0748" y2="65.1698" width="0.254" layer="1"/>
+<wire x1="65.0748" y1="65.1698" x2="65.6402" y2="65.7352" width="0.254" layer="1"/>
+<wire x1="65.6402" y1="65.7352" x2="65.8876" y2="65.7352" width="0.254" layer="1"/>
+<wire x1="65.8876" y1="65.7352" x2="67.6148" y2="67.4624" width="0.254" layer="1"/>
+<wire x1="67.6148" y1="67.4624" x2="67.6148" y2="67.7098" width="0.254" layer="1"/>
+<wire x1="67.6148" y1="67.7098" x2="68.1802" y2="68.2752" width="0.254" layer="1"/>
+<wire x1="68.1802" y1="68.2752" x2="68.4276" y2="68.2752" width="0.254" layer="1"/>
+<wire x1="68.4276" y1="68.2752" x2="72.136" y2="71.9836" width="0.254" layer="1"/>
+<wire x1="72.136" y1="71.9836" x2="72.136" y2="88.1888" width="0.254" layer="1"/>
 </signal>
 <signal name="D-">
 <contactref element="U$1" pad="2"/>
