@@ -15052,157 +15052,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <text x="-1.3208" y="-6.477" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
 <text x="-1.27" y="-7.874" size="0.6096" layer="27" font="vector" ratio="20">&gt;VALUE</text>
 </package>
-<package name="USB-A-H">
-<description>&lt;h3&gt;USB Type 'A' Male Connector - PTH&lt;/h3&gt;
-Shield pins may be grounded.
-&lt;br&gt; tDocu shows plug end. 
-&lt;p&gt;Specifications:
-&lt;ul&gt;&lt;li&gt;Pin count:6&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=”http://www.4uconnector.com/online/object/4udrawing/10016.pdf”&gt;Datasheet referenced for footprint&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Example device(s):
-&lt;ul&gt;&lt;li&gt;USB_A&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<wire x1="-17.8" y1="6" x2="-17.8" y2="-6" width="0.2032" layer="51"/>
-<wire x1="-3" y1="6" x2="-3" y2="-6" width="0.2032" layer="21"/>
-<wire x1="-3" y1="6" x2="-17.8" y2="6" width="0.2032" layer="51"/>
-<wire x1="-3" y1="-6" x2="-17.8" y2="-6" width="0.2032" layer="51"/>
-<wire x1="-3" y1="6" x2="-2" y2="6" width="0.2032" layer="21"/>
-<wire x1="-3" y1="-6" x2="-2" y2="-6" width="0.2032" layer="21"/>
-<wire x1="1" y1="-4" x2="1" y2="4" width="0.2032" layer="21"/>
-<wire x1="-13.5" y1="4.3" x2="-13.5" y2="1.9" width="0.2032" layer="51"/>
-<wire x1="-13.5" y1="1.9" x2="-11.2" y2="1.9" width="0.2032" layer="51"/>
-<wire x1="-11.2" y1="1.9" x2="-11.2" y2="4.3" width="0.2032" layer="51"/>
-<wire x1="-11.2" y1="4.3" x2="-13.5" y2="4.3" width="0.2032" layer="51"/>
-<wire x1="-13.5" y1="-1.9" x2="-13.5" y2="-4.3" width="0.2032" layer="51"/>
-<wire x1="-13.5" y1="-4.3" x2="-11.2" y2="-4.3" width="0.2032" layer="51"/>
-<wire x1="-11.2" y1="-4.3" x2="-11.2" y2="-1.9" width="0.2032" layer="51"/>
-<wire x1="-11.2" y1="-1.9" x2="-13.5" y2="-1.9" width="0.2032" layer="51"/>
-<pad name="GND" x="2.4" y="3.5" drill="0.9144" diameter="1.8796" rot="R270"/>
-<pad name="D+" x="2.4" y="1.127" drill="0.9144" diameter="1.8796" rot="R270"/>
-<pad name="D-" x="2.4" y="-1.127" drill="0.9144" diameter="1.8796" rot="R270"/>
-<pad name="VBUS" x="2.4" y="-3.5" drill="0.9144" diameter="1.8796" rot="R270"/>
-<pad name="SHLD1" x="0" y="-5.8" drill="2.2" rot="R270"/>
-<pad name="SHLD2" x="0" y="5.8" drill="2.2" rot="R270"/>
-<text x="-12.7" y="6.35" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
-<text x="-3.9" y="-4.4" size="1.27" layer="51" rot="R90">PCB Edge</text>
-<hole x="-0.1" y="2.25" drill="1.1"/>
-<hole x="-0.1" y="-2.25" drill="1.1"/>
-<text x="-12.7" y="-6.35" size="0.6096" layer="27" font="vector" ratio="20" align="top-left">&gt;VALUE</text>
-</package>
-<package name="USB-A-S-NOSILK-FEMALE">
-<description>&lt;h3&gt;USB Type 'A' Female Connector - SMT No Silk&lt;/h3&gt;
-Shield pins may be grounded.
-&lt;br&gt; tDocu shows plug end. 
-&lt;p&gt;Specifications:
-&lt;ul&gt;&lt;li&gt;Pin count:6&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=” https://www.sparkfun.com/datasheets/Prototyping/Connectors/USBFemaleTypeA.pdf”&gt;Datasheet referenced for footprint&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Example device(s):
-&lt;ul&gt;&lt;li&gt;USB_A&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<wire x1="6.2357" y1="6.5659" x2="-7.747" y2="6.5659" width="0.127" layer="51"/>
-<wire x1="6.2357" y1="-6.5659" x2="-7.747" y2="-6.5659" width="0.127" layer="51"/>
-<wire x1="-7.747" y1="6.477" x2="-7.747" y2="-6.477" width="0.127" layer="51"/>
-<wire x1="6.2484" y1="6.5024" x2="6.2484" y2="-6.5024" width="0.127" layer="51"/>
-<wire x1="0" y1="-5.08" x2="-6.35" y2="-4.445" width="0.127" layer="51"/>
-<wire x1="-6.35" y1="-4.445" x2="-6.35" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="-6.35" y1="-1.27" x2="0" y2="-0.635" width="0.127" layer="51"/>
-<wire x1="0" y1="5.08" x2="-6.35" y2="4.445" width="0.127" layer="51"/>
-<wire x1="-6.35" y1="4.445" x2="-6.35" y2="1.27" width="0.127" layer="51"/>
-<wire x1="-6.35" y1="1.27" x2="0" y2="0.635" width="0.127" layer="51"/>
-<pad name="SHLD1" x="2.54" y="-6.5659" drill="2.3114" rot="R270"/>
-<pad name="SHLD2" x="2.54" y="6.5659" drill="2.3114" rot="R270"/>
-<smd name="D-" x="6.752" y="1" dx="3" dy="0.9" layer="1"/>
-<smd name="VBUS" x="6.752" y="3.5" dx="3" dy="0.9" layer="1"/>
-<smd name="D+" x="6.752" y="-1" dx="3" dy="0.9" layer="1"/>
-<smd name="GND" x="6.752" y="-3.5" dx="3" dy="0.9" layer="1"/>
-<text x="-6.35" y="6.858" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
-<text x="-6.35" y="-6.858" size="0.6096" layer="27" font="vector" ratio="20" align="top-left">&gt;VALUE</text>
-</package>
-<package name="USB-A-SMT-MALE">
-<description>&lt;h3&gt;USB Type 'A' Male Connector - SMT&lt;/h3&gt;
-Shield pins may be grounded.
-&lt;br&gt; tDocu shows plug end. 
-&lt;p&gt;Specifications:
-&lt;ul&gt;&lt;li&gt;Pin count:6&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=” http://www.molex.com/pdm_docs/sd/480371000_sd.pdf”&gt;Datasheet referenced for footprint&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Example device(s):
-&lt;ul&gt;&lt;li&gt;USB_A&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<wire x1="-9.5" y1="6" x2="-9.5" y2="-6" width="0.2032" layer="51"/>
-<wire x1="5.08" y1="6" x2="5.08" y2="-6" width="0.2032" layer="21"/>
-<wire x1="5.08" y1="6" x2="-9.5" y2="6" width="0.2032" layer="51"/>
-<wire x1="5.08" y1="-6" x2="-9.5" y2="-6" width="0.2032" layer="51"/>
-<wire x1="5.08" y1="6" x2="6.3" y2="6" width="0.2032" layer="21"/>
-<wire x1="5.08" y1="-6" x2="6.3" y2="-6" width="0.2032" layer="21"/>
-<wire x1="9.3" y1="-4" x2="9.3" y2="4" width="0.2032" layer="21"/>
-<wire x1="-5.2" y1="4.3" x2="-5.2" y2="1.9" width="0.2032" layer="51"/>
-<wire x1="-5.2" y1="1.9" x2="-2.9" y2="1.9" width="0.2032" layer="51"/>
-<wire x1="-2.9" y1="1.9" x2="-2.9" y2="4.3" width="0.2032" layer="51"/>
-<wire x1="-2.9" y1="4.3" x2="-5.2" y2="4.3" width="0.2032" layer="51"/>
-<wire x1="-5.2" y1="-1.9" x2="-5.2" y2="-4.3" width="0.2032" layer="51"/>
-<wire x1="-5.2" y1="-4.3" x2="-2.9" y2="-4.3" width="0.2032" layer="51"/>
-<wire x1="-2.9" y1="-4.3" x2="-2.9" y2="-1.9" width="0.2032" layer="51"/>
-<wire x1="-2.9" y1="-1.9" x2="-5.2" y2="-1.9" width="0.2032" layer="51"/>
-<smd name="D+1" x="10.95" y="1.027" dx="2.5" dy="0.8" layer="1"/>
-<smd name="D-1" x="10.95" y="-1.027" dx="2.5" dy="0.8" layer="1"/>
-<smd name="GND1" x="10.95" y="3.5508" dx="2.5" dy="0.8" layer="1"/>
-<pad name="SHLD2" x="8.13" y="5.85" drill="0.8" diameter="1.778" shape="long" rot="R180"/>
-<pad name="SHLD1" x="8.13" y="-5.85" drill="0.8" diameter="1.778" shape="long" rot="R180"/>
-<smd name="VBUS1" x="10.95" y="-3.5" dx="2.5" dy="0.8" layer="1"/>
-<text x="-2.7" y="6.17" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
-<text x="4.4" y="-4.4" size="1.27" layer="51" rot="R90">PCB Edge</text>
-<hole x="8.2" y="2.25" drill="1.1"/>
-<hole x="8.2" y="-2.25" drill="1.1"/>
-<hole x="8.53" y="-5.85" drill="0.8"/>
-<hole x="8.93" y="-5.85" drill="0.8"/>
-<hole x="7.73" y="-5.85" drill="0.8"/>
-<hole x="7.33" y="-5.85" drill="0.8"/>
-<hole x="8.53" y="5.85" drill="0.8"/>
-<hole x="8.93" y="5.85" drill="0.8"/>
-<hole x="7.73" y="5.85" drill="0.8"/>
-<hole x="7.33" y="5.85" drill="0.8"/>
-<text x="-2.7" y="-6.53" size="0.6096" layer="27" font="vector" ratio="20" align="top-left">&gt;VALUES</text>
-</package>
-<package name="USB-A-S-SILK-FEMALE">
-<description>&lt;h3&gt;USB Type 'A' Female Connector - SMT Silk Outline&lt;/h3&gt;
-Shield pins may be grounded.
-&lt;br&gt; tDocu shows plug end. 
-&lt;p&gt;Specifications:
-&lt;ul&gt;&lt;li&gt;Pin count:6&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=” https://www.sparkfun.com/datasheets/Prototyping/Connectors/USBFemaleTypeA.pdf”&gt;Datasheet referenced for footprint&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Example device(s):
-&lt;ul&gt;&lt;li&gt;USB_A&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<wire x1="6.6957" y1="6.5659" x2="-7.287" y2="6.5659" width="0.127" layer="51"/>
-<wire x1="6.6957" y1="-6.5659" x2="-7.287" y2="-6.5659" width="0.127" layer="51"/>
-<wire x1="-7.287" y1="6.477" x2="-7.287" y2="-6.477" width="0.127" layer="51"/>
-<wire x1="6.7084" y1="6.5024" x2="6.7084" y2="-6.5024" width="0.127" layer="51"/>
-<wire x1="0.46" y1="-5.08" x2="-5.89" y2="-4.445" width="0.127" layer="51"/>
-<wire x1="-5.89" y1="-4.445" x2="-5.89" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="-5.89" y1="-1.27" x2="0.46" y2="-0.635" width="0.127" layer="51"/>
-<wire x1="0.46" y1="5.08" x2="-5.89" y2="4.445" width="0.127" layer="51"/>
-<wire x1="-5.89" y1="4.445" x2="-5.89" y2="1.27" width="0.127" layer="51"/>
-<wire x1="-5.89" y1="1.27" x2="0.46" y2="0.635" width="0.127" layer="51"/>
-<wire x1="-7.366" y1="6.604" x2="0.508" y2="6.604" width="0.2032" layer="21"/>
-<wire x1="-7.366" y1="6.604" x2="-7.366" y2="-6.604" width="0.2032" layer="21"/>
-<wire x1="-7.366" y1="-6.604" x2="0.508" y2="-6.604" width="0.2032" layer="21"/>
-<wire x1="5.08" y1="-6.604" x2="6.858" y2="-6.604" width="0.2032" layer="21"/>
-<wire x1="6.858" y1="-6.604" x2="6.858" y2="-4.318" width="0.2032" layer="21"/>
-<wire x1="6.858" y1="4.318" x2="6.858" y2="6.604" width="0.2032" layer="21"/>
-<wire x1="6.858" y1="6.604" x2="5.08" y2="6.604" width="0.2032" layer="21"/>
-<pad name="SHLD1" x="3" y="-6.5659" drill="2.3114" rot="R270"/>
-<pad name="SHLD2" x="3" y="6.5659" drill="2.3114" rot="R270"/>
-<smd name="D-" x="7.212" y="1" dx="3" dy="0.9" layer="1"/>
-<smd name="VBUS" x="7.212" y="3.5" dx="3" dy="0.9" layer="1"/>
-<smd name="D+" x="7.212" y="-1" dx="3" dy="0.9" layer="1"/>
-<smd name="GND" x="7.212" y="-3.5" dx="3" dy="0.9" layer="1"/>
-<text x="-6.35" y="6.858" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
-<text x="-6.35" y="-6.858" size="0.6096" layer="27" font="vector" ratio="20" align="top-left">&gt;VALUE</text>
-</package>
 </packages>
 <symbols>
 <symbol name="RJ45-8">
@@ -15239,22 +15088,6 @@ Shield pins may be grounded.
 <text x="6.096" y="-9.906" size="1.778" layer="94">Brn</text>
 <text x="3.302" y="1.778" size="1.778" layer="94">W/Grn</text>
 <text x="3.302" y="-5.842" size="1.778" layer="94">Grn</text>
-</symbol>
-<symbol name="USB">
-<description>&lt;h3&gt;USB A/B - with Shield Pins&lt;/h3&gt;
-&lt;p&gt;USB connector for type-A and type-B connectors. Includes shield pins broken out. &lt;/p&gt;</description>
-<wire x1="7.62" y1="7.62" x2="-5.08" y2="7.62" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="7.62" x2="-5.08" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="-5.08" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
-<text x="6.858" y="-1.778" size="2.54" layer="94" rot="R90">USB</text>
-<pin name="D+" x="-7.62" y="0" length="short"/>
-<pin name="D-" x="-7.62" y="2.54" length="short"/>
-<pin name="VBUS" x="-7.62" y="5.08" length="short" direction="pwr"/>
-<pin name="GND" x="-7.62" y="-2.54" length="short" direction="pwr"/>
-<pin name="SHIELD" x="10.16" y="2.54" visible="pad" length="short" rot="R180"/>
-<text x="-5.08" y="7.874" size="1.778" layer="95" font="vector">&gt;NAME</text>
-<text x="-5.08" y="-5.334" size="1.778" layer="96" font="vector" align="top-left">&gt;VALUE</text>
-<wire x1="7.62" y1="7.62" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -15302,79 +15135,6 @@ Note, you may also be interested in the "MAGJACK" version of this. It is basical
 <attribute name="PROD_ID" value="CONN-08506" constant="no"/>
 <attribute name="SF_ID" value="PRT-00643" constant="no"/>
 <attribute name="VALUE" value="RJ45" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="USB_A" prefix="J">
-<description>&lt;h3&gt;USB-A Connector&lt;/h3&gt;
-&lt;p&gt;Male and female variants, as well as PTH and SMT variants&lt;/p&gt;
-&lt;p&gt;SparkFun Products:
-&lt;ul&gt;&lt;li&gt;&lt;a href=”https://www.sparkfun.com/products/11697”&gt;SparkFun XBee Explorer Dongle&lt;/a&gt; PTH Male&lt;/li&gt;
-&lt;li&gt;&lt;a href=”https://www.sparkfun.com/products/12924”&gt;SparkFun MicroView-USB Programmer&lt;/a&gt; SMT Male&lt;/li&gt;
-&lt;li&gt;&lt;a href=”https://www.sparkfun.com/products/12700”&gt;SparkFun USB Type A Female Breakout&lt;/a&gt; SMT Female&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<gates>
-<gate name="G$1" symbol="USB" x="2.54" y="0"/>
-</gates>
-<devices>
-<device name="_PTH_MALE" package="USB-A-H">
-<connects>
-<connect gate="G$1" pin="D+" pad="D+"/>
-<connect gate="G$1" pin="D-" pad="D-"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="SHIELD" pad="SHLD1 SHLD2"/>
-<connect gate="G$1" pin="VBUS" pad="VBUS"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="CONN-08367" constant="no"/>
-<attribute name="SF_ID" value="PRT-00437" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="_SMT_FEMALE_NS" package="USB-A-S-NOSILK-FEMALE">
-<connects>
-<connect gate="G$1" pin="D+" pad="D+"/>
-<connect gate="G$1" pin="D-" pad="D-"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="SHIELD" pad="SHLD1 SHLD2"/>
-<connect gate="G$1" pin="VBUS" pad="VBUS"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="CONN-09520" constant="no"/>
-<attribute name="SF_ID" value="PRT-09011" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="_SMT_MALE" package="USB-A-SMT-MALE">
-<connects>
-<connect gate="G$1" pin="D+" pad="D+1"/>
-<connect gate="G$1" pin="D-" pad="D-1"/>
-<connect gate="G$1" pin="GND" pad="GND1"/>
-<connect gate="G$1" pin="SHIELD" pad="SHLD1 SHLD2"/>
-<connect gate="G$1" pin="VBUS" pad="VBUS1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="CONN-11499" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="_SMT_FEMALE" package="USB-A-S-SILK-FEMALE">
-<connects>
-<connect gate="G$1" pin="D+" pad="D+"/>
-<connect gate="G$1" pin="D-" pad="D-"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="SHIELD" pad="SHLD1 SHLD2"/>
-<connect gate="G$1" pin="VBUS" pad="VBUS"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PROD_ID" value="CONN-09520" constant="no"/>
-<attribute name="SF_ID" value="PRT-09011" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -17465,11 +17225,8 @@ W = angled&lt;p&gt;
 <part name="VT2" library="adafruit" deviceset="2.1MMJACK" device="SMT"/>
 <part name="VT1" library="adafruit" deviceset="2.1MMJACK" device="SMT"/>
 <part name="J1" library="SparkFun-Connectors" deviceset="RJ45-8" device="" value="RJ45"/>
-<part name="J2" library="SparkFun-Connectors" deviceset="USB_A" device="_SMT_FEMALE"/>
-<part name="J5" library="SparkFun-Connectors" deviceset="RJ45-8" device="" value="RJ45"/>
 <part name="PCB1" library="e14_Rpi3_RevA+mirror-pcb copy" deviceset="RPI3" device="RPI3"/>
 <part name="STM32F303VB" library="stm32f303" deviceset="STM32F303XB" device=""/>
-<part name="J3" library="SparkFun-Connectors" deviceset="RJ45-8" device="" value="RJ45"/>
 <part name="S1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="31-XX" device="" package3d_urn="urn:adsk.eagle:package:27487/1"/>
 <part name="RVPU2" library="resistor" deviceset="R-EU_" device="R0603" value="120k"/>
 <part name="RVPU1" library="resistor" deviceset="R-EU_" device="R0603" value="120k"/>
@@ -17514,6 +17271,12 @@ W = angled&lt;p&gt;
 <part name="U$11" library="OMNIMATE_LSF" deviceset="OMNIMATE_LSF_2" device=""/>
 <part name="U$1" library="con-molex-usb" deviceset="MICRO-USB-RECEPTACLE" device="47589-0001"/>
 <part name="MODULE_HEADER" library="con-lsta-RFM69Pi" deviceset="FE12-2" device="" package3d_urn="urn:adsk.eagle:package:8178/1"/>
+<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
+<part name="SUPPLY20" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="LED2" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Red 1.85V"/>
+<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
+<part name="SUPPLY21" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="LED3" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Red 1.85V"/>
 </parts>
 <sheets>
 <sheet>
@@ -17578,26 +17341,26 @@ For vertically stacked modules.</text>
 <attribute name="NAME" x="45.466" y="167.259" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="45.466" y="172.339" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="BOOT0" gate="G$1" x="-39.37" y="54.61" smashed="yes">
-<attribute name="VALUE" x="-41.91" y="49.53" size="1.778" layer="96"/>
-<attribute name="NAME" x="-41.91" y="60.452" size="1.778" layer="95"/>
+<instance part="BOOT0" gate="G$1" x="-54.61" y="54.61" smashed="yes">
+<attribute name="VALUE" x="-57.15" y="49.53" size="1.778" layer="96"/>
+<attribute name="NAME" x="-57.15" y="60.452" size="1.778" layer="95"/>
 </instance>
-<instance part="+3V2" gate="G$1" x="-27.94" y="64.77" smashed="yes">
-<attribute name="VALUE" x="-30.48" y="59.69" size="1.778" layer="96" rot="R90"/>
+<instance part="+3V2" gate="G$1" x="-43.18" y="64.77" smashed="yes">
+<attribute name="VALUE" x="-45.72" y="59.69" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R2" gate="G$1" x="-27.94" y="45.72" smashed="yes" rot="R270">
-<attribute name="NAME" x="-26.4414" y="49.53" size="1.778" layer="95" rot="R270"/>
-<attribute name="VALUE" x="-31.242" y="49.53" size="1.778" layer="96" rot="R270"/>
+<instance part="R2" gate="G$1" x="-43.18" y="45.72" smashed="yes" rot="R270">
+<attribute name="NAME" x="-41.6814" y="49.53" size="1.778" layer="95" rot="R270"/>
+<attribute name="VALUE" x="-46.482" y="49.53" size="1.778" layer="96" rot="R270"/>
 </instance>
-<instance part="SUPPLY1" gate="GND" x="-27.94" y="34.29" smashed="yes">
-<attribute name="VALUE" x="-29.845" y="31.115" size="1.778" layer="96"/>
+<instance part="SUPPLY1" gate="GND" x="-43.18" y="34.29" smashed="yes">
+<attribute name="VALUE" x="-45.085" y="31.115" size="1.778" layer="96"/>
 </instance>
-<instance part="C10" gate="G$1" x="-2.54" y="41.275" smashed="yes" rot="R180">
-<attribute name="NAME" x="-4.064" y="40.894" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="-4.064" y="45.974" size="1.778" layer="96" rot="R180"/>
+<instance part="C10" gate="G$1" x="-17.78" y="41.275" smashed="yes" rot="R180">
+<attribute name="NAME" x="-19.304" y="40.894" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="-19.304" y="45.974" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="SUPPLY3" gate="GND" x="-2.54" y="33.655" smashed="yes">
-<attribute name="VALUE" x="-4.445" y="30.48" size="1.778" layer="96"/>
+<instance part="SUPPLY3" gate="GND" x="-17.78" y="33.655" smashed="yes">
+<attribute name="VALUE" x="-19.685" y="30.48" size="1.778" layer="96"/>
 </instance>
 <instance part="GND" gate="G$1" x="-15.24" y="-124.46" smashed="yes">
 <attribute name="NAME" x="-24.13" y="-126.238" size="1.778" layer="95"/>
@@ -17733,16 +17496,16 @@ For vertically stacked modules.</text>
 <instance part="+3V3" gate="G$1" x="159.258" y="104.902" smashed="yes">
 <attribute name="VALUE" x="156.718" y="99.822" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R3" gate="G$1" x="19.304" y="52.324" smashed="yes" rot="R90">
-<attribute name="NAME" x="22.8854" y="51.054" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="17.526" y="48.514" size="1.778" layer="96" rot="R90"/>
+<instance part="R3" gate="G$1" x="4.064" y="52.324" smashed="yes" rot="R90">
+<attribute name="NAME" x="7.6454" y="51.054" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="2.286" y="48.514" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="SUPPLY25" gate="GND" x="19.304" y="34.544" smashed="yes">
-<attribute name="VALUE" x="17.399" y="31.369" size="1.778" layer="96"/>
+<instance part="SUPPLY25" gate="GND" x="4.064" y="34.544" smashed="yes">
+<attribute name="VALUE" x="2.159" y="31.369" size="1.778" layer="96"/>
 </instance>
-<instance part="LED1" gate="G$1" x="19.304" y="42.164" smashed="yes">
-<attribute name="NAME" x="22.86" y="37.592" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="25.019" y="37.592" size="1.778" layer="96" rot="R90"/>
+<instance part="LED1" gate="G$1" x="4.064" y="42.164" smashed="yes">
+<attribute name="NAME" x="7.62" y="37.592" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="10.541" y="37.592" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="VT3" gate="G$1" x="274.32" y="208.28" smashed="yes" rot="R180">
 <attribute name="NAME" x="276.86" y="203.2" size="1.27" layer="95" rot="R180"/>
@@ -17779,26 +17542,14 @@ For vertically stacked modules.</text>
 <attribute name="NAME" x="327.66" y="28.448" size="1.778" layer="95"/>
 <attribute name="VALUE" x="327.66" y="2.54" size="1.778" layer="95"/>
 </instance>
-<instance part="J2" gate="G$1" x="358.14" y="-15.24" smashed="yes">
-<attribute name="NAME" x="353.06" y="-7.366" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="353.06" y="-20.574" size="1.778" layer="96" font="vector" align="top-left"/>
-</instance>
-<instance part="J5" gate="JP1" x="360.68" y="17.78" smashed="yes">
-<attribute name="NAME" x="355.6" y="28.448" size="1.778" layer="95"/>
-<attribute name="VALUE" x="355.6" y="2.54" size="1.778" layer="95"/>
-</instance>
 <instance part="PCB1" gate="G$1" x="228.6" y="-195.58" smashed="yes"/>
 <instance part="STM32F303VB" gate="G$1" x="88.9" y="35.56" smashed="yes">
 <attribute name="NAME" x="68.58" y="124.46" size="1.778" layer="95"/>
 <attribute name="VALUE" x="68.58" y="121.92" size="1.778" layer="96"/>
 </instance>
-<instance part="J3" gate="JP1" x="388.62" y="17.78" smashed="yes">
-<attribute name="NAME" x="383.54" y="28.448" size="1.778" layer="95"/>
-<attribute name="VALUE" x="383.54" y="2.54" size="1.778" layer="95"/>
-</instance>
-<instance part="S1" gate="1" x="-2.54" y="55.88" smashed="yes">
-<attribute name="NAME" x="-8.89" y="53.975" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="-6.35" y="59.055" size="1.778" layer="96" rot="R90"/>
+<instance part="S1" gate="1" x="-17.78" y="55.88" smashed="yes">
+<attribute name="NAME" x="-24.13" y="53.975" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="-21.59" y="59.055" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="RVPU2" gate="G$1" x="284.48" y="198.12" smashed="yes" rot="R90">
 <attribute name="NAME" x="282.9814" y="194.31" size="1.778" layer="95" rot="R90"/>
@@ -17951,6 +17702,28 @@ For vertically stacked modules.</text>
 <attribute name="VALUE" x="71.12" y="-204.47" size="1.778" layer="96" rot="R90"/>
 <attribute name="NAME" x="34.798" y="-204.47" size="1.778" layer="95" rot="R90"/>
 </instance>
+<instance part="R4" gate="G$1" x="19.304" y="52.324" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.8854" y="51.054" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="17.526" y="48.514" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="SUPPLY20" gate="GND" x="19.304" y="34.544" smashed="yes">
+<attribute name="VALUE" x="17.399" y="31.369" size="1.778" layer="96"/>
+</instance>
+<instance part="LED2" gate="G$1" x="19.304" y="42.164" smashed="yes">
+<attribute name="NAME" x="22.86" y="37.592" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="25.781" y="37.592" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="R5" gate="G$1" x="34.544" y="52.324" smashed="yes" rot="R90">
+<attribute name="NAME" x="38.1254" y="51.054" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="32.766" y="48.514" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="SUPPLY21" gate="GND" x="34.544" y="34.544" smashed="yes">
+<attribute name="VALUE" x="32.639" y="31.369" size="1.778" layer="96"/>
+</instance>
+<instance part="LED3" gate="G$1" x="34.544" y="42.164" smashed="yes">
+<attribute name="NAME" x="38.1" y="37.592" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="40.767" y="37.592" size="1.778" layer="96" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -17992,12 +17765,12 @@ For vertically stacked modules.</text>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="-27.94" y1="40.64" x2="-27.94" y2="36.83" width="0.1524" layer="91"/>
+<wire x1="-43.18" y1="40.64" x2="-43.18" y2="36.83" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 </segment>
 <segment>
 <pinref part="C10" gate="G$1" pin="1"/>
-<wire x1="-2.54" y1="36.195" x2="-2.54" y2="38.735" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="36.195" x2="-17.78" y2="38.735" width="0.1524" layer="91"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
 </segment>
 <segment>
@@ -18092,8 +17865,8 @@ For vertically stacked modules.</text>
 </segment>
 <segment>
 <pinref part="S1" gate="1" pin="S"/>
-<wire x1="-2.54" y1="60.96" x2="-2.54" y2="63.5" width="0.1524" layer="91"/>
-<label x="-2.54" y="63.5" size="1.778" layer="95"/>
+<wire x1="-17.78" y1="60.96" x2="-17.78" y2="63.5" width="0.1524" layer="91"/>
+<label x="-17.78" y="63.5" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="CF4" gate="G$1" pin="1"/>
@@ -18155,6 +17928,14 @@ For vertically stacked modules.</text>
 <wire x1="325.12" y1="-10.16" x2="325.12" y2="-17.78" width="0.1524" layer="91"/>
 <junction x="325.12" y="-17.78"/>
 </segment>
+<segment>
+<pinref part="SUPPLY20" gate="GND" pin="GND"/>
+<pinref part="LED2" gate="G$1" pin="C"/>
+</segment>
+<segment>
+<pinref part="SUPPLY21" gate="GND" pin="GND"/>
+<pinref part="LED3" gate="G$1" pin="C"/>
+</segment>
 </net>
 <net name="+5V" class="1">
 <segment>
@@ -18203,8 +17984,8 @@ For vertically stacked modules.</text>
 </segment>
 <segment>
 <pinref part="BOOT0" gate="G$1" pin="2"/>
-<wire x1="-31.75" y1="57.15" x2="-27.94" y2="57.15" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="57.15" x2="-27.94" y2="62.23" width="0.1524" layer="91"/>
+<wire x1="-46.99" y1="57.15" x2="-43.18" y2="57.15" width="0.1524" layer="91"/>
+<wire x1="-43.18" y1="57.15" x2="-43.18" y2="62.23" width="0.1524" layer="91"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
@@ -18280,12 +18061,12 @@ For vertically stacked modules.</text>
 <net name="BOOT0" class="0">
 <segment>
 <pinref part="BOOT0" gate="G$1" pin="1"/>
-<wire x1="-31.75" y1="54.61" x2="-27.94" y2="54.61" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="54.61" x2="-24.13" y2="54.61" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="54.61" x2="-27.94" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="-46.99" y1="54.61" x2="-43.18" y2="54.61" width="0.1524" layer="91"/>
+<wire x1="-43.18" y1="54.61" x2="-39.37" y2="54.61" width="0.1524" layer="91"/>
+<wire x1="-43.18" y1="54.61" x2="-43.18" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="1"/>
-<label x="-31.75" y="54.61" size="1.778" layer="95"/>
-<junction x="-27.94" y="54.61"/>
+<label x="-46.99" y="54.61" size="1.778" layer="95"/>
+<junction x="-43.18" y="54.61"/>
 </segment>
 <segment>
 <wire x1="53.34" y1="30.48" x2="63.5" y2="30.48" width="0.1524" layer="91"/>
@@ -18303,13 +18084,13 @@ For vertically stacked modules.</text>
 <net name="NRST" class="0">
 <segment>
 <pinref part="C10" gate="G$1" pin="2"/>
-<wire x1="-2.54" y1="46.355" x2="-2.54" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="-2.54" y1="48.26" x2="-2.54" y2="50.8" width="0.1524" layer="91"/>
-<label x="1.27" y="48.26" size="1.778" layer="95"/>
+<wire x1="-17.78" y1="46.355" x2="-17.78" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="48.26" x2="-17.78" y2="50.8" width="0.1524" layer="91"/>
+<label x="-13.97" y="48.26" size="1.778" layer="95"/>
 <pinref part="S1" gate="1" pin="P"/>
-<wire x1="2.54" y1="48.26" x2="-2.54" y2="48.26" width="0.1524" layer="91"/>
-<junction x="-2.54" y="48.26"/>
-<wire x1="-2.54" y1="48.26" x2="-7.62" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="48.26" x2="-17.78" y2="48.26" width="0.1524" layer="91"/>
+<junction x="-17.78" y="48.26"/>
+<wire x1="-17.78" y1="48.26" x2="-22.86" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="STLINK" gate="G$1" pin="3"/>
@@ -18733,7 +18514,7 @@ For vertically stacked modules.</text>
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
-<wire x1="19.304" y1="47.244" x2="19.304" y2="44.704" width="0.1524" layer="91"/>
+<wire x1="4.064" y1="47.244" x2="4.064" y2="44.704" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="UART_RX" class="0">
@@ -18894,14 +18675,14 @@ For vertically stacked modules.</text>
 </net>
 <net name="LED1" class="0">
 <segment>
-<wire x1="114.3" y1="81.28" x2="124.46" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="STM32F303VB" gate="G$1" pin="PB14"/>
-<label x="119.38" y="81.28" size="1.778" layer="95"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="4.064" y1="57.404" x2="4.064" y2="62.23" width="0.1524" layer="91"/>
+<label x="4.572" y="60.452" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="19.304" y1="57.404" x2="19.304" y2="62.23" width="0.1524" layer="91"/>
-<label x="19.812" y="60.452" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PD8"/>
+<wire x1="114.3" y1="15.24" x2="132.08" y2="15.24" width="0.1524" layer="91"/>
+<label x="132.08" y="15.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -19045,6 +18826,44 @@ For vertically stacked modules.</text>
 <segment>
 <pinref part="U$1" gate="G$1" pin="4"/>
 <wire x1="325.12" y1="-20.32" x2="332.74" y2="-20.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<pinref part="LED2" gate="G$1" pin="A"/>
+<wire x1="19.304" y1="47.244" x2="19.304" y2="44.704" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="LED3" gate="G$1" pin="A"/>
+<wire x1="34.544" y1="47.244" x2="34.544" y2="44.704" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED2" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="19.304" y1="57.404" x2="19.304" y2="62.23" width="0.1524" layer="91"/>
+<label x="19.812" y="60.452" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PD9"/>
+<wire x1="114.3" y1="12.7" x2="132.08" y2="12.7" width="0.1524" layer="91"/>
+<label x="132.08" y="12.7" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="LED3" class="0">
+<segment>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="34.544" y1="57.404" x2="34.544" y2="62.23" width="0.1524" layer="91"/>
+<label x="35.052" y="60.452" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PD10"/>
+<wire x1="114.3" y1="10.16" x2="132.08" y2="10.16" width="0.1524" layer="91"/>
+<label x="132.08" y="10.16" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
