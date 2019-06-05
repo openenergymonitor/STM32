@@ -1,0 +1,3 @@
+ideas..
+- dip switches for switching out burden.
+- dip switches for skipping out input filters.. enabling digital input.

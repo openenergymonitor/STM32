@@ -18317,6 +18317,58 @@ microcontroller for parameter setting.</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="BOOST MODULE CN6009">
+<packages>
+<package name="BOOST">
+<pad name="P$1" x="0" y="0" drill="0.8" shape="long" rot="R90"/>
+<pad name="P$2" x="0" y="39.5" drill="0.8" shape="long" rot="R90"/>
+<pad name="OUT+" x="17.5" y="0" drill="0.8" shape="long" rot="R90"/>
+<pad name="IN+" x="17.5" y="39.5" drill="0.8" shape="long" rot="R90"/>
+<wire x1="-1.27" y1="41.91" x2="19.05" y2="41.91" width="0.127" layer="21"/>
+<wire x1="19.05" y1="41.91" x2="19.05" y2="-2.54" width="0.127" layer="21"/>
+<wire x1="19.05" y1="-2.54" x2="-1.27" y2="-2.54" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-2.54" x2="-1.27" y2="41.91" width="0.127" layer="21"/>
+<text x="1.27" y="-0.635" size="1.27" layer="21">GND</text>
+<text x="1.27" y="38.989" size="1.27" layer="21">GND</text>
+<text x="16.129" y="0.635" size="1.27" layer="21" rot="R180">OUT+</text>
+<text x="16.256" y="40.005" size="1.27" layer="21" rot="R180">IN+</text>
+</package>
+</packages>
+<symbols>
+<symbol name="BOOST">
+<pin name="+5V" x="-17.78" y="10.16" length="middle"/>
+<pin name="24V" x="15.24" y="10.16" length="middle" rot="R180"/>
+<pin name="GND" x="-17.78" y="-5.08" length="middle"/>
+<pin name="GND." x="15.24" y="-5.08" length="middle" rot="R180"/>
+<wire x1="-12.7" y1="15.24" x2="10.16" y2="15.24" width="0.254" layer="94"/>
+<wire x1="10.16" y1="15.24" x2="10.16" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-10.16" x2="-12.7" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-10.16" x2="-12.7" y2="15.24" width="0.254" layer="94"/>
+<text x="-12.7" y="16.51" size="2.54" layer="95">BOOST MODULE</text>
+<text x="-12.7" y="-13.97" size="2.54" layer="95">CN6009</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="BOOST_MODULE">
+<gates>
+<gate name="G$1" symbol="BOOST" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="BOOST">
+<connects>
+<connect gate="G$1" pin="+5V" pad="IN+"/>
+<connect gate="G$1" pin="24V" pad="OUT+"/>
+<connect gate="G$1" pin="GND" pad="P$1"/>
+<connect gate="G$1" pin="GND." pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -18497,6 +18549,7 @@ microcontroller for parameter setting.</description>
 <part name="Q2" library="Transistor" library_urn="urn:adsk.eagle:library:11375058" deviceset="MMBT3904" device="" package3d_urn="urn:adsk.eagle:package:10893259/2"/>
 <part name="RFM69HCW" library="rfm12b _ rfm69cw" deviceset="RFM12_SMD" device="SMD"/>
 <part name="SUPPLY33" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="U$2" library="BOOST MODULE CN6009" deviceset="BOOST_MODULE" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -19077,6 +19130,7 @@ SWDIO + SWCLK added to the top</text>
 <instance part="SUPPLY33" gate="GND" x="119.507" y="-91.567" smashed="yes">
 <attribute name="VALUE" x="117.602" y="-94.742" size="1.778" layer="96"/>
 </instance>
+<instance part="U$2" gate="G$1" x="347.98" y="-175.26" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -19427,6 +19481,16 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="134.747" y1="-134.62" x2="134.747" y2="-143.129" width="0.1524" layer="91"/>
 <junction x="134.62" y="-134.62"/>
 </segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="GND."/>
+<wire x1="363.22" y1="-180.34" x2="368.3" y2="-180.34" width="0.1524" layer="91"/>
+<label x="365.76" y="-182.88" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="GND"/>
+<wire x1="330.2" y1="-180.34" x2="325.12" y2="-180.34" width="0.1524" layer="91"/>
+<label x="325.12" y="-182.88" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="+5V" class="1">
 <segment>
@@ -19474,6 +19538,11 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="RJ45_1" gate="JP1" pin="7"/>
 <wire x1="325.12" y1="10.16" x2="302.26" y2="10.16" width="0.1524" layer="91"/>
 <label x="302.26" y="10.16" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="+5V"/>
+<wire x1="330.2" y1="-165.1" x2="325.12" y2="-165.1" width="0.1524" layer="91"/>
+<label x="322.58" y="-165.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="+3V3" class="1">
@@ -20840,6 +20909,11 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="2POLE_MBUS" gate="G$1" pin="2"/>
 <wire x1="347.472" y1="-141.224" x2="322.58" y2="-141.224" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="-141.224" x2="322.58" y2="-137.16" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="24V"/>
+<wire x1="363.22" y1="-165.1" x2="368.3" y2="-165.1" width="0.1524" layer="91"/>
+<label x="367.792" y="-163.83" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="ADC_RJ45IN" class="0">
