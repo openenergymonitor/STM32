@@ -16661,14 +16661,14 @@ For more documentation, please visit http://www.raspberrypi.org/documentation/ha
 <pad name="P$38" x="54.0766" y="2.2332" drill="1.016"/>
 <pad name="P$39" x="56.6166" y="4.7732" drill="1.016"/>
 <pad name="P$40" x="56.6166" y="2.2332" drill="1.016"/>
-<wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="46"/>
-<wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="85" y1="53.005" x2="85" y2="3.005" width="0.127" layer="46"/>
-<wire x1="82" y1="56.005" x2="85" y2="53.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="3" y1="56.005" x2="82" y2="56.005" width="0.127" layer="46"/>
-<wire x1="0" y1="53.005" x2="3" y2="56.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="0" y1="3.005" x2="0" y2="53.005" width="0.127" layer="46"/>
+<wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="21" curve="-90"/>
+<wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="21"/>
+<wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="21" curve="-90"/>
+<wire x1="85" y1="53.005" x2="85" y2="3.005" width="0.127" layer="21"/>
+<wire x1="82" y1="56.005" x2="85" y2="53.005" width="0.127" layer="21" curve="-90"/>
+<wire x1="3" y1="56.005" x2="82" y2="56.005" width="0.127" layer="21"/>
+<wire x1="0" y1="53.005" x2="3" y2="56.005" width="0.127" layer="21" curve="-90"/>
+<wire x1="0" y1="3.005" x2="0" y2="53.005" width="0.127" layer="21"/>
 <smd name="P$41" x="8.370546875" y="6.3507625" dx="1.778" dy="1.27" layer="1" rot="R90"/>
 <smd name="P$42" x="8.370546875" y="0.7627625" dx="1.778" dy="1.27" layer="1" rot="R90"/>
 <smd name="P$43" x="10.910546875" y="6.3507625" dx="1.778" dy="1.27" layer="1" rot="R90"/>
@@ -18451,7 +18451,7 @@ microcontroller for parameter setting.</description>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0.254" drill="0.35">
+<class number="0" name="default" width="0.2032" drill="0.35">
 <clearance class="0" value="0.1524"/>
 </class>
 <class number="1" name="power" width="0.2794" drill="0.35">
