@@ -6,3 +6,11 @@ ideas..
 - relay outputs
 - spi connection esp8266 to stm32
 - spi connection to exp. module.
+- push button
+- I/O on rPi
+
+- VREFOPAMP3 connected to ADC3 channel 17
+
+
+
+
