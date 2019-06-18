@@ -58,3 +58,4 @@ Firmware examples included in this repository:
 ### Other:
 
 - [STM32F103 BluePill Blink](docs/bluepill.md)
+- [CAD files from ST](docs/cad-files.md)
