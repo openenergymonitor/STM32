@@ -9,8 +9,5 @@ ideas..
 - push button
 - I/O on rPi
 
-- VREFOPAMP3 connected to ADC3 channel 17
-
-
 
 
