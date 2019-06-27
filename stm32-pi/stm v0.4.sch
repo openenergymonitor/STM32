@@ -18550,7 +18550,7 @@ W = angled&lt;p&gt;
 <part name="3POLE_5" library="OMNIMATE_LSF" deviceset="OMNIMATE_LSF_3" device=""/>
 <part name="P+2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="SUPPLY24" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="U$8" library="MCP1501T-33E" deviceset="MCP1501T-33E" device=""/>
+<part name="VREF_3V3" library="MCP1501T-33E" deviceset="MCP1501T-33E" device=""/>
 <part name="SJ2" library="SparkFun" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="R6" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="BOOT_ESP" library="SparkFun" deviceset="M02" device="PTH"/>
@@ -18601,7 +18601,7 @@ W = angled&lt;p&gt;
 <part name="C13" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="10nF"/>
 <part name="C17" library="resistor" deviceset="C-EU" device="C0603" value="1uF"/>
 <part name="SUPPLY31" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="EXPANSION" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA13-2" device="" package3d_urn="urn:adsk.eagle:package:8333/1"/>
+<part name="EXPANSION_MODULE" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA13-2" device="" package3d_urn="urn:adsk.eagle:package:8333/1"/>
 <part name="UART_STM" library="con-lstb-db" deviceset="MA06-1" device=""/>
 <part name="S3" library="smd-special" library_urn="urn:adsk.eagle:library:362" deviceset="SWS001" device="" package3d_urn="urn:adsk.eagle:package:26467/1"/>
 <part name="S2" library="smd-special" library_urn="urn:adsk.eagle:library:362" deviceset="SWS001" device="" package3d_urn="urn:adsk.eagle:package:26467/1"/>
@@ -18621,6 +18621,9 @@ W = angled&lt;p&gt;
 <part name="R8" library="resistor" deviceset="R-EU_" device="R0603" value="4.7k"/>
 <part name="+3V5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="UART1" library="SparkFun" deviceset="M02" device="PTH"/>
+<part name="BUTTON1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="31-XX" device="" package3d_urn="urn:adsk.eagle:package:27487/1"/>
+<part name="SUPPLY12" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="SUPPLY34" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -18647,8 +18650,6 @@ SWDIO + SWCLK added to the top</text>
 <text x="-33.02" y="-81.28" size="3.81" layer="91">BOOT / RFM69 / ESP12</text>
 <text x="241.3" y="-99.06" size="3.81" layer="91">MBUS</text>
 <text x="-223.52" y="129.54" size="3.81" layer="91">rPi</text>
-<text x="-193.04" y="15.24" size="25.4" layer="97">EXPANSION MODULE WIRING
-PUSH BUTTONS TO STM32 &amp; PI</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-25.4" y="170.18" smashed="yes">
@@ -19044,7 +19045,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <instance part="SUPPLY24" gate="GND" x="123.19" y="151.638" smashed="yes">
 <attribute name="VALUE" x="121.285" y="148.463" size="1.778" layer="96"/>
 </instance>
-<instance part="U$8" gate="G$1" x="143.51" y="170.688" smashed="yes"/>
+<instance part="VREF_3V3" gate="G$1" x="143.51" y="170.688" smashed="yes"/>
 <instance part="SJ2" gate="1" x="139.7" y="152.4" smashed="yes">
 <attribute name="NAME" x="140.716" y="154.178" size="1.778" layer="95"/>
 </instance>
@@ -19072,7 +19073,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <attribute name="NAME" x="155.321" y="-90.424" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="150.241" y="-90.424" size="1.778" layer="96" rot="R270"/>
 </instance>
-<instance part="3POLE_6" gate="G$1" x="228.6" y="-25.4" smashed="yes" rot="R180"/>
+<instance part="3POLE_6" gate="G$1" x="228.6" y="-27.94" smashed="yes" rot="R180"/>
 <instance part="SJ5" gate="1" x="-170.18" y="63.5" smashed="yes">
 <attribute name="NAME" x="-169.164" y="65.278" size="1.778" layer="95"/>
 </instance>
@@ -19219,7 +19220,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <instance part="SUPPLY31" gate="GND" x="22.86" y="76.2" smashed="yes">
 <attribute name="VALUE" x="20.955" y="73.025" size="1.778" layer="96"/>
 </instance>
-<instance part="EXPANSION" gate="G$1" x="292.1" y="-38.1" smashed="yes" rot="R180">
+<instance part="EXPANSION_MODULE" gate="G$1" x="292.1" y="-38.1" smashed="yes" rot="R180">
 <attribute name="VALUE" x="295.91" y="-17.78" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="295.91" y="-56.642" size="1.778" layer="95" rot="R180"/>
 </instance>
@@ -19258,9 +19259,9 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <attribute name="NAME" x="240.919" y="-13.716" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="245.999" y="-13.716" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="C21" gate="G$1" x="241.3" y="-25.4" smashed="yes" rot="R90">
-<attribute name="NAME" x="240.919" y="-23.876" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="245.999" y="-23.876" size="1.778" layer="96" rot="R90"/>
+<instance part="C21" gate="G$1" x="241.3" y="-27.94" smashed="yes" rot="R90">
+<attribute name="NAME" x="240.919" y="-26.416" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="245.999" y="-26.416" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="C22" gate="G$1" x="292.1" y="12.7" smashed="yes" rot="R270">
 <attribute name="NAME" x="292.481" y="11.176" size="1.778" layer="95" rot="R270"/>
@@ -19294,6 +19295,16 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <instance part="UART1" gate="G$1" x="32.004" y="-20.32" smashed="yes">
 <attribute name="VALUE" x="29.464" y="-25.4" size="1.778" layer="96"/>
 <attribute name="NAME" x="29.464" y="-14.478" size="1.778" layer="95"/>
+</instance>
+<instance part="BUTTON1" gate="1" x="-30.48" y="12.7" smashed="yes">
+<attribute name="NAME" x="-36.83" y="10.795" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="-34.29" y="15.875" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="SUPPLY12" gate="GND" x="-30.48" y="0.762" smashed="yes">
+<attribute name="VALUE" x="-32.385" y="-2.413" size="1.778" layer="96"/>
+</instance>
+<instance part="SUPPLY34" gate="GND" x="-15.24" y="0.762" smashed="yes">
+<attribute name="VALUE" x="-17.145" y="-2.413" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -19378,11 +19389,6 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="213.36" y="17.78" size="1.778" layer="95"/>
 <wire x1="226.06" y1="17.78" x2="213.36" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="3POLE_2" gate="G$1" pin="3"/>
-</segment>
-<segment>
-<label x="213.36" y="27.94" size="1.778" layer="95"/>
-<wire x1="226.06" y1="27.94" x2="213.36" y2="27.94" width="0.1524" layer="91"/>
-<pinref part="3POLE_1" gate="G$1" pin="3"/>
 </segment>
 <segment>
 <wire x1="53.34" y1="-38.1" x2="63.5" y2="-38.1" width="0.1524" layer="91"/>
@@ -19505,7 +19511,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="125.73" y1="160.528" x2="127" y2="154.178" width="0.1524" layer="91"/>
 <wire x1="127" y1="154.178" x2="127" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="123.19" y1="154.178" x2="127" y2="154.178" width="0.1524" layer="91"/>
-<pinref part="U$8" gate="G$1" pin="GND"/>
+<pinref part="VREF_3V3" gate="G$1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="UART_ESP" gate="1" pin="1"/>
@@ -19606,8 +19612,8 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 </segment>
 <segment>
 <pinref part="3POLE_6" gate="G$1" pin="3"/>
-<wire x1="226.06" y1="-22.86" x2="213.36" y2="-22.86" width="0.1524" layer="91"/>
-<label x="213.36" y="-22.86" size="1.778" layer="95"/>
+<wire x1="226.06" y1="-25.4" x2="213.36" y2="-25.4" width="0.1524" layer="91"/>
+<label x="213.36" y="-25.4" size="1.778" layer="95"/>
 <pinref part="C10" gate="G$1" pin="2"/>
 <pinref part="C15" gate="G$1" pin="2"/>
 <wire x1="246.38" y1="15.24" x2="246.38" y2="12.7" width="0.1524" layer="91"/>
@@ -19619,18 +19625,25 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="246.38" y1="-5.08" x2="246.38" y2="-15.24" width="0.1524" layer="91"/>
 <junction x="246.38" y="-5.08"/>
 <pinref part="C21" gate="G$1" pin="2"/>
-<wire x1="246.38" y1="-15.24" x2="246.38" y2="-22.86" width="0.1524" layer="91"/>
+<wire x1="246.38" y1="-15.24" x2="246.38" y2="-25.4" width="0.1524" layer="91"/>
 <junction x="246.38" y="-15.24"/>
-<wire x1="246.38" y1="-25.4" x2="246.38" y2="-22.86" width="0.1524" layer="91"/>
-<wire x1="246.38" y1="-22.86" x2="226.06" y2="-22.86" width="0.1524" layer="91"/>
-<junction x="246.38" y="-22.86"/>
-<junction x="226.06" y="-22.86"/>
+<wire x1="246.38" y1="-27.94" x2="246.38" y2="-25.4" width="0.1524" layer="91"/>
+<wire x1="246.38" y1="-25.4" x2="226.06" y2="-25.4" width="0.1524" layer="91"/>
+<junction x="246.38" y="-25.4"/>
+<junction x="226.06" y="-25.4"/>
 <pinref part="C22" gate="G$1" pin="2"/>
 <wire x1="287.02" y1="12.7" x2="246.38" y2="12.7" width="0.1524" layer="91"/>
 <junction x="246.38" y="12.7"/>
-<wire x1="246.38" y1="-25.4" x2="246.38" y2="-30.48" width="0.1524" layer="91"/>
-<junction x="246.38" y="-25.4"/>
+<wire x1="246.38" y1="-27.94" x2="246.38" y2="-30.48" width="0.1524" layer="91"/>
+<junction x="246.38" y="-27.94"/>
 <pinref part="SUPPLY11" gate="GND" pin="GND"/>
+<label x="213.36" y="27.94" size="1.778" layer="95"/>
+<wire x1="226.06" y1="27.94" x2="213.36" y2="27.94" width="0.1524" layer="91"/>
+<pinref part="3POLE_1" gate="G$1" pin="3"/>
+<wire x1="226.06" y1="27.94" x2="246.38" y2="27.94" width="0.1524" layer="91"/>
+<junction x="226.06" y="27.94"/>
+<wire x1="246.38" y1="27.94" x2="246.38" y2="15.24" width="0.1524" layer="91"/>
+<junction x="246.38" y="15.24"/>
 </segment>
 <segment>
 <pinref part="RFM69HCW" gate="U$1" pin="GND"/>
@@ -19693,6 +19706,34 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="35.56" y1="-132.08" x2="40.64" y2="-132.08" width="0.1524" layer="91"/>
 <junction x="40.64" y="-132.08"/>
 </segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="26"/>
+<wire x1="299.72" y1="-53.34" x2="302.26" y2="-53.34" width="0.1524" layer="91"/>
+<label x="302.26" y="-53.34" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="1"/>
+<wire x1="284.48" y1="-22.86" x2="271.78" y2="-22.86" width="0.1524" layer="91"/>
+<label x="271.78" y="-22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="14"/>
+<wire x1="299.72" y1="-38.1" x2="302.26" y2="-38.1" width="0.1524" layer="91"/>
+<label x="302.26" y="-38.1" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="-30.48" y1="3.175" x2="-30.48" y2="3.302" width="0.1524" layer="91"/>
+<pinref part="BUTTON1" gate="1" pin="P"/>
+<pinref part="SUPPLY12" gate="GND" pin="GND"/>
+<wire x1="-30.48" y1="3.302" x2="-30.48" y2="7.62" width="0.1524" layer="91"/>
+<junction x="-30.48" y="3.302"/>
+</segment>
+<segment>
+<wire x1="-15.24" y1="3.175" x2="-15.24" y2="3.302" width="0.1524" layer="91"/>
+<pinref part="SUPPLY34" gate="GND" pin="GND"/>
+<wire x1="-15.24" y1="3.302" x2="-15.24" y2="7.62" width="0.1524" layer="91"/>
+<junction x="-15.24" y="3.302"/>
+</segment>
 </net>
 <net name="+5V" class="1">
 <segment>
@@ -19716,7 +19757,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 </segment>
 <segment>
 <pinref part="P+2" gate="1" pin="+5V"/>
-<pinref part="U$8" gate="G$1" pin="VDD"/>
+<pinref part="VREF_3V3" gate="G$1" pin="VDD"/>
 <wire x1="125.73" y1="175.768" x2="121.92" y2="175.768" width="0.1524" layer="91"/>
 <wire x1="121.92" y1="175.768" x2="121.92" y2="180.34" width="0.1524" layer="91"/>
 <junction x="121.92" y="180.34"/>
@@ -19745,6 +19786,11 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <pinref part="U$2" gate="G$1" pin="+5V"/>
 <wire x1="330.2" y1="-165.1" x2="325.12" y2="-165.1" width="0.1524" layer="91"/>
 <label x="322.58" y="-165.1" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="2"/>
+<wire x1="299.72" y1="-22.86" x2="302.26" y2="-22.86" width="0.1524" layer="91"/>
+<label x="302.26" y="-22.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="+3V3" class="1">
@@ -19840,7 +19886,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="157.48" y="-81.28"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="SHT_DN"/>
+<pinref part="VREF_3V3" gate="G$1" pin="SHT_DN"/>
 <wire x1="125.73" y1="168.148" x2="121.666" y2="168.148" width="0.1524" layer="91"/>
 <label x="119.126" y="168.402" size="1.778" layer="95"/>
 <pinref part="SJ2" gate="1" pin="1"/>
@@ -19881,8 +19927,8 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 </segment>
 <segment>
 <pinref part="3POLE_6" gate="G$1" pin="1"/>
-<wire x1="226.06" y1="-27.94" x2="213.36" y2="-27.94" width="0.1524" layer="91"/>
-<label x="213.36" y="-27.94" size="1.778" layer="95"/>
+<wire x1="226.06" y1="-30.48" x2="213.36" y2="-30.48" width="0.1524" layer="91"/>
+<label x="213.36" y="-30.48" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="STM32F303VB" gate="G$1" pin="VDDA"/>
@@ -19899,6 +19945,11 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <pinref part="R8" gate="G$1" pin="2"/>
 <wire x1="177.038" y1="98.552" x2="177.038" y2="102.362" width="0.1524" layer="91"/>
 <pinref part="+3V5" gate="G$1" pin="+3V3"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="4"/>
+<wire x1="299.72" y1="-25.4" x2="302.26" y2="-25.4" width="0.1524" layer="91"/>
+<label x="302.26" y="-25.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BOOT0" class="0">
@@ -19944,6 +19995,11 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <pinref part="RST" gate="1" pin="S"/>
 <wire x1="-17.78" y1="60.96" x2="-17.78" y2="63.5" width="0.1524" layer="91"/>
 <label x="-17.272" y="63.5" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO5"/>
+<wire x1="-147.32" y1="38.1" x2="-167.64" y2="38.1" width="0.1524" layer="91"/>
+<label x="-167.64" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SWDIO" class="0">
@@ -20359,21 +20415,21 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="50.8" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="DS18B20_1" class="0">
+<net name="DS18B20_RJ45" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="159.258" y1="88.392" x2="159.258" y2="84.074" width="0.1524" layer="91"/>
-<label x="154.432" y="81.534" size="1.778" layer="95"/>
+<label x="149.352" y="81.534" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PC6"/>
-<wire x1="114.3" y1="58.42" x2="124.46" y2="58.42" width="0.1524" layer="91"/>
-<label x="121.92" y="58.42" size="1.778" layer="95"/>
+<pinref part="RJ45_1" gate="JP1" pin="4"/>
+<wire x1="325.12" y1="17.78" x2="302.26" y2="17.78" width="0.1524" layer="91"/>
+<label x="302.26" y="17.78" size="1.778" layer="95"/>
 </segment>
 <segment>
-<label x="213.36" y="25.4" size="1.778" layer="95"/>
-<wire x1="226.06" y1="25.4" x2="213.36" y2="25.4" width="0.1524" layer="91"/>
-<pinref part="3POLE_1" gate="G$1" pin="2"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PC9"/>
+<wire x1="114.3" y1="50.8" x2="124.46" y2="50.8" width="0.1524" layer="91"/>
+<label x="121.92" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$41" class="0">
@@ -20761,7 +20817,7 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <net name="+3V3_ADC" class="0">
 <segment>
 <label x="157.48" y="157.48" size="1.778" layer="95"/>
-<pinref part="U$8" gate="G$1" pin="OUT"/>
+<pinref part="VREF_3V3" gate="G$1" pin="OUT"/>
 <wire x1="154.94" y1="160.528" x2="153.67" y2="160.528" width="0.1524" layer="91"/>
 <pinref part="SJ2" gate="1" pin="2"/>
 <wire x1="144.78" y1="152.4" x2="154.94" y2="152.4" width="0.1524" layer="91"/>
@@ -20920,6 +20976,11 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="-99.06" y1="33.02" x2="-96.52" y2="33.02" width="0.1524" layer="91"/>
 <label x="-96.52" y="33.02" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO8"/>
+<wire x1="-119.38" y1="53.34" x2="-111.76" y2="53.34" width="0.1524" layer="91"/>
+<label x="-111.76" y="53.34" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SPI3_CLK" class="0">
 <segment>
@@ -20986,15 +21047,6 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="119.38" y="88.9" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="PCB2" gate="G$1" pin="GPIO14"/>
-<wire x1="-119.38" y1="93.98" x2="-109.22" y2="93.98" width="0.1524" layer="91"/>
-<label x="-93.98" y="93.98" size="1.778" layer="95"/>
-<pinref part="SJ11" gate="1" pin="1"/>
-<wire x1="-109.22" y1="93.98" x2="-109.22" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="-93.98" y1="93.98" x2="-109.22" y2="93.98" width="0.1524" layer="91"/>
-<junction x="-109.22" y="93.98"/>
-</segment>
-<segment>
 <pinref part="SJ9" gate="1" pin="1"/>
 <wire x1="71.12" y1="-99.06" x2="71.12" y2="-91.44" width="0.1524" layer="91"/>
 <label x="71.374" y="-89.408" size="1.778" layer="95" rot="R180"/>
@@ -21005,15 +21057,6 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="114.3" y1="91.44" x2="124.46" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="STM32F303VB" gate="G$1" pin="PB10"/>
 <label x="119.38" y="91.44" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="PCB2" gate="G$1" pin="GPIO15"/>
-<wire x1="-119.38" y1="88.9" x2="-109.22" y2="88.9" width="0.1524" layer="91"/>
-<label x="-93.98" y="88.9" size="1.778" layer="95"/>
-<pinref part="SJ12" gate="1" pin="1"/>
-<wire x1="-109.22" y1="88.9" x2="-109.22" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="-93.98" y1="88.9" x2="-109.22" y2="88.9" width="0.1524" layer="91"/>
-<junction x="-109.22" y="88.9"/>
 </segment>
 <segment>
 <pinref part="SJ10" gate="1" pin="2"/>
@@ -21031,9 +21074,9 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="226.06" y="5.08"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PC8"/>
-<wire x1="114.3" y1="53.34" x2="124.46" y2="53.34" width="0.1524" layer="91"/>
-<label x="121.92" y="53.34" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PC6"/>
+<wire x1="114.3" y1="58.42" x2="124.46" y2="58.42" width="0.1524" layer="91"/>
+<label x="121.92" y="58.42" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PUSHIN_4" class="0">
@@ -21046,24 +21089,24 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="226.06" y="-5.08"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PC9"/>
-<wire x1="114.3" y1="50.8" x2="124.46" y2="50.8" width="0.1524" layer="91"/>
-<label x="121.92" y="50.8" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PC7"/>
+<wire x1="114.3" y1="55.88" x2="124.46" y2="55.88" width="0.1524" layer="91"/>
+<label x="121.92" y="55.88" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PUSHIN_1" class="0">
 <segment>
 <pinref part="3POLE_6" gate="G$1" pin="2"/>
-<wire x1="226.06" y1="-25.4" x2="213.36" y2="-25.4" width="0.1524" layer="91"/>
-<label x="208.28" y="-25.4" size="1.778" layer="95"/>
+<wire x1="226.06" y1="-27.94" x2="213.36" y2="-27.94" width="0.1524" layer="91"/>
+<label x="208.28" y="-27.94" size="1.778" layer="95"/>
 <pinref part="C21" gate="G$1" pin="1"/>
-<wire x1="226.06" y1="-25.4" x2="238.76" y2="-25.4" width="0.1524" layer="91"/>
-<junction x="226.06" y="-25.4"/>
+<wire x1="226.06" y1="-27.94" x2="238.76" y2="-27.94" width="0.1524" layer="91"/>
+<junction x="226.06" y="-27.94"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PB8"/>
-<wire x1="114.3" y1="96.52" x2="124.46" y2="96.52" width="0.1524" layer="91"/>
-<label x="119.38" y="96.52" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PB9"/>
+<wire x1="114.3" y1="93.98" x2="124.46" y2="93.98" width="0.1524" layer="91"/>
+<label x="119.38" y="93.98" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MBUS_RX" class="0">
@@ -21207,12 +21250,22 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="114.3" y1="73.66" x2="121.92" y2="73.66" width="0.1524" layer="91"/>
 <label x="121.92" y="73.66" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="10"/>
+<wire x1="299.72" y1="-33.02" x2="302.26" y2="-33.02" width="0.1524" layer="91"/>
+<label x="302.26" y="-33.02" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="CT7_EX" class="0">
 <segment>
 <pinref part="STM32F303VB" gate="G$1" pin="PC1"/>
 <wire x1="114.3" y1="71.12" x2="121.92" y2="71.12" width="0.1524" layer="91"/>
 <label x="121.92" y="71.12" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="9"/>
+<wire x1="284.48" y1="-33.02" x2="271.78" y2="-33.02" width="0.1524" layer="91"/>
+<label x="271.78" y="-33.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VSIG4" class="0">
@@ -21246,70 +21299,59 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="121.92" y="27.94" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$9" class="0">
+<net name="VT3_EX" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="1"/>
-<wire x1="284.48" y1="-22.86" x2="274.32" y2="-22.86" width="0.1524" layer="91"/>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="13"/>
+<wire x1="284.48" y1="-38.1" x2="271.78" y2="-38.1" width="0.1524" layer="91"/>
+<label x="271.78" y="-38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$13" class="0">
+<net name="IO1_EX" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="3"/>
-<wire x1="284.48" y1="-25.4" x2="274.32" y2="-25.4" width="0.1524" layer="91"/>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="15"/>
+<wire x1="284.48" y1="-40.64" x2="271.78" y2="-40.64" width="0.1524" layer="91"/>
+<label x="271.78" y="-40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE0"/>
+<wire x1="114.3" y1="-7.62" x2="124.46" y2="-7.62" width="0.1524" layer="91"/>
+<label x="121.92" y="-7.62" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="IO3_EX" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="5"/>
-<wire x1="284.48" y1="-27.94" x2="274.32" y2="-27.94" width="0.1524" layer="91"/>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="17"/>
+<wire x1="284.48" y1="-43.18" x2="271.78" y2="-43.18" width="0.1524" layer="91"/>
+<label x="271.78" y="-43.18" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE2"/>
+<wire x1="114.3" y1="-12.7" x2="124.46" y2="-12.7" width="0.1524" layer="91"/>
+<label x="121.92" y="-12.7" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="IO5_EX" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="7"/>
-<wire x1="284.48" y1="-30.48" x2="274.32" y2="-30.48" width="0.1524" layer="91"/>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="19"/>
+<wire x1="284.48" y1="-45.72" x2="271.78" y2="-45.72" width="0.1524" layer="91"/>
+<label x="271.78" y="-45.72" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE4"/>
+<wire x1="114.3" y1="-17.78" x2="124.46" y2="-17.78" width="0.1524" layer="91"/>
+<label x="121.92" y="-17.78" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$17" class="0">
+<net name="IO7_EX" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="9"/>
-<wire x1="284.48" y1="-33.02" x2="274.32" y2="-33.02" width="0.1524" layer="91"/>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="21"/>
+<wire x1="284.48" y1="-48.26" x2="271.78" y2="-48.26" width="0.1524" layer="91"/>
+<label x="271.78" y="-48.26" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="N$18" class="0">
 <segment>
-<pinref part="EXPANSION" gate="G$1" pin="11"/>
-<wire x1="284.48" y1="-35.56" x2="274.32" y2="-35.56" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$19" class="0">
-<segment>
-<pinref part="EXPANSION" gate="G$1" pin="13"/>
-<wire x1="284.48" y1="-38.1" x2="274.32" y2="-38.1" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$20" class="0">
-<segment>
-<pinref part="EXPANSION" gate="G$1" pin="15"/>
-<wire x1="284.48" y1="-40.64" x2="274.32" y2="-40.64" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$21" class="0">
-<segment>
-<pinref part="EXPANSION" gate="G$1" pin="17"/>
-<wire x1="284.48" y1="-43.18" x2="274.32" y2="-43.18" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$23" class="0">
-<segment>
-<pinref part="EXPANSION" gate="G$1" pin="19"/>
-<wire x1="284.48" y1="-45.72" x2="274.32" y2="-45.72" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$25" class="0">
-<segment>
-<pinref part="EXPANSION" gate="G$1" pin="21"/>
-<wire x1="284.48" y1="-48.26" x2="274.32" y2="-48.26" width="0.1524" layer="91"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PE6"/>
+<wire x1="114.3" y1="-22.86" x2="124.46" y2="-22.86" width="0.1524" layer="91"/>
+<label x="121.92" y="-22.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VSIG6" class="0">
@@ -21325,12 +21367,22 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="63.5" y1="-5.08" x2="53.34" y2="-5.08" width="0.1524" layer="91"/>
 <label x="53.34" y="-5.08" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="3"/>
+<wire x1="284.48" y1="-25.4" x2="271.78" y2="-25.4" width="0.1524" layer="91"/>
+<label x="271.78" y="-25.4" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="CT2_EX" class="0">
 <segment>
 <pinref part="STM32F303VB" gate="G$1" pin="PA5"/>
 <wire x1="63.5" y1="-7.62" x2="53.34" y2="-7.62" width="0.1524" layer="91"/>
 <label x="53.34" y="-7.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="6"/>
+<wire x1="299.72" y1="-27.94" x2="302.26" y2="-27.94" width="0.1524" layer="91"/>
+<label x="302.26" y="-27.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CT3_EX" class="0">
@@ -21339,6 +21391,11 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <pinref part="STM32F303VB" gate="G$1" pin="PA6"/>
 <label x="53.34" y="-10.16" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="5"/>
+<wire x1="284.48" y1="-27.94" x2="271.78" y2="-27.94" width="0.1524" layer="91"/>
+<label x="271.78" y="-27.94" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="CT4_EX" class="0">
 <segment>
@@ -21346,12 +21403,22 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <pinref part="STM32F303VB" gate="G$1" pin="PA7"/>
 <label x="53.34" y="-12.7" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="8"/>
+<wire x1="299.72" y1="-30.48" x2="302.26" y2="-30.48" width="0.1524" layer="91"/>
+<label x="302.26" y="-30.48" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="CT5_EX" class="0">
 <segment>
 <pinref part="STM32F303VB" gate="G$1" pin="PC4"/>
 <wire x1="114.3" y1="63.5" x2="124.46" y2="63.5" width="0.1524" layer="91"/>
 <label x="121.92" y="63.5" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="7"/>
+<wire x1="284.48" y1="-30.48" x2="271.78" y2="-30.48" width="0.1524" layer="91"/>
+<label x="271.78" y="-30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$26" class="0">
@@ -21384,12 +21451,17 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="374.65" y="149.86"/>
 </segment>
 </net>
-<net name="PULSE1" class="0">
+<net name="PULSE1_RJ45" class="0">
 <segment>
 <pinref part="RJ45_1" gate="JP1" pin="6"/>
 <wire x1="325.12" y1="12.7" x2="294.64" y2="12.7" width="0.1524" layer="91"/>
 <label x="302.26" y="12.7" size="1.778" layer="95"/>
 <pinref part="C22" gate="G$1" pin="1"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PA8"/>
+<wire x1="63.5" y1="-15.24" x2="53.34" y2="-15.24" width="0.1524" layer="91"/>
+<label x="45.72" y="-15.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PULSE2" class="0">
@@ -21402,9 +21474,9 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="226.06" y="-15.24"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PA8"/>
-<wire x1="63.5" y1="-15.24" x2="53.34" y2="-15.24" width="0.1524" layer="91"/>
-<label x="50.8" y="-15.24" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PC8"/>
+<wire x1="114.3" y1="53.34" x2="124.46" y2="53.34" width="0.1524" layer="91"/>
+<label x="121.92" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DS18B20_2" class="0">
@@ -21414,9 +21486,14 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="172.212" y="81.534" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="RJ45_1" gate="JP1" pin="4"/>
-<wire x1="325.12" y1="17.78" x2="302.26" y2="17.78" width="0.1524" layer="91"/>
-<label x="302.26" y="17.78" size="1.778" layer="95"/>
+<label x="213.36" y="25.4" size="1.778" layer="95"/>
+<wire x1="226.06" y1="25.4" x2="213.36" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="3POLE_1" gate="G$1" pin="2"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PD14"/>
+<wire x1="114.3" y1="0" x2="121.92" y2="0" width="0.1524" layer="91"/>
+<label x="121.92" y="0" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PUSHIN_2" class="0">
@@ -21429,9 +21506,9 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <junction x="226.06" y="15.24"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PC7"/>
-<wire x1="114.3" y1="55.88" x2="124.46" y2="55.88" width="0.1524" layer="91"/>
-<label x="121.92" y="55.88" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PD15"/>
+<wire x1="114.3" y1="-2.54" x2="121.92" y2="-2.54" width="0.1524" layer="91"/>
+<label x="121.92" y="-2.54" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="UART1_TX" class="0">
@@ -21441,6 +21518,15 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <label x="43.18" y="-17.78" size="1.778" layer="95"/>
 <pinref part="UART1" gate="G$1" pin="2"/>
 </segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO15"/>
+<wire x1="-119.38" y1="88.9" x2="-109.22" y2="88.9" width="0.1524" layer="91"/>
+<label x="-93.98" y="88.9" size="1.778" layer="95"/>
+<pinref part="SJ12" gate="1" pin="1"/>
+<wire x1="-109.22" y1="88.9" x2="-109.22" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="-93.98" y1="88.9" x2="-109.22" y2="88.9" width="0.1524" layer="91"/>
+<junction x="-109.22" y="88.9"/>
+</segment>
 </net>
 <net name="UART1_RX" class="0">
 <segment>
@@ -21448,6 +21534,190 @@ PUSH BUTTONS TO STM32 &amp; PI</text>
 <wire x1="63.5" y1="-20.32" x2="39.624" y2="-20.32" width="0.1524" layer="91"/>
 <label x="43.18" y="-20.32" size="1.778" layer="95"/>
 <pinref part="UART1" gate="G$1" pin="1"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO14"/>
+<wire x1="-119.38" y1="93.98" x2="-109.22" y2="93.98" width="0.1524" layer="91"/>
+<label x="-93.98" y="93.98" size="1.778" layer="95"/>
+<pinref part="SJ11" gate="1" pin="1"/>
+<wire x1="-109.22" y1="93.98" x2="-109.22" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="-93.98" y1="93.98" x2="-109.22" y2="93.98" width="0.1524" layer="91"/>
+<junction x="-109.22" y="93.98"/>
+</segment>
+</net>
+<net name="VT1_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="11"/>
+<wire x1="284.48" y1="-35.56" x2="271.78" y2="-35.56" width="0.1524" layer="91"/>
+<label x="271.78" y="-35.56" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IO2_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="16"/>
+<wire x1="299.72" y1="-40.64" x2="302.26" y2="-40.64" width="0.1524" layer="91"/>
+<label x="302.26" y="-40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE1"/>
+<wire x1="114.3" y1="-10.16" x2="124.46" y2="-10.16" width="0.1524" layer="91"/>
+<label x="121.92" y="-10.16" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IO4_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="18"/>
+<wire x1="299.72" y1="-43.18" x2="302.26" y2="-43.18" width="0.1524" layer="91"/>
+<label x="302.26" y="-43.18" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE3"/>
+<wire x1="114.3" y1="-15.24" x2="124.46" y2="-15.24" width="0.1524" layer="91"/>
+<label x="121.92" y="-15.24" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IO6_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="20"/>
+<wire x1="299.72" y1="-45.72" x2="302.26" y2="-45.72" width="0.1524" layer="91"/>
+<label x="302.26" y="-45.72" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PE5"/>
+<wire x1="114.3" y1="-20.32" x2="124.46" y2="-20.32" width="0.1524" layer="91"/>
+<label x="121.92" y="-20.32" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IO8_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="22"/>
+<wire x1="299.72" y1="-48.26" x2="302.26" y2="-48.26" width="0.1524" layer="91"/>
+<label x="302.26" y="-48.26" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PB5"/>
+<wire x1="114.3" y1="104.14" x2="124.46" y2="104.14" width="0.1524" layer="91"/>
+<label x="121.92" y="104.14" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="I010_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="24"/>
+<wire x1="299.72" y1="-50.8" x2="302.26" y2="-50.8" width="0.1524" layer="91"/>
+<label x="302.26" y="-50.8" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="I011_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="25"/>
+<wire x1="284.48" y1="-53.34" x2="271.78" y2="-53.34" width="0.1524" layer="91"/>
+<label x="271.78" y="-53.34" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="VT2_EX" class="0">
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="12"/>
+<wire x1="299.72" y1="-35.56" x2="302.26" y2="-35.56" width="0.1524" layer="91"/>
+<label x="302.26" y="-35.56" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="BUTTON1" class="0">
+<segment>
+<pinref part="BUTTON1" gate="1" pin="S"/>
+<wire x1="-30.48" y1="17.78" x2="-30.48" y2="20.32" width="0.1524" layer="91"/>
+<label x="-29.972" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PB14"/>
+<wire x1="114.3" y1="81.28" x2="127" y2="81.28" width="0.1524" layer="91"/>
+<label x="119.38" y="81.28" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO4"/>
+<wire x1="-147.32" y1="93.98" x2="-162.56" y2="93.98" width="0.1524" layer="91"/>
+<label x="-165.1" y="93.98" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="BUTTON2" class="0">
+<segment>
+<wire x1="-15.24" y1="17.78" x2="-15.24" y2="20.32" width="0.1524" layer="91"/>
+<label x="-14.732" y="20.32" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IO11_EX" class="0">
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PB8"/>
+<wire x1="114.3" y1="96.52" x2="124.46" y2="96.52" width="0.1524" layer="91"/>
+<label x="121.92" y="96.52" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO7"/>
+<wire x1="-119.38" y1="48.26" x2="-111.76" y2="48.26" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RPI_GPIO16" class="0">
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PD12"/>
+<wire x1="114.3" y1="5.08" x2="124.46" y2="5.08" width="0.1524" layer="91"/>
+<label x="121.92" y="5.08" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO16"/>
+<wire x1="-119.38" y1="22.86" x2="-109.22" y2="22.86" width="0.1524" layer="91"/>
+<label x="-111.76" y="22.86" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="RPI_GPIO20" class="0">
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PD13"/>
+<wire x1="114.3" y1="2.54" x2="124.46" y2="2.54" width="0.1524" layer="91"/>
+<label x="121.92" y="2.54" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="GPIO20"/>
+<wire x1="-119.38" y1="17.78" x2="-109.22" y2="17.78" width="0.1524" layer="91"/>
+<label x="-111.76" y="17.78" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SDA" class="0">
+<segment>
+<pinref part="ESP12" gate="G$1" pin="GPIO4"/>
+<wire x1="81.28" y1="-114.3" x2="83.82" y2="-114.3" width="0.1524" layer="91"/>
+<label x="78.74" y="-114.3" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PB7"/>
+<wire x1="114.3" y1="99.06" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
+<label x="121.92" y="99.06" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="ID_SD*"/>
+<wire x1="-147.32" y1="43.18" x2="-167.64" y2="43.18" width="0.1524" layer="91"/>
+<label x="-167.64" y="43.18" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SCK" class="0">
+<segment>
+<pinref part="ESP12" gate="G$1" pin="GPIO5"/>
+<wire x1="81.28" y1="-111.76" x2="83.82" y2="-111.76" width="0.1524" layer="91"/>
+<label x="78.74" y="-111.76" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="EXPANSION_MODULE" gate="G$1" pin="23"/>
+<wire x1="284.48" y1="-50.8" x2="271.78" y2="-50.8" width="0.1524" layer="91"/>
+<label x="271.78" y="-50.8" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="STM32F303VB" gate="G$1" pin="PB6"/>
+<wire x1="114.3" y1="101.6" x2="124.46" y2="101.6" width="0.1524" layer="91"/>
+<label x="121.92" y="101.6" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="PCB2" gate="G$1" pin="ID_SC*"/>
+<wire x1="-119.38" y1="43.18" x2="-109.22" y2="43.18" width="0.1524" layer="91"/>
+<label x="-109.22" y="43.18" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
