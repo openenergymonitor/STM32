@@ -7,7 +7,7 @@
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.000123031496" altunitdist="mil" altunit="mil"/>
+<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -5420,7 +5420,6 @@ W = angled&lt;p&gt;
 <attribute name="VALUE" x="111.633" y="90.043" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="S1" library="smd-special" library_urn="urn:adsk.eagle:library:362" package="SMS-001" package3d_urn="urn:adsk.eagle:package:26467/1" value="SWS001" x="120.904" y="93.218" smashed="yes">
-<attribute name="MPN" value="SDA01H1SBD" x="120.904" y="93.218" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="124.587" y="89.535" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="124.46" y="90.043" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>

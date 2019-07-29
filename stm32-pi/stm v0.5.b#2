@@ -7,7 +7,7 @@
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.000123031496" altunitdist="mil" altunit="mil"/>
+<grid distance="0.000123031496" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -35,7 +35,7 @@
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
@@ -5043,7 +5043,6 @@ W = angled&lt;p&gt;
 <attribute name="NAME" x="98.37" y="100.53755625" size="1.6764" layer="25" rot="R270" align="center-left"/>
 </element>
 <element name="CT1" library="IotaWatt_parts" package="STEREO_SMT" value="STEREO_SMD" x="115.57" y="105.03755625" smashed="yes">
-<attribute name="MPN" value="SJ-3523-SMT" x="115.57" y="105.03755625" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="111.07" y="100.53755625" size="1.6764" layer="25" rot="R270" align="center-left"/>
 </element>
 <element name="VT2" library="adafruit" package="DCJACK_2MM_SMT" value="2.1MMJACKSMT" x="125.9355125" y="58.350375" smashed="yes" rot="R180"/>
@@ -5420,7 +5419,6 @@ W = angled&lt;p&gt;
 <attribute name="VALUE" x="111.633" y="90.043" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="S1" library="smd-special" library_urn="urn:adsk.eagle:library:362" package="SMS-001" package3d_urn="urn:adsk.eagle:package:26467/1" value="SWS001" x="120.904" y="93.218" smashed="yes">
-<attribute name="MPN" value="SDA01H1SBD" x="120.904" y="93.218" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="124.587" y="89.535" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="124.46" y="90.043" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
@@ -5719,6 +5717,14 @@ W = angled&lt;p&gt;
 <via x="43.362009375" y="41.54985625" extent="1-16" drill="0.5"/>
 <via x="47.9982625" y="28.353875" extent="1-16" drill="0.5"/>
 <wire x1="57.29524375" y1="40.70794375" x2="57.00189375" y2="41.00129375" width="0.254" layer="1"/>
+<wire x1="57.00189375" y1="41.00129375" x2="57.00189375" y2="41.399115625" width="0.254" layer="1"/>
+<wire x1="57.00189375" y1="41.399115625" x2="56.5853625" y2="41.815646875" width="0.254" layer="1"/>
+<wire x1="52.989134375" y1="41.815646875" x2="52.20686875" y2="42.5979125" width="0.254" layer="1"/>
+<wire x1="52.20686875" y1="42.5979125" x2="52.176390625" y2="42.567434375" width="0.254" layer="1"/>
+<wire x1="52.176390625" y1="42.567434375" x2="52.196709375" y2="42.547115625" width="0.254" layer="1"/>
+<wire x1="52.196709375" y1="42.547115625" x2="52.196709375" y2="42.53695625" width="0.254" layer="1"/>
+<wire x1="56.5853625" y1="41.815646875" x2="52.989134375" y2="41.815646875" width="0.254" layer="1"/>
+<wire x1="52.196709375" y1="42.53695625" x2="52.16623125" y2="42.506478125" width="0.254" layer="1"/>
 <via x="46.223465625" y="45.3229875" extent="1-16" drill="0.5"/>
 <via x="44.23965" y="45.358096875" extent="1-16" drill="0.5"/>
 <via x="50.243765625" y="45.25275625" extent="1-16" drill="0.5"/>
@@ -5796,12 +5802,6 @@ W = angled&lt;p&gt;
 <via x="104.521021875" y="6.459440625" extent="1-16" drill="0.5"/>
 <via x="103.06733125" y="5.974796875" extent="1-16" drill="0.5"/>
 <via x="103.383353125" y="7.4076625" extent="1-16" drill="0.5"/>
-<wire x1="57.29524375" y1="40.70794375" x2="56.896" y2="41.1071875" width="0.254" layer="1"/>
-<wire x1="56.896" y1="41.1071875" x2="56.896" y2="41.529" width="0.254" layer="1"/>
-<wire x1="56.896" y1="41.529" x2="56.515" y2="41.91" width="0.254" layer="1"/>
-<wire x1="56.515" y1="41.91" x2="55.118" y2="41.91" width="0.254" layer="1"/>
-<wire x1="55.118" y1="41.91" x2="54.554875" y2="42.473125" width="0.254" layer="1"/>
-<wire x1="54.554875" y1="42.473125" x2="54.554875" y2="42.654303125" width="0.254" layer="1"/>
 </signal>
 <signal name="+5V" class="1">
 <contactref element="MCP1825" pad="1"/>
