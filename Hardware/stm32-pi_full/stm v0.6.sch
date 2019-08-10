@@ -16290,152 +16290,6 @@ Epson Toyocom FCC-255</description>
 </library>
 <library name="e14_Rpi3_RevA+mirror-pcb copy">
 <packages>
-<package name="RPI3">
-<description>Package for the Raspberry Pi 3 board created by Dave Young for www.elemenet14.com based on documented dimensions and board measurements.
-For more documentation, please visit http://www.raspberrypi.org/documentation/hardware/raspberrypi/</description>
-<wire x1="85" y1="3" x2="85" y2="53" width="0.127" layer="51"/>
-<hole x="61.5" y="3.5" drill="2.75"/>
-<circle x="61.5" y="3.5" radius="3" width="0.127" layer="51"/>
-<wire x1="70" y1="22" x2="87" y2="22" width="0.127" layer="51"/>
-<wire x1="87" y1="22" x2="87" y2="35" width="0.127" layer="51"/>
-<wire x1="87" y1="35" x2="70" y2="35" width="0.127" layer="51"/>
-<wire x1="70" y1="41" x2="87" y2="41" width="0.127" layer="51"/>
-<wire x1="87" y1="41" x2="87" y2="54" width="0.127" layer="51"/>
-<wire x1="87" y1="54" x2="70" y2="54" width="0.127" layer="51"/>
-<wire x1="87" y1="18.3" x2="66" y2="18.3" width="0.127" layer="51"/>
-<wire x1="66" y1="2.3" x2="87" y2="2.3" width="0.127" layer="51"/>
-<wire x1="87" y1="2.3" x2="87" y2="18.3" width="0.127" layer="51"/>
-<wire x1="58.239" y1="55.0018" x2="6.739" y2="55.0018" width="0.127" layer="21"/>
-<wire x1="6.739" y1="55.0018" x2="6.739" y2="51.0018" width="0.127" layer="21"/>
-<wire x1="6.739" y1="51.0018" x2="7.739" y2="50.0018" width="0.127" layer="21"/>
-<wire x1="7.739" y1="50.0018" x2="58.239" y2="50.0018" width="0.127" layer="21"/>
-<wire x1="58.239" y1="50.0018" x2="58.239" y2="55.0018" width="0.127" layer="21"/>
-<pad name="P$1" x="8.37" y="51.23" drill="1.016" shape="square"/>
-<pad name="P$2" x="8.3566" y="53.7718" drill="1.016"/>
-<pad name="P$3" x="10.8966" y="51.2318" drill="1.016"/>
-<pad name="P$4" x="10.8966" y="53.7718" drill="1.016"/>
-<pad name="P$5" x="13.4366" y="51.2318" drill="1.016"/>
-<pad name="P$6" x="13.4366" y="53.7718" drill="1.016"/>
-<pad name="P$7" x="15.9766" y="51.2318" drill="1.016"/>
-<pad name="P$8" x="15.9766" y="53.7718" drill="1.016"/>
-<pad name="P$9" x="18.5166" y="51.2318" drill="1.016"/>
-<pad name="P$10" x="18.5166" y="53.7718" drill="1.016"/>
-<pad name="P$11" x="21.0566" y="51.2318" drill="1.016"/>
-<pad name="P$12" x="21.0566" y="53.7718" drill="1.016"/>
-<pad name="P$13" x="23.5966" y="51.2318" drill="1.016"/>
-<pad name="P$14" x="23.5966" y="53.7718" drill="1.016"/>
-<pad name="P$15" x="26.1366" y="51.2318" drill="1.016"/>
-<pad name="P$16" x="26.1366" y="53.7718" drill="1.016"/>
-<pad name="P$17" x="28.6766" y="51.2318" drill="1.016"/>
-<pad name="P$18" x="28.6766" y="53.7718" drill="1.016"/>
-<pad name="P$19" x="31.2166" y="51.2318" drill="1.016"/>
-<pad name="P$20" x="31.2166" y="53.7718" drill="1.016"/>
-<pad name="P$21" x="33.7566" y="51.2318" drill="1.016"/>
-<pad name="P$22" x="33.7566" y="53.7718" drill="1.016"/>
-<pad name="P$23" x="36.2966" y="51.2318" drill="1.016"/>
-<pad name="P$24" x="36.2966" y="53.7718" drill="1.016"/>
-<pad name="P$25" x="38.8366" y="51.2318" drill="1.016"/>
-<pad name="P$26" x="38.8366" y="53.7718" drill="1.016"/>
-<pad name="P$27" x="41.3766" y="51.2318" drill="1.016"/>
-<pad name="P$28" x="41.3766" y="53.7718" drill="1.016"/>
-<pad name="P$29" x="43.9166" y="51.2318" drill="1.016"/>
-<pad name="P$30" x="43.9166" y="53.7718" drill="1.016"/>
-<pad name="P$31" x="46.4566" y="51.2318" drill="1.016"/>
-<pad name="P$32" x="46.4566" y="53.7718" drill="1.016"/>
-<pad name="P$33" x="48.9966" y="51.2318" drill="1.016"/>
-<pad name="P$34" x="48.9966" y="53.7718" drill="1.016"/>
-<pad name="P$35" x="51.5366" y="51.2318" drill="1.016"/>
-<pad name="P$36" x="51.5366" y="53.7718" drill="1.016"/>
-<pad name="P$37" x="54.0766" y="51.2318" drill="1.016"/>
-<pad name="P$38" x="54.0766" y="53.7718" drill="1.016"/>
-<pad name="P$39" x="56.6166" y="51.2318" drill="1.016"/>
-<pad name="P$40" x="56.6166" y="53.7718" drill="1.016"/>
-<text x="84.5" y="19.4" size="0.8128" layer="21" rot="R180">J10</text>
-<text x="84.6" y="36.1" size="0.8128" layer="21" rot="R180">J11</text>
-<text x="83.8" y="55" size="0.8128" layer="21" rot="R180">J12</text>
-<text x="83" y="2" size="1.016" layer="21" rot="R180">ETHERNET</text>
-<text x="84.5" y="21.7" size="1.016" layer="21" rot="R180">USB</text>
-<text x="81.6" y="39.6" size="1.016" layer="21">USB</text>
-<rectangle x1="0.6" y1="42.5" x2="2.6" y2="47.75" layer="51"/>
-<wire x1="0.6" y1="42.5" x2="2.6" y2="42.5" width="0.127" layer="21"/>
-<wire x1="2.6" y1="42.5" x2="2.6" y2="47.75" width="0.127" layer="21"/>
-<wire x1="2.6" y1="47.75" x2="0.6" y2="47.75" width="0.127" layer="21"/>
-<wire x1="0.6" y1="47.75" x2="0.6" y2="42.5" width="0.127" layer="21"/>
-</package>
-<package name="RPI3MIRROR">
-<wire x1="0" y1="3.005" x2="0" y2="53.005" width="0.127" layer="52"/>
-<wire x1="0" y1="53.005" x2="3" y2="56.005" width="0.127" layer="52" curve="-90"/>
-<wire x1="3" y1="56.005" x2="82" y2="56.005" width="0.127" layer="52"/>
-<wire x1="82" y1="56.005" x2="85" y2="53.005" width="0.127" layer="52" curve="-90"/>
-<wire x1="85" y1="53.005" x2="85" y2="3.005" width="0.127" layer="52"/>
-<wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="52" curve="-90"/>
-<wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="52"/>
-<wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="52" curve="-90"/>
-<hole x="3.5" y="52.505" drill="2.75"/>
-<hole x="61.5" y="52.505" drill="2.75"/>
-<hole x="3.5" y="3.505" drill="2.75"/>
-<hole x="61.5" y="3.505" drill="2.75"/>
-<circle x="3.5" y="52.505" radius="3.04795" width="0.127" layer="52"/>
-<circle x="61.5" y="52.505" radius="3" width="0.127" layer="52"/>
-<circle x="61.5" y="3.505" radius="3" width="0.127" layer="52"/>
-<circle x="3.5" y="3.505" radius="3" width="0.127" layer="52"/>
-<wire x1="58.239" y1="1.0032" x2="6.739" y2="1.0032" width="0.127" layer="22"/>
-<wire x1="6.739" y1="1.0032" x2="6.739" y2="5.0032" width="0.127" layer="22"/>
-<wire x1="6.739" y1="5.0032" x2="7.739" y2="6.0032" width="0.127" layer="22"/>
-<wire x1="7.739" y1="6.0032" x2="58.239" y2="6.0032" width="0.127" layer="22"/>
-<wire x1="58.239" y1="6.0032" x2="58.239" y2="1.0032" width="0.127" layer="22"/>
-<wire x1="50" y1="56.005" x2="50.5" y2="56.005" width="0.127" layer="52"/>
-<wire x1="56.5" y1="56.005" x2="57" y2="56.005" width="0.127" layer="52"/>
-<pad name="P$1" x="8.37" y="4.775" drill="1.016" shape="square"/>
-<pad name="P$2" x="8.3566" y="2.2332" drill="1.016"/>
-<pad name="P$3" x="10.8966" y="4.7732" drill="1.016"/>
-<pad name="P$4" x="10.8966" y="2.2332" drill="1.016"/>
-<pad name="P$5" x="13.4366" y="4.7732" drill="1.016"/>
-<pad name="P$6" x="13.4366" y="2.2332" drill="1.016"/>
-<pad name="P$7" x="15.9766" y="4.7732" drill="1.016"/>
-<pad name="P$8" x="15.9766" y="2.2332" drill="1.016"/>
-<pad name="P$9" x="18.5166" y="4.7732" drill="1.016"/>
-<pad name="P$10" x="18.5166" y="2.2332" drill="1.016"/>
-<pad name="P$11" x="21.0566" y="4.7732" drill="1.016"/>
-<pad name="P$12" x="21.0566" y="2.2332" drill="1.016"/>
-<pad name="P$13" x="23.5966" y="4.7732" drill="1.016"/>
-<pad name="P$14" x="23.5966" y="2.2332" drill="1.016"/>
-<pad name="P$15" x="26.1366" y="4.7732" drill="1.016"/>
-<pad name="P$16" x="26.1366" y="2.2332" drill="1.016"/>
-<pad name="P$17" x="28.6766" y="4.7732" drill="1.016"/>
-<pad name="P$18" x="28.6766" y="2.2332" drill="1.016"/>
-<pad name="P$19" x="31.2166" y="4.7732" drill="1.016"/>
-<pad name="P$20" x="31.2166" y="2.2332" drill="1.016"/>
-<pad name="P$21" x="33.7566" y="4.7732" drill="1.016"/>
-<pad name="P$22" x="33.7566" y="2.2332" drill="1.016"/>
-<pad name="P$23" x="36.2966" y="4.7732" drill="1.016"/>
-<pad name="P$24" x="36.2966" y="2.2332" drill="1.016"/>
-<pad name="P$25" x="38.8366" y="4.7732" drill="1.016"/>
-<pad name="P$26" x="38.8366" y="2.2332" drill="1.016"/>
-<pad name="P$27" x="41.3766" y="4.7732" drill="1.016"/>
-<pad name="P$28" x="41.3766" y="2.2332" drill="1.016"/>
-<pad name="P$29" x="43.9166" y="4.7732" drill="1.016"/>
-<pad name="P$30" x="43.9166" y="2.2332" drill="1.016"/>
-<pad name="P$31" x="46.4566" y="4.7732" drill="1.016"/>
-<pad name="P$32" x="46.4566" y="2.2332" drill="1.016"/>
-<pad name="P$33" x="48.9966" y="4.7732" drill="1.016"/>
-<pad name="P$34" x="48.9966" y="2.2332" drill="1.016"/>
-<pad name="P$35" x="51.5366" y="4.7732" drill="1.016"/>
-<pad name="P$36" x="51.5366" y="2.2332" drill="1.016"/>
-<pad name="P$37" x="54.0766" y="4.7732" drill="1.016"/>
-<pad name="P$38" x="54.0766" y="2.2332" drill="1.016"/>
-<pad name="P$39" x="56.6166" y="4.7732" drill="1.016"/>
-<pad name="P$40" x="56.6166" y="2.2332" drill="1.016"/>
-<text x="7.65" y="8.005" size="1.016" layer="22" rot="MR180">GPIO</text>
-<wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="46"/>
-<wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="85" y1="53.005" x2="85" y2="3.005" width="0.127" layer="46"/>
-<wire x1="82" y1="56.005" x2="85" y2="53.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="3" y1="56.005" x2="82" y2="56.005" width="0.127" layer="46"/>
-<wire x1="0" y1="53.005" x2="3" y2="56.005" width="0.127" layer="46" curve="-90"/>
-<wire x1="0" y1="3.005" x2="0" y2="53.005" width="0.127" layer="46"/>
-</package>
 <package name="RPI3MIRROR2">
 <wire x1="0" y1="3.005" x2="0" y2="53.005" width="0.127" layer="52"/>
 <wire x1="0" y1="53.005" x2="3" y2="56.005" width="0.127" layer="52" curve="-90"/>
@@ -16454,46 +16308,6 @@ For more documentation, please visit http://www.raspberrypi.org/documentation/ha
 <wire x1="58.239" y1="6.0032" x2="58.239" y2="1.0032" width="0.127" layer="22"/>
 <wire x1="50" y1="56.005" x2="50.5" y2="56.005" width="0.127" layer="52"/>
 <wire x1="56.5" y1="56.005" x2="57" y2="56.005" width="0.127" layer="52"/>
-<pad name="P$1" x="8.37" y="4.775" drill="1.016" shape="square"/>
-<pad name="P$2" x="8.3566" y="2.2332" drill="1.016"/>
-<pad name="P$3" x="10.8966" y="4.7732" drill="1.016"/>
-<pad name="P$4" x="10.8966" y="2.2332" drill="1.016"/>
-<pad name="P$5" x="13.4366" y="4.7732" drill="1.016"/>
-<pad name="P$6" x="13.4366" y="2.2332" drill="1.016"/>
-<pad name="P$7" x="15.9766" y="4.7732" drill="1.016"/>
-<pad name="P$8" x="15.9766" y="2.2332" drill="1.016"/>
-<pad name="P$9" x="18.5166" y="4.7732" drill="1.016"/>
-<pad name="P$10" x="18.5166" y="2.2332" drill="1.016"/>
-<pad name="P$11" x="21.0566" y="4.7732" drill="1.016"/>
-<pad name="P$12" x="21.0566" y="2.2332" drill="1.016"/>
-<pad name="P$13" x="23.5966" y="4.7732" drill="1.016"/>
-<pad name="P$14" x="23.5966" y="2.2332" drill="1.016"/>
-<pad name="P$15" x="26.1366" y="4.7732" drill="1.016"/>
-<pad name="P$16" x="26.1366" y="2.2332" drill="1.016"/>
-<pad name="P$17" x="28.6766" y="4.7732" drill="1.016"/>
-<pad name="P$18" x="28.6766" y="2.2332" drill="1.016"/>
-<pad name="P$19" x="31.2166" y="4.7732" drill="1.016"/>
-<pad name="P$20" x="31.2166" y="2.2332" drill="1.016"/>
-<pad name="P$21" x="33.7566" y="4.7732" drill="1.016"/>
-<pad name="P$22" x="33.7566" y="2.2332" drill="1.016"/>
-<pad name="P$23" x="36.2966" y="4.7732" drill="1.016"/>
-<pad name="P$24" x="36.2966" y="2.2332" drill="1.016"/>
-<pad name="P$25" x="38.8366" y="4.7732" drill="1.016"/>
-<pad name="P$26" x="38.8366" y="2.2332" drill="1.016"/>
-<pad name="P$27" x="41.3766" y="4.7732" drill="1.016"/>
-<pad name="P$28" x="41.3766" y="2.2332" drill="1.016"/>
-<pad name="P$29" x="43.9166" y="4.7732" drill="1.016"/>
-<pad name="P$30" x="43.9166" y="2.2332" drill="1.016"/>
-<pad name="P$31" x="46.4566" y="4.7732" drill="1.016"/>
-<pad name="P$32" x="46.4566" y="2.2332" drill="1.016"/>
-<pad name="P$33" x="48.9966" y="4.7732" drill="1.016"/>
-<pad name="P$34" x="48.9966" y="2.2332" drill="1.016"/>
-<pad name="P$35" x="51.5366" y="4.7732" drill="1.016"/>
-<pad name="P$36" x="51.5366" y="2.2332" drill="1.016"/>
-<pad name="P$37" x="54.0766" y="4.7732" drill="1.016"/>
-<pad name="P$38" x="54.0766" y="2.2332" drill="1.016"/>
-<pad name="P$39" x="56.6166" y="4.7732" drill="1.016"/>
-<pad name="P$40" x="56.6166" y="2.2332" drill="1.016"/>
 <wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="21" curve="-90"/>
 <wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="21"/>
 <wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="21" curve="-90"/>
@@ -16672,142 +16486,48 @@ More information and support community is available at https://www.element14.com
 <gate name="G$1" symbol="RPI3" x="-81.28" y="-50.8"/>
 </gates>
 <devices>
-<device name="RPI3" package="RPI3">
-<connects>
-<connect gate="G$1" pin="3V3@1" pad="P$1"/>
-<connect gate="G$1" pin="3V3@17" pad="P$17"/>
-<connect gate="G$1" pin="5V@2" pad="P$2"/>
-<connect gate="G$1" pin="5V@4" pad="P$4"/>
-<connect gate="G$1" pin="GND@14" pad="P$14"/>
-<connect gate="G$1" pin="GND@20" pad="P$20"/>
-<connect gate="G$1" pin="GND@25" pad="P$25"/>
-<connect gate="G$1" pin="GND@30" pad="P$30"/>
-<connect gate="G$1" pin="GND@34" pad="P$34"/>
-<connect gate="G$1" pin="GND@39" pad="P$39"/>
-<connect gate="G$1" pin="GND@6" pad="P$6"/>
-<connect gate="G$1" pin="GND@9" pad="P$9"/>
-<connect gate="G$1" pin="GPIO10" pad="P$19"/>
-<connect gate="G$1" pin="GPIO11" pad="P$23"/>
-<connect gate="G$1" pin="GPIO12" pad="P$32"/>
-<connect gate="G$1" pin="GPIO13" pad="P$33"/>
-<connect gate="G$1" pin="GPIO14" pad="P$8"/>
-<connect gate="G$1" pin="GPIO15" pad="P$10"/>
-<connect gate="G$1" pin="GPIO16" pad="P$36"/>
-<connect gate="G$1" pin="GPIO17" pad="P$11"/>
-<connect gate="G$1" pin="GPIO18" pad="P$12"/>
-<connect gate="G$1" pin="GPIO19" pad="P$35"/>
-<connect gate="G$1" pin="GPIO2" pad="P$3"/>
-<connect gate="G$1" pin="GPIO20" pad="P$38"/>
-<connect gate="G$1" pin="GPIO21" pad="P$40"/>
-<connect gate="G$1" pin="GPIO22" pad="P$15"/>
-<connect gate="G$1" pin="GPIO23" pad="P$16"/>
-<connect gate="G$1" pin="GPIO24" pad="P$18"/>
-<connect gate="G$1" pin="GPIO25" pad="P$22"/>
-<connect gate="G$1" pin="GPIO26" pad="P$37"/>
-<connect gate="G$1" pin="GPIO27" pad="P$13"/>
-<connect gate="G$1" pin="GPIO3" pad="P$5"/>
-<connect gate="G$1" pin="GPIO4" pad="P$7"/>
-<connect gate="G$1" pin="GPIO5" pad="P$29"/>
-<connect gate="G$1" pin="GPIO6" pad="P$31"/>
-<connect gate="G$1" pin="GPIO7" pad="P$26"/>
-<connect gate="G$1" pin="GPIO8" pad="P$24"/>
-<connect gate="G$1" pin="GPIO9" pad="P$21"/>
-<connect gate="G$1" pin="ID_SC*" pad="P$28"/>
-<connect gate="G$1" pin="ID_SD*" pad="P$27"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="RPI3MIRROR" package="RPI3MIRROR">
-<connects>
-<connect gate="G$1" pin="3V3@1" pad="P$1"/>
-<connect gate="G$1" pin="3V3@17" pad="P$17"/>
-<connect gate="G$1" pin="5V@2" pad="P$2"/>
-<connect gate="G$1" pin="5V@4" pad="P$4"/>
-<connect gate="G$1" pin="GND@14" pad="P$14"/>
-<connect gate="G$1" pin="GND@20" pad="P$20"/>
-<connect gate="G$1" pin="GND@25" pad="P$25"/>
-<connect gate="G$1" pin="GND@30" pad="P$30"/>
-<connect gate="G$1" pin="GND@34" pad="P$34"/>
-<connect gate="G$1" pin="GND@39" pad="P$39"/>
-<connect gate="G$1" pin="GND@6" pad="P$6"/>
-<connect gate="G$1" pin="GND@9" pad="P$9"/>
-<connect gate="G$1" pin="GPIO10" pad="P$19"/>
-<connect gate="G$1" pin="GPIO11" pad="P$23"/>
-<connect gate="G$1" pin="GPIO12" pad="P$32"/>
-<connect gate="G$1" pin="GPIO13" pad="P$33"/>
-<connect gate="G$1" pin="GPIO14" pad="P$8"/>
-<connect gate="G$1" pin="GPIO15" pad="P$10"/>
-<connect gate="G$1" pin="GPIO16" pad="P$36"/>
-<connect gate="G$1" pin="GPIO17" pad="P$11"/>
-<connect gate="G$1" pin="GPIO18" pad="P$12"/>
-<connect gate="G$1" pin="GPIO19" pad="P$35"/>
-<connect gate="G$1" pin="GPIO2" pad="P$3"/>
-<connect gate="G$1" pin="GPIO20" pad="P$38"/>
-<connect gate="G$1" pin="GPIO21" pad="P$40"/>
-<connect gate="G$1" pin="GPIO22" pad="P$15"/>
-<connect gate="G$1" pin="GPIO23" pad="P$16"/>
-<connect gate="G$1" pin="GPIO24" pad="P$18"/>
-<connect gate="G$1" pin="GPIO25" pad="P$22"/>
-<connect gate="G$1" pin="GPIO26" pad="P$37"/>
-<connect gate="G$1" pin="GPIO27" pad="P$13"/>
-<connect gate="G$1" pin="GPIO3" pad="P$5"/>
-<connect gate="G$1" pin="GPIO4" pad="P$7"/>
-<connect gate="G$1" pin="GPIO5" pad="P$29"/>
-<connect gate="G$1" pin="GPIO6" pad="P$31"/>
-<connect gate="G$1" pin="GPIO7" pad="P$26"/>
-<connect gate="G$1" pin="GPIO8" pad="P$24"/>
-<connect gate="G$1" pin="GPIO9" pad="P$21"/>
-<connect gate="G$1" pin="ID_SC*" pad="P$28"/>
-<connect gate="G$1" pin="ID_SD*" pad="P$27"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
 <device name="YA" package="RPI3MIRROR2">
 <connects>
-<connect gate="G$1" pin="3V3@1" pad="P$1 P$41"/>
-<connect gate="G$1" pin="3V3@17" pad="P$17 P$57"/>
-<connect gate="G$1" pin="5V@2" pad="P$2 P$42"/>
-<connect gate="G$1" pin="5V@4" pad="P$4 P$44"/>
-<connect gate="G$1" pin="GND@14" pad="P$14 P$54"/>
-<connect gate="G$1" pin="GND@20" pad="P$20 P$60"/>
-<connect gate="G$1" pin="GND@25" pad="P$25 P$65"/>
-<connect gate="G$1" pin="GND@30" pad="P$30 P$70"/>
-<connect gate="G$1" pin="GND@34" pad="P$34 P$74"/>
-<connect gate="G$1" pin="GND@39" pad="P$39 P$79"/>
-<connect gate="G$1" pin="GND@6" pad="P$6 P$46"/>
-<connect gate="G$1" pin="GND@9" pad="P$9 P$49"/>
-<connect gate="G$1" pin="GPIO10" pad="P$19 P$59"/>
-<connect gate="G$1" pin="GPIO11" pad="P$23 P$63"/>
-<connect gate="G$1" pin="GPIO12" pad="P$32 P$72"/>
-<connect gate="G$1" pin="GPIO13" pad="P$33 P$73"/>
-<connect gate="G$1" pin="GPIO14" pad="P$8 P$48"/>
-<connect gate="G$1" pin="GPIO15" pad="P$10 P$50"/>
-<connect gate="G$1" pin="GPIO16" pad="P$36 P$76"/>
-<connect gate="G$1" pin="GPIO17" pad="P$11 P$51"/>
-<connect gate="G$1" pin="GPIO18" pad="P$12 P$52"/>
-<connect gate="G$1" pin="GPIO19" pad="P$35 P$75"/>
-<connect gate="G$1" pin="GPIO2" pad="P$3 P$43"/>
-<connect gate="G$1" pin="GPIO20" pad="P$38 P$78"/>
-<connect gate="G$1" pin="GPIO21" pad="P$40 P$80"/>
-<connect gate="G$1" pin="GPIO22" pad="P$15 P$55"/>
-<connect gate="G$1" pin="GPIO23" pad="P$16 P$56"/>
-<connect gate="G$1" pin="GPIO24" pad="P$18 P$58"/>
-<connect gate="G$1" pin="GPIO25" pad="P$22 P$62"/>
-<connect gate="G$1" pin="GPIO26" pad="P$37 P$77"/>
-<connect gate="G$1" pin="GPIO27" pad="P$13 P$53"/>
-<connect gate="G$1" pin="GPIO3" pad="P$5 P$45"/>
-<connect gate="G$1" pin="GPIO4" pad="P$7 P$47"/>
-<connect gate="G$1" pin="GPIO5" pad="P$29 P$69"/>
-<connect gate="G$1" pin="GPIO6" pad="P$31 P$71"/>
-<connect gate="G$1" pin="GPIO7" pad="P$26 P$66"/>
-<connect gate="G$1" pin="GPIO8" pad="P$24 P$64"/>
-<connect gate="G$1" pin="GPIO9" pad="P$21 P$61"/>
-<connect gate="G$1" pin="ID_SC*" pad="P$28 P$68"/>
-<connect gate="G$1" pin="ID_SD*" pad="P$27 P$67"/>
+<connect gate="G$1" pin="3V3@1" pad="P$41"/>
+<connect gate="G$1" pin="3V3@17" pad="P$57"/>
+<connect gate="G$1" pin="5V@2" pad="P$42"/>
+<connect gate="G$1" pin="5V@4" pad="P$44"/>
+<connect gate="G$1" pin="GND@14" pad="P$54"/>
+<connect gate="G$1" pin="GND@20" pad="P$60"/>
+<connect gate="G$1" pin="GND@25" pad="P$65"/>
+<connect gate="G$1" pin="GND@30" pad="P$70"/>
+<connect gate="G$1" pin="GND@34" pad="P$74"/>
+<connect gate="G$1" pin="GND@39" pad="P$79"/>
+<connect gate="G$1" pin="GND@6" pad="P$46"/>
+<connect gate="G$1" pin="GND@9" pad="P$49"/>
+<connect gate="G$1" pin="GPIO10" pad="P$59"/>
+<connect gate="G$1" pin="GPIO11" pad="P$63"/>
+<connect gate="G$1" pin="GPIO12" pad="P$72"/>
+<connect gate="G$1" pin="GPIO13" pad="P$73"/>
+<connect gate="G$1" pin="GPIO14" pad="P$48"/>
+<connect gate="G$1" pin="GPIO15" pad="P$50"/>
+<connect gate="G$1" pin="GPIO16" pad="P$76"/>
+<connect gate="G$1" pin="GPIO17" pad="P$51"/>
+<connect gate="G$1" pin="GPIO18" pad="P$52"/>
+<connect gate="G$1" pin="GPIO19" pad="P$75"/>
+<connect gate="G$1" pin="GPIO2" pad="P$43"/>
+<connect gate="G$1" pin="GPIO20" pad="P$78"/>
+<connect gate="G$1" pin="GPIO21" pad="P$80"/>
+<connect gate="G$1" pin="GPIO22" pad="P$55"/>
+<connect gate="G$1" pin="GPIO23" pad="P$56"/>
+<connect gate="G$1" pin="GPIO24" pad="P$58"/>
+<connect gate="G$1" pin="GPIO25" pad="P$62"/>
+<connect gate="G$1" pin="GPIO26" pad="P$77"/>
+<connect gate="G$1" pin="GPIO27" pad="P$53"/>
+<connect gate="G$1" pin="GPIO3" pad="P$45"/>
+<connect gate="G$1" pin="GPIO4" pad="P$47"/>
+<connect gate="G$1" pin="GPIO5" pad="P$69"/>
+<connect gate="G$1" pin="GPIO6" pad="P$71"/>
+<connect gate="G$1" pin="GPIO7" pad="P$66"/>
+<connect gate="G$1" pin="GPIO8" pad="P$64"/>
+<connect gate="G$1" pin="GPIO9" pad="P$61"/>
+<connect gate="G$1" pin="ID_SC*" pad="P$68"/>
+<connect gate="G$1" pin="ID_SD*" pad="P$67"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -18522,7 +18242,7 @@ W = angled&lt;p&gt;
 <part name="RF9" library="resistor" deviceset="R-EU_" device="R0603" value="330R"/>
 <part name="CF9" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
 <part name="SUPPLY18" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="Y1" library="microbuilder" deviceset="CRYSTAL" device="8X3.8SMT" value="32.768kHz"/>
+<part name="LSE" library="microbuilder" deviceset="CRYSTAL" device="8X3.8SMT" value="32.768kHz"/>
 <part name="SUPPLY4" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY19" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="ESP12" library="ESP8266 MODULES _ CORRECTED" deviceset="ESP12" device="SMD"/>
@@ -18983,7 +18703,7 @@ SWDIO + SWCLK added to the top</text>
 <instance part="SUPPLY18" gate="GND" x="358.14" y="48.26" smashed="yes">
 <attribute name="VALUE" x="356.235" y="45.085" size="1.778" layer="96"/>
 </instance>
-<instance part="Y1" gate="G$1" x="53.34" y="15.24" smashed="yes" rot="R270">
+<instance part="LSE" gate="G$1" x="53.34" y="15.24" smashed="yes" rot="R270">
 <attribute name="NAME" x="55.88" y="17.78" size="1.27" layer="95" rot="R270"/>
 <attribute name="VALUE" x="49.53" y="17.78" size="1.27" layer="96" rot="R270"/>
 </instance>
@@ -20459,9 +20179,9 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="0" y1="-121.92" x2="-30.48" y2="-121.92" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PD5"/>
-<wire x1="114.3" y1="22.86" x2="127" y2="22.86" width="0.1524" layer="91"/>
-<label x="121.92" y="22.86" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PA3"/>
+<wire x1="63.5" y1="-2.54" x2="53.34" y2="-2.54" width="0.1524" layer="91"/>
+<label x="45.72" y="-2.54" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="UART_TX" class="0">
@@ -20471,9 +20191,9 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="0" y1="-119.38" x2="-30.48" y2="-119.38" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="STM32F303VB" gate="G$1" pin="PA3"/>
-<wire x1="63.5" y1="-2.54" x2="53.34" y2="-2.54" width="0.1524" layer="91"/>
-<label x="45.72" y="-2.54" size="1.778" layer="95"/>
+<pinref part="STM32F303VB" gate="G$1" pin="PD5"/>
+<wire x1="114.3" y1="22.86" x2="127" y2="22.86" width="0.1524" layer="91"/>
+<label x="121.92" y="22.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -20643,7 +20363,7 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="53.34" y1="20.32" x2="63.5" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="STM32F303VB" gate="G$1" pin="PC14/OSC32_IN"/>
 <label x="53.34" y="20.32" size="1.778" layer="95"/>
-<pinref part="Y1" gate="G$1" pin="1"/>
+<pinref part="LSE" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="20.32" x2="53.34" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -20652,7 +20372,7 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="53.34" y1="10.16" x2="63.5" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="STM32F303VB" gate="G$1" pin="PC15/OSC32_OUT"/>
 <label x="53.34" y="10.16" size="1.778" layer="95"/>
-<pinref part="Y1" gate="G$1" pin="2"/>
+<pinref part="LSE" gate="G$1" pin="2"/>
 <wire x1="53.34" y1="10.16" x2="53.34" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>

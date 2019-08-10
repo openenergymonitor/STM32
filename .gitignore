@@ -43,3 +43,8 @@ temp/*
 
 test/*
 Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
+*.b#3
+*.b#1
+*.b#2
+*.s#1
+*.s#2
