@@ -4,8 +4,6 @@ To program a new chip, an ST-Link/V2 programmer can be used. This can be a stand
 
 Full doco on this can be found in ST's UM1724.
 
-Here's how I've done it.
-
 The two jumpers on the ST-link(nucleo) at CN2 must be removed.
 
 The CN4 (SWD) header must be connected to the chip's ST-link designated pins. These are JTCK, JTMS, and NRST.
