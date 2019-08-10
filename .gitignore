@@ -42,3 +42,4 @@ Emon3CT_RFM69/build/*
 temp/*
 
 test/*
+Hardware/stm32-pi_full/cube_emonSTM32_db/build/*

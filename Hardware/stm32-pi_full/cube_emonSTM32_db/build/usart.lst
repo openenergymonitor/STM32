@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -39,10 +39,10 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
    9:Src/usart.c   ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   10:Src/usart.c   ****   * All rights reserved.</center></h2>
   11:Src/usart.c   ****   *
-  12:Src/usart.c   ****   * This software component is licensed by ST under BSD 3-Clause license,
-  13:Src/usart.c   ****   * the "License"; You may not use this file except in compliance with the
-  14:Src/usart.c   ****   * License. You may obtain a copy of the License at:
-  15:Src/usart.c   ****   *                        opensource.org/licenses/BSD-3-Clause
+  12:Src/usart.c   ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/usart.c   ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/usart.c   ****   * the License. You may obtain a copy of the License at:
+  15:Src/usart.c   ****   *                             www.st.com/SLA0044
   16:Src/usart.c   ****   *
   17:Src/usart.c   ****   ******************************************************************************
   18:Src/usart.c   ****   */
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
   28:Src/usart.c   **** UART_HandleTypeDef huart2;
   29:Src/usart.c   **** UART_HandleTypeDef huart3;
   30:Src/usart.c   **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 2
 
 
   31:Src/usart.c   **** /* USART1 init function */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
   69 001e 0362     		str	r3, [r0, #32]
   45:Src/usart.c   ****   huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
   70              		.loc 1 45 3 is_stmt 1 view .LVU19
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 3
 
 
   71              		.loc 1 45 38 is_stmt 0 view .LVU20
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
   57:Src/usart.c   ****   huart2.Instance = USART2;
  115              		.loc 1 57 3 view .LVU28
  116              		.loc 1 57 19 is_stmt 0 view .LVU29
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 4
 
 
  117 0002 0B48     		ldr	r0, .L11
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
   72:Src/usart.c   **** }
  157              		.loc 1 72 1 view .LVU51
  158 0028 08BD     		pop	{r3, pc}
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 5
 
 
  159              	.L10:
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  205              		.loc 1 81 3 is_stmt 1 view .LVU61
  206              		.loc 1 81 24 is_stmt 0 view .LVU62
  207 0012 C360     		str	r3, [r0, #12]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 6
 
 
   82:Src/usart.c   ****   huart3.Init.Parity = UART_PARITY_NONE;
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  250              		.section	.text.HAL_UART_MspInit,"ax",%progbits
  251              		.align	1
  252              		.global	HAL_UART_MspInit
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 7
 
 
  253              		.syntax unified
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  111:Src/usart.c   ****     */
  112:Src/usart.c   ****     GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
  113:Src/usart.c   ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 8
 
 
  114:Src/usart.c   ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  156:Src/usart.c   ****   {
  157:Src/usart.c   ****   /* USER CODE BEGIN USART3_MspInit 0 */
  158:Src/usart.c   **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 9
 
 
  159:Src/usart.c   ****   /* USER CODE END USART3_MspInit 0 */
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  330              	.LBB3:
  107:Src/usart.c   ****     /**USART1 GPIO Configuration    
  331              		.loc 1 107 5 view .LVU99
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 10
 
 
  107:Src/usart.c   ****     /**USART1 GPIO Configuration    
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  371              	.LBB4:
  129:Src/usart.c   ****   
  372              		.loc 1 129 5 view .LVU115
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 11
 
 
  129:Src/usart.c   ****   
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  413              		.loc 1 137 5 view .LVU129
  137:Src/usart.c   ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
  414              		.loc 1 137 25 is_stmt 0 view .LVU130
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 12
 
 
  415 00a4 0823     		movs	r3, #8
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  451              		.loc 1 148 5 is_stmt 1 view .LVU148
  148:Src/usart.c   ****     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
  452              		.loc 1 148 31 is_stmt 0 view .LVU149
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 13
 
 
  453 00ca 0B94     		str	r4, [sp, #44]
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  494 0100 0793     		str	r3, [sp, #28]
  169:Src/usart.c   ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  495              		.loc 1 169 5 is_stmt 1 view .LVU163
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 14
 
 
  169:Src/usart.c   ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  541              		.cfi_startproc
  542              		@ args = 0, pretend = 0, frame = 0
  543              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 15
 
 
  544              		.loc 1 182 1 is_stmt 0 view .LVU174
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  219:Src/usart.c   **** 
  220:Src/usart.c   ****   /* USER CODE END USART2_MspDeInit 1 */
  221:Src/usart.c   ****   }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 16
 
 
  222:Src/usart.c   ****   else if(uartHandle->Instance==USART3)
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  214:Src/usart.c   **** 
  593              		.loc 1 214 5 view .LVU187
  594 003e 0821     		movs	r1, #8
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 17
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 17
 
 
  595 0040 4FF09040 		mov	r0, #1207959552
@@ -1003,56 +1003,109 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 1
  629 007c 00040048 		.word	1207960576
  630              		.cfi_endproc
  631              	.LFE130:
- 633              		.comm	huart3,112,4
- 634              		.comm	huart2,112,4
- 635              		.comm	huart1,112,4
- 636              		.text
- 637              	.Letext0:
- 638              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
- 639              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
- 640              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 641              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
- 642              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
- 643              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
- 644              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
- 645              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
- 646              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
- 647              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 18
+ 633              		.section	.text.debug_printf,"ax",%progbits
+ 634              		.align	1
+ 635              		.global	debug_printf
+ 636              		.syntax unified
+ 637              		.thumb
+ 638              		.thumb_func
+ 639              		.fpu fpv4-sp-d16
+ 641              	debug_printf:
+ 642              	.LVL30:
+ 643              	.LFB131:
+ 241:Src/usart.c   **** 
+ 242:Src/usart.c   **** /* USER CODE BEGIN 1 */
+ 243:Src/usart.c   **** void debug_printf (char* p) {
+ 644              		.loc 1 243 29 is_stmt 1 view -0
+ 645              		.cfi_startproc
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 18
 
 
- 648              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
- 649              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
- 650              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
- 651              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
- 652              		.file 16 "Inc/usart.h"
- 653              		.file 17 "Inc/main.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s 			page 19
+ 646              		@ args = 0, pretend = 0, frame = 0
+ 647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 648              		.loc 1 243 29 is_stmt 0 view .LVU195
+ 649 0000 10B5     		push	{r4, lr}
+ 650              	.LCFI8:
+ 651              		.cfi_def_cfa_offset 8
+ 652              		.cfi_offset 4, -8
+ 653              		.cfi_offset 14, -4
+ 654 0002 0446     		mov	r4, r0
+ 244:Src/usart.c   ****   HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 1000);
+ 655              		.loc 1 244 3 is_stmt 1 view .LVU196
+ 656              		.loc 1 244 43 is_stmt 0 view .LVU197
+ 657 0004 FFF7FEFF 		bl	strlen
+ 658              	.LVL31:
+ 659              		.loc 1 244 3 view .LVU198
+ 660 0008 4FF47A73 		mov	r3, #1000
+ 661 000c 82B2     		uxth	r2, r0
+ 662 000e 2146     		mov	r1, r4
+ 663 0010 0148     		ldr	r0, .L41
+ 664 0012 FFF7FEFF 		bl	HAL_UART_Transmit
+ 665              	.LVL32:
+ 245:Src/usart.c   **** }
+ 666              		.loc 1 245 1 view .LVU199
+ 667 0016 10BD     		pop	{r4, pc}
+ 668              	.LVL33:
+ 669              	.L42:
+ 670              		.loc 1 245 1 view .LVU200
+ 671              		.align	2
+ 672              	.L41:
+ 673 0018 00000000 		.word	huart2
+ 674              		.cfi_endproc
+ 675              	.LFE131:
+ 677              		.comm	huart3,112,4
+ 678              		.comm	huart2,112,4
+ 679              		.comm	huart1,112,4
+ 680              		.text
+ 681              	.Letext0:
+ 682              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
+ 683              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 684              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 685              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 686              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
+ 687              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
+ 688              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
+ 689              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
+ 690              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
+ 691              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 692              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 693              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 694              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 695              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 696              		.file 16 "Inc/usart.h"
+ 697              		.file 17 "Inc/main.h"
+ 698              		.file 18 "<built-in>"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 usart.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:18     .text.MX_USART1_UART_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:26     .text.MX_USART1_UART_Init:0000000000000000 MX_USART1_UART_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:91     .text.MX_USART1_UART_Init:0000000000000030 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:18     .text.MX_USART1_UART_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:26     .text.MX_USART1_UART_Init:0000000000000000 MX_USART1_UART_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:91     .text.MX_USART1_UART_Init:0000000000000030 $d
                             *COM*:0000000000000070 huart1
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:97     .text.MX_USART2_UART_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:104    .text.MX_USART2_UART_Init:0000000000000000 MX_USART2_UART_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:168    .text.MX_USART2_UART_Init:0000000000000030 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:97     .text.MX_USART2_UART_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:104    .text.MX_USART2_UART_Init:0000000000000000 MX_USART2_UART_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:168    .text.MX_USART2_UART_Init:0000000000000030 $d
                             *COM*:0000000000000070 huart2
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:174    .text.MX_USART3_UART_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:181    .text.MX_USART3_UART_Init:0000000000000000 MX_USART3_UART_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:245    .text.MX_USART3_UART_Init:0000000000000030 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:174    .text.MX_USART3_UART_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:181    .text.MX_USART3_UART_Init:0000000000000000 MX_USART3_UART_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:245    .text.MX_USART3_UART_Init:0000000000000030 $d
                             *COM*:0000000000000070 huart3
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:251    .text.HAL_UART_MspInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:258    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:520    .text.HAL_UART_MspInit:0000000000000118 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:530    .text.HAL_UART_MspDeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:537    .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccnkzXDm.s:625    .text.HAL_UART_MspDeInit:000000000000006c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:251    .text.HAL_UART_MspInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:258    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:520    .text.HAL_UART_MspInit:0000000000000118 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:530    .text.HAL_UART_MspDeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:537    .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:625    .text.HAL_UART_MspDeInit:000000000000006c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:634    .text.debug_printf:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:641    .text.debug_printf:0000000000000000 debug_printf
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbmHst9.s:673    .text.debug_printf:0000000000000018 $d
 
 UNDEFINED SYMBOLS
 HAL_UART_Init
 Error_Handler
 HAL_GPIO_Init
 HAL_GPIO_DeInit
+strlen
+HAL_UART_Transmit

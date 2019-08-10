@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -39,10 +39,10 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
    9:Src/opamp.c   ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   10:Src/opamp.c   ****   * All rights reserved.</center></h2>
   11:Src/opamp.c   ****   *
-  12:Src/opamp.c   ****   * This software component is licensed by ST under BSD 3-Clause license,
-  13:Src/opamp.c   ****   * the "License"; You may not use this file except in compliance with the
-  14:Src/opamp.c   ****   * License. You may obtain a copy of the License at:
-  15:Src/opamp.c   ****   *                        opensource.org/licenses/BSD-3-Clause
+  12:Src/opamp.c   ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/opamp.c   ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/opamp.c   ****   * the License. You may obtain a copy of the License at:
+  15:Src/opamp.c   ****   *                             www.st.com/SLA0044
   16:Src/opamp.c   ****   *
   17:Src/opamp.c   ****   ******************************************************************************
   18:Src/opamp.c   ****   */
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
   28:Src/opamp.c   **** 
   29:Src/opamp.c   **** /* OPAMP4 init function */
   30:Src/opamp.c   **** void MX_OPAMP4_Init(void)
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 2
 
 
   31:Src/opamp.c   **** {
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
   69              	.LVL1:
   70              		.loc 1 43 1 is_stmt 0 view .LVU16
   71 0020 FBE7     		b	.L1
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 3
 
 
   72              	.L6:
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
   51:Src/opamp.c   ****   /* USER CODE BEGIN OPAMP4_MspInit 0 */
   52:Src/opamp.c   **** 
   53:Src/opamp.c   ****   /* USER CODE END OPAMP4_MspInit 0 */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 4
 
 
   54:Src/opamp.c   ****   
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
   56:Src/opamp.c   ****     /**OPAMP4 GPIO Configuration    
  148              		.loc 1 56 5 view .LVU30
  149              	.LBB3:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 5
 
 
   56:Src/opamp.c   ****     /**OPAMP4 GPIO Configuration    
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
  187 0062 0023     		movs	r3, #0
  188 0064 0593     		str	r3, [sp, #20]
   69:Src/opamp.c   **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 6
 
 
  189              		.loc 1 69 5 is_stmt 1 view .LVU48
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
   86:Src/opamp.c   ****     /**OPAMP4 GPIO Configuration    
   87:Src/opamp.c   ****     PB12     ------> OPAMP4_VOUT
   88:Src/opamp.c   ****     PD11     ------> OPAMP4_VINP 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 7
 
 
   89:Src/opamp.c   ****     */
@@ -418,24 +418,24 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 1
  277              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
  278              		.file 15 "Inc/opamp.h"
  279              		.file 16 "Inc/main.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 8
 
 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 opamp.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:18     .text.MX_OPAMP4_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:26     .text.MX_OPAMP4_Init:0000000000000000 MX_OPAMP4_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:75     .text.MX_OPAMP4_Init:0000000000000024 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:18     .text.MX_OPAMP4_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:26     .text.MX_OPAMP4_Init:0000000000000000 MX_OPAMP4_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:75     .text.MX_OPAMP4_Init:0000000000000024 $d
                             *COM*:0000000000000034 hopamp4
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:81     .text.HAL_OPAMP_MspInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:88     .text.HAL_OPAMP_MspInit:0000000000000000 HAL_OPAMP_MspInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:199    .text.HAL_OPAMP_MspInit:0000000000000070 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:206    .text.HAL_OPAMP_MspDeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:213    .text.HAL_OPAMP_MspDeInit:0000000000000000 HAL_OPAMP_MspDeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccbCRnyG.s:256    .text.HAL_OPAMP_MspDeInit:0000000000000024 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:81     .text.HAL_OPAMP_MspInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:88     .text.HAL_OPAMP_MspInit:0000000000000000 HAL_OPAMP_MspInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:199    .text.HAL_OPAMP_MspInit:0000000000000070 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:206    .text.HAL_OPAMP_MspDeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:213    .text.HAL_OPAMP_MspDeInit:0000000000000000 HAL_OPAMP_MspDeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cclgDO6q.s:256    .text.HAL_OPAMP_MspDeInit:0000000000000024 $d
 
 UNDEFINED SYMBOLS
 HAL_OPAMP_Init

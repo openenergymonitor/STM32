@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -39,10 +39,10 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
    9:Src/adc.c     ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   10:Src/adc.c     ****   * All rights reserved.</center></h2>
   11:Src/adc.c     ****   *
-  12:Src/adc.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
-  13:Src/adc.c     ****   * the "License"; You may not use this file except in compliance with the
-  14:Src/adc.c     ****   * License. You may obtain a copy of the License at:
-  15:Src/adc.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  12:Src/adc.c     ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/adc.c     ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/adc.c     ****   * the License. You may obtain a copy of the License at:
+  15:Src/adc.c     ****   *                             www.st.com/SLA0044
   16:Src/adc.c     ****   *
   17:Src/adc.c     ****   ******************************************************************************
   18:Src/adc.c     ****   */
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
   28:Src/adc.c     **** ADC_HandleTypeDef hadc2;
   29:Src/adc.c     **** ADC_HandleTypeDef hadc3;
   30:Src/adc.c     **** ADC_HandleTypeDef hadc4;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 2
 
 
   31:Src/adc.c     **** 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
   69              		.loc 1 44 33 is_stmt 0 view .LVU14
   70 0026 C361     		str	r3, [r0, #28]
   45:Src/adc.c     ****   hadc1.Init.DiscontinuousConvMode = DISABLE;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 3
 
 
   71              		.loc 1 45 3 is_stmt 1 view .LVU15
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  110 0046 0793     		str	r3, [sp, #28]
   61:Src/adc.c     ****   if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
  111              		.loc 1 61 3 is_stmt 1 view .LVU38
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 4
 
 
  112              		.loc 1 61 7 is_stmt 0 view .LVU39
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  149              		.loc 1 78 1 view .LVU56
  150 006c 0BB0     		add	sp, sp, #44
  151              	.LCFI2:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 5
 
 
  152              		.cfi_remember_state
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
   82:Src/adc.c     ****   ADC_ChannelConfTypeDef sConfig = {0};
  202              		.loc 1 82 3 view .LVU62
  203              		.loc 1 82 26 is_stmt 0 view .LVU63
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 6
 
 
  204 0004 0023     		movs	r3, #0
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  244              		.loc 1 96 3 is_stmt 1 view .LVU84
  245              		.loc 1 96 36 is_stmt 0 view .LVU85
  246 002c 4363     		str	r3, [r0, #52]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 7
 
 
   97:Src/adc.c     ****   hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  285              		.loc 1 112 7 is_stmt 0 view .LVU108
  286 004c 6946     		mov	r1, sp
  287 004e 0648     		ldr	r0, .L17
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 8
 
 
  288 0050 FFF7FEFF 		bl	HAL_ADC_ConfigChannel
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  334              		@ frame_needed = 0, uses_anonymous_args = 0
  335 0000 00B5     		push	{lr}
  336              	.LCFI8:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 9
 
 
  337              		.cfi_def_cfa_offset 4
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  133:Src/adc.c     ****   hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
  379              		.loc 1 133 3 is_stmt 1 view .LVU133
  380              		.loc 1 133 31 is_stmt 0 view .LVU134
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 10
 
 
  381 002a 0122     		movs	r2, #1
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  421              	.L21:
  148:Src/adc.c     ****   {
  149:Src/adc.c     ****     Error_Handler();
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 11
 
 
  150:Src/adc.c     ****   }
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  461              		.cfi_restore_state
  142:Src/adc.c     ****   }
  462              		.loc 1 142 5 is_stmt 1 view .LVU171
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 12
 
 
  463 0072 FFF7FEFF 		bl	Error_Handler
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  513 000e 0493     		str	r3, [sp, #16]
  514 0010 0593     		str	r3, [sp, #20]
  169:Src/adc.c     **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 13
 
 
  170:Src/adc.c     ****   /** Common config 
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  184:Src/adc.c     ****   hadc4.Init.LowPowerAutoWait = DISABLE;
  555              		.loc 1 184 3 is_stmt 1 view .LVU202
  556              		.loc 1 184 31 is_stmt 0 view .LVU203
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 14
 
 
  557 0032 8361     		str	r3, [r0, #24]
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  597              	.L29:
  199:Src/adc.c     ****   {
  200:Src/adc.c     ****     Error_Handler();
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 15
 
 
  201:Src/adc.c     ****   }
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  643              	.LCFI16:
  644              		.cfi_def_cfa_offset 12
  645              		.cfi_offset 4, -12
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 16
 
 
  646              		.cfi_offset 5, -8
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  245:Src/adc.c     ****     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
  246:Src/adc.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  247:Src/adc.c     ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 17
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 17
 
 
  248:Src/adc.c     **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  292:Src/adc.c     **** 
  293:Src/adc.c     ****   /* USER CODE END ADC3_MspInit 0 */
  294:Src/adc.c     ****     /* ADC3 clock enable */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 18
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 18
 
 
  295:Src/adc.c     ****     HAL_RCC_ADC34_CLK_ENABLED++;
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  688 0034 012B     		cmp	r3, #1
  689 0036 46D1     		bne	.L37
  336:Src/adc.c     ****       __HAL_RCC_ADC34_CLK_ENABLE();
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 19
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 19
 
 
  690              		.loc 1 336 7 is_stmt 1 view .LVU245
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  730 006a 0192     		str	r2, [sp, #4]
  223:Src/adc.c     ****     __HAL_RCC_GPIOF_CLK_ENABLE();
  731              		.loc 1 223 5 view .LVU259
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 20
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 20
 
 
  732 006c 019A     		ldr	r2, [sp, #4]
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  237:Src/adc.c     **** 
  771              		.loc 1 237 5 view .LVU275
  772 009a 0BA9     		add	r1, sp, #44
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 21
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 21
 
 
  773 009c 4D48     		ldr	r0, .L52+24
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  812              	.LCFI18:
  813              		.cfi_remember_state
  814              		.cfi_def_cfa_offset 12
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 22
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 22
 
 
  815              		@ sp needed
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  264:Src/adc.c     ****     __HAL_RCC_GPIOA_CLK_ENABLE();
  857              		.loc 1 264 5 view .LVU304
  858 00f6 5A69     		ldr	r2, [r3, #20]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 23
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 23
 
 
  859 00f8 02F40022 		and	r2, r2, #524288
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  281:Src/adc.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  898              		.loc 1 281 5 is_stmt 1 view .LVU320
  281:Src/adc.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 24
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 24
 
 
  899              		.loc 1 281 26 is_stmt 0 view .LVU321
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  300:Src/adc.c     ****     __HAL_RCC_GPIOE_CLK_ENABLE();
  941              		.loc 1 300 5 is_stmt 1 view .LVU334
  942              	.LBB10:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 25
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 25
 
 
  300:Src/adc.c     ****     __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  316:Src/adc.c     **** 
  982              		.loc 1 316 5 is_stmt 0 view .LVU350
  983 018a FFF7FEFF 		bl	HAL_GPIO_Init
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 26
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 26
 
 
  984              	.LVL31:
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  1026 01cc 00100240 		.word	1073876992
  1027 01d0 00000000 		.word	.LANCHOR0
  1028 01d4 00080048 		.word	1207961600
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 27
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 27
 
 
  1029 01d8 00140048 		.word	1207964672
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  365:Src/adc.c     ****     */
  366:Src/adc.c     ****     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_2|GPIO_PIN_3);
  367:Src/adc.c     **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 28
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 28
 
 
  368:Src/adc.c     ****     HAL_GPIO_DeInit(GPIOF, GPIO_PIN_2);
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  412:Src/adc.c     ****       __HAL_RCC_ADC34_CLK_DISABLE();
  413:Src/adc.c     ****     }
  414:Src/adc.c     ****   
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 29
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 29
 
 
  415:Src/adc.c     ****     /**ADC3 GPIO Configuration    
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  1092              		.loc 1 449 1 is_stmt 0 view .LVU379
  1093 0030 16E0     		b	.L54
  1094              	.L63:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 30
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 30
 
 
  353:Src/adc.c     ****     if(HAL_RCC_ADC12_CLK_ENABLED==0){
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  383:Src/adc.c     ****       __HAL_RCC_ADC12_CLK_DISABLE();
  1138              		.loc 1 383 5 is_stmt 1 view .LVU392
  383:Src/adc.c     ****       __HAL_RCC_ADC12_CLK_DISABLE();
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 31
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 31
 
 
  1139              		.loc 1 383 7 is_stmt 0 view .LVU393
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  1182 00a2 FFF7FEFF 		bl	HAL_GPIO_DeInit
  1183              	.LVL45:
  428:Src/adc.c     ****                           |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13);
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 32
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 32
 
 
  1184              		.loc 1 428 5 is_stmt 1 view .LVU405
@@ -1916,37 +1916,37 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 1
  1241              		.file 17 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
  1242              		.file 18 "Inc/adc.h"
  1243              		.file 19 "Inc/main.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s 			page 33
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s 			page 33
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 adc.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:18     .text.MX_ADC1_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:26     .text.MX_ADC1_Init:0000000000000000 MX_ADC1_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:177    .text.MX_ADC1_Init:0000000000000084 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:18     .text.MX_ADC1_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:26     .text.MX_ADC1_Init:0000000000000000 MX_ADC1_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:177    .text.MX_ADC1_Init:0000000000000084 $d
                             *COM*:0000000000000054 hadc1
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:182    .text.MX_ADC2_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:189    .text.MX_ADC2_Init:0000000000000000 MX_ADC2_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:316    .text.MX_ADC2_Init:0000000000000068 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:182    .text.MX_ADC2_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:189    .text.MX_ADC2_Init:0000000000000000 MX_ADC2_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:316    .text.MX_ADC2_Init:0000000000000068 $d
                             *COM*:0000000000000054 hadc2
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:322    .text.MX_ADC3_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:329    .text.MX_ADC3_Init:0000000000000000 MX_ADC3_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:480    .text.MX_ADC3_Init:0000000000000084 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:322    .text.MX_ADC3_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:329    .text.MX_ADC3_Init:0000000000000000 MX_ADC3_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:480    .text.MX_ADC3_Init:0000000000000084 $d
                             *COM*:0000000000000054 hadc3
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:486    .text.MX_ADC4_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:493    .text.MX_ADC4_Init:0000000000000000 MX_ADC4_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:621    .text.MX_ADC4_Init:000000000000006c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:486    .text.MX_ADC4_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:493    .text.MX_ADC4_Init:0000000000000000 MX_ADC4_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:621    .text.MX_ADC4_Init:000000000000006c $d
                             *COM*:0000000000000054 hadc4
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:627    .text.HAL_ADC_MspInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:634    .text.HAL_ADC_MspInit:0000000000000000 HAL_ADC_MspInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1022   .text.HAL_ADC_MspInit:00000000000001bc $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1037   .text.HAL_ADC_MspDeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1044   .text.HAL_ADC_MspDeInit:0000000000000000 HAL_ADC_MspDeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1193   .text.HAL_ADC_MspDeInit:00000000000000b4 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1211   .bss.HAL_RCC_ADC12_CLK_ENABLED:0000000000000000 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1215   .bss.HAL_RCC_ADC12_CLK_ENABLED:0000000000000000 HAL_RCC_ADC12_CLK_ENABLED
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1218   .bss.HAL_RCC_ADC34_CLK_ENABLED:0000000000000000 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccoOExFF.s:1222   .bss.HAL_RCC_ADC34_CLK_ENABLED:0000000000000000 HAL_RCC_ADC34_CLK_ENABLED
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:627    .text.HAL_ADC_MspInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:634    .text.HAL_ADC_MspInit:0000000000000000 HAL_ADC_MspInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1022   .text.HAL_ADC_MspInit:00000000000001bc $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1037   .text.HAL_ADC_MspDeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1044   .text.HAL_ADC_MspDeInit:0000000000000000 HAL_ADC_MspDeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1193   .text.HAL_ADC_MspDeInit:00000000000000b4 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1211   .bss.HAL_RCC_ADC12_CLK_ENABLED:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1215   .bss.HAL_RCC_ADC12_CLK_ENABLED:0000000000000000 HAL_RCC_ADC12_CLK_ENABLED
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1218   .bss.HAL_RCC_ADC34_CLK_ENABLED:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccRNORn4.s:1222   .bss.HAL_RCC_ADC34_CLK_ENABLED:0000000000000000 HAL_RCC_ADC34_CLK_ENABLED
 
 UNDEFINED SYMBOLS
 HAL_ADC_Init

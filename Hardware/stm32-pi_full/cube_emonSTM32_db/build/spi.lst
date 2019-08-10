@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -39,10 +39,10 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
    9:Src/spi.c     ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   10:Src/spi.c     ****   * All rights reserved.</center></h2>
   11:Src/spi.c     ****   *
-  12:Src/spi.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
-  13:Src/spi.c     ****   * the "License"; You may not use this file except in compliance with the
-  14:Src/spi.c     ****   * License. You may obtain a copy of the License at:
-  15:Src/spi.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  12:Src/spi.c     ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/spi.c     ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/spi.c     ****   * the License. You may obtain a copy of the License at:
+  15:Src/spi.c     ****   *                             www.st.com/SLA0044
   16:Src/spi.c     ****   *
   17:Src/spi.c     ****   ******************************************************************************
   18:Src/spi.c     ****   */
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
   28:Src/spi.c     **** 
   29:Src/spi.c     **** /* SPI3 init function */
   30:Src/spi.c     **** void MX_SPI3_Init(void)
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 2
 
 
   31:Src/spi.c     **** {
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
   42:Src/spi.c     ****   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   72              		.loc 1 42 3 is_stmt 1 view .LVU19
   73              		.loc 1 42 21 is_stmt 0 view .LVU20
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 3
 
 
   74 0028 4362     		str	r3, [r0, #36]
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
  118              		.fpu fpv4-sp-d16
  120              	HAL_SPI_MspInit:
  121              	.LVL2:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 4
 
 
  122              	.LFB127:
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
   74:Src/spi.c     ****     GPIO_InitStruct.Pin = GPIO_PIN_15;
   75:Src/spi.c     ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   76:Src/spi.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 5
 
 
   77:Src/spi.c     ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
  185 0032 5A69     		ldr	r2, [r3, #20]
  186 0034 42F40032 		orr	r2, r2, #131072
  187 0038 5A61     		str	r2, [r3, #20]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 6
 
 
   66:Src/spi.c     ****     __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
   79:Src/spi.c     **** 
  226              		.loc 1 79 5 is_stmt 1 view .LVU67
  227 0068 03A9     		add	r1, sp, #12
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 7
 
 
  228 006a 4FF09040 		mov	r0, #1207959552
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
  271              		.fpu fpv4-sp-d16
  273              	HAL_SPI_MspDeInit:
  274              	.LVL8:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 8
 
 
  275              	.LFB128:
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
  301 000e D369     		ldr	r3, [r2, #28]
  302 0010 23F40043 		bic	r3, r3, #32768
  303 0014 D361     		str	r3, [r2, #28]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 9
 
 
  111:Src/spi.c     **** 
@@ -525,21 +525,21 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 1
  343              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
  344              		.file 16 "Inc/spi.h"
  345              		.file 17 "Inc/main.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 spi.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:18     .text.MX_SPI3_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:26     .text.MX_SPI3_Init:0000000000000000 MX_SPI3_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:107    .text.MX_SPI3_Init:0000000000000044 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:18     .text.MX_SPI3_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:26     .text.MX_SPI3_Init:0000000000000000 MX_SPI3_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:107    .text.MX_SPI3_Init:0000000000000044 $d
                             *COM*:0000000000000064 hspi3
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:113    .text.HAL_SPI_MspInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:120    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:260    .text.HAL_SPI_MspInit:000000000000008c $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:266    .text.HAL_SPI_MspDeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:273    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccS1YOxu.s:321    .text.HAL_SPI_MspDeInit:0000000000000030 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:113    .text.HAL_SPI_MspInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:120    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:260    .text.HAL_SPI_MspInit:000000000000008c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:266    .text.HAL_SPI_MspDeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:273    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccwsktO6.s:321    .text.HAL_SPI_MspDeInit:0000000000000030 $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init

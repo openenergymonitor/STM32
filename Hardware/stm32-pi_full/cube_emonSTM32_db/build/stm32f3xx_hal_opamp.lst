@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
   27:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****        (++) Programmable Gain Amplifier (PGA) mode (Resistor feedback output)
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****        (++) Follower mode
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 2
 
 
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****        (#) The OPAMP(s) provide(s) calibration capabilities.  
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
   84:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****            Store the calibration results.
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     *** Running mode ***
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 3
 
 
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     ============================================
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  141:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   *      without specific prior written permission.
  142:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   *
  143:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 4
 
 
  144:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  198:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** #if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx) || \
  199:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx) || \
  200:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx) || \
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 5
 
 
  201:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx)
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  255:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   /* Init not allowed if calibration is ongoing */
  256:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   if((hopamp == NULL) || (hopamp->State == HAL_OPAMP_STATE_BUSYLOCKED) \
  257:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****                       || (hopamp->State == HAL_OPAMP_STATE_CALIBBUSY))
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 6
 
 
  258:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   {
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  312:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     /*     Set  bits according to hopamp->hopamp->Init.Mode value                                 *
  313:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     /*     Set  bits according to hopamp->hopamp->Init.InvertingInput value                       *
  314:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     /*     Set  bits according to hopamp->hopamp->Init.NonInvertingInput value                    *
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 7
 
 
  315:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     /*     Set  bits according to hopamp->hopamp->Init.TimerControlledMuxmode value               *
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  369:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     }
  370:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** }
  371:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 8
 
 
  372:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  426:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @brief  Initializes the OPAMP MSP.
  427:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @param  hopamp OPAMP handle
  428:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @retval None
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 9
 
 
  429:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   */
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
   69              		.cfi_def_cfa_offset 16
   70 0008 0446     		mov	r4, r0
  256:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****                       || (hopamp->State == HAL_OPAMP_STATE_CALIBBUSY))
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 10
 
 
   71              		.loc 1 256 33 discriminator 1 view .LVU8
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  104 0022 42F00102 		orr	r2, r2, #1
  105 0026 9A61     		str	r2, [r3, #24]
  300:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 11
 
 
  106              		.loc 1 300 5 view .LVU30
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  147 005e 0343     		orrs	r3, r3, r0
  148 0060 6069     		ldr	r0, [r4, #20]
  149 0062 0343     		orrs	r3, r3, r0
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 12
 
 
  150 0064 A069     		ldr	r0, [r4, #24]
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  198 00be 84F83230 		strb	r3, [r4, #50]
  199              	.L8:
  368:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 13
 
 
  200              		.loc 1 368 5 is_stmt 1 view .LVU50
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  247              		.section	.text.HAL_OPAMP_MspDeInit,"ax",%progbits
  248              		.align	1
  249              		.weak	HAL_OPAMP_MspDeInit
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 14
 
 
  250              		.syntax unified
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  287 0000 C8B1     		cbz	r0, .L22
  381:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   HAL_StatusTypeDef status = HAL_OK;
  288              		.loc 1 381 1 discriminator 1 view .LVU66
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 15
 
 
  289 0002 10B5     		push	{r4, lr}
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  329              	.L21:
  330              	.LVL15:
  419:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 16
 
 
  331              		.loc 1 419 5 is_stmt 1 view .LVU81
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  472:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     transfers.
  473:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
  474:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** @endverbatim
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 17
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 17
 
 
  475:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @{
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  506:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       /* From HAL_OPAMP_STATE_READY to HAL_OPAMP_STATE_BUSY */
  507:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       hopamp->State = HAL_OPAMP_STATE_BUSY;   
  508:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 18
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 18
 
 
  509:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     else
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  426              		.cfi_endproc
  427              	.LFE130:
  429              		.section	.text.HAL_OPAMP_Stop,"ax",%progbits
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 19
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 19
 
 
  430              		.align	1
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  541:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     if(hopamp->State == HAL_OPAMP_STATE_BUSY)
  462              		.loc 1 541 5 view .LVU118
  463              		.loc 1 541 14 is_stmt 0 view .LVU119
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 20
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 20
 
 
  464 0016 90F83230 		ldrb	r3, [r0, #50]	@ zero_extendqisi2
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  496              		.loc 1 534 12 view .LVU130
  497 003a 7047     		bx	lr
  498              	.LVL33:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 21
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 21
 
 
  499              	.L39:
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  574:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   
  575:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   /* Check the OPAMP handle allocation */
  576:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   /* Check if OPAMP locked */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 22
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 22
 
 
  577:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   if((hopamp == NULL) || (hopamp->State == HAL_OPAMP_STATE_BUSYLOCKED))
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  602:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       MODIFY_REG(hopamp->Instance->CSR, OPAMP_CSR_CALSEL, OPAMP_VREF_90VDDA);
  603:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       
  604:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       /* Enable the selected opamp */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 23
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 23
 
 
  605:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       SET_BIT (hopamp->Instance->CSR, OPAMP_CSR_OPAMPxEN);
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  659:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       trimmingvaluep = 16U; 
  660:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       delta = 8U;
  661:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 24
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 24
 
 
  662:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       while (delta != 0U)
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  716:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       /* Write calibration result N */
  717:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       hopamp->Init.TrimmingValueN = trimmingvaluen;
  718:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****      
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 25
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 25
 
 
  719:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       /* Write calibration result P */
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  592              		.loc 1 605 7 view .LVU156
  593 004c 0268     		ldr	r2, [r0]
  594 004e 1368     		ldr	r3, [r2]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 26
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 26
 
 
  595 0050 43F00103 		orr	r3, r3, #1
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  622:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****         { 
  634              		.loc 1 622 30 view .LVU172
  635 0078 1B68     		ldr	r3, [r3]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 27
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 27
 
 
  622:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****         { 
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  676 00b2 1368     		ldr	r3, [r2]
  677 00b4 23F44053 		bic	r3, r3, #12288
  678 00b8 43F48053 		orr	r3, r3, #4096
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 28
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 28
 
 
  679 00bc 1360     		str	r3, [r2]
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  717              		.loc 1 672 30 view .LVU202
  718 00e0 1B68     		ldr	r3, [r3]
  672:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****         { 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 29
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 29
 
 
  719              		.loc 1 672 12 view .LVU203
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  760 011c 23F40063 		bic	r3, r3, #2048
  761 0120 1360     		str	r3, [r2]
  707:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****       
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 30
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 30
 
 
  762              		.loc 1 707 7 view .LVU217
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  804              	.LCFI8:
  805              		.cfi_def_cfa_offset 0
  806              		.cfi_restore 3
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 31
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 31
 
 
  807              		.cfi_restore 4
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  749:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     [..]
  750:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     This subsection provides a set of functions allowing to control the OPAMP data 
  751:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     transfers.
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 32
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 32
 
 
  752:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c **** 
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  877 0024 11D0     		beq	.L71
  776:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   
  777:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   {
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 33
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 33
 
 
  778:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     status = HAL_ERROR;
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  778:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   }
  912              		.loc 1 778 12 view .LVU258
  913 0044 7047     		bx	lr
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 34
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 34
 
 
  914              	.LVL71:
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  815:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @brief  Return the OPAMP state
  816:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @param  hopamp OPAMP handle
  817:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @retval HAL state
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 35
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 35
 
 
  818:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   */
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  836:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @param  trimmingoffset Trimming offset (P or N)
  837:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   * @retval Trimming value (P or N): range: 0->31
  838:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   *         or OPAMP_FACTORYTRIMMING_DUMMY if trimming value is not available
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 36
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 36
 
 
  839:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****  */
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1020              		.cfi_offset 5, -8
  1021              		.cfi_offset 6, -4
  852:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****   {
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 37
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 37
 
 
  853:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     return OPAMP_FACTORYTRIMMING_DUMMY;
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1056 004e 2546     		mov	r5, r4
  1057              	.LVL85:
  1058              	.L77:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 38
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 38
 
 
  869:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c ****     }
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1084              		.cfi_remember_state
  1085              		.cfi_restore 6
  1086              		.cfi_restore 5
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 39
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 39
 
 
  1087              		.cfi_restore 4
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1130 009a E4E7     		b	.L75
  1131              	.LVL94:
  1132              	.L80:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 40
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 40
 
 
  1133              	.LCFI13:
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1179              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
  1180              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
  1181              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 41
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 41
 
 
  1182              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
@@ -2408,32 +2408,32 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 1
  1186              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
  1187              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_opamp.h"
  1188              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s 			page 42
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s 			page 42
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_opamp.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:18     .text.HAL_OPAMP_MspInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:26     .text.HAL_OPAMP_MspInit:0000000000000000 HAL_OPAMP_MspInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:42     .text.HAL_OPAMP_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:49     .text.HAL_OPAMP_Init:0000000000000000 HAL_OPAMP_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:242    .text.HAL_OPAMP_Init:00000000000000d4 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:248    .text.HAL_OPAMP_MspDeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:255    .text.HAL_OPAMP_MspDeInit:0000000000000000 HAL_OPAMP_MspDeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:270    .text.HAL_OPAMP_DeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:277    .text.HAL_OPAMP_DeInit:0000000000000000 HAL_OPAMP_DeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:357    .text.HAL_OPAMP_Start:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:364    .text.HAL_OPAMP_Start:0000000000000000 HAL_OPAMP_Start
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:430    .text.HAL_OPAMP_Stop:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:437    .text.HAL_OPAMP_Stop:0000000000000000 HAL_OPAMP_Stop
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:516    .text.HAL_OPAMP_SelfCalibrate:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:523    .text.HAL_OPAMP_SelfCalibrate:0000000000000000 HAL_OPAMP_SelfCalibrate
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:837    .text.HAL_OPAMP_Lock:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:844    .text.HAL_OPAMP_Lock:0000000000000000 HAL_OPAMP_Lock
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:933    .text.HAL_OPAMP_GetState:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:940    .text.HAL_OPAMP_GetState:0000000000000000 HAL_OPAMP_GetState
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:970    .text.HAL_OPAMP_GetTrimOffset:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccZcu4tk.s:977    .text.HAL_OPAMP_GetTrimOffset:0000000000000000 HAL_OPAMP_GetTrimOffset
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:18     .text.HAL_OPAMP_MspInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:26     .text.HAL_OPAMP_MspInit:0000000000000000 HAL_OPAMP_MspInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:42     .text.HAL_OPAMP_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:49     .text.HAL_OPAMP_Init:0000000000000000 HAL_OPAMP_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:242    .text.HAL_OPAMP_Init:00000000000000d4 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:248    .text.HAL_OPAMP_MspDeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:255    .text.HAL_OPAMP_MspDeInit:0000000000000000 HAL_OPAMP_MspDeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:270    .text.HAL_OPAMP_DeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:277    .text.HAL_OPAMP_DeInit:0000000000000000 HAL_OPAMP_DeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:357    .text.HAL_OPAMP_Start:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:364    .text.HAL_OPAMP_Start:0000000000000000 HAL_OPAMP_Start
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:430    .text.HAL_OPAMP_Stop:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:437    .text.HAL_OPAMP_Stop:0000000000000000 HAL_OPAMP_Stop
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:516    .text.HAL_OPAMP_SelfCalibrate:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:523    .text.HAL_OPAMP_SelfCalibrate:0000000000000000 HAL_OPAMP_SelfCalibrate
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:837    .text.HAL_OPAMP_Lock:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:844    .text.HAL_OPAMP_Lock:0000000000000000 HAL_OPAMP_Lock
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:933    .text.HAL_OPAMP_GetState:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:940    .text.HAL_OPAMP_GetState:0000000000000000 HAL_OPAMP_GetState
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:970    .text.HAL_OPAMP_GetTrimOffset:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccEC25Wg.s:977    .text.HAL_OPAMP_GetTrimOffset:0000000000000000 HAL_OPAMP_GetTrimOffset
 
 UNDEFINED SYMBOLS
 HAL_Delay

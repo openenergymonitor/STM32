@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
   27:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   *
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   * Redistribution and use in source and binary forms, with or without modification,
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 2
 
 
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   * are permitted provided that the following conditions are met:
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
   84:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****             ##### Initialization and Configuration functions #####
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****  ==============================================================================
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****     [..]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 3
 
 
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****     This subsection provides a set of functions allowing to initialize the USARTx or the UARTy
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  141:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****       |---------|---------|-----------|---------------------------------------|
  142:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****       |    0    |    1    |     1     |    | SB | 8 bit data | PB | STB |     |
  143:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****       |---------|---------|-----------|---------------------------------------|
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 4
 
 
  144:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****       |    1    |    0    |     0     |    | SB |    7 bit data   | STB |     |
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
   51 000a 1646     		mov	r6, r2
   52 000c 0F46     		mov	r7, r1
  176:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   {
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 5
 
 
  177:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****     return HAL_ERROR;
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
   77 0026 FFF7FEFF 		bl	UART_SetConfig
   78              	.LVL3:
   79              		.loc 1 206 6 view .LVU17
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 6
 
 
   80 002a 0128     		cmp	r0, #1
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  227:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   /* Enable the Peripheral */
  228:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   __HAL_UART_ENABLE(huart);
  114              		.loc 1 228 3 view .LVU28
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 7
 
 
  115 005e 2268     		ldr	r2, [r4]
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  159 0084 7047     		bx	lr
  160              		.cfi_endproc
  161              	.LFE126:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 8
 
 
  163              		.section	.text.HAL_UARTEx_WakeupCallback,"ax",%progbits
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  271:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** }
  180              		.loc 1 271 1 is_stmt 0 view .LVU42
  181 0000 7047     		bx	lr
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 9
 
 
  182              		.cfi_endproc
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  201 0000 10B5     		push	{r4, lr}
  202              	.LCFI2:
  203              		.cfi_def_cfa_offset 8
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 10
 
 
  204              		.cfi_offset 4, -8
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  240 0036 8B60     		str	r3, [r1, #8]
  327:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
  328:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   if (WakeUpSelection.WakeUpEvent == UART_WAKEUP_ON_ADDRESS)
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 11
 
 
  241              		.loc 1 328 3 discriminator 2 view .LVU56
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  348:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   }
  349:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
  350:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   /* Process Unlocked */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 12
 
 
  351:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   __HAL_UNLOCK(huart);
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  324              	.LVL26:
  325              	.LFB129:
  355:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 13
 
 
  356:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  356 0026 80F86830 		strb	r3, [r0, #104]
  380:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
  381:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   return HAL_OK;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 14
 
 
  357              		.loc 1 381 3 discriminator 2 view .LVU87
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  396:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** 
  397:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   huart->gState = HAL_UART_STATE_BUSY;
  398              		.loc 1 397 3 discriminator 2 view .LVU97
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 15
 
 
  399              		.loc 1 397 17 is_stmt 0 discriminator 2 view .LVU98
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  410:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c **** /**
  411:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   * @brief By default in multiprocessor mode, when the wake up method is set
  412:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   *        to address mark, the UART handles only 4-bit long addresses detection;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 16
 
 
  413:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c ****   *        this API allows to enable longer addresses detection (6-, 7- or 8-bit
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  467 0016 5368     		ldr	r3, [r2, #4]
  468 0018 23F01003 		bic	r3, r3, #16
  469 001c 1943     		orrs	r1, r1, r3
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 17
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 17
 
 
  470              	.LVL35:
@@ -1012,23 +1012,23 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 1
  511              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
  512              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
  513              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s 			page 18
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_uart_ex.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:18     .text.HAL_RS485Ex_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:26     .text.HAL_RS485Ex_Init:0000000000000000 HAL_RS485Ex_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:164    .text.HAL_UARTEx_WakeupCallback:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:171    .text.HAL_UARTEx_WakeupCallback:0000000000000000 HAL_UARTEx_WakeupCallback
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:186    .text.HAL_UARTEx_StopModeWakeUpSourceConfig:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:193    .text.HAL_UARTEx_StopModeWakeUpSourceConfig:0000000000000000 HAL_UARTEx_StopModeWakeUpSourceConfig
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:316    .text.HAL_UARTEx_EnableStopMode:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:323    .text.HAL_UARTEx_EnableStopMode:0000000000000000 HAL_UARTEx_EnableStopMode
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:374    .text.HAL_UARTEx_DisableStopMode:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:381    .text.HAL_UARTEx_DisableStopMode:0000000000000000 HAL_UARTEx_DisableStopMode
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:432    .text.HAL_MultiProcessorEx_AddressLength_Set:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc7T7ekd.s:439    .text.HAL_MultiProcessorEx_AddressLength_Set:0000000000000000 HAL_MultiProcessorEx_AddressLength_Set
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:18     .text.HAL_RS485Ex_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:26     .text.HAL_RS485Ex_Init:0000000000000000 HAL_RS485Ex_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:164    .text.HAL_UARTEx_WakeupCallback:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:171    .text.HAL_UARTEx_WakeupCallback:0000000000000000 HAL_UARTEx_WakeupCallback
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:186    .text.HAL_UARTEx_StopModeWakeUpSourceConfig:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:193    .text.HAL_UARTEx_StopModeWakeUpSourceConfig:0000000000000000 HAL_UARTEx_StopModeWakeUpSourceConfig
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:316    .text.HAL_UARTEx_EnableStopMode:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:323    .text.HAL_UARTEx_EnableStopMode:0000000000000000 HAL_UARTEx_EnableStopMode
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:374    .text.HAL_UARTEx_DisableStopMode:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:381    .text.HAL_UARTEx_DisableStopMode:0000000000000000 HAL_UARTEx_DisableStopMode
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:432    .text.HAL_MultiProcessorEx_AddressLength_Set:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc1rAl5O.s:439    .text.HAL_MultiProcessorEx_AddressLength_Set:0000000000000000 HAL_MultiProcessorEx_AddressLength_Set
 
 UNDEFINED SYMBOLS
 UART_SetConfig

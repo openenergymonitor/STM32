@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
   28:Src/stm32f3xx_it.c **** /* Private typedef -----------------------------------------------------------*/
   29:Src/stm32f3xx_it.c **** /* USER CODE BEGIN TD */
   30:Src/stm32f3xx_it.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 2
 
 
   31:Src/stm32f3xx_it.c **** /* USER CODE END TD */
@@ -89,7 +89,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
   56:Src/stm32f3xx_it.c **** /* USER CODE END 0 */
   57:Src/stm32f3xx_it.c **** 
   58:Src/stm32f3xx_it.c **** /* External variables --------------------------------------------------------*/
-  59:Src/stm32f3xx_it.c **** 
+  59:Src/stm32f3xx_it.c **** extern PCD_HandleTypeDef hpcd_USB_FS;
   60:Src/stm32f3xx_it.c **** /* USER CODE BEGIN EV */
   61:Src/stm32f3xx_it.c **** 
   62:Src/stm32f3xx_it.c **** /* USER CODE END EV */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
   35 0000 7047     		bx	lr
   36              		.cfi_endproc
   37              	.LFE126:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 3
 
 
   39              		.section	.text.HardFault_Handler,"ax",%progbits
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
   75              		@ args = 0, pretend = 0, frame = 0
   76              		@ frame_needed = 0, uses_anonymous_args = 0
   77              		@ link register save eliminated.
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 4
 
 
   78              	.L5:
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
  112              		.thumb
  113              		.thumb_func
  114              		.fpu fpv4-sp-d16
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 5
 
 
  116              	UsageFault_Handler:
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
  149:Src/stm32f3xx_it.c **** 
  150:Src/stm32f3xx_it.c ****   /* USER CODE END SVCall_IRQn 1 */
  151:Src/stm32f3xx_it.c **** }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 6
 
 
  146              		.loc 1 151 1 view .LVU15
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
  185              		@ link register save eliminated.
  171:Src/stm32f3xx_it.c ****   /* USER CODE BEGIN PendSV_IRQn 0 */
  172:Src/stm32f3xx_it.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 7
 
 
  173:Src/stm32f3xx_it.c ****   /* USER CODE END PendSV_IRQn 0 */
@@ -409,43 +409,102 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 1
  214 0006 08BD     		pop	{r3, pc}
  215              		.cfi_endproc
  216              	.LFE134:
- 218              		.text
- 219              	.Letext0:
- 220              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
- 221              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
- 222              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 223              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
- 224              		.file 6 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
- 225              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
- 226              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 8
+ 218              		.section	.text.USB_LP_CAN_RX0_IRQHandler,"ax",%progbits
+ 219              		.align	1
+ 220              		.global	USB_LP_CAN_RX0_IRQHandler
+ 221              		.syntax unified
+ 222              		.thumb
+ 223              		.thumb_func
+ 224              		.fpu fpv4-sp-d16
+ 226              	USB_LP_CAN_RX0_IRQHandler:
+ 227              	.LFB135:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 8
 
 
- 227              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
- 228              		.file 10 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s 			page 9
+ 192:Src/stm32f3xx_it.c **** 
+ 193:Src/stm32f3xx_it.c **** /******************************************************************************/
+ 194:Src/stm32f3xx_it.c **** /* STM32F3xx Peripheral Interrupt Handlers                                    */
+ 195:Src/stm32f3xx_it.c **** /* Add here the Interrupt Handlers for the used peripherals.                  */
+ 196:Src/stm32f3xx_it.c **** /* For the available peripheral interrupt handler names,                      */
+ 197:Src/stm32f3xx_it.c **** /* please refer to the startup file (startup_stm32f3xx.s).                    */
+ 198:Src/stm32f3xx_it.c **** /******************************************************************************/
+ 199:Src/stm32f3xx_it.c **** 
+ 200:Src/stm32f3xx_it.c **** /**
+ 201:Src/stm32f3xx_it.c ****   * @brief This function handles USB low priority or CAN_RX0 interrupts.
+ 202:Src/stm32f3xx_it.c ****   */
+ 203:Src/stm32f3xx_it.c **** void USB_LP_CAN_RX0_IRQHandler(void)
+ 204:Src/stm32f3xx_it.c **** {
+ 228              		.loc 1 204 1 is_stmt 1 view -0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232 0000 08B5     		push	{r3, lr}
+ 233              	.LCFI1:
+ 234              		.cfi_def_cfa_offset 8
+ 235              		.cfi_offset 3, -8
+ 236              		.cfi_offset 14, -4
+ 205:Src/stm32f3xx_it.c ****   /* USER CODE BEGIN USB_LP_CAN_RX0_IRQn 0 */
+ 206:Src/stm32f3xx_it.c **** 
+ 207:Src/stm32f3xx_it.c ****   /* USER CODE END USB_LP_CAN_RX0_IRQn 0 */
+ 208:Src/stm32f3xx_it.c ****   HAL_PCD_IRQHandler(&hpcd_USB_FS);
+ 237              		.loc 1 208 3 view .LVU24
+ 238 0002 0248     		ldr	r0, .L17
+ 239 0004 FFF7FEFF 		bl	HAL_PCD_IRQHandler
+ 240              	.LVL1:
+ 209:Src/stm32f3xx_it.c ****   /* USER CODE BEGIN USB_LP_CAN_RX0_IRQn 1 */
+ 210:Src/stm32f3xx_it.c **** 
+ 211:Src/stm32f3xx_it.c ****   /* USER CODE END USB_LP_CAN_RX0_IRQn 1 */
+ 212:Src/stm32f3xx_it.c **** }
+ 241              		.loc 1 212 1 is_stmt 0 view .LVU25
+ 242 0008 08BD     		pop	{r3, pc}
+ 243              	.L18:
+ 244 000a 00BF     		.align	2
+ 245              	.L17:
+ 246 000c 00000000 		.word	hpcd_USB_FS
+ 247              		.cfi_endproc
+ 248              	.LFE135:
+ 250              		.text
+ 251              	.Letext0:
+ 252              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
+ 253              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 254              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 255              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 256              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
+ 257              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
+ 258              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
+ 259              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
+ 260              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
+ 261              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 262              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h"
+ 263              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_it.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:18     .text.NMI_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:26     .text.NMI_Handler:0000000000000000 NMI_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:40     .text.HardFault_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:47     .text.HardFault_Handler:0000000000000000 HardFault_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:63     .text.MemManage_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:70     .text.MemManage_Handler:0000000000000000 MemManage_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:86     .text.BusFault_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:93     .text.BusFault_Handler:0000000000000000 BusFault_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:109    .text.UsageFault_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:116    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:132    .text.SVC_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:139    .text.SVC_Handler:0000000000000000 SVC_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:152    .text.DebugMon_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:159    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:172    .text.PendSV_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:179    .text.PendSV_Handler:0000000000000000 PendSV_Handler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:192    .text.SysTick_Handler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccuITn23.s:199    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:18     .text.NMI_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:26     .text.NMI_Handler:0000000000000000 NMI_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:40     .text.HardFault_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:47     .text.HardFault_Handler:0000000000000000 HardFault_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:63     .text.MemManage_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:70     .text.MemManage_Handler:0000000000000000 MemManage_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:86     .text.BusFault_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:93     .text.BusFault_Handler:0000000000000000 BusFault_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:109    .text.UsageFault_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:116    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:132    .text.SVC_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:139    .text.SVC_Handler:0000000000000000 SVC_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:152    .text.DebugMon_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:159    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:172    .text.PendSV_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:179    .text.PendSV_Handler:0000000000000000 PendSV_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:192    .text.SysTick_Handler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:199    .text.SysTick_Handler:0000000000000000 SysTick_Handler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:219    .text.USB_LP_CAN_RX0_IRQHandler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:226    .text.USB_LP_CAN_RX0_IRQHandler:0000000000000000 USB_LP_CAN_RX0_IRQHandler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccyLFuAo.s:246    .text.USB_LP_CAN_RX0_IRQHandler:000000000000000c $d
 
 UNDEFINED SYMBOLS
 HAL_IncTick
+HAL_PCD_IRQHandler
+hpcd_USB_FS

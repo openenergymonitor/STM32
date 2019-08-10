@@ -23,13 +23,17 @@ build/main.o: Src/main.c Inc/main.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c_ex.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_opamp.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_opamp_ex.h \
+ Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h \
+ Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi_ex.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h Inc/adc.h \
- Inc/main.h Inc/i2c.h Inc/opamp.h Inc/spi.h Inc/usart.h Inc/gpio.h
+ Inc/main.h Inc/i2c.h Inc/opamp.h Inc/spi.h Inc/usart.h Inc/usb_device.h \
+ Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
+ Inc/usbd_conf.h Inc/gpio.h
 
 Inc/main.h:
 
@@ -85,6 +89,10 @@ Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_opamp.h:
 
 Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_opamp_ex.h:
 
+Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h:
+
+Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h:
+
 Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h:
 
 Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h:
@@ -108,5 +116,11 @@ Inc/opamp.h:
 Inc/spi.h:
 
 Inc/usart.h:
+
+Inc/usb_device.h:
+
+Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:
+
+Inc/usbd_conf.h:
 
 Inc/gpio.h:

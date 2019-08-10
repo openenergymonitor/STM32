@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****        detection.
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****                     
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****    (#) Use HAL_DMA_Abort() function to abort the current transfer
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 2
 
 
   31:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****                    
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 3
 
 
   88:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  142:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** @endverbatim
  143:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @{
  144:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 4
 
 
  145:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  199:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
  200:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   /* Initialize the DMA state*/
  201:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_READY;
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 5
 
 
  202:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  256:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   /* Reset the DMA state */
  257:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   hdma->State = HAL_DMA_STATE_RESET;
  258:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 6
 
 
  259:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   /* Release Lock */
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  313:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	
  314:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	/* Disable the peripheral */
  315:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	hdma->Instance->CCR &= ~DMA_CCR_EN;  
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 7
 
 
  316:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  370:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     {
  371:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****       hdma->Instance->CCR |= (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE);
  372:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 8
 
 
  373:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	else
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  427:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** {  
  428:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
  429:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 9
 
 
  430:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   if(HAL_DMA_STATE_BUSY != hdma->State)
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  484:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
  485:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   /* Polling mode not supported in circular mode */
  486:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   if (RESET != (hdma->Instance->CCR & DMA_CCR_CIRC))
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 10
 
 
  487:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  541:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****         return HAL_ERROR;
  542:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****       }
  543:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 11
 
 
  544:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  598:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	}
  599:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
  600:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 12
 
 
  601:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   /* Transfer Complete Interrupt management ***********************************/
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  655:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** /**
  656:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @brief  Register callbacks
  657:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @param  hdma                 pointer to a DMA_HandleTypeDef structure that contains
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 13
 
 
  658:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   *                               the configuration information for the specified DMA Stream.
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  712:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @param  CallbackID           User Callback identifer
  713:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   *                               a HAL_DMA_CallbackIDTypeDef ENUM as parameter.
  714:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @retval HAL status
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 14
 
 
  715:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   */              
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  769:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
  770:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** /** @defgroup DMA_Exported_Functions_Group3 Peripheral State functions
  771:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****  *  @brief    Peripheral State functions 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 15
 
 
  772:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****  *
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  826:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @param  DataLength The length of data to be transferred from source to destination
  827:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   * @retval HAL status
  828:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 16
 
 
  829:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  849:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     /* Configure DMA Channel source address */
  850:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     hdma->Instance->CPAR = SrcAddress;
   63              		.loc 1 850 5 is_stmt 1 view .LVU13
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 17
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 17
 
 
   64              		.loc 1 850 9 is_stmt 0 view .LVU14
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  108              		.fpu fpv4-sp-d16
  110              	DMA_CalcBaseAndBitshift:
  111              	.LVL5:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 18
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 18
 
 
  112              	.LFB139:
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  145 001e 094B     		ldr	r3, .L9+16
  146 0020 1344     		add	r3, r3, r2
  147              		.loc 1 876 80 view .LVU39
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 19
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 19
 
 
  148 0022 064A     		ldr	r2, .L9+8
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  191 0000 20B3     		cbz	r0, .L13
  154:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   uint32_t tmp = 0U;
  192              		.loc 1 154 1 view .LVU49
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 20
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 20
 
 
  193 0002 10B5     		push	{r4, lr}
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  228 001a 8068     		ldr	r0, [r0, #8]
  229              	.LVL10:
  185:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****           hdma->Init.PeriphInc           | hdma->Init.MemInc           |
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 21
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 21
 
 
  230              		.loc 1 185 39 view .LVU69
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  201:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
  267              		.loc 1 201 15 is_stmt 0 view .LVU87
  268 0040 0123     		movs	r3, #1
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 22
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 22
 
 
  269 0042 84F82130 		strb	r3, [r4, #33]
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  315              		.cfi_offset 14, -4
  316 0004 0446     		mov	r4, r0
  224:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 23
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 23
 
 
  317              		.loc 1 224 3 is_stmt 1 view .LVU98
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  352              		.loc 1 245 7 view .LVU117
  353 0028 E26B     		ldr	r2, [r4, #60]
  245:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 24
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 24
 
 
  354              		.loc 1 245 45 view .LVU118
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  390              		.cfi_restore 4
  391              		.cfi_restore 5
  392              		.cfi_restore 14
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 25
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 25
 
 
  220:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  307:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
  438              		.loc 1 307 5 discriminator 2 view .LVU148
  439 0014 012C     		cmp	r4, #1
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 26
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 26
 
 
  440 0016 04D0     		beq	.L30
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  478 003a FFF7FEFF 		bl	DMA_SetConfig
  479              	.LVL26:
  321:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 27
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 27
 
 
  480              		.loc 1 321 4 view .LVU165
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  526              		.loc 1 352 3 view .LVU175
  352:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
  527              		.loc 1 352 3 view .LVU176
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 28
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 28
 
 
  528 0002 90F82040 		ldrb	r4, [r0, #32]	@ zero_extendqisi2
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  566 002a 0020     		movs	r0, #0
  567 002c A063     		str	r0, [r4, #56]
  362:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 29
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 29
 
 
  568              		.loc 1 362 4 is_stmt 1 view .LVU193
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  606              		.loc 1 375 25 view .LVU209
  607 005c 1368     		ldr	r3, [r2]
  608 005e 43F00A03 		orr	r3, r3, #10
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 30
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 30
 
 
  609 0062 1360     		str	r3, [r2]
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  406:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 	
  654              		.loc 1 406 6 is_stmt 0 view .LVU221
  655 000c 0168     		ldr	r1, [r0]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 31
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 31
 
 
  406:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 	
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  427:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
  699              		.loc 1 427 1 is_stmt 0 view .LVU235
  700 0000 08B5     		push	{r3, lr}
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 32
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 32
 
 
  701              	.LCFI9:
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  739 001e 1368     		ldr	r3, [r2]
  740 0020 23F00103 		bic	r3, r3, #1
  741 0024 1360     		str	r3, [r2]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 33
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 33
 
 
  447:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  781              		.align	1
  782              		.global	HAL_DMA_PollForTransfer
  783              		.syntax unified
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 34
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 34
 
 
  784              		.thumb
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  826 0016 0120     		movs	r0, #1
  827              	.LVL51:
  828              	.L47:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 35
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 35
 
 
  565:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  507:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
  867              		.loc 1 507 39 view .LVU297
  868 003c 2B68     		ldr	r3, [r5]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 36
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 36
 
 
  507:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  906 0068 84F82100 		strb	r0, [r4, #33]
  539:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
  907              		.loc 1 539 9 is_stmt 1 view .LVU315
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 37
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 37
 
 
  539:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  517:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
  946              		.loc 1 517 23 is_stmt 0 view .LVU332
  947 008e A063     		str	r0, [r4, #56]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 38
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 38
 
 
  520:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****       
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  558:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
  984              		.loc 1 558 5 is_stmt 1 view .LVU351
  558:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   }
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 39
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 39
 
 
  985              		.loc 1 558 54 is_stmt 0 view .LVU352
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  579:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
  1031              		.loc 1 579 3 is_stmt 1 view .LVU363
  579:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 40
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 40
 
 
  1032              		.loc 1 579 49 is_stmt 0 view .LVU364
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1070 0036 03B1     		cbz	r3, .L62
  597:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	}
  1071              		.loc 1 597 5 is_stmt 1 view .LVU381
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 41
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 41
 
 
  1072 0038 9847     		blx	r3
@@ -2458,7 +2458,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  615:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   	
  1111              		.loc 1 615 46 view .LVU397
  1112 0064 0223     		movs	r3, #2
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 42
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 42
 
 
  1113 0066 8B40     		lsls	r3, r3, r1
@@ -2518,7 +2518,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1151              	.LVL71:
  636:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****     
  1152              		.loc 1 636 9 view .LVU414
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 43
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 43
 
 
  1153 0094 C16B     		ldr	r1, [r0, #60]
@@ -2578,7 +2578,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1195              		.cfi_startproc
  1196              		@ args = 0, pretend = 0, frame = 0
  1197              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 44
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 44
 
 
  1198              		@ link register save eliminated.
@@ -2638,7 +2638,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1236 0024 0FD8     		bhi	.L79
  1237 0026 DFE801F0 		tbb	[pc, r1]
  1238              	.L73:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 45
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 45
 
 
  1239 002a 02       		.byte	(.L76-.L73)/2
@@ -2698,7 +2698,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1275              		.loc 1 690 12 is_stmt 1 view .LVU462
  667:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   
  1276              		.loc 1 667 21 is_stmt 0 view .LVU463
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 46
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 46
 
 
  1277 0042 0020     		movs	r0, #0
@@ -2758,7 +2758,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1321              		.loc 1 723 33 is_stmt 0 discriminator 2 view .LVU475
  1322 0010 90F82120 		ldrb	r2, [r0, #33]	@ zero_extendqisi2
  723:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****   {
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 47
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 47
 
 
  1323              		.loc 1 723 5 discriminator 2 view .LVU476
@@ -2818,7 +2818,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  732:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****            break;         
  1365              		.loc 1 732 39 view .LVU489
  1366 0038 D862     		str	r0, [r3, #44]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 48
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 48
 
 
  733:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c **** 
@@ -2878,7 +2878,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  747:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****            break; 
  1404              		.loc 1 747 36 is_stmt 0 view .LVU507
  1405 0050 5863     		str	r0, [r3, #52]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 49
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 49
 
 
  748:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c ****      
@@ -2938,7 +2938,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1454              		.thumb
  1455              		.thumb_func
  1456              		.fpu fpv4-sp-d16
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 50
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 50
 
 
  1458              	HAL_DMA_GetError:
@@ -2976,45 +2976,45 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 1
  1487              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
  1488              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
  1489              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s 			page 51
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s 			page 51
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_dma.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:18     .text.DMA_SetConfig:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:25     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:104    .text.DMA_CalcBaseAndBitshift:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:110    .text.DMA_CalcBaseAndBitshift:0000000000000000 DMA_CalcBaseAndBitshift
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:164    .text.DMA_CalcBaseAndBitshift:0000000000000034 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:174    .text.HAL_DMA_Init:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:181    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:291    .text.HAL_DMA_DeInit:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:298    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:402    .text.HAL_DMA_Start:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:409    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:501    .text.HAL_DMA_Start_IT:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:508    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:629    .text.HAL_DMA_Abort:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:636    .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:685    .text.HAL_DMA_Abort_IT:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:692    .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:781    .text.HAL_DMA_PollForTransfer:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:788    .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:997    .text.HAL_DMA_IRQHandler:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1004   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1184   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1191   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1239   .text.HAL_DMA_RegisterCallback:000000000000002a $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1243   .text.HAL_DMA_RegisterCallback:000000000000002e $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1293   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1300   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1344   .text.HAL_DMA_UnRegisterCallback:000000000000002a $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1426   .text.HAL_DMA_GetState:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1433   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1451   .text.HAL_DMA_GetError:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1458   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1349   .text.HAL_DMA_UnRegisterCallback:000000000000002f $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccQypetC.s:1349   .text.HAL_DMA_UnRegisterCallback:0000000000000030 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:18     .text.DMA_SetConfig:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:25     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:104    .text.DMA_CalcBaseAndBitshift:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:110    .text.DMA_CalcBaseAndBitshift:0000000000000000 DMA_CalcBaseAndBitshift
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:164    .text.DMA_CalcBaseAndBitshift:0000000000000034 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:174    .text.HAL_DMA_Init:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:181    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:291    .text.HAL_DMA_DeInit:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:298    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:402    .text.HAL_DMA_Start:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:409    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:501    .text.HAL_DMA_Start_IT:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:508    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:629    .text.HAL_DMA_Abort:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:636    .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:685    .text.HAL_DMA_Abort_IT:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:692    .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:781    .text.HAL_DMA_PollForTransfer:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:788    .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:997    .text.HAL_DMA_IRQHandler:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1004   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1184   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1191   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1239   .text.HAL_DMA_RegisterCallback:000000000000002a $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1243   .text.HAL_DMA_RegisterCallback:000000000000002e $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1293   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1300   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1344   .text.HAL_DMA_UnRegisterCallback:000000000000002a $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1426   .text.HAL_DMA_GetState:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1433   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1451   .text.HAL_DMA_GetError:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1458   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1349   .text.HAL_DMA_UnRegisterCallback:000000000000002f $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccOpTJAW.s:1349   .text.HAL_DMA_UnRegisterCallback:0000000000000030 $t
 
 UNDEFINED SYMBOLS
 HAL_GetTick

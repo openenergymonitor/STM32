@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
   27:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****     (#) Configure I2C Digital noise filter using the function HAL_I2CEx_ConfigDigitalFilter()
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****     (#) Configure the enable or disable of I2C Wake Up Mode using the functions :
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****           (++) HAL_I2CEx_EnableWakeUp()
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 2
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 2
 
 
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****           (++) HAL_I2CEx_DisableWakeUp()
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
   84:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** /* Private functions ---------------------------------------------------------*/
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** 
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** /** @defgroup I2CEx_Exported_Functions I2C Extended Exported Functions
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 3
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 3
 
 
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   * @{
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
   48 0010 25D0     		beq	.L4
  114:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   /* Check the parameters */
   49              		.loc 1 114 1 is_stmt 0 discriminator 2 view .LVU8
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 4
 
 
   50 0012 10B4     		push	{r4}
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  138:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** 
  139:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****     /* Process Unlocked */
  140:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****     __HAL_UNLOCK(hi2c);
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 5
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 5
 
 
   89              		.loc 1 140 5 is_stmt 1 discriminator 2 view .LVU22
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  152:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
  153:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   *                the configuration information for the specified I2Cx peripheral.
  154:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   * @param  DigitalFilter Coefficient of digital noise filter between Min_Data=0x00 and Max_Data=0x
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 6
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 6
 
 
  155:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   * @retval HAL status
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  165 0022 2268     		ldr	r2, [r4]
  166 0024 22F00102 		bic	r2, r2, #1
  167 0028 2260     		str	r2, [r4]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 7
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 7
 
 
  174:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** 
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  201              		.loc 1 194 12 is_stmt 0 discriminator 2 view .LVU61
  202 004e 1846     		mov	r0, r3
  203              	.LVL11:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 8
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 8
 
 
  195:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   }
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  242              		@ link register save eliminated.
  210:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   /* Check the parameters */
  211:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   assert_param(IS_I2C_WAKEUP_FROMSTOP_INSTANCE(hi2c->Instance));
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 9
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 9
 
 
  243              		.loc 1 211 3 view .LVU68
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  280              		.loc 1 228 5 discriminator 2 view .LVU82
  281              		.loc 1 228 17 is_stmt 0 discriminator 2 view .LVU83
  282 003c 2023     		movs	r3, #32
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 10
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 10
 
 
  283 003e 80F84130 		strb	r3, [r0, #65]
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  245:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   * @retval HAL status
  246:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   */
  247:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** HAL_StatusTypeDef HAL_I2CEx_DisableWakeUp(I2C_HandleTypeDef *hi2c)
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 11
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 11
 
 
  248:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** {
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  265:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****     __HAL_I2C_ENABLE(hi2c);
  359              		.loc 1 265 5 is_stmt 1 discriminator 2 view .LVU107
  360 0032 0268     		ldr	r2, [r0]
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 12
 
 
  361 0034 1368     		ldr	r3, [r2]
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  403              	HAL_I2CEx_EnableFastModePlus:
  404              	.LVL28:
  405              	.LFB130:
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 13
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 13
 
 
  279:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** 
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  434 001a 1843     		orrs	r0, r0, r3
  435              	.LVL29:
  436              		.loc 1 304 3 is_stmt 0 view .LVU128
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 14
 
 
  437 001c 1060     		str	r0, [r2]
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  472              		.loc 1 325 3 is_stmt 1 view .LVU132
  326:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c **** 
  327:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   /* Enable SYSCFG clock */
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 15
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 15
 
 
  328:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c ****   __HAL_RCC_SYSCFG_CLK_ENABLE();
@@ -896,24 +896,24 @@ ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 1
  521              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
  522              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h"
  523              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s 			page 16
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_i2c_ex.c
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:18     .text.HAL_I2CEx_ConfigAnalogFilter:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:26     .text.HAL_I2CEx_ConfigAnalogFilter:0000000000000000 HAL_I2CEx_ConfigAnalogFilter
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:121    .text.HAL_I2CEx_ConfigDigitalFilter:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:128    .text.HAL_I2CEx_ConfigDigitalFilter:0000000000000000 HAL_I2CEx_ConfigDigitalFilter
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:228    .text.HAL_I2CEx_EnableWakeUp:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:235    .text.HAL_I2CEx_EnableWakeUp:0000000000000000 HAL_I2CEx_EnableWakeUp
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:312    .text.HAL_I2CEx_DisableWakeUp:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:319    .text.HAL_I2CEx_DisableWakeUp:0000000000000000 HAL_I2CEx_DisableWakeUp
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:396    .text.HAL_I2CEx_EnableFastModePlus:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:403    .text.HAL_I2CEx_EnableFastModePlus:0000000000000000 HAL_I2CEx_EnableFastModePlus
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:447    .text.HAL_I2CEx_EnableFastModePlus:0000000000000024 $d
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:453    .text.HAL_I2CEx_DisableFastModePlus:0000000000000000 $t
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:460    .text.HAL_I2CEx_DisableFastModePlus:0000000000000000 HAL_I2CEx_DisableFastModePlus
-/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc0Y2hCM.s:504    .text.HAL_I2CEx_DisableFastModePlus:0000000000000024 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:18     .text.HAL_I2CEx_ConfigAnalogFilter:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:26     .text.HAL_I2CEx_ConfigAnalogFilter:0000000000000000 HAL_I2CEx_ConfigAnalogFilter
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:121    .text.HAL_I2CEx_ConfigDigitalFilter:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:128    .text.HAL_I2CEx_ConfigDigitalFilter:0000000000000000 HAL_I2CEx_ConfigDigitalFilter
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:228    .text.HAL_I2CEx_EnableWakeUp:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:235    .text.HAL_I2CEx_EnableWakeUp:0000000000000000 HAL_I2CEx_EnableWakeUp
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:312    .text.HAL_I2CEx_DisableWakeUp:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:319    .text.HAL_I2CEx_DisableWakeUp:0000000000000000 HAL_I2CEx_DisableWakeUp
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:396    .text.HAL_I2CEx_EnableFastModePlus:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:403    .text.HAL_I2CEx_EnableFastModePlus:0000000000000000 HAL_I2CEx_EnableFastModePlus
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:447    .text.HAL_I2CEx_EnableFastModePlus:0000000000000024 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:453    .text.HAL_I2CEx_DisableFastModePlus:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:460    .text.HAL_I2CEx_DisableFastModePlus:0000000000000000 HAL_I2CEx_DisableFastModePlus
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//cc966uoO.s:504    .text.HAL_I2CEx_DisableFastModePlus:0000000000000024 $d
 
 NO UNDEFINED SYMBOLS
