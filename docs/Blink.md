@@ -122,18 +122,21 @@ Here's the CN4 pinout:
 5.    T_NRST: Reset -> NRST on the STM32
 6.    T_SWO: Single Wire Output -> PB3 (Optional, not needed for firmware upload, used for output)
 
-![UM1724_CN2.png](../images/UM1724 pins and diagram for programmer.png)
+![UM1724_CN2.png](../images/fresh-flash/UM1724 pins and diagram for programmer.png)
 
-![UM1724_CN4.png](../images/UM1724 st-link embedded jumper stated.png)
+![UM1724_CN4.png](../images/fresh-flash/UM1724 st-link embedded jumper stated.png)
 
 Only the three pins JTCK, JTMS, and NRST, plus power and GND from somewhere, require connecting. For our dev board I took power from the micro USB connector.
 
 Once connected the next step was to install ![ST-Util](https://my.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-programmers/stsw-link004.html) on a Windows virtual machine.
 
-![ST-Util_step1](../images/1.jpeg)
-![ST-Util_step2](../images/2.jpeg)
-![ST-Util_step3](../images/3.jpeg)
-![ST-Util_step4](../images/4.jpeg)
+![ST-Util_step1](../images/fresh-flash/1.jpeg)
+
+![ST-Util_step2](../images/fresh-flash/2.jpeg)
+
+![ST-Util_step3](../images/fresh-flash/3.jpeg)
+
+![ST-Util_step4](../images/fresh-flash/4.jpeg)
 
 See also:
 https://community.particle.io/t/how-to-flash-a-brand-new-freshly-soldered-stm32f103-chip/3906/8
