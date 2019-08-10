@@ -122,9 +122,9 @@ Here's the CN4 pinout:
 5.    T_NRST: Reset -> NRST on the STM32
 6.    T_SWO: Single Wire Output -> PB3 (Optional, not needed for firmware upload, used for output)
 
-![UM1724_CN2.png](../images/fresh-flash/UM1724 pins and diagram for programmer.png)
+![UM1724_CN2.png](../images/fresh-flash/UM1724_programmer_pins.png)
 
-![UM1724_CN4.png](../images/fresh-flash/UM1724 st-link embedded jumper stated.png)
+![UM1724_CN4.png](../images/fresh-flash/UM1724_embedded-jumper-setting.png)
 
 Only the three pins JTCK, JTMS, and NRST, plus power and GND from somewhere, require connecting. For our dev board I took power from the micro USB connector.
 
