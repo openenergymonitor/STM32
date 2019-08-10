@@ -27,6 +27,7 @@ ADC access using the Arduino analogRead command gives limited performance, its p
 - [4. DMA](docs/DMA.md)
 - [5. RFM69](docs/RFM69.md)
 
+
 ### Hardware
 
 Notes on hardware development and initial designs:
@@ -40,6 +41,7 @@ Notes on hardware development and initial designs:
 - [Eagle design 02](Hardware/2)
 - [Eagle design 03](Hardware/3)
 - [Design Notes v4](docs/stm32notes.md)
+- [Flashing a new chip](docs/Blink-fresh-chip.md)
 
 ### Firmware Examples
 
