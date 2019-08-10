@@ -138,5 +138,8 @@ Once connected the next step was to install ![ST-Util](https://my.st.com/content
 
 ![ST-Util_step4](../images/fresh-flash/4.jpeg)
 
+![st-link_location](../images/fresh-flash/st-link_header.jpg)
+
+
 See also:
 https://community.particle.io/t/how-to-flash-a-brand-new-freshly-soldered-stm32f103-chip/3906/8
