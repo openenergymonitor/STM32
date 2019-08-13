@@ -103,8 +103,8 @@ int main(void)
   MX_USART3_UART_Init();
   MX_I2C1_Init();
   MX_OPAMP4_Init();
-  MX_USART2_UART_Init();
   MX_USB_DEVICE_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -115,12 +115,12 @@ int main(void)
   {
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_9);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10);
+    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10); 
 
     sprintf(log_buffer,"Hello World\r\n");
     debug_printf(log_buffer);
 
-    HAL_Delay(500);
+    HAL_Delay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

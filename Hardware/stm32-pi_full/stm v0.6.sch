@@ -18196,7 +18196,7 @@ W = angled&lt;p&gt;
 <part name="+3V3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
 <part name="SUPPLY25" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="LED1" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Red 1.85V"/>
+<part name="LED1" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Green 1.85V"/>
 <part name="VT3" library="adafruit" deviceset="2.1MMJACK" device="SMT"/>
 <part name="SJ1" library="SparkFun" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="CT4" library="IotaWatt_parts" deviceset="STEREO_SMD" device=""/>
@@ -18251,7 +18251,7 @@ W = angled&lt;p&gt;
 <part name="2POLE_MBUS" library="OMNIMATE_LSF" deviceset="OMNIMATE_LSF_2" device=""/>
 <part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
 <part name="SUPPLY20" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="LED2" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Red 1.85V"/>
+<part name="LED2" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Orange 1.85V"/>
 <part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
 <part name="SUPPLY21" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="LED3" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Red 1.85V"/>
@@ -18341,6 +18341,9 @@ W = angled&lt;p&gt;
 <part name="USB-C" library="105450-0101" deviceset="105450-0101" device=""/>
 <part name="SUPPLY35" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="P+1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
+<part name="R10" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="220R"/>
+<part name="SUPPLY36" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="LED4" library="adafruit" deviceset="LED" device="CHIP-LED0805" value="Green 1.85V"/>
 </parts>
 <sheets>
 <sheet>
@@ -18367,6 +18370,7 @@ SWDIO + SWCLK added to the top</text>
 <text x="-33.02" y="-81.28" size="3.81" layer="91">BOOT / RFM69 / ESP12</text>
 <text x="241.3" y="-99.06" size="3.81" layer="91">MBUS</text>
 <text x="-223.52" y="129.54" size="3.81" layer="91">rPi</text>
+<text x="-53.34" y="-55.88" size="25.4" layer="91">OLED</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-25.4" y="170.18" smashed="yes">
@@ -19030,6 +19034,17 @@ SWDIO + SWCLK added to the top</text>
 <instance part="P+1" gate="1" x="406.4" y="-10.16" smashed="yes">
 <attribute name="VALUE" x="403.86" y="-15.24" size="1.778" layer="96" rot="R90"/>
 </instance>
+<instance part="R10" gate="G$1" x="92.964" y="171.704" smashed="yes" rot="R90">
+<attribute name="NAME" x="96.5454" y="170.434" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="91.186" y="167.894" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="SUPPLY36" gate="GND" x="92.964" y="153.924" smashed="yes">
+<attribute name="VALUE" x="91.059" y="150.749" size="1.778" layer="96"/>
+</instance>
+<instance part="LED4" gate="G$1" x="92.964" y="161.544" smashed="yes">
+<attribute name="NAME" x="96.52" y="156.972" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="99.441" y="156.972" size="1.778" layer="96" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -19457,6 +19472,10 @@ SWDIO + SWCLK added to the top</text>
 <junction x="403.86" y="-50.8"/>
 <pinref part="SUPPLY35" gate="GND" pin="GND"/>
 </segment>
+<segment>
+<pinref part="SUPPLY36" gate="GND" pin="GND"/>
+<pinref part="LED4" gate="G$1" pin="C"/>
+</segment>
 </net>
 <net name="+5V" class="1">
 <segment>
@@ -19546,6 +19565,13 @@ SWDIO + SWCLK added to the top</text>
 <junction x="29.21" y="172.72"/>
 <pinref part="C9" gate="G$1" pin="2"/>
 <wire x1="29.21" y1="172.72" x2="41.91" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="41.91" y1="172.72" x2="81.28" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="172.72" x2="81.28" y2="180.34" width="0.1524" layer="91"/>
+<junction x="41.91" y="172.72"/>
+<pinref part="R10" gate="G$1" pin="2"/>
+<wire x1="92.964" y1="176.784" x2="92.964" y2="180.34" width="0.1524" layer="91"/>
+<label x="93.472" y="179.832" size="1.778" layer="95"/>
+<wire x1="81.28" y1="180.34" x2="92.964" y2="180.34" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="BOOT_STM" gate="G$1" pin="2"/>
@@ -19720,9 +19746,8 @@ SWDIO + SWCLK added to the top</text>
 <label x="53.34" y="114.3" size="1.778" layer="95"/>
 </segment>
 <segment>
+<wire x1="-30.48" y1="-116.84" x2="-7.62" y2="-116.84" width="0.1524" layer="91"/>
 <pinref part="UART_STM" gate="1" pin="6"/>
-<wire x1="-30.48" y1="-116.84" x2="-22.86" y2="-116.84" width="0.1524" layer="91"/>
-<label x="-25.4" y="-116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="RST" gate="1" pin="S"/>
@@ -20346,7 +20371,7 @@ SWDIO + SWCLK added to the top</text>
 <junction x="375.92" y="63.5"/>
 </segment>
 </net>
-<net name="LED1" class="0">
+<net name="LED1_GREEN" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="4.064" y1="57.404" x2="4.064" y2="62.23" width="0.1524" layer="91"/>
@@ -20510,7 +20535,7 @@ SWDIO + SWCLK added to the top</text>
 <wire x1="34.544" y1="47.244" x2="34.544" y2="44.704" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="LED2" class="0">
+<net name="LED2_YELLOW" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="19.304" y1="57.404" x2="19.304" y2="62.23" width="0.1524" layer="91"/>
@@ -20522,7 +20547,7 @@ SWDIO + SWCLK added to the top</text>
 <label x="132.08" y="12.7" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="LED3" class="0">
+<net name="LED3_RED" class="0">
 <segment>
 <pinref part="R5" gate="G$1" pin="2"/>
 <wire x1="34.544" y1="57.404" x2="34.544" y2="62.23" width="0.1524" layer="91"/>
@@ -21451,6 +21476,13 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="PCB2" gate="G$1" pin="ID_SC*"/>
 <wire x1="-119.38" y1="43.18" x2="-109.22" y2="43.18" width="0.1524" layer="91"/>
 <label x="-109.22" y="43.18" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="R10" gate="G$1" pin="1"/>
+<pinref part="LED4" gate="G$1" pin="A"/>
+<wire x1="92.964" y1="166.624" x2="92.964" y2="164.084" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
