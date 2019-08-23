@@ -1,0 +1,1378 @@
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"power.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_ldivmod
+  18              		.global	__aeabi_l2d
+  19              		.global	__aeabi_dmul
+  20              		.global	__aeabi_dcmpeq
+  21              		.global	__aeabi_ddiv
+  22              		.global	__aeabi_f2d
+  23              		.section	.text.process_power_channel,"ax",%progbits
+  24              		.align	1
+  25              		.p2align 2,,3
+  26              		.arch armv7e-m
+  27              		.syntax unified
+  28              		.thumb
+  29              		.thumb_func
+  30              		.fpu fpv4-sp-d16
+  32              	process_power_channel:
+  33              	.LVL0:
+  34              	.LFB127:
+  35              		.file 1 "Src/power.c"
+   1:Src/power.c   **** 
+   2:Src/power.c   **** #include <string.h>
+   3:Src/power.c   **** #include <stdio.h>
+   4:Src/power.c   **** #include <math.h>
+   5:Src/power.c   **** #include "main.h"
+   6:Src/power.c   **** #include "usart.h"
+   7:Src/power.c   **** #include "adc.h"
+   8:Src/power.c   **** #include "power.h"
+   9:Src/power.c   **** #include "calib.h"
+  10:Src/power.c   **** 
+  11:Src/power.c   **** #define ENERGY_MONITORING 1
+  12:Src/power.c   **** 
+  13:Src/power.c   **** //
+  14:Src/power.c   **** // Interval power stats are where the stats get moved to when
+  15:Src/power.c   **** // process_VI_pair() has decided it's accumulated enough
+  16:Src/power.c   **** // (147,059 currently... about 10 seconds worth).
+  17:Src/power.c   **** // process_power_stats() works on these intervals stats once they're
+  18:Src/power.c   **** // ready.
+  19:Src/power.c   **** //
+  20:Src/power.c   **** static volatile power_stats_t intvl_power_stats[MAX_CHANNELS];
+  21:Src/power.c   **** 
+  22:Src/power.c   **** 
+  23:Src/power.c   **** #ifdef DUMPING
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 2
+
+
+  24:Src/power.c   **** static volatile uint16_t dump[DUMP_CHANS][DUMP_MAX];
+  25:Src/power.c   **** static volatile int dump_index[DUMP_CHANS];
+  26:Src/power.c   **** #endif
+  27:Src/power.c   **** 
+  28:Src/power.c   **** //
+  29:Src/power.c   **** // Called from the ADC/DMA interrupt when a new V,I pair has arrived.
+  30:Src/power.c   **** // Basically does the accumulation maths on the new pair.  It starts
+  31:Src/power.c   **** // accumulating after the first zero crossing on V, accumulates for
+  32:Src/power.c   **** // ~10 seconds (rounded to another zero crossing on V) and continues
+  33:Src/power.c   **** // forever.  All zero crossing detection is done on the raw readings
+  34:Src/power.c   **** // minus the nominal mid-rail, so won't be perfect, but should be better
+  35:Src/power.c   **** // than jumping in/out at the peak.
+  36:Src/power.c   **** //
+  37:Src/power.c   **** void process_VI_pair (uint16_t voltage, uint16_t current, int channel) {
+  38:Src/power.c   ****   static power_stats_t power_stats[MAX_CHANNELS];
+  39:Src/power.c   ****   int signed_volt, signed_curr;
+  40:Src/power.c   ****   power_stats_t* stats_p = &power_stats[channel];
+  41:Src/power.c   **** 
+  42:Src/power.c   **** #ifdef DUMPING
+  43:Src/power.c   ****   if ((channel == 7) && dump_index[0] < DUMP_MAX) {
+  44:Src/power.c   ****     dump[0][dump_index[0]++] = voltage;
+  45:Src/power.c   ****     dump[1][dump_index[1]++] = current;
+  46:Src/power.c   ****   }
+  47:Src/power.c   **** #endif
+  48:Src/power.c   ****   
+  49:Src/power.c   ****   if (current == MAX_ADC_READING)                 // Make a note if we've clipped
+  50:Src/power.c   ****     stats_p->clipped = true;
+  51:Src/power.c   **** 
+  52:Src/power.c   ****   signed_volt = voltage - MID_ADC_READING;        // Remove the nominal mid-rail
+  53:Src/power.c   ****   signed_curr = current - MID_ADC_READING;
+  54:Src/power.c   **** 
+  55:Src/power.c   ****   //
+  56:Src/power.c   ****   // If it's the very first time through, we don't have a useful
+  57:Src/power.c   ****   // last_v to check for a zero crossing, so use this first one
+  58:Src/power.c   ****   // to prime last_v but otherwise ignore it.
+  59:Src/power.c   ****   //
+  60:Src/power.c   ****   if (stats_p->state == INIT) {
+  61:Src/power.c   ****     stats_p->last_v = signed_volt;
+  62:Src/power.c   ****     stats_p->state = HUNTING_ZX_HEAD;
+  63:Src/power.c   ****     return;
+  64:Src/power.c   ****   }
+  65:Src/power.c   **** 
+  66:Src/power.c   ****   //
+  67:Src/power.c   ****   // Are we waiting for the leading zero cross?
+  68:Src/power.c   ****   //
+  69:Src/power.c   ****   if (stats_p->state == HUNTING_ZX_HEAD) {
+  70:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+  71:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and use this sample
+  72:Src/power.c   ****       stats_p->last_v = signed_volt;                 // not really needed, but keep it consistent
+  73:Src/power.c   ****     } else {
+  74:Src/power.c   ****       stats_p->last_v = signed_volt;                 // Make a note for next time
+  75:Src/power.c   ****       return;                                        // but otherwise ignore this sample
+  76:Src/power.c   ****     }
+  77:Src/power.c   ****   }
+  78:Src/power.c   ****     
+  79:Src/power.c   ****   //
+  80:Src/power.c   ****   // Are we waiting for the trailing zero cross?
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 3
+
+
+  81:Src/power.c   ****   //
+  82:Src/power.c   ****   if (stats_p->state == HUNTING_ZX_TAIL) {
+  83:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+  84:Src/power.c   ****       volatile power_stats_t* intvl_stats_p;
+  85:Src/power.c   ****       //
+  86:Src/power.c   ****       // We've got a batch worth, and we've just seen a zero crossing
+  87:Src/power.c   ****       // The first sample after the zero crossing goes into the next
+  88:Src/power.c   ****       // batch, so before including this one we need to flush out the accumulation.
+  89:Src/power.c   ****       // This sample will then become the fist sample in the new batch.
+  90:Src/power.c   ****       // Copy the accumulated stats into interval stats for process level to deal with
+  91:Src/power.c   ****       // and zero out our stats ready for the next batch (including this new sample).
+  92:Src/power.c   ****       //
+  93:Src/power.c   ****       intvl_stats_p = &intvl_power_stats[channel];
+  94:Src/power.c   ****       memcpy ((void*)intvl_stats_p, (void*)stats_p, sizeof(power_stats_t));
+  95:Src/power.c   ****       intvl_stats_p->data_ready = true;
+  96:Src/power.c   ****       memset((void*)stats_p, 0, sizeof(power_stats_t));
+  97:Src/power.c   ****       stats_p->last_v = signed_volt;                 // not really needed, but keep it consistent
+  98:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and...
+  99:Src/power.c   ****                                                      // use this sample by not returning
+ 100:Src/power.c   ****     } else {
+ 101:Src/power.c   ****       stats_p->last_v = signed_volt;                 // Make a note for next time and....
+ 102:Src/power.c   ****                                                      // use this sample by not returning
+ 103:Src/power.c   ****     }
+ 104:Src/power.c   ****   }
+ 105:Src/power.c   **** 
+ 106:Src/power.c   ****   //
+ 107:Src/power.c   ****   // See if we've got a batch full.  Once we have,
+ 108:Src/power.c   ****   // we'll keep going until the next zero crossing.
+ 109:Src/power.c   ****   //
+ 110:Src/power.c   ****   if (stats_p->count >= SAMPLES_PER_BATCH) {             // Got almost 10 seconds worth?
+ 111:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 112:Src/power.c   ****     stats_p->state = HUNTING_ZX_TAIL;                    // Start looking for a trailing ZX and...
+ 113:Src/power.c   ****                                                          // use this sample by not returning
+ 114:Src/power.c   ****   }
+ 115:Src/power.c   **** 
+ 116:Src/power.c   ****   //
+ 117:Src/power.c   ****   // If we get to here, the state machine has decided this sample pair should be included
+ 118:Src/power.c   ****   // in the stats.  It bails early when it's decided we want to ignore this sample.
+ 119:Src/power.c   ****   // In the interest of continuous sampling, that only ever happens when we're looking
+ 120:Src/power.c   ****   // for the very first zero crossing.  Almost all samples make it through to here.
+ 121:Src/power.c   ****   //
+ 122:Src/power.c   ****   stats_p->sigma_power += (signed_volt * signed_curr);
+ 123:Src/power.c   ****   stats_p->count++;
+ 124:Src/power.c   ****   stats_p->sigma_i += signed_curr;
+ 125:Src/power.c   ****   stats_p->sigma_i_sq += (signed_curr * signed_curr);
+ 126:Src/power.c   ****   stats_p->sigma_v += signed_volt;
+ 127:Src/power.c   ****   stats_p->sigma_v_sq += (signed_volt * signed_volt);
+ 128:Src/power.c   **** }
+ 129:Src/power.c   **** 
+ 130:Src/power.c   **** static void process_power_channel (int chan) {
+  36              		.loc 1 130 46 view -0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 88
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131:Src/power.c   ****   power_stats_t local_stats;
+  40              		.loc 1 131 3 view .LVU1
+ 132:Src/power.c   ****   int Vmean, Imean;
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 4
+
+
+  41              		.loc 1 132 3 view .LVU2
+ 133:Src/power.c   ****   int count;
+  42              		.loc 1 133 3 view .LVU3
+ 134:Src/power.c   ****   double Vrms, Irms, Preal, Papp, PF;
+  43              		.loc 1 134 3 view .LVU4
+ 135:Src/power.c   ****   
+ 136:Src/power.c   ****   //
+ 137:Src/power.c   ****   // Copy them to a local stack copy that is completely non-volatile.  Not essential
+ 138:Src/power.c   ****   // as these aren't going to get overwritten for ages, but removing the volatility
+ 139:Src/power.c   ****   // means the compiler can make optimisations it might not otherwise.
+ 140:Src/power.c   ****   //
+ 141:Src/power.c   ****   memcpy(&local_stats, (void*)&intvl_power_stats[chan], sizeof(power_stats_t));
+  44              		.loc 1 141 3 view .LVU5
+ 130:Src/power.c   ****   power_stats_t local_stats;
+  45              		.loc 1 130 46 is_stmt 0 view .LVU6
+  46 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  47              	.LCFI0:
+  48              		.cfi_def_cfa_offset 36
+  49              		.cfi_offset 4, -36
+  50              		.cfi_offset 5, -32
+  51              		.cfi_offset 6, -28
+  52              		.cfi_offset 7, -24
+  53              		.cfi_offset 8, -20
+  54              		.cfi_offset 9, -16
+  55              		.cfi_offset 10, -12
+  56              		.cfi_offset 11, -8
+  57              		.cfi_offset 14, -4
+  58              		.loc 1 141 31 view .LVU7
+  59 0004 864E     		ldr	r6, .L21+8
+  60              		.loc 1 141 3 view .LVU8
+  61 0006 00EB4003 		add	r3, r0, r0, lsl #1
+  62 000a 06EB0316 		add	r6, r6, r3, lsl #4
+  63 000e 3546     		mov	r5, r6
+ 130:Src/power.c   ****   power_stats_t local_stats;
+  64              		.loc 1 130 46 view .LVU9
+  65 0010 8246     		mov	r10, r0
+  66              		.loc 1 141 3 view .LVU10
+  67 0012 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+  68              	.LVL1:
+ 130:Src/power.c   ****   power_stats_t local_stats;
+  69              		.loc 1 130 46 view .LVU11
+  70 0014 A5B0     		sub	sp, sp, #148
+  71              	.LCFI1:
+  72              		.cfi_def_cfa_offset 184
+  73              		.loc 1 141 3 view .LVU12
+  74 0016 18AC     		add	r4, sp, #96
+  75 0018 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  76 001a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+  77 001c 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  78 001e 95E80F00 		ldm	r5, {r0, r1, r2, r3}
+  79 0022 84E80F00 		stm	r4, {r0, r1, r2, r3}
+  80 0026 DDE91889 		ldrd	r8, [sp, #96]
+ 142:Src/power.c   ****   intvl_power_stats[chan].data_ready = false;                 // flag it as done
+  81              		.loc 1 142 38 view .LVU13
+  82 002a 0022     		movs	r2, #0
+ 141:Src/power.c   ****   intvl_power_stats[chan].data_ready = false;                 // flag it as done
+  83              		.loc 1 141 3 view .LVU14
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 5
+
+
+  84 002c 209D     		ldr	r5, [sp, #128]
+  85              		.loc 1 142 38 view .LVU15
+  86 002e 86F82520 		strb	r2, [r6, #37]
+ 141:Src/power.c   ****   intvl_power_stats[chan].data_ready = false;                 // flag it as done
+  87              		.loc 1 141 3 view .LVU16
+  88 0032 DDE91E73 		ldrd	r7, r3, [sp, #120]
+  89 0036 9DF884B0 		ldrb	fp, [sp, #132]	@ zero_extendqisi2
+  90 003a DDE91C01 		ldrd	r0, [sp, #112]
+  91 003e CDE90E89 		strd	r8, [sp, #56]
+  92              	.LVL2:
+ 141:Src/power.c   ****   intvl_power_stats[chan].data_ready = false;                 // flag it as done
+  93              		.loc 1 141 3 view .LVU17
+  94 0042 DDE91A89 		ldrd	r8, [sp, #104]
+  95              	.LVL3:
+ 143:Src/power.c   ****   count = local_stats.count;
+ 144:Src/power.c   ****   
+ 145:Src/power.c   ****   //
+ 146:Src/power.c   ****   // The nominal mid-rail voltage was removed above in process_VI_pair(), here
+ 147:Src/power.c   ****   // we calculate what's left.
+ 148:Src/power.c   ****   //
+ 149:Src/power.c   ****   if (local_stats.sigma_v > 0)
+  96              		.loc 1 149 6 view .LVU18
+  97 0046 9542     		cmp	r5, r2
+ 141:Src/power.c   ****   intvl_power_stats[chan].data_ready = false;                 // flag it as done
+  98              		.loc 1 141 3 view .LVU19
+  99 0048 CDE91289 		strd	r8, [sp, #72]
+ 100              	.LVL4:
+ 142:Src/power.c   ****   count = local_stats.count;
+ 101              		.loc 1 142 3 is_stmt 1 view .LVU20
+ 143:Src/power.c   ****   count = local_stats.count;
+ 102              		.loc 1 143 3 view .LVU21
+ 103              		.loc 1 149 3 view .LVU22
+ 150:Src/power.c   ****     Vmean = (local_stats.sigma_v + count/2)/count;
+ 104              		.loc 1 150 41 is_stmt 0 view .LVU23
+ 105 004c 4FEAD772 		lsr	r2, r7, #31
+ 149:Src/power.c   ****     Vmean = (local_stats.sigma_v + count/2)/count;
+ 106              		.loc 1 149 6 view .LVU24
+ 107 0050 40F3D980 		ble	.L2
+ 108              		.loc 1 150 5 is_stmt 1 view .LVU25
+ 109              		.loc 1 150 41 is_stmt 0 view .LVU26
+ 110 0054 D619     		adds	r6, r2, r7
+ 111 0056 7610     		asrs	r6, r6, #1
+ 112              		.loc 1 150 34 view .LVU27
+ 113 0058 3544     		add	r5, r5, r6
+ 114              		.loc 1 150 11 view .LVU28
+ 115 005a 95FBF7F5 		sdiv	r5, r5, r7
+ 116              	.LVL5:
+ 117              	.L3:
+ 151:Src/power.c   ****   else
+ 152:Src/power.c   ****     Vmean = (local_stats.sigma_v - count/2)/count;
+ 153:Src/power.c   ****   
+ 154:Src/power.c   ****   if (local_stats.sigma_i > 0)
+ 118              		.loc 1 154 3 is_stmt 1 view .LVU29
+ 119              		.loc 1 154 6 is_stmt 0 view .LVU30
+ 120 005e 002B     		cmp	r3, #0
+ 155:Src/power.c   ****     Imean = (local_stats.sigma_i + count/2)/count;
+ 121              		.loc 1 155 5 is_stmt 1 view .LVU31
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 6
+
+
+ 156:Src/power.c   ****   else
+ 157:Src/power.c   ****     Imean = (local_stats.sigma_i - count/2)/count;
+ 122              		.loc 1 157 5 view .LVU32
+ 123              		.loc 1 157 41 is_stmt 0 view .LVU33
+ 124 0060 D6BF     		itet	le
+ 125 0062 D419     		addle	r4, r2, r7
+ 155:Src/power.c   ****     Imean = (local_stats.sigma_i + count/2)/count;
+ 126              		.loc 1 155 34 view .LVU34
+ 127 0064 9C19     		addgt	r4, r3, r6
+ 128              		.loc 1 157 34 view .LVU35
+ 129 0066 A3EB6404 		suble	r4, r3, r4, asr #1
+ 158:Src/power.c   ****   
+ 159:Src/power.c   ****   //
+ 160:Src/power.c   ****   // And remove its RMS from the accumulated RMS.  If the mid-rail is not stable
+ 161:Src/power.c   ****   // and the signal is hugging the mid-rail,
+ 162:Src/power.c   ****   // this subtraction can send things negative, so we nip that in the bud with 0
+ 163:Src/power.c   ****   // rather than generate a nan.
+ 164:Src/power.c   ****   //
+ 165:Src/power.c   ****   local_stats.sigma_v_sq /= count;
+ 130              		.loc 1 165 26 view .LVU36
+ 131 006a 3A46     		mov	r2, r7
+ 132 006c FB17     		asrs	r3, r7, #31
+ 133              	.LVL6:
+ 134              		.loc 1 165 26 view .LVU37
+ 135 006e CDE91023 		strd	r2, [sp, #64]
+ 157:Src/power.c   ****   
+ 136              		.loc 1 157 11 view .LVU38
+ 137 0072 94FBF7F4 		sdiv	r4, r4, r7
+ 138              	.LVL7:
+ 139              		.loc 1 165 3 is_stmt 1 view .LVU39
+ 166:Src/power.c   ****   local_stats.sigma_i_sq /= count;
+ 140              		.loc 1 166 3 view .LVU40
+ 167:Src/power.c   ****   local_stats.sigma_v_sq -= (Vmean * Vmean);
+ 141              		.loc 1 167 3 view .LVU41
+ 165:Src/power.c   ****   local_stats.sigma_i_sq /= count;
+ 142              		.loc 1 165 26 is_stmt 0 view .LVU42
+ 143 0076 FFF7FEFF 		bl	__aeabi_ldivmod
+ 144              	.LVL8:
+ 145              		.loc 1 167 36 view .LVU43
+ 146 007a 05FB05F3 		mul	r3, r5, r5
+ 147              		.loc 1 167 26 view .LVU44
+ 148 007e B0EB0308 		subs	r8, r0, r3
+ 149              	.LVL9:
+ 150              		.loc 1 167 26 view .LVU45
+ 151 0082 61EBE379 		sbc	r9, r1, r3, asr #31
+ 152              	.LVL10:
+ 168:Src/power.c   ****   local_stats.sigma_i_sq -= (Imean * Imean);
+ 153              		.loc 1 168 3 is_stmt 1 view .LVU46
+ 166:Src/power.c   ****   local_stats.sigma_v_sq -= (Vmean * Vmean);
+ 154              		.loc 1 166 26 is_stmt 0 view .LVU47
+ 155 0086 DDE91023 		ldrd	r2, [sp, #64]
+ 156 008a DDE91201 		ldrd	r0, [sp, #72]
+ 157 008e FFF7FEFF 		bl	__aeabi_ldivmod
+ 158              	.LVL11:
+ 159              		.loc 1 168 36 view .LVU48
+ 160 0092 04FB04FC 		mul	ip, r4, r4
+ 169:Src/power.c   ****   if (local_stats.sigma_v_sq < 0)
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 7
+
+
+ 170:Src/power.c   ****     local_stats.sigma_v_sq = 0;
+ 171:Src/power.c   ****   if (local_stats.sigma_i_sq < 0)
+ 172:Src/power.c   ****     local_stats.sigma_i_sq = 0;
+ 173:Src/power.c   ****   
+ 174:Src/power.c   ****   //
+ 175:Src/power.c   ****   // Calculate the RMS values and apparent power.
+ 176:Src/power.c   ****   //
+ 177:Src/power.c   ****   Vrms = sqrt((double)local_stats.sigma_v_sq);
+ 161              		.loc 1 177 10 view .LVU49
+ 162 0096 4246     		mov	r2, r8
+ 168:Src/power.c   ****   if (local_stats.sigma_v_sq < 0)
+ 163              		.loc 1 168 26 view .LVU50
+ 164 0098 B0EB0C08 		subs	r8, r0, ip
+ 165              	.LVL12:
+ 166              		.loc 1 177 10 view .LVU51
+ 167 009c 4B46     		mov	r3, r9
+ 168:Src/power.c   ****   if (local_stats.sigma_v_sq < 0)
+ 168              		.loc 1 168 26 view .LVU52
+ 169 009e 61EBEC79 		sbc	r9, r1, ip, asr #31
+ 170              	.LVL13:
+ 169:Src/power.c   ****   if (local_stats.sigma_v_sq < 0)
+ 171              		.loc 1 169 3 is_stmt 1 view .LVU53
+ 171:Src/power.c   ****     local_stats.sigma_i_sq = 0;
+ 172              		.loc 1 171 3 view .LVU54
+ 173              		.loc 1 177 3 view .LVU55
+ 174              		.loc 1 177 10 is_stmt 0 view .LVU56
+ 175 00a2 002A     		cmp	r2, #0
+ 176 00a4 73F10001 		sbcs	r1, r3, #0
+ 177 00a8 BCBF     		itt	lt
+ 178 00aa 0022     		movlt	r2, #0
+ 179 00ac 0023     		movlt	r3, #0
+ 180 00ae 1046     		mov	r0, r2
+ 181 00b0 1946     		mov	r1, r3
+ 182 00b2 FFF7FEFF 		bl	__aeabi_l2d
+ 183              	.LVL14:
+ 184 00b6 41EC100B 		vmov	d0, r0, r1
+ 185 00ba FFF7FEFF 		bl	sqrt
+ 186              	.LVL15:
+ 178:Src/power.c   ****   Irms = sqrt((double)local_stats.sigma_i_sq);
+ 187              		.loc 1 178 10 view .LVU57
+ 188 00be 4046     		mov	r0, r8
+ 189 00c0 0028     		cmp	r0, #0
+ 190 00c2 79F10003 		sbcs	r3, r9, #0
+ 191 00c6 B8BF     		it	lt
+ 192 00c8 0020     		movlt	r0, #0
+ 193 00ca 4946     		mov	r1, r9
+ 194 00cc B8BF     		it	lt
+ 195 00ce 0021     		movlt	r1, #0
+ 177:Src/power.c   ****   Irms = sqrt((double)local_stats.sigma_i_sq);
+ 196              		.loc 1 177 10 view .LVU58
+ 197 00d0 8DED120B 		vstr.64	d0, [sp, #72]
+ 198              	.LVL16:
+ 199              		.loc 1 178 3 is_stmt 1 view .LVU59
+ 200              		.loc 1 178 10 is_stmt 0 view .LVU60
+ 201 00d4 FFF7FEFF 		bl	__aeabi_l2d
+ 202              	.LVL17:
+ 203              		.loc 1 178 10 view .LVU61
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 8
+
+
+ 204 00d8 41EC100B 		vmov	d0, r0, r1
+ 205 00dc FFF7FEFF 		bl	sqrt
+ 206              	.LVL18:
+ 179:Src/power.c   ****   Papp = Vrms * Irms;
+ 207              		.loc 1 179 8 view .LVU62
+ 208 00e0 DDE91201 		ldrd	r0, [sp, #72]
+ 178:Src/power.c   ****   Irms = sqrt((double)local_stats.sigma_i_sq);
+ 209              		.loc 1 178 10 view .LVU63
+ 210 00e4 53EC102B 		vmov	r2, r3, d0
+ 211 00e8 8DED160B 		vstr.64	d0, [sp, #88]
+ 212              	.LVL19:
+ 213              		.loc 1 179 3 is_stmt 1 view .LVU64
+ 214              		.loc 1 179 8 is_stmt 0 view .LVU65
+ 215 00ec FFF7FEFF 		bl	__aeabi_dmul
+ 216              	.LVL20:
+ 180:Src/power.c   ****   
+ 181:Src/power.c   ****   //
+ 182:Src/power.c   ****   // Remove the offset power from the accumulated real power and
+ 183:Src/power.c   ****   // calculate the power factor.
+ 184:Src/power.c   ****   //
+ 185:Src/power.c   ****   if (local_stats.sigma_power > 0)
+ 217              		.loc 1 185 6 view .LVU66
+ 218 00f0 DDE90E23 		ldrd	r2, [sp, #56]
+ 219 00f4 012A     		cmp	r2, #1
+ 179:Src/power.c   ****   Papp = Vrms * Irms;
+ 220              		.loc 1 179 8 view .LVU67
+ 221 00f6 CDE91401 		strd	r0, [sp, #80]
+ 222              	.LVL21:
+ 223              		.loc 1 185 3 is_stmt 1 view .LVU68
+ 224 00fa 04FB05F4 		mul	r4, r4, r5
+ 225              	.LVL22:
+ 226              		.loc 1 185 6 is_stmt 0 view .LVU69
+ 227 00fe 73F10001 		sbcs	r1, r3, #0
+ 228 0102 4FEAE475 		asr	r5, r4, #31
+ 229              	.LVL23:
+ 230              		.loc 1 185 6 view .LVU70
+ 231 0106 4FEAE679 		asr	r9, r6, #31
+ 232 010a 74DB     		blt	.L8
+ 186:Src/power.c   ****     Preal = (double)((local_stats.sigma_power + count/2)/count - (Vmean * Imean));
+ 233              		.loc 1 186 5 is_stmt 1 view .LVU71
+ 234              		.loc 1 186 57 is_stmt 0 view .LVU72
+ 235 010c 9019     		adds	r0, r2, r6
+ 236              	.LVL24:
+ 237              		.loc 1 186 57 view .LVU73
+ 238 010e 0F99     		ldr	r1, [sp, #60]
+ 239 0110 DDE91023 		ldrd	r2, [sp, #64]
+ 240 0114 41EB0901 		adc	r1, r1, r9
+ 241              	.L18:
+ 187:Src/power.c   ****   else
+ 188:Src/power.c   ****     Preal = (double)((local_stats.sigma_power - count/2)/count - (Vmean * Imean));
+ 242              		.loc 1 188 57 view .LVU74
+ 243 0118 FFF7FEFF 		bl	__aeabi_ldivmod
+ 244              	.LVL25:
+ 245              		.loc 1 188 11 view .LVU75
+ 246 011c 001B     		subs	r0, r0, r4
+ 247 011e 61EB0501 		sbc	r1, r1, r5
+ 248 0122 FFF7FEFF 		bl	__aeabi_l2d
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 9
+
+
+ 249              	.LVL26:
+ 189:Src/power.c   ****   
+ 190:Src/power.c   ****   if (Papp != 0)
+ 250              		.loc 1 190 6 view .LVU76
+ 251 0126 DDE91445 		ldrd	r4, [sp, #80]
+ 188:Src/power.c   ****   
+ 252              		.loc 1 188 11 view .LVU77
+ 253 012a CDE90E01 		strd	r0, [sp, #56]
+ 254              	.LVL27:
+ 255              		.loc 1 190 3 is_stmt 1 view .LVU78
+ 256              		.loc 1 190 6 is_stmt 0 view .LVU79
+ 257 012e 0022     		movs	r2, #0
+ 258 0130 0023     		movs	r3, #0
+ 259 0132 2046     		mov	r0, r4
+ 260              	.LVL28:
+ 261              		.loc 1 190 6 view .LVU80
+ 262 0134 2946     		mov	r1, r5
+ 263 0136 FFF7FEFF 		bl	__aeabi_dcmpeq
+ 264              	.LVL29:
+ 265 013a 0028     		cmp	r0, #0
+ 266 013c 52D0     		beq	.L20
+ 191:Src/power.c   ****     PF = Preal / Papp;
+ 192:Src/power.c   ****   else PF = 0;
+ 267              		.loc 1 192 11 view .LVU81
+ 268 013e 9FED367B 		vldr.64	d7, .L21
+ 269 0142 8DED107B 		vstr.64	d7, [sp, #64]
+ 270              	.L10:
+ 271              	.LVL30:
+ 193:Src/power.c   ****   
+ 194:Src/power.c   ****   //
+ 195:Src/power.c   ****   // Dump it out on the console.  If your %f's come out as blanks you need
+ 196:Src/power.c   ****   // to add "-u _printf_float" to your link command.  See project_name.mak
+ 197:Src/power.c   ****   //
+ 198:Src/power.c   ****   snprintf(log_buffer, sizeof(log_buffer),
+ 272              		.loc 1 198 3 is_stmt 1 view .LVU82
+ 199:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 200:Src/power.c   **** 	   chan, local_stats.clipped?'>':':', Vrms*VCAL[chan], Irms*ICAL[chan],
+ 273              		.loc 1 200 49 is_stmt 0 view .LVU83
+ 274 0146 374B     		ldr	r3, .L21+12
+ 275 0148 4FEA8A04 		lsl	r4, r10, #2
+ 276 014c 2344     		add	r3, r3, r4
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 277              		.loc 1 198 3 view .LVU84
+ 278 014e BBF1000F 		cmp	fp, #0
+ 279              		.loc 1 200 49 view .LVU85
+ 280 0152 1868     		ldr	r0, [r3]	@ float
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 281              		.loc 1 198 3 view .LVU86
+ 282 0154 14BF     		ite	ne
+ 283 0156 3E26     		movne	r6, #62
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 284              		.loc 1 198 3 view .LVU87
+ 285 0158 3A26     		moveq	r6, #58
+ 286              		.loc 1 200 49 view .LVU88
+ 287 015a FFF7FEFF 		bl	__aeabi_f2d
+ 288              	.LVL31:
+ 289              		.loc 1 200 66 view .LVU89
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 10
+
+
+ 290 015e 324B     		ldr	r3, .L21+16
+ 291 0160 2344     		add	r3, r3, r4
+ 292              		.loc 1 200 49 view .LVU90
+ 293 0162 8046     		mov	r8, r0
+ 294              	.LVL32:
+ 295              		.loc 1 200 66 view .LVU91
+ 296 0164 1868     		ldr	r0, [r3]	@ float
+ 297              		.loc 1 200 49 view .LVU92
+ 298 0166 8946     		mov	r9, r1
+ 299              		.loc 1 200 66 view .LVU93
+ 300 0168 FFF7FEFF 		bl	__aeabi_f2d
+ 301              	.LVL33:
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 302              		.loc 1 198 3 view .LVU94
+ 303 016c 9DED107B 		vldr.64	d7, [sp, #64]
+ 304              		.loc 1 200 66 view .LVU95
+ 305 0170 0446     		mov	r4, r0
+ 306 0172 0D46     		mov	r5, r1
+ 201:Src/power.c   **** 	   Papp*VCAL[chan]*ICAL[chan], Preal*VCAL[chan]*ICAL[chan], PF, count);
+ 307              		.loc 1 201 38 view .LVU96
+ 308 0174 DDE90E23 		ldrd	r2, [sp, #56]
+ 309 0178 4046     		mov	r0, r8
+ 310 017a 4946     		mov	r1, r9
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 311              		.loc 1 198 3 view .LVU97
+ 312 017c 8DED0A7B 		vstr.64	d7, [sp, #40]
+ 313 0180 0C97     		str	r7, [sp, #48]
+ 314              		.loc 1 201 38 view .LVU98
+ 315 0182 FFF7FEFF 		bl	__aeabi_dmul
+ 316              	.LVL34:
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 317              		.loc 1 198 3 view .LVU99
+ 318 0186 2246     		mov	r2, r4
+ 319 0188 2B46     		mov	r3, r5
+ 320 018a FFF7FEFF 		bl	__aeabi_dmul
+ 321              	.LVL35:
+ 322              		.loc 1 201 9 view .LVU100
+ 323 018e DDE91423 		ldrd	r2, [sp, #80]
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 324              		.loc 1 198 3 view .LVU101
+ 325 0192 CDE90801 		strd	r0, [sp, #32]
+ 326              		.loc 1 201 9 view .LVU102
+ 327 0196 4046     		mov	r0, r8
+ 328 0198 4946     		mov	r1, r9
+ 329 019a FFF7FEFF 		bl	__aeabi_dmul
+ 330              	.LVL36:
+ 198:Src/power.c   **** 	   "%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal: %7.2f, PF: %.3f, Count:%d\n",
+ 331              		.loc 1 198 3 view .LVU103
+ 332 019e 2246     		mov	r2, r4
+ 333 01a0 2B46     		mov	r3, r5
+ 334 01a2 FFF7FEFF 		bl	__aeabi_dmul
+ 335              	.LVL37:
+ 336 01a6 DDE91623 		ldrd	r2, [sp, #88]
+ 337 01aa CDE90601 		strd	r0, [sp, #24]
+ 338 01ae 2046     		mov	r0, r4
+ 339 01b0 2946     		mov	r1, r5
+ 340 01b2 FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 11
+
+
+ 341              	.LVL38:
+ 342 01b6 DDE91223 		ldrd	r2, [sp, #72]
+ 343 01ba CDE90401 		strd	r0, [sp, #16]
+ 344 01be 4046     		mov	r0, r8
+ 345 01c0 4946     		mov	r1, r9
+ 346 01c2 FFF7FEFF 		bl	__aeabi_dmul
+ 347              	.LVL39:
+ 348 01c6 0096     		str	r6, [sp]
+ 349 01c8 CDE90201 		strd	r0, [sp, #8]
+ 350 01cc 5346     		mov	r3, r10
+ 351 01ce 174A     		ldr	r2, .L21+20
+ 352 01d0 1748     		ldr	r0, .L21+24
+ 353 01d2 C821     		movs	r1, #200
+ 354 01d4 FFF7FEFF 		bl	snprintf
+ 355              	.LVL40:
+ 202:Src/power.c   ****   debug_printf(log_buffer);
+ 356              		.loc 1 202 3 is_stmt 1 view .LVU104
+ 357 01d8 1548     		ldr	r0, .L21+24
+ 203:Src/power.c   **** }
+ 358              		.loc 1 203 1 is_stmt 0 view .LVU105
+ 359 01da 25B0     		add	sp, sp, #148
+ 360              	.LCFI2:
+ 361              		.cfi_remember_state
+ 362              		.cfi_def_cfa_offset 36
+ 363              		@ sp needed
+ 364 01dc BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 365              	.LCFI3:
+ 366              		.cfi_restore 14
+ 367              		.cfi_restore 11
+ 368              		.cfi_restore 10
+ 369              		.cfi_restore 9
+ 370              		.cfi_restore 8
+ 371              		.cfi_restore 7
+ 372              		.cfi_restore 6
+ 373              		.cfi_restore 5
+ 374              		.cfi_restore 4
+ 375              		.cfi_def_cfa_offset 0
+ 376              	.LVL41:
+ 202:Src/power.c   ****   debug_printf(log_buffer);
+ 377              		.loc 1 202 3 view .LVU106
+ 378 01e0 FFF7FEBF 		b	debug_printf
+ 379              	.LVL42:
+ 380              	.L20:
+ 381              	.LCFI4:
+ 382              		.cfi_restore_state
+ 191:Src/power.c   ****   else PF = 0;
+ 383              		.loc 1 191 5 is_stmt 1 view .LVU107
+ 191:Src/power.c   ****   else PF = 0;
+ 384              		.loc 1 191 8 is_stmt 0 view .LVU108
+ 385 01e4 2246     		mov	r2, r4
+ 386 01e6 2B46     		mov	r3, r5
+ 387 01e8 DDE90E01 		ldrd	r0, [sp, #56]
+ 388 01ec FFF7FEFF 		bl	__aeabi_ddiv
+ 389              	.LVL43:
+ 390 01f0 CDE91001 		strd	r0, [sp, #64]
+ 391              	.LVL44:
+ 191:Src/power.c   ****   else PF = 0;
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 12
+
+
+ 392              		.loc 1 191 8 view .LVU109
+ 393 01f4 A7E7     		b	.L10
+ 394              	.LVL45:
+ 395              	.L8:
+ 188:Src/power.c   ****   
+ 396              		.loc 1 188 5 is_stmt 1 view .LVU110
+ 188:Src/power.c   ****   
+ 397              		.loc 1 188 57 is_stmt 0 view .LVU111
+ 398 01f6 0E9B     		ldr	r3, [sp, #56]
+ 399 01f8 0F99     		ldr	r1, [sp, #60]
+ 400 01fa 981B     		subs	r0, r3, r6
+ 401              	.LVL46:
+ 188:Src/power.c   ****   
+ 402              		.loc 1 188 57 view .LVU112
+ 403 01fc 61EB0901 		sbc	r1, r1, r9
+ 404 0200 DDE91023 		ldrd	r2, [sp, #64]
+ 405 0204 88E7     		b	.L18
+ 406              	.LVL47:
+ 407              	.L2:
+ 152:Src/power.c   ****   
+ 408              		.loc 1 152 5 is_stmt 1 view .LVU113
+ 152:Src/power.c   ****   
+ 409              		.loc 1 152 41 is_stmt 0 view .LVU114
+ 410 0206 D419     		adds	r4, r2, r7
+ 152:Src/power.c   ****   
+ 411              		.loc 1 152 34 view .LVU115
+ 412 0208 A5EB6405 		sub	r5, r5, r4, asr #1
+ 413 020c 6610     		asrs	r6, r4, #1
+ 152:Src/power.c   ****   
+ 414              		.loc 1 152 11 view .LVU116
+ 415 020e 95FBF7F5 		sdiv	r5, r5, r7
+ 416              	.LVL48:
+ 152:Src/power.c   ****   
+ 417              		.loc 1 152 11 view .LVU117
+ 418 0212 24E7     		b	.L3
+ 419              	.L22:
+ 420 0214 AFF30080 		.align	3
+ 421              	.L21:
+ 422 0218 00000000 		.word	0
+ 423 021c 00000000 		.word	0
+ 424 0220 00000000 		.word	.LANCHOR0
+ 425 0224 00000000 		.word	.LANCHOR1
+ 426 0228 00000000 		.word	.LANCHOR2
+ 427 022c 00000000 		.word	.LC0
+ 428 0230 00000000 		.word	log_buffer
+ 429              		.cfi_endproc
+ 430              	.LFE127:
+ 432              		.section	.text.process_VI_pair,"ax",%progbits
+ 433              		.align	1
+ 434              		.p2align 2,,3
+ 435              		.global	process_VI_pair
+ 436              		.syntax unified
+ 437              		.thumb
+ 438              		.thumb_func
+ 439              		.fpu fpv4-sp-d16
+ 441              	process_VI_pair:
+ 442              	.LVL49:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 13
+
+
+ 443              	.LFB126:
+  37:Src/power.c   ****   static power_stats_t power_stats[MAX_CHANNELS];
+ 444              		.loc 1 37 72 is_stmt 1 view -0
+ 445              		.cfi_startproc
+ 446              		@ args = 0, pretend = 0, frame = 0
+ 447              		@ frame_needed = 0, uses_anonymous_args = 0
+  38:Src/power.c   ****   int signed_volt, signed_curr;
+ 448              		.loc 1 38 3 view .LVU119
+  39:Src/power.c   ****   power_stats_t* stats_p = &power_stats[channel];
+ 449              		.loc 1 39 3 view .LVU120
+  40:Src/power.c   **** 
+ 450              		.loc 1 40 3 view .LVU121
+  49:Src/power.c   ****     stats_p->clipped = true;
+ 451              		.loc 1 49 6 is_stmt 0 view .LVU122
+ 452 0000 40F6FF73 		movw	r3, #4095
+ 453              	.LVL50:
+  49:Src/power.c   ****     stats_p->clipped = true;
+ 454              		.loc 1 49 3 is_stmt 1 view .LVU123
+  49:Src/power.c   ****     stats_p->clipped = true;
+ 455              		.loc 1 49 6 is_stmt 0 view .LVU124
+ 456 0004 9942     		cmp	r1, r3
+  37:Src/power.c   ****   static power_stats_t power_stats[MAX_CHANNELS];
+ 457              		.loc 1 37 72 view .LVU125
+ 458 0006 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 459              	.LCFI5:
+ 460              		.cfi_def_cfa_offset 32
+ 461              		.cfi_offset 4, -32
+ 462              		.cfi_offset 5, -28
+ 463              		.cfi_offset 6, -24
+ 464              		.cfi_offset 7, -20
+ 465              		.cfi_offset 8, -16
+ 466              		.cfi_offset 9, -12
+ 467              		.cfi_offset 10, -8
+ 468              		.cfi_offset 14, -4
+  49:Src/power.c   ****     stats_p->clipped = true;
+ 469              		.loc 1 49 6 view .LVU126
+ 470 000a 5ED0     		beq	.L33
+ 471 000c DFF82091 		ldr	r9, .L40+4
+ 472 0010 5400     		lsls	r4, r2, #1
+ 473              	.L24:
+  52:Src/power.c   ****   signed_curr = current - MID_ADC_READING;
+ 474              		.loc 1 52 3 is_stmt 1 view .LVU127
+  60:Src/power.c   ****     stats_p->last_v = signed_volt;
+ 475              		.loc 1 60 14 is_stmt 0 view .LVU128
+ 476 0012 A518     		adds	r5, r4, r2
+ 477 0014 2D01     		lsls	r5, r5, #4
+ 478 0016 09EB050A 		add	r10, r9, r5
+  52:Src/power.c   ****   signed_curr = current - MID_ADC_READING;
+ 479              		.loc 1 52 15 view .LVU129
+ 480 001a A0F2FF78 		subw	r8, r0, #2047
+ 481              	.LVL51:
+  53:Src/power.c   **** 
+ 482              		.loc 1 53 3 is_stmt 1 view .LVU130
+  60:Src/power.c   ****     stats_p->last_v = signed_volt;
+ 483              		.loc 1 60 3 view .LVU131
+  60:Src/power.c   ****     stats_p->last_v = signed_volt;
+ 484              		.loc 1 60 14 is_stmt 0 view .LVU132
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 14
+
+
+ 485 001e 9AF82630 		ldrb	r3, [r10, #38]	@ zero_extendqisi2
+  60:Src/power.c   ****     stats_p->last_v = signed_volt;
+ 486              		.loc 1 60 6 view .LVU133
+ 487 0022 002B     		cmp	r3, #0
+ 488 0024 4AD0     		beq	.L36
+  69:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+ 489              		.loc 1 69 6 view .LVU134
+ 490 0026 012B     		cmp	r3, #1
+ 491 0028 1746     		mov	r7, r2
+ 492 002a 0E46     		mov	r6, r1
+  69:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+ 493              		.loc 1 69 3 is_stmt 1 view .LVU135
+  69:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+ 494              		.loc 1 69 6 is_stmt 0 view .LVU136
+ 495 002c 3AD0     		beq	.L37
+  82:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+ 496              		.loc 1 82 3 is_stmt 1 view .LVU137
+  82:Src/power.c   ****     if (stats_p->last_v * signed_volt < 0) {         // Found a zero crossing
+ 497              		.loc 1 82 6 is_stmt 0 view .LVU138
+ 498 002e 032B     		cmp	r3, #3
+ 499 0030 58D0     		beq	.L38
+ 500              	.LVL52:
+ 501              	.L29:
+ 110:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 502              		.loc 1 110 3 is_stmt 1 view .LVU139
+ 110:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 503              		.loc 1 110 14 is_stmt 0 view .LVU140
+ 504 0032 E319     		adds	r3, r4, r7
+ 505 0034 09EB0313 		add	r3, r9, r3, lsl #4
+ 110:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 506              		.loc 1 110 6 view .LVU141
+ 507 0038 3C4A     		ldr	r2, .L40
+ 110:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 508              		.loc 1 110 14 view .LVU142
+ 509 003a 9869     		ldr	r0, [r3, #24]
+ 110:Src/power.c   ****     stats_p->last_v = signed_volt;                       // Make a note for next time and....
+ 510              		.loc 1 110 6 view .LVU143
+ 511 003c 9042     		cmp	r0, r2
+ 512 003e 04DD     		ble	.L31
+ 111:Src/power.c   ****     stats_p->state = HUNTING_ZX_TAIL;                    // Start looking for a trailing ZX and...
+ 513              		.loc 1 111 5 is_stmt 1 view .LVU144
+ 112:Src/power.c   ****                                                          // use this sample by not returning
+ 514              		.loc 1 112 20 is_stmt 0 view .LVU145
+ 515 0040 0322     		movs	r2, #3
+ 111:Src/power.c   ****     stats_p->state = HUNTING_ZX_TAIL;                    // Start looking for a trailing ZX and...
+ 516              		.loc 1 111 21 view .LVU146
+ 517 0042 C3F82880 		str	r8, [r3, #40]
+ 112:Src/power.c   ****                                                          // use this sample by not returning
+ 518              		.loc 1 112 5 is_stmt 1 view .LVU147
+ 112:Src/power.c   ****                                                          // use this sample by not returning
+ 519              		.loc 1 112 20 is_stmt 0 view .LVU148
+ 520 0046 83F82620 		strb	r2, [r3, #38]
+ 521              	.L31:
+ 122:Src/power.c   ****   stats_p->count++;
+ 522              		.loc 1 122 24 view .LVU149
+ 523 004a 04EB070C 		add	ip, r4, r7
+ 524 004e 09EB0C1C 		add	ip, r9, ip, lsl #4
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 15
+
+
+ 525 0052 DCE90045 		ldrd	r4, [ip]
+  53:Src/power.c   **** 
+ 526              		.loc 1 53 15 view .LVU150
+ 527 0056 A6F2FF71 		subw	r1, r6, #2047
+ 122:Src/power.c   ****   stats_p->count++;
+ 528              		.loc 1 122 3 is_stmt 1 view .LVU151
+ 123:Src/power.c   ****   stats_p->sigma_i += signed_curr;
+ 529              		.loc 1 123 17 is_stmt 0 view .LVU152
+ 530 005a 0130     		adds	r0, r0, #1
+ 125:Src/power.c   ****   stats_p->sigma_v += signed_volt;
+ 531              		.loc 1 125 23 view .LVU153
+ 532 005c DCE90223 		ldrd	r2, [ip, #8]
+ 123:Src/power.c   ****   stats_p->sigma_i += signed_curr;
+ 533              		.loc 1 123 17 view .LVU154
+ 534 0060 CCF81800 		str	r0, [ip, #24]
+ 122:Src/power.c   ****   stats_p->count++;
+ 535              		.loc 1 122 40 view .LVU155
+ 536 0064 01FB08F0 		mul	r0, r1, r8
+ 122:Src/power.c   ****   stats_p->count++;
+ 537              		.loc 1 122 24 view .LVU156
+ 538 0068 14EB0009 		adds	r9, r4, r0
+ 127:Src/power.c   **** }
+ 539              		.loc 1 127 23 view .LVU157
+ 540 006c DCE90467 		ldrd	r6, [ip, #16]
+ 122:Src/power.c   ****   stats_p->count++;
+ 541              		.loc 1 122 24 view .LVU158
+ 542 0070 45EBE07A 		adc	r10, r5, r0, asr #31
+ 125:Src/power.c   ****   stats_p->sigma_v += signed_volt;
+ 543              		.loc 1 125 39 view .LVU159
+ 544 0074 01FB01F0 		mul	r0, r1, r1
+ 125:Src/power.c   ****   stats_p->sigma_v += signed_volt;
+ 545              		.loc 1 125 23 view .LVU160
+ 546 0078 1418     		adds	r4, r2, r0
+ 547 007a 43EBE075 		adc	r5, r3, r0, asr #31
+ 127:Src/power.c   **** }
+ 548              		.loc 1 127 39 view .LVU161
+ 549 007e 08FB08F0 		mul	r0, r8, r8
+ 127:Src/power.c   **** }
+ 550              		.loc 1 127 23 view .LVU162
+ 551 0082 3218     		adds	r2, r6, r0
+ 552 0084 47EBE073 		adc	r3, r7, r0, asr #31
+ 126:Src/power.c   ****   stats_p->sigma_v_sq += (signed_volt * signed_volt);
+ 553              		.loc 1 126 20 view .LVU163
+ 554 0088 DCE90760 		ldrd	r6, r0, [ip, #28]
+ 124:Src/power.c   ****   stats_p->sigma_i_sq += (signed_curr * signed_curr);
+ 555              		.loc 1 124 20 view .LVU164
+ 556 008c 0E44     		add	r6, r6, r1
+ 126:Src/power.c   ****   stats_p->sigma_v_sq += (signed_volt * signed_volt);
+ 557              		.loc 1 126 20 view .LVU165
+ 558 008e 4044     		add	r0, r0, r8
+ 122:Src/power.c   ****   stats_p->count++;
+ 559              		.loc 1 122 24 view .LVU166
+ 560 0090 CCE9009A 		strd	r9, [ip]
+ 123:Src/power.c   ****   stats_p->sigma_i += signed_curr;
+ 561              		.loc 1 123 3 is_stmt 1 view .LVU167
+ 124:Src/power.c   ****   stats_p->sigma_i_sq += (signed_curr * signed_curr);
+ 562              		.loc 1 124 3 view .LVU168
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 16
+
+
+ 125:Src/power.c   ****   stats_p->sigma_v += signed_volt;
+ 563              		.loc 1 125 23 is_stmt 0 view .LVU169
+ 564 0094 CCE90245 		strd	r4, [ip, #8]
+ 127:Src/power.c   **** }
+ 565              		.loc 1 127 23 view .LVU170
+ 566 0098 CCE90423 		strd	r2, [ip, #16]
+ 126:Src/power.c   ****   stats_p->sigma_v_sq += (signed_volt * signed_volt);
+ 567              		.loc 1 126 20 view .LVU171
+ 568 009c CCE90760 		strd	r6, r0, [ip, #28]
+ 127:Src/power.c   **** }
+ 569              		.loc 1 127 3 is_stmt 1 view .LVU172
+ 570              	.L23:
+ 128:Src/power.c   **** 
+ 571              		.loc 1 128 1 is_stmt 0 view .LVU173
+ 572 00a0 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 573              	.LVL53:
+ 574              	.L37:
+  70:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and use this sample
+ 575              		.loc 1 70 5 is_stmt 1 view .LVU174
+  70:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and use this sample
+ 576              		.loc 1 70 25 is_stmt 0 view .LVU175
+ 577 00a4 DAF82830 		ldr	r3, [r10, #40]
+ 578 00a8 03FB08F3 		mul	r3, r3, r8
+  70:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and use this sample
+ 579              		.loc 1 70 8 view .LVU176
+ 580 00ac 002B     		cmp	r3, #0
+ 581 00ae 16DA     		bge	.L28
+ 582              	.LVL54:
+ 583              	.L35:
+ 584              	.LBB2:
+  97:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and...
+ 585              		.loc 1 97 7 is_stmt 1 view .LVU177
+  98:Src/power.c   ****                                                      // use this sample by not returning
+ 586              		.loc 1 98 22 is_stmt 0 view .LVU178
+ 587 00b0 0223     		movs	r3, #2
+  97:Src/power.c   ****       stats_p->state = ACCUMULATE;                   // promote the state and...
+ 588              		.loc 1 97 23 view .LVU179
+ 589 00b2 CAF82880 		str	r8, [r10, #40]
+  98:Src/power.c   ****                                                      // use this sample by not returning
+ 590              		.loc 1 98 7 is_stmt 1 view .LVU180
+  98:Src/power.c   ****                                                      // use this sample by not returning
+ 591              		.loc 1 98 22 is_stmt 0 view .LVU181
+ 592 00b6 8AF82630 		strb	r3, [r10, #38]
+ 593              	.LBE2:
+ 594 00ba BAE7     		b	.L29
+ 595              	.LVL55:
+ 596              	.L36:
+  61:Src/power.c   ****     stats_p->state = HUNTING_ZX_HEAD;
+ 597              		.loc 1 61 5 is_stmt 1 view .LVU182
+  62:Src/power.c   ****     return;
+ 598              		.loc 1 62 20 is_stmt 0 view .LVU183
+ 599 00bc 0123     		movs	r3, #1
+  61:Src/power.c   ****     stats_p->state = HUNTING_ZX_HEAD;
+ 600              		.loc 1 61 21 view .LVU184
+ 601 00be CAF82880 		str	r8, [r10, #40]
+  62:Src/power.c   ****     return;
+ 602              		.loc 1 62 5 is_stmt 1 view .LVU185
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 17
+
+
+  62:Src/power.c   ****     return;
+ 603              		.loc 1 62 20 is_stmt 0 view .LVU186
+ 604 00c2 8AF82630 		strb	r3, [r10, #38]
+  63:Src/power.c   ****   }
+ 605              		.loc 1 63 5 is_stmt 1 view .LVU187
+ 128:Src/power.c   **** 
+ 606              		.loc 1 128 1 is_stmt 0 view .LVU188
+ 607 00c6 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 608              	.LVL56:
+ 609              	.L33:
+  50:Src/power.c   **** 
+ 610              		.loc 1 50 5 is_stmt 1 view .LVU189
+  50:Src/power.c   **** 
+ 611              		.loc 1 50 22 is_stmt 0 view .LVU190
+ 612 00ca 5400     		lsls	r4, r2, #1
+ 613 00cc DFF86090 		ldr	r9, .L40+4
+ 614 00d0 A318     		adds	r3, r4, r2
+ 615 00d2 09EB0313 		add	r3, r9, r3, lsl #4
+ 616 00d6 0125     		movs	r5, #1
+ 617 00d8 83F82450 		strb	r5, [r3, #36]
+ 618 00dc 99E7     		b	.L24
+ 619              	.LVL57:
+ 620              	.L28:
+  74:Src/power.c   ****       return;                                        // but otherwise ignore this sample
+ 621              		.loc 1 74 7 is_stmt 1 view .LVU191
+  74:Src/power.c   ****       return;                                        // but otherwise ignore this sample
+ 622              		.loc 1 74 23 is_stmt 0 view .LVU192
+ 623 00de CAF82880 		str	r8, [r10, #40]
+  75:Src/power.c   ****     }
+ 624              		.loc 1 75 7 is_stmt 1 view .LVU193
+ 625 00e2 DDE7     		b	.L23
+ 626              	.L38:
+  83:Src/power.c   ****       volatile power_stats_t* intvl_stats_p;
+ 627              		.loc 1 83 5 view .LVU194
+  83:Src/power.c   ****       volatile power_stats_t* intvl_stats_p;
+ 628              		.loc 1 83 25 is_stmt 0 view .LVU195
+ 629 00e4 DAF82830 		ldr	r3, [r10, #40]
+ 630 00e8 03FB08F3 		mul	r3, r3, r8
+  83:Src/power.c   ****       volatile power_stats_t* intvl_stats_p;
+ 631              		.loc 1 83 8 view .LVU196
+ 632 00ec 002B     		cmp	r3, #0
+ 633 00ee 02DB     		blt	.L39
+ 101:Src/power.c   ****                                                      // use this sample by not returning
+ 634              		.loc 1 101 7 is_stmt 1 view .LVU197
+ 101:Src/power.c   ****                                                      // use this sample by not returning
+ 635              		.loc 1 101 23 is_stmt 0 view .LVU198
+ 636 00f0 CAF82880 		str	r8, [r10, #40]
+ 637 00f4 9DE7     		b	.L29
+ 638              	.L39:
+ 639              	.LBB3:
+  84:Src/power.c   ****       //
+ 640              		.loc 1 84 7 is_stmt 1 view .LVU199
+  93:Src/power.c   ****       memcpy ((void*)intvl_stats_p, (void*)stats_p, sizeof(power_stats_t));
+ 641              		.loc 1 93 7 view .LVU200
+ 642              	.LVL58:
+  94:Src/power.c   ****       intvl_stats_p->data_ready = true;
+ 643              		.loc 1 94 7 view .LVU201
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 18
+
+
+ 644 00f6 D646     		mov	lr, r10
+ 645 00f8 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 646              	.LVL59:
+  93:Src/power.c   ****       memcpy ((void*)intvl_stats_p, (void*)stats_p, sizeof(power_stats_t));
+ 647              		.loc 1 93 21 is_stmt 0 view .LVU202
+ 648 00fc DFF834C0 		ldr	ip, .L40+8
+ 649 0100 6544     		add	r5, r5, ip
+ 650              	.LVL60:
+  94:Src/power.c   ****       intvl_stats_p->data_ready = true;
+ 651              		.loc 1 94 7 view .LVU203
+ 652 0102 AC46     		mov	ip, r5
+ 653 0104 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 654 0108 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 655 010c ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 656 0110 9EE80F00 		ldm	lr, {r0, r1, r2, r3}
+  95:Src/power.c   ****       memset((void*)stats_p, 0, sizeof(power_stats_t));
+ 657              		.loc 1 95 33 view .LVU204
+ 658 0114 4FF0010E 		mov	lr, #1
+  94:Src/power.c   ****       intvl_stats_p->data_ready = true;
+ 659              		.loc 1 94 7 view .LVU205
+ 660 0118 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+  95:Src/power.c   ****       memset((void*)stats_p, 0, sizeof(power_stats_t));
+ 661              		.loc 1 95 7 is_stmt 1 view .LVU206
+  96:Src/power.c   ****       stats_p->last_v = signed_volt;                 // not really needed, but keep it consistent
+ 662              		.loc 1 96 7 is_stmt 0 view .LVU207
+ 663 011c 3022     		movs	r2, #48
+ 664 011e 0021     		movs	r1, #0
+ 665 0120 5046     		mov	r0, r10
+  95:Src/power.c   ****       memset((void*)stats_p, 0, sizeof(power_stats_t));
+ 666              		.loc 1 95 33 view .LVU208
+ 667 0122 85F825E0 		strb	lr, [r5, #37]
+  96:Src/power.c   ****       stats_p->last_v = signed_volt;                 // not really needed, but keep it consistent
+ 668              		.loc 1 96 7 is_stmt 1 view .LVU209
+ 669 0126 FFF7FEFF 		bl	memset
+ 670              	.LVL61:
+ 671 012a C1E7     		b	.L35
+ 672              	.L41:
+ 673              		.align	2
+ 674              	.L40:
+ 675 012c 16480100 		.word	83990
+ 676 0130 00000000 		.word	.LANCHOR3
+ 677 0134 00000000 		.word	.LANCHOR0
+ 678              	.LBE3:
+ 679              		.cfi_endproc
+ 680              	.LFE126:
+ 682              		.section	.text.process_power_data,"ax",%progbits
+ 683              		.align	1
+ 684              		.p2align 2,,3
+ 685              		.global	process_power_data
+ 686              		.syntax unified
+ 687              		.thumb
+ 688              		.thumb_func
+ 689              		.fpu fpv4-sp-d16
+ 691              	process_power_data:
+ 692              	.LFB128:
+ 204:Src/power.c   **** //
+ 205:Src/power.c   **** // Called often from the infinite loop in main().  Check to see if there are new interval
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 19
+
+
+ 206:Src/power.c   **** // stats we haven't processed yet, and if so, process them and flag them as processed.
+ 207:Src/power.c   **** //
+ 208:Src/power.c   **** void process_power_data () {
+ 693              		.loc 1 208 28 view -0
+ 694              		.cfi_startproc
+ 695              		@ args = 0, pretend = 0, frame = 0
+ 696              		@ frame_needed = 0, uses_anonymous_args = 0
+ 209:Src/power.c   **** 
+ 210:Src/power.c   **** 
+ 211:Src/power.c   **** #ifdef ENERGY_MONITORING
+ 212:Src/power.c   ****   //
+ 213:Src/power.c   ****   // If any of them are not ready, come back later.  This ensures they'll always
+ 214:Src/power.c   ****   // come out in 0..3 order.
+ 215:Src/power.c   ****   //
+ 216:Src/power.c   ****   for (int chan=3; chan<6; chan++)
+ 697              		.loc 1 216 3 view .LVU211
+ 698              	.LBB4:
+ 699              		.loc 1 216 8 view .LVU212
+ 700              	.LVL62:
+ 217:Src/power.c   ****     if (!intvl_power_stats[chan].data_ready)
+ 701              		.loc 1 217 5 view .LVU213
+ 702              	.LBE4:
+ 208:Src/power.c   **** 
+ 703              		.loc 1 208 28 is_stmt 0 view .LVU214
+ 704 0000 08B5     		push	{r3, lr}
+ 705              	.LCFI6:
+ 706              		.cfi_def_cfa_offset 8
+ 707              		.cfi_offset 3, -8
+ 708              		.cfi_offset 14, -4
+ 709              	.LBB5:
+ 710              		.loc 1 217 33 view .LVU215
+ 711 0002 0E4B     		ldr	r3, .L57
+ 712 0004 93F8B520 		ldrb	r2, [r3, #181]	@ zero_extendqisi2
+ 713              		.loc 1 217 8 view .LVU216
+ 714 0008 B2B1     		cbz	r2, .L42
+ 715              	.LVL63:
+ 716              		.loc 1 217 5 is_stmt 1 view .LVU217
+ 717              		.loc 1 217 33 is_stmt 0 view .LVU218
+ 718 000a 93F8E520 		ldrb	r2, [r3, #229]	@ zero_extendqisi2
+ 719              		.loc 1 217 8 view .LVU219
+ 720 000e 9AB1     		cbz	r2, .L42
+ 721              	.LVL64:
+ 722              		.loc 1 217 5 is_stmt 1 view .LVU220
+ 723              		.loc 1 217 33 is_stmt 0 view .LVU221
+ 724 0010 93F81521 		ldrb	r2, [r3, #277]	@ zero_extendqisi2
+ 725              		.loc 1 217 8 view .LVU222
+ 726 0014 82B1     		cbz	r2, .L42
+ 727              	.LVL65:
+ 728              		.loc 1 217 8 view .LVU223
+ 729              	.LBE5:
+ 218:Src/power.c   ****       return;
+ 219:Src/power.c   ****   if (!intvl_power_stats[12].data_ready)
+ 730              		.loc 1 219 3 is_stmt 1 view .LVU224
+ 731              		.loc 1 219 29 is_stmt 0 view .LVU225
+ 732 0016 93F86532 		ldrb	r3, [r3, #613]	@ zero_extendqisi2
+ 733              		.loc 1 219 6 view .LVU226
+ 734 001a 6BB1     		cbz	r3, .L42
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 20
+
+
+ 735              	.LVL66:
+ 736              	.LBB6:
+ 220:Src/power.c   ****     return;
+ 221:Src/power.c   ****     
+ 222:Src/power.c   ****   for (int chan=3; chan<6; chan++)
+ 223:Src/power.c   ****     process_power_channel(chan);
+ 737              		.loc 1 223 5 is_stmt 1 view .LVU227
+ 738 001c 0320     		movs	r0, #3
+ 739 001e FFF7FEFF 		bl	process_power_channel
+ 740              	.LVL67:
+ 741              		.loc 1 223 5 view .LVU228
+ 742 0022 0420     		movs	r0, #4
+ 743 0024 FFF7FEFF 		bl	process_power_channel
+ 744              	.LVL68:
+ 745              		.loc 1 223 5 view .LVU229
+ 746 0028 0520     		movs	r0, #5
+ 747 002a FFF7FEFF 		bl	process_power_channel
+ 748              	.LVL69:
+ 749              		.loc 1 223 5 is_stmt 0 view .LVU230
+ 750              	.LBE6:
+ 224:Src/power.c   ****   process_power_channel(12);
+ 751              		.loc 1 224 3 is_stmt 1 view .LVU231
+ 752 002e 0C20     		movs	r0, #12
+ 225:Src/power.c   ****   
+ 226:Src/power.c   **** #endif
+ 227:Src/power.c   **** 
+ 228:Src/power.c   **** #ifdef DUMPING
+ 229:Src/power.c   ****   if ((dump_index[0] == DUMP_MAX) && (dump_index[1] == DUMP_MAX)) {
+ 230:Src/power.c   ****     for (int i=0; i<DUMP_MAX; i++) {
+ 231:Src/power.c   ****       snprintf(log_buffer, sizeof(log_buffer),
+ 232:Src/power.c   **** 	       "%d, %d, %d\n", i, dump[0][i], dump[1][i]);
+ 233:Src/power.c   ****       debug_printf(log_buffer);
+ 234:Src/power.c   ****     }
+ 235:Src/power.c   ****     dump_index[0] = dump_index[1] = DUMP_MAX+1;
+ 236:Src/power.c   ****   }
+ 237:Src/power.c   **** #endif
+ 238:Src/power.c   ****   
+ 239:Src/power.c   **** }
+ 753              		.loc 1 239 1 is_stmt 0 view .LVU232
+ 754 0030 BDE80840 		pop	{r3, lr}
+ 755              	.LCFI7:
+ 756              		.cfi_remember_state
+ 757              		.cfi_restore 14
+ 758              		.cfi_restore 3
+ 759              		.cfi_def_cfa_offset 0
+ 224:Src/power.c   ****   process_power_channel(12);
+ 760              		.loc 1 224 3 view .LVU233
+ 761 0034 FFF7FEBF 		b	process_power_channel
+ 762              	.LVL70:
+ 763              	.L42:
+ 764              	.LCFI8:
+ 765              		.cfi_restore_state
+ 766              		.loc 1 239 1 view .LVU234
+ 767 0038 08BD     		pop	{r3, pc}
+ 768              	.L58:
+ 769 003a 00BF     		.align	2
+ 770              	.L57:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 21
+
+
+ 771 003c 00000000 		.word	.LANCHOR0
+ 772              		.cfi_endproc
+ 773              	.LFE128:
+ 775              		.section	.text.init_power,"ax",%progbits
+ 776              		.align	1
+ 777              		.p2align 2,,3
+ 778              		.global	init_power
+ 779              		.syntax unified
+ 780              		.thumb
+ 781              		.thumb_func
+ 782              		.fpu fpv4-sp-d16
+ 784              	init_power:
+ 785              	.LFB129:
+ 240:Src/power.c   **** 
+ 241:Src/power.c   **** void init_power (void) {
+ 786              		.loc 1 241 24 is_stmt 1 view -0
+ 787              		.cfi_startproc
+ 788              		@ args = 0, pretend = 0, frame = 0
+ 789              		@ frame_needed = 0, uses_anonymous_args = 0
+ 790              		@ link register save eliminated.
+ 242:Src/power.c   **** 
+ 243:Src/power.c   ****   start_ADCs(ADC_LAG);                 // start ADC with x usec lag
+ 791              		.loc 1 243 3 view .LVU236
+ 792 0000 40F20D10 		movw	r0, #269
+ 793 0004 FFF7FEBF 		b	start_ADCs
+ 794              	.LVL71:
+ 795              		.cfi_endproc
+ 796              	.LFE129:
+ 798              		.global	ADC_LAG
+ 799              		.global	ICAL
+ 800              		.global	VCAL
+ 801              		.section	.bss.intvl_power_stats,"aw",%nobits
+ 802              		.align	3
+ 803              		.set	.LANCHOR0,. + 0
+ 806              	intvl_power_stats:
+ 807 0000 00000000 		.space	720
+ 807      00000000 
+ 807      00000000 
+ 807      00000000 
+ 807      00000000 
+ 808              		.section	.bss.power_stats.10719,"aw",%nobits
+ 809              		.align	3
+ 810              		.set	.LANCHOR3,. + 0
+ 813              	power_stats.10719:
+ 814 0000 00000000 		.space	720
+ 814      00000000 
+ 814      00000000 
+ 814      00000000 
+ 814      00000000 
+ 815              		.section	.rodata.ADC_LAG,"a"
+ 816              		.align	2
+ 819              	ADC_LAG:
+ 820 0000 0D010000 		.word	269
+ 821              		.section	.rodata.ICAL,"a"
+ 822              		.align	2
+ 823              		.set	.LANCHOR2,. + 0
+ 826              	ICAL:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 22
+
+
+ 827 0000 0000803F 		.word	1065353216
+ 828 0004 0000803F 		.word	1065353216
+ 829 0008 0000803F 		.word	1065353216
+ 830 000c 7E784A3D 		.word	1028290686
+ 831 0010 1F79483D 		.word	1028159775
+ 832 0014 B253483D 		.word	1028150194
+ 833 0018 0000803F 		.word	1065353216
+ 834 001c 0000803F 		.word	1065353216
+ 835 0020 0000803F 		.word	1065353216
+ 836 0024 0000803F 		.word	1065353216
+ 837 0028 0000803F 		.word	1065353216
+ 838 002c 0000803F 		.word	1065353216
+ 839 0030 35D6A03C 		.word	1017173557
+ 840 0034 0000803F 		.word	1065353216
+ 841 0038 0000803F 		.word	1065353216
+ 842              		.section	.rodata.VCAL,"a"
+ 843              		.align	2
+ 844              		.set	.LANCHOR1,. + 0
+ 847              	VCAL:
+ 848 0000 0000803F 		.word	1065353216
+ 849 0004 0000803F 		.word	1065353216
+ 850 0008 0000803F 		.word	1065353216
+ 851 000c E937773E 		.word	1048000489
+ 852 0010 E937773E 		.word	1048000489
+ 853 0014 E937773E 		.word	1048000489
+ 854 0018 0000803F 		.word	1065353216
+ 855 001c 0000803F 		.word	1065353216
+ 856 0020 0000803F 		.word	1065353216
+ 857 0024 0000803F 		.word	1065353216
+ 858 0028 0000803F 		.word	1065353216
+ 859 002c 0000803F 		.word	1065353216
+ 860 0030 E937773E 		.word	1048000489
+ 861 0034 0000803F 		.word	1065353216
+ 862 0038 0000803F 		.word	1065353216
+ 863              		.section	.rodata.process_power_channel.str1.4,"aMS",%progbits,1
+ 864              		.align	2
+ 865              	.LC0:
+ 866 0000 25326425 		.ascii	"%2d%c Vrms: %6.2f, Irms: %5.2f, Papp: %7.2f, Preal:"
+ 866      63205672 
+ 866      6D733A20 
+ 866      25362E32 
+ 866      662C2049 
+ 867 0033 2025372E 		.ascii	" %7.2f, PF: %.3f, Count:%d\012\000"
+ 867      32662C20 
+ 867      50463A20 
+ 867      252E3366 
+ 867      2C20436F 
+ 868              		.text
+ 869              	.Letext0:
+ 870              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
+ 871              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
+ 872              		.file 4 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
+ 873              		.file 5 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
+ 874              		.file 6 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
+ 875              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 876              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/math.h"
+ 877              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/stdlib.h"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 23
+
+
+ 878              		.file 10 "Drivers/CMSIS/Include/core_cm4.h"
+ 879              		.file 11 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 880              		.file 12 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 881              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 882              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 883              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h"
+ 884              		.file 16 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h"
+ 885              		.file 17 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 886              		.file 18 "Inc/usart.h"
+ 887              		.file 19 "Inc/adc.h"
+ 888              		.file 20 "Inc/power.h"
+ 889              		.file 21 "Inc/calib.h"
+ 890              		.file 22 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/stdio.h"
+ 891              		.file 23 "<built-in>"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s 			page 24
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 power.c
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:24     .text.process_power_channel:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:32     .text.process_power_channel:0000000000000000 process_power_channel
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:422    .text.process_power_channel:0000000000000218 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:433    .text.process_VI_pair:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:441    .text.process_VI_pair:0000000000000000 process_VI_pair
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:675    .text.process_VI_pair:000000000000012c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:683    .text.process_power_data:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:691    .text.process_power_data:0000000000000000 process_power_data
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:771    .text.process_power_data:000000000000003c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:776    .text.init_power:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:784    .text.init_power:0000000000000000 init_power
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:819    .rodata.ADC_LAG:0000000000000000 ADC_LAG
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:826    .rodata.ICAL:0000000000000000 ICAL
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:847    .rodata.VCAL:0000000000000000 VCAL
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:802    .bss.intvl_power_stats:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:806    .bss.intvl_power_stats:0000000000000000 intvl_power_stats
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:809    .bss.power_stats.10719:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:813    .bss.power_stats.10719:0000000000000000 power_stats.10719
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:816    .rodata.ADC_LAG:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:822    .rodata.ICAL:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:843    .rodata.VCAL:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccI1akTo.s:864    .rodata.process_power_channel.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_ldivmod
+__aeabi_l2d
+__aeabi_dmul
+__aeabi_dcmpeq
+__aeabi_ddiv
+__aeabi_f2d
+sqrt
+snprintf
+debug_printf
+log_buffer
+memset
+start_ADCs

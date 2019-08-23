@@ -1,0 +1,1403 @@
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ds18b20.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.init_ds18b20s,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	init_ds18b20s
+  21              		.arch armv7e-m
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  25              		.fpu fpv4-sp-d16
+  27              	init_ds18b20s:
+  28              	.LFB127:
+  29              		.file 1 "Src/ds18b20.c"
+   1:Src/ds18b20.c **** #include <string.h>
+   2:Src/ds18b20.c **** #include <stdio.h>
+   3:Src/ds18b20.c **** #include <math.h>
+   4:Src/ds18b20.c **** #include "main.h"
+   5:Src/ds18b20.c **** #include "usart.h"
+   6:Src/ds18b20.c **** #include "ds18b20.h"
+   7:Src/ds18b20.c **** 
+   8:Src/ds18b20.c **** #define ONE_WIRE_SKIP_ROM 0xCC
+   9:Src/ds18b20.c **** #define ONE_WIRE_MATCH_ROM 0x55
+  10:Src/ds18b20.c **** #define ONE_WIRE_READ_ROM 0x33
+  11:Src/ds18b20.c **** #define ONE_WIRE_READ_SCRATCH 0xBE
+  12:Src/ds18b20.c **** #define ONE_WIRE_CONVERT_T 0x44
+  13:Src/ds18b20.c **** 
+  14:Src/ds18b20.c **** static uint8_t tx_buff[10];
+  15:Src/ds18b20.c **** static uint8_t rx_buff[MAX_1WIRE_BUS][10];
+  16:Src/ds18b20.c **** static uint8_t romaddr[MAX_1WIRE_BUS][8];
+  17:Src/ds18b20.c **** static uint8_t bus_status[MAX_1WIRE_BUS], crc_status[MAX_1WIRE_BUS];
+  18:Src/ds18b20.c **** static float temp_f[MAX_1WIRE_BUS];
+  19:Src/ds18b20.c **** static int16_t temp_i[MAX_1WIRE_BUS];
+  20:Src/ds18b20.c **** 
+  21:Src/ds18b20.c **** //
+  22:Src/ds18b20.c **** // This code is NOT an example
+  23:Src/ds18b20.c **** // of how to use the DS18B20, in fact, it’s an example of how NOT to use it.
+  24:Src/ds18b20.c **** // It simply uses two DS18B20s (one per bus) as a handy OneWire slave in order
+  25:Src/ds18b20.c **** // to demo/test UART off-load of OneWire transactions. As such it does no device
+  26:Src/ds18b20.c **** // discovery.  It will only work provided there
+  27:Src/ds18b20.c **** // is only one DS18B20 per bus. There are plenty of examples on the net implementing
+  28:Src/ds18b20.c **** // the full DS18B20 discovery and addressing stuff, use them instead if you’re
+  29:Src/ds18b20.c **** // trying to do anything serious with DS18B20s. Here they’re just a handy OneWire
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 2
+
+
+  30:Src/ds18b20.c **** // slave to bang against in a very primitive fashion.
+  31:Src/ds18b20.c **** //
+  32:Src/ds18b20.c **** 
+  33:Src/ds18b20.c **** 
+  34:Src/ds18b20.c **** // This table comes from Dallas sample code where it is freely reusable,
+  35:Src/ds18b20.c **** // though Copyright (C) 2000 Dallas Semiconductor Corporation
+  36:Src/ds18b20.c **** static const uint8_t dscrc_table[] = {
+  37:Src/ds18b20.c ****       0, 94,188,226, 97, 63,221,131,194,156,126, 32,163,253, 31, 65,
+  38:Src/ds18b20.c ****     157,195, 33,127,252,162, 64, 30, 95,  1,227,189, 62, 96,130,220,
+  39:Src/ds18b20.c ****      35,125,159,193, 66, 28,254,160,225,191, 93,  3,128,222, 60, 98,
+  40:Src/ds18b20.c ****     190,224,  2, 92,223,129, 99, 61,124, 34,192,158, 29, 67,161,255,
+  41:Src/ds18b20.c ****      70, 24,250,164, 39,121,155,197,132,218, 56,102,229,187, 89,  7,
+  42:Src/ds18b20.c ****     219,133,103, 57,186,228,  6, 88, 25, 71,165,251,120, 38,196,154,
+  43:Src/ds18b20.c ****     101, 59,217,135,  4, 90,184,230,167,249, 27, 69,198,152,122, 36,
+  44:Src/ds18b20.c ****     248,166, 68, 26,153,199, 37,123, 58,100,134,216, 91,  5,231,185,
+  45:Src/ds18b20.c ****     140,210, 48,110,237,179, 81, 15, 78, 16,242,172, 47,113,147,205,
+  46:Src/ds18b20.c ****      17, 79,173,243,112, 46,204,146,211,141,111, 49,178,236, 14, 80,
+  47:Src/ds18b20.c ****     175,241, 19, 77,206,144,114, 44,109, 51,209,143, 12, 82,176,238,
+  48:Src/ds18b20.c ****      50,108,142,208, 83, 13,239,177,240,174, 76, 18,145,207, 45,115,
+  49:Src/ds18b20.c ****     202,148,118, 40,171,245, 23, 73,  8, 86,180,234,105, 55,213,139,
+  50:Src/ds18b20.c ****      87,  9,235,181, 54,104,138,212,149,203, 41,119,244,170, 72, 22,
+  51:Src/ds18b20.c ****     233,183, 85, 11,136,214, 52,106, 43,117,151,201, 74, 20,246,168,
+  52:Src/ds18b20.c ****     116, 42,200,150, 21, 75,169,247,182,232, 10, 84,215,137,107, 53};
+  53:Src/ds18b20.c **** 
+  54:Src/ds18b20.c **** static uint8_t crc8(const uint8_t *addr, uint8_t len)
+  55:Src/ds18b20.c **** {
+  56:Src/ds18b20.c ****   uint8_t crc = 0;
+  57:Src/ds18b20.c ****   
+  58:Src/ds18b20.c ****   while (len--) {
+  59:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+  60:Src/ds18b20.c ****   }
+  61:Src/ds18b20.c ****   return crc;
+  62:Src/ds18b20.c **** }
+  63:Src/ds18b20.c **** 
+  64:Src/ds18b20.c **** void init_ds18b20s (void) {
+  30              		.loc 1 64 27 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  65:Src/ds18b20.c **** 
+  66:Src/ds18b20.c ****   init_uarts();
+  34              		.loc 1 66 3 view .LVU1
+  64:Src/ds18b20.c **** 
+  35              		.loc 1 64 27 is_stmt 0 view .LVU2
+  36 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 32
+  39              		.cfi_offset 4, -32
+  40              		.cfi_offset 5, -28
+  41              		.cfi_offset 6, -24
+  42              		.cfi_offset 7, -20
+  43              		.cfi_offset 8, -16
+  44              		.cfi_offset 9, -12
+  45              		.cfi_offset 10, -8
+  46              		.cfi_offset 14, -4
+  47 0004 8AB0     		sub	sp, sp, #40
+  48              	.LCFI1:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 3
+
+
+  49              		.cfi_def_cfa_offset 72
+  50              		.loc 1 66 3 view .LVU3
+  51 0006 FFF7FEFF 		bl	init_uarts
+  52              	.LVL0:
+  67:Src/ds18b20.c ****   
+  68:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  53              		.loc 1 68 3 is_stmt 1 view .LVU4
+  54              	.LBB18:
+  55              		.loc 1 68 8 view .LVU5
+  69:Src/ds18b20.c ****     bus_status[i] = onewire_reset(i);
+  56              		.loc 1 69 5 view .LVU6
+  57              		.loc 1 69 21 is_stmt 0 view .LVU7
+  58 000a 0020     		movs	r0, #0
+  59 000c FFF7FEFF 		bl	onewire_reset
+  60              	.LVL1:
+  61              		.loc 1 69 19 view .LVU8
+  62 0010 3A4D     		ldr	r5, .L12
+  63              	.LBE18:
+  70:Src/ds18b20.c **** 
+  71:Src/ds18b20.c ****   tx_buff[0] = ONE_WIRE_READ_ROM;
+  64              		.loc 1 71 14 view .LVU9
+  65 0012 3B4C     		ldr	r4, .L12+4
+  66              	.LBB19:
+  69:Src/ds18b20.c ****     bus_status[i] = onewire_reset(i);
+  67              		.loc 1 69 19 view .LVU10
+  68 0014 2870     		strb	r0, [r5]
+  69              	.LVL2:
+  69:Src/ds18b20.c ****     bus_status[i] = onewire_reset(i);
+  70              		.loc 1 69 5 is_stmt 1 view .LVU11
+  69:Src/ds18b20.c ****     bus_status[i] = onewire_reset(i);
+  71              		.loc 1 69 21 is_stmt 0 view .LVU12
+  72 0016 0120     		movs	r0, #1
+  73 0018 FFF7FEFF 		bl	onewire_reset
+  74              	.LVL3:
+  75              	.LBE19:
+  76              		.loc 1 71 14 view .LVU13
+  77 001c 3323     		movs	r3, #51
+  78              	.LBB20:
+  72:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  73:Src/ds18b20.c ****     onewire_tx(i, tx_buff, 1);
+  79              		.loc 1 73 5 view .LVU14
+  80 001e 2146     		mov	r1, r4
+  81              	.LBE20:
+  82              	.LBB21:
+  69:Src/ds18b20.c **** 
+  83              		.loc 1 69 19 view .LVU15
+  84 0020 6870     		strb	r0, [r5, #1]
+  85              	.LVL4:
+  69:Src/ds18b20.c **** 
+  86              		.loc 1 69 19 view .LVU16
+  87              	.LBE21:
+  71:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  88              		.loc 1 71 3 is_stmt 1 view .LVU17
+  89              	.LBB22:
+  90              		.loc 1 73 5 is_stmt 0 view .LVU18
+  91 0022 0122     		movs	r2, #1
+  92 0024 0020     		movs	r0, #0
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 4
+
+
+  93              	.LBE22:
+  71:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  94              		.loc 1 71 14 view .LVU19
+  95 0026 2370     		strb	r3, [r4]
+  72:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  96              		.loc 1 72 3 is_stmt 1 view .LVU20
+  97              	.LBB23:
+  72:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++)
+  98              		.loc 1 72 8 view .LVU21
+  99              	.LVL5:
+ 100              		.loc 1 73 5 view .LVU22
+ 101 0028 FFF7FEFF 		bl	onewire_tx
+ 102              	.LVL6:
+ 103              		.loc 1 73 5 view .LVU23
+ 104 002c 0122     		movs	r2, #1
+ 105 002e 2146     		mov	r1, r4
+ 106 0030 1046     		mov	r0, r2
+ 107 0032 FFF7FEFF 		bl	onewire_tx
+ 108              	.LVL7:
+ 109              		.loc 1 73 5 is_stmt 0 view .LVU24
+ 110              	.LBE23:
+ 111              	.LBB24:
+  74:Src/ds18b20.c **** 
+  75:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++) 
+  76:Src/ds18b20.c ****     onewire_rx1(i, romaddr[i], 8);    // get all 8 bytes of rom address - rx1 starts the xfer
+ 112              		.loc 1 76 5 is_stmt 1 view .LVU25
+ 113 0036 0822     		movs	r2, #8
+ 114 0038 3249     		ldr	r1, .L12+8
+ 115 003a 0020     		movs	r0, #0
+ 116 003c FFF7FEFF 		bl	onewire_rx1
+ 117              	.LVL8:
+ 118              		.loc 1 76 5 view .LVU26
+ 119 0040 0822     		movs	r2, #8
+ 120 0042 3149     		ldr	r1, .L12+12
+ 121 0044 0120     		movs	r0, #1
+ 122 0046 FFF7FEFF 		bl	onewire_rx1
+ 123              	.LVL9:
+ 124              		.loc 1 76 5 is_stmt 0 view .LVU27
+ 125              	.LBE24:
+ 126              	.LBB25:
+  77:Src/ds18b20.c **** 
+  78:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++) 
+  79:Src/ds18b20.c ****     onewire_rx2(i, romaddr[i], 8);    // get all 8 bytes of rom address - rx2 fetches the xfer
+ 127              		.loc 1 79 5 is_stmt 1 view .LVU28
+ 128 004a 0822     		movs	r2, #8
+ 129 004c 2D49     		ldr	r1, .L12+8
+ 130 004e 0020     		movs	r0, #0
+ 131 0050 FFF7FEFF 		bl	onewire_rx2
+ 132              	.LVL10:
+ 133              		.loc 1 79 5 view .LVU29
+ 134 0054 2C49     		ldr	r1, .L12+12
+ 135 0056 0120     		movs	r0, #1
+ 136 0058 0822     		movs	r2, #8
+ 137 005a FFF7FEFF 		bl	onewire_rx2
+ 138              	.LVL11:
+ 139              		.loc 1 79 5 is_stmt 0 view .LVU30
+ 140              	.LBE25:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 5
+
+
+ 141              	.LBB26:
+  80:Src/ds18b20.c **** 
+  81:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++) 
+  82:Src/ds18b20.c ****     crc_status[i] = crc8(romaddr[i], 8);
+ 142              		.loc 1 82 5 is_stmt 1 view .LVU31
+ 143              	.LBB27:
+ 144              	.LBI27:
+  54:Src/ds18b20.c **** {
+ 145              		.loc 1 54 16 view .LVU32
+ 146              	.LBB28:
+  56:Src/ds18b20.c ****   
+ 147              		.loc 1 56 3 view .LVU33
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 148              		.loc 1 58 3 view .LVU34
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 149              		.loc 1 58 3 is_stmt 0 view .LVU35
+ 150              	.LBE28:
+ 151              	.LBE27:
+ 152              		.loc 1 82 33 view .LVU36
+ 153 005e 294B     		ldr	r3, .L12+8
+ 154 0060 2A48     		ldr	r0, .L12+16
+ 155 0062 03F10804 		add	r4, r3, #8
+ 156              	.LBB31:
+ 157              	.LBB29:
+  56:Src/ds18b20.c ****   
+ 158              		.loc 1 56 11 view .LVU37
+ 159 0066 0021     		movs	r1, #0
+ 160              	.LVL12:
+ 161              	.L2:
+  59:Src/ds18b20.c ****   }
+ 162              		.loc 1 59 5 is_stmt 1 view .LVU38
+  59:Src/ds18b20.c ****   }
+ 163              		.loc 1 59 27 is_stmt 0 view .LVU39
+ 164 0068 13F8012B 		ldrb	r2, [r3], #1	@ zero_extendqisi2
+ 165              	.LVL13:
+  59:Src/ds18b20.c ****   }
+ 166              		.loc 1 59 27 view .LVU40
+ 167 006c 4A40     		eors	r2, r2, r1
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 168              		.loc 1 58 9 view .LVU41
+ 169 006e A342     		cmp	r3, r4
+  59:Src/ds18b20.c ****   }
+ 170              		.loc 1 59 9 view .LVU42
+ 171 0070 815C     		ldrb	r1, [r0, r2]	@ zero_extendqisi2
+ 172              	.LVL14:
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 173              		.loc 1 58 9 view .LVU43
+ 174 0072 F9D1     		bne	.L2
+  61:Src/ds18b20.c **** }
+ 175              		.loc 1 61 3 is_stmt 1 view .LVU44
+ 176              	.LVL15:
+  61:Src/ds18b20.c **** }
+ 177              		.loc 1 61 3 is_stmt 0 view .LVU45
+ 178              	.LBE29:
+ 179              	.LBE31:
+ 180              		.loc 1 82 19 view .LVU46
+ 181 0074 264D     		ldr	r5, .L12+20
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 6
+
+
+ 182 0076 03F10806 		add	r6, r3, #8
+ 183 007a 2970     		strb	r1, [r5]
+ 184              	.LVL16:
+ 185              		.loc 1 82 5 is_stmt 1 view .LVU47
+ 186              	.LBB32:
+  54:Src/ds18b20.c **** {
+ 187              		.loc 1 54 16 view .LVU48
+ 188              	.LBB30:
+  56:Src/ds18b20.c ****   
+ 189              		.loc 1 56 3 view .LVU49
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 190              		.loc 1 58 3 view .LVU50
+  56:Src/ds18b20.c ****   
+ 191              		.loc 1 56 11 is_stmt 0 view .LVU51
+ 192 007c 0022     		movs	r2, #0
+ 193              	.LVL17:
+ 194              	.L3:
+  59:Src/ds18b20.c ****   }
+ 195              		.loc 1 59 5 is_stmt 1 view .LVU52
+  59:Src/ds18b20.c ****   }
+ 196              		.loc 1 59 27 is_stmt 0 view .LVU53
+ 197 007e 13F8014B 		ldrb	r4, [r3], #1	@ zero_extendqisi2
+ 198              	.LVL18:
+  59:Src/ds18b20.c ****   }
+ 199              		.loc 1 59 27 view .LVU54
+ 200 0082 6240     		eors	r2, r2, r4
+ 201              	.LVL19:
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 202              		.loc 1 58 9 view .LVU55
+ 203 0084 B342     		cmp	r3, r6
+  59:Src/ds18b20.c ****   }
+ 204              		.loc 1 59 9 view .LVU56
+ 205 0086 825C     		ldrb	r2, [r0, r2]	@ zero_extendqisi2
+ 206              	.LVL20:
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 207              		.loc 1 58 9 view .LVU57
+ 208 0088 F9D1     		bne	.L3
+  61:Src/ds18b20.c **** }
+ 209              		.loc 1 61 3 is_stmt 1 view .LVU58
+ 210              	.LVL21:
+  61:Src/ds18b20.c **** }
+ 211              		.loc 1 61 3 is_stmt 0 view .LVU59
+ 212 008a 1C4F     		ldr	r7, .L12
+ 213 008c 1D4C     		ldr	r4, .L12+8
+ 214              	.LBE30:
+ 215              	.LBE32:
+ 216              	.LBE26:
+ 217              	.LBB33:
+  83:Src/ds18b20.c **** 
+  84:Src/ds18b20.c ****   for (int i=0; i<MAX_1WIRE_BUS; i++) {
+  85:Src/ds18b20.c ****     snprintf(log_buffer, sizeof(log_buffer),
+ 218              		.loc 1 85 5 view .LVU60
+ 219 008e DFF88C90 		ldr	r9, .L12+32
+ 220 0092 DFF88C80 		ldr	r8, .L12+36
+ 221 0096 1F4E     		ldr	r6, .L12+24
+ 222              	.LBE33:
+ 223              	.LBB34:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 7
+
+
+  82:Src/ds18b20.c **** 
+ 224              		.loc 1 82 19 view .LVU61
+ 225 0098 6A70     		strb	r2, [r5, #1]
+ 226              	.LVL22:
+  82:Src/ds18b20.c **** 
+ 227              		.loc 1 82 19 view .LVU62
+ 228              	.LBE34:
+ 229              	.LBB35:
+  84:Src/ds18b20.c ****     snprintf(log_buffer, sizeof(log_buffer),
+ 230              		.loc 1 84 12 view .LVU63
+ 231 009a 4FF0000A 		mov	r10, #0
+ 232              	.LVL23:
+ 233              	.L6:
+ 234              		.loc 1 85 5 is_stmt 1 view .LVU64
+ 235 009e 0029     		cmp	r1, #0
+ 236 00a0 14BF     		ite	ne
+ 237 00a2 CC46     		movne	ip, r9
+ 238 00a4 C446     		moveq	ip, r8
+ 239 00a6 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 240 00a8 A179     		ldrb	r1, [r4, #6]	@ zero_extendqisi2
+ 241 00aa 6279     		ldrb	r2, [r4, #5]	@ zero_extendqisi2
+ 242 00ac 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 243 00ae CDF804C0 		str	ip, [sp, #4]
+ 244 00b2 94F803C0 		ldrb	ip, [r4, #3]	@ zero_extendqisi2
+ 245 00b6 0990     		str	r0, [sp, #36]
+ 246 00b8 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 247 00ba 0891     		str	r1, [sp, #32]
+ 248 00bc 6178     		ldrb	r1, [r4, #1]	@ zero_extendqisi2
+ 249 00be 0792     		str	r2, [sp, #28]
+ 250 00c0 0693     		str	r3, [sp, #24]
+ 251 00c2 14F8083B 		ldrb	r3, [r4], #8	@ zero_extendqisi2
+  86:Src/ds18b20.c **** 	     "bus%d status: 0x%02x, crc: %s, addr: 0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+  87:Src/ds18b20.c **** 	     i, bus_status[i], crc_status[i] ? "bad" : " ok",
+ 252              		.loc 1 87 20 is_stmt 0 view .LVU65
+ 253 00c6 17F8012B 		ldrb	r2, [r7], #1	@ zero_extendqisi2
+  85:Src/ds18b20.c **** 	     "bus%d status: 0x%02x, crc: %s, addr: 0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+ 254              		.loc 1 85 5 view .LVU66
+ 255 00ca 0391     		str	r1, [sp, #12]
+ 256 00cc CDE9040C 		strd	r0, ip, [sp, #16]
+ 257 00d0 0092     		str	r2, [sp]
+ 258 00d2 0293     		str	r3, [sp, #8]
+ 259 00d4 104A     		ldr	r2, .L12+28
+ 260 00d6 5346     		mov	r3, r10
+ 261 00d8 C821     		movs	r1, #200
+ 262 00da 3046     		mov	r0, r6
+ 263 00dc FFF7FEFF 		bl	snprintf
+ 264              	.LVL24:
+  88:Src/ds18b20.c **** 	     romaddr[i][0], romaddr[i][1], romaddr[i][2], romaddr[i][3], 
+  89:Src/ds18b20.c **** 	     romaddr[i][4], romaddr[i][5], romaddr[i][6], romaddr[i][7]);
+  90:Src/ds18b20.c ****     debug_printf(log_buffer);
+ 265              		.loc 1 90 5 is_stmt 1 view .LVU67
+ 266 00e0 3046     		mov	r0, r6
+ 267 00e2 FFF7FEFF 		bl	debug_printf
+ 268              	.LVL25:
+  84:Src/ds18b20.c ****     snprintf(log_buffer, sizeof(log_buffer),
+ 269              		.loc 1 84 3 is_stmt 0 view .LVU68
+ 270 00e6 BAF1000F 		cmp	r10, #0
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 8
+
+
+ 271 00ea 03D1     		bne	.L1
+ 272 00ec 6978     		ldrb	r1, [r5, #1]	@ zero_extendqisi2
+ 273 00ee 4FF0010A 		mov	r10, #1
+ 274              	.LVL26:
+  84:Src/ds18b20.c ****     snprintf(log_buffer, sizeof(log_buffer),
+ 275              		.loc 1 84 3 view .LVU69
+ 276 00f2 D4E7     		b	.L6
+ 277              	.LVL27:
+ 278              	.L1:
+  84:Src/ds18b20.c ****     snprintf(log_buffer, sizeof(log_buffer),
+ 279              		.loc 1 84 3 view .LVU70
+ 280              	.LBE35:
+  91:Src/ds18b20.c ****   }
+  92:Src/ds18b20.c ****  }
+ 281              		.loc 1 92 2 view .LVU71
+ 282 00f4 0AB0     		add	sp, sp, #40
+ 283              	.LCFI2:
+ 284              		.cfi_def_cfa_offset 32
+ 285              		@ sp needed
+ 286 00f6 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 287              	.LVL28:
+ 288              	.L13:
+ 289              		.loc 1 92 2 view .LVU72
+ 290 00fa 00BF     		.align	2
+ 291              	.L12:
+ 292 00fc 00000000 		.word	.LANCHOR1
+ 293 0100 00000000 		.word	.LANCHOR2
+ 294 0104 00000000 		.word	.LANCHOR0
+ 295 0108 08000000 		.word	.LANCHOR0+8
+ 296 010c 00000000 		.word	.LANCHOR3
+ 297 0110 00000000 		.word	.LANCHOR4
+ 298 0114 00000000 		.word	log_buffer
+ 299 0118 08000000 		.word	.LC2
+ 300 011c 00000000 		.word	.LC0
+ 301 0120 04000000 		.word	.LC1
+ 302              		.cfi_endproc
+ 303              	.LFE127:
+ 305              		.global	__aeabi_i2d
+ 306              		.global	__aeabi_dmul
+ 307              		.global	__aeabi_d2f
+ 308              		.global	__aeabi_f2d
+ 309              		.section	.text.process_ds18b20s,"ax",%progbits
+ 310              		.align	1
+ 311              		.p2align 2,,3
+ 312              		.global	process_ds18b20s
+ 313              		.syntax unified
+ 314              		.thumb
+ 315              		.thumb_func
+ 316              		.fpu fpv4-sp-d16
+ 318              	process_ds18b20s:
+ 319              	.LFB128:
+  93:Src/ds18b20.c **** 
+  94:Src/ds18b20.c **** void process_ds18b20s (void) {
+ 320              		.loc 1 94 30 is_stmt 1 view -0
+ 321              		.cfi_startproc
+ 322              		@ args = 0, pretend = 0, frame = 0
+ 323              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 9
+
+
+  95:Src/ds18b20.c **** 
+  96:Src/ds18b20.c ****   static uint32_t last_readout;
+ 324              		.loc 1 96 3 view .LVU74
+  97:Src/ds18b20.c ****   static bool conversion_in_progress;
+ 325              		.loc 1 97 3 view .LVU75
+  98:Src/ds18b20.c **** 
+  99:Src/ds18b20.c ****   //
+ 100:Src/ds18b20.c ****   // Dump out the temp readings every 10 seconds
+ 101:Src/ds18b20.c ****   // It takes nearly a second to do the conversion at 12-bit
+ 102:Src/ds18b20.c ****   // resolution, so we start that 1 second before we're due
+ 103:Src/ds18b20.c ****   // to report.
+ 104:Src/ds18b20.c ****   //
+ 105:Src/ds18b20.c ****   if ((HAL_GetTick() - last_readout > 9000) && !conversion_in_progress) {
+ 326              		.loc 1 105 3 view .LVU76
+  94:Src/ds18b20.c **** 
+ 327              		.loc 1 94 30 is_stmt 0 view .LVU77
+ 328 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 329              	.LCFI3:
+ 330              		.cfi_def_cfa_offset 36
+ 331              		.cfi_offset 4, -36
+ 332              		.cfi_offset 5, -32
+ 333              		.cfi_offset 6, -28
+ 334              		.cfi_offset 7, -24
+ 335              		.cfi_offset 8, -20
+ 336              		.cfi_offset 9, -16
+ 337              		.cfi_offset 10, -12
+ 338              		.cfi_offset 11, -8
+ 339              		.cfi_offset 14, -4
+ 340              		.loc 1 105 22 view .LVU78
+ 341 0004 594F     		ldr	r7, .L24
+  94:Src/ds18b20.c **** 
+ 342              		.loc 1 94 30 view .LVU79
+ 343 0006 85B0     		sub	sp, sp, #20
+ 344              	.LCFI4:
+ 345              		.cfi_def_cfa_offset 56
+ 346              		.loc 1 105 8 view .LVU80
+ 347 0008 FFF7FEFF 		bl	HAL_GetTick
+ 348              	.LVL29:
+ 349              		.loc 1 105 22 view .LVU81
+ 350 000c 3B68     		ldr	r3, [r7]
+ 351              		.loc 1 105 6 view .LVU82
+ 352 000e 42F22832 		movw	r2, #9000
+ 353              		.loc 1 105 22 view .LVU83
+ 354 0012 C01A     		subs	r0, r0, r3
+ 355              		.loc 1 105 6 view .LVU84
+ 356 0014 9042     		cmp	r0, r2
+ 357 0016 1ED9     		bls	.L15
+ 358              		.loc 1 105 48 discriminator 1 view .LVU85
+ 359 0018 554D     		ldr	r5, .L24+4
+ 360              		.loc 1 105 45 discriminator 1 view .LVU86
+ 361 001a 2C78     		ldrb	r4, [r5]	@ zero_extendqisi2
+ 362 001c DCB9     		cbnz	r4, .L15
+ 363              	.LVL30:
+ 364              	.LBB36:
+ 106:Src/ds18b20.c **** 
+ 107:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++)
+ 108:Src/ds18b20.c ****       bus_status[i] = onewire_reset(i);
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 10
+
+
+ 365              		.loc 1 108 7 is_stmt 1 view .LVU87
+ 366              		.loc 1 108 23 is_stmt 0 view .LVU88
+ 367 001e 2046     		mov	r0, r4
+ 368 0020 FFF7FEFF 		bl	onewire_reset
+ 369              	.LVL31:
+ 370              		.loc 1 108 21 view .LVU89
+ 371 0024 534F     		ldr	r7, .L24+8
+ 372              	.LBE36:
+ 109:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 373              		.loc 1 109 16 view .LVU90
+ 374 0026 544E     		ldr	r6, .L24+12
+ 375              	.LBB37:
+ 108:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 376              		.loc 1 108 21 view .LVU91
+ 377 0028 3870     		strb	r0, [r7]
+ 378              	.LVL32:
+ 108:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 379              		.loc 1 108 7 is_stmt 1 view .LVU92
+ 108:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 380              		.loc 1 108 23 is_stmt 0 view .LVU93
+ 381 002a 0120     		movs	r0, #1
+ 382 002c FFF7FEFF 		bl	onewire_reset
+ 383              	.LVL33:
+ 384              	.LBE37:
+ 385              		.loc 1 109 16 view .LVU94
+ 386 0030 44F2CC43 		movw	r3, #17612
+ 387 0034 3380     		strh	r3, [r6]	@ movhi
+ 388              	.LBB38:
+ 108:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 389              		.loc 1 108 21 view .LVU95
+ 390 0036 7870     		strb	r0, [r7, #1]
+ 391              	.LVL34:
+ 108:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_SKIP_ROM;          // Tell all....
+ 392              		.loc 1 108 21 view .LVU96
+ 393              	.LBE38:
+ 394              		.loc 1 109 5 is_stmt 1 view .LVU97
+ 110:Src/ds18b20.c ****     tx_buff[1] = ONE_WIRE_CONVERT_T;         // ... to convert.
+ 395              		.loc 1 110 5 view .LVU98
+ 111:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++)      // both buses
+ 396              		.loc 1 111 5 view .LVU99
+ 397              	.LBB39:
+ 398              		.loc 1 111 10 view .LVU100
+ 112:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 2);
+ 399              		.loc 1 112 7 view .LVU101
+ 400 0038 3146     		mov	r1, r6
+ 401 003a 2046     		mov	r0, r4
+ 402 003c 0222     		movs	r2, #2
+ 403 003e FFF7FEFF 		bl	onewire_tx
+ 404              	.LVL35:
+ 405              		.loc 1 112 7 view .LVU102
+ 406 0042 3146     		mov	r1, r6
+ 407 0044 0222     		movs	r2, #2
+ 408 0046 0120     		movs	r0, #1
+ 409 0048 FFF7FEFF 		bl	onewire_tx
+ 410              	.LVL36:
+ 411              		.loc 1 112 7 is_stmt 0 view .LVU103
+ 412              	.LBE39:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 11
+
+
+ 113:Src/ds18b20.c **** 
+ 114:Src/ds18b20.c ****     conversion_in_progress = true;
+ 413              		.loc 1 114 5 is_stmt 1 view .LVU104
+ 414              		.loc 1 114 28 is_stmt 0 view .LVU105
+ 415 004c 0123     		movs	r3, #1
+ 416 004e 2B70     		strb	r3, [r5]
+ 417              	.LVL37:
+ 418              	.L14:
+ 115:Src/ds18b20.c **** 
+ 116:Src/ds18b20.c ****   } else if (HAL_GetTick() - last_readout > 10000) {
+ 117:Src/ds18b20.c **** 
+ 118:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++)
+ 119:Src/ds18b20.c ****       bus_status[i] = onewire_reset(i);
+ 120:Src/ds18b20.c **** 
+ 121:Src/ds18b20.c ****     tx_buff[0] = ONE_WIRE_MATCH_ROM;            // This example, we select the device
+ 122:Src/ds18b20.c ****     tx_buff[9] = ONE_WIRE_READ_SCRATCH;         // and request the results via the scratchpad
+ 123:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++) {
+ 124:Src/ds18b20.c ****       memcpy(&tx_buff[1], romaddr[i], 8);       // Copy in the ROM address
+ 125:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 126:Src/ds18b20.c ****     }
+ 127:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++)
+ 128:Src/ds18b20.c ****       onewire_rx1(i, rx_buff[i], 9);            // get all 9 bytes of scratch pad - rx1 starts the 
+ 129:Src/ds18b20.c **** 
+ 130:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++) {
+ 131:Src/ds18b20.c ****       onewire_rx2(i, rx_buff[i], 9);            // get all 9 bytes of scratch pad - rx2 fetches the
+ 132:Src/ds18b20.c ****       crc_status[i] = crc8(rx_buff[i], 9);
+ 133:Src/ds18b20.c ****       temp_i[i] = ((int16_t)rx_buff[i][1] << 11 | (int16_t)rx_buff[i][0] << 3);
+ 134:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 135:Src/ds18b20.c ****       snprintf(log_buffer, sizeof(log_buffer),
+ 136:Src/ds18b20.c **** 	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\n", i,
+ 137:Src/ds18b20.c **** 	       bus_status[i], crc_status[i] ? "bad" : " ok", temp_f[i]);
+ 138:Src/ds18b20.c ****       debug_printf(log_buffer);
+ 139:Src/ds18b20.c ****     }
+ 140:Src/ds18b20.c **** 
+ 141:Src/ds18b20.c ****     conversion_in_progress = false;
+ 142:Src/ds18b20.c ****     last_readout = HAL_GetTick();
+ 143:Src/ds18b20.c ****   }
+ 144:Src/ds18b20.c **** }
+ 419              		.loc 1 144 1 view .LVU106
+ 420 0050 05B0     		add	sp, sp, #20
+ 421              	.LCFI5:
+ 422              		.cfi_remember_state
+ 423              		.cfi_def_cfa_offset 36
+ 424              		@ sp needed
+ 425 0052 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 426              	.L15:
+ 427              	.LCFI6:
+ 428              		.cfi_restore_state
+ 116:Src/ds18b20.c **** 
+ 429              		.loc 1 116 10 is_stmt 1 view .LVU107
+ 116:Src/ds18b20.c **** 
+ 430              		.loc 1 116 14 is_stmt 0 view .LVU108
+ 431 0056 FFF7FEFF 		bl	HAL_GetTick
+ 432              	.LVL38:
+ 116:Src/ds18b20.c **** 
+ 433              		.loc 1 116 28 view .LVU109
+ 434 005a 3B68     		ldr	r3, [r7]
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 12
+
+
+ 116:Src/ds18b20.c **** 
+ 435              		.loc 1 116 13 view .LVU110
+ 436 005c 42F21072 		movw	r2, #10000
+ 116:Src/ds18b20.c **** 
+ 437              		.loc 1 116 28 view .LVU111
+ 438 0060 C01A     		subs	r0, r0, r3
+ 116:Src/ds18b20.c **** 
+ 439              		.loc 1 116 13 view .LVU112
+ 440 0062 9042     		cmp	r0, r2
+ 441 0064 F4D9     		bls	.L14
+ 442              	.LVL39:
+ 443              	.LBB40:
+ 119:Src/ds18b20.c **** 
+ 444              		.loc 1 119 7 is_stmt 1 view .LVU113
+ 119:Src/ds18b20.c **** 
+ 445              		.loc 1 119 23 is_stmt 0 view .LVU114
+ 446 0066 0020     		movs	r0, #0
+ 447 0068 FFF7FEFF 		bl	onewire_reset
+ 448              	.LVL40:
+ 119:Src/ds18b20.c **** 
+ 449              		.loc 1 119 21 view .LVU115
+ 450 006c 414D     		ldr	r5, .L24+8
+ 451              	.LBE40:
+ 452              	.LBB41:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 453              		.loc 1 124 7 view .LVU116
+ 454 006e 434C     		ldr	r4, .L24+16
+ 455              	.LBE41:
+ 456              	.LBB42:
+ 119:Src/ds18b20.c **** 
+ 457              		.loc 1 119 21 view .LVU117
+ 458 0070 2870     		strb	r0, [r5]
+ 459              	.LVL41:
+ 119:Src/ds18b20.c **** 
+ 460              		.loc 1 119 7 is_stmt 1 view .LVU118
+ 119:Src/ds18b20.c **** 
+ 461              		.loc 1 119 23 is_stmt 0 view .LVU119
+ 462 0072 0120     		movs	r0, #1
+ 463 0074 FFF7FEFF 		bl	onewire_reset
+ 464              	.LVL42:
+ 119:Src/ds18b20.c **** 
+ 465              		.loc 1 119 21 view .LVU120
+ 466 0078 6870     		strb	r0, [r5, #1]
+ 467              	.LVL43:
+ 119:Src/ds18b20.c **** 
+ 468              		.loc 1 119 21 view .LVU121
+ 469              	.LBE42:
+ 121:Src/ds18b20.c ****     tx_buff[9] = ONE_WIRE_READ_SCRATCH;         // and request the results via the scratchpad
+ 470              		.loc 1 121 5 is_stmt 1 view .LVU122
+ 471              	.LBB43:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 472              		.loc 1 124 7 is_stmt 0 view .LVU123
+ 473 007a 03CC     		ldmia	r4!, {r0, r1}
+ 474              	.LBE43:
+ 121:Src/ds18b20.c ****     tx_buff[9] = ONE_WIRE_READ_SCRATCH;         // and request the results via the scratchpad
+ 475              		.loc 1 121 16 view .LVU124
+ 476 007c 3E4E     		ldr	r6, .L24+12
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 13
+
+
+ 477 007e DFF818B1 		ldr	fp, .L24+44
+ 478              	.LBB44:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 479              		.loc 1 124 7 view .LVU125
+ 480 0082 C6F80100 		str	r0, [r6, #1]	@ unaligned
+ 481              	.LBE44:
+ 121:Src/ds18b20.c ****     tx_buff[9] = ONE_WIRE_READ_SCRATCH;         // and request the results via the scratchpad
+ 482              		.loc 1 121 16 view .LVU126
+ 483 0086 4FF0550C 		mov	ip, #85
+ 122:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++) {
+ 484              		.loc 1 122 16 view .LVU127
+ 485 008a BE23     		movs	r3, #190
+ 486              	.LBB45:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 487              		.loc 1 124 7 view .LVU128
+ 488 008c C6F80510 		str	r1, [r6, #5]	@ unaligned
+ 125:Src/ds18b20.c ****     }
+ 489              		.loc 1 125 7 view .LVU129
+ 490 0090 0A22     		movs	r2, #10
+ 491 0092 3146     		mov	r1, r6
+ 492 0094 0020     		movs	r0, #0
+ 493              	.LBE45:
+ 121:Src/ds18b20.c ****     tx_buff[9] = ONE_WIRE_READ_SCRATCH;         // and request the results via the scratchpad
+ 494              		.loc 1 121 16 view .LVU130
+ 495 0096 86F800C0 		strb	ip, [r6]
+ 122:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++) {
+ 496              		.loc 1 122 5 is_stmt 1 view .LVU131
+ 122:Src/ds18b20.c ****     for (int i=0; i<MAX_1WIRE_BUS; i++) {
+ 497              		.loc 1 122 16 is_stmt 0 view .LVU132
+ 498 009a 7372     		strb	r3, [r6, #9]
+ 123:Src/ds18b20.c ****       memcpy(&tx_buff[1], romaddr[i], 8);       // Copy in the ROM address
+ 499              		.loc 1 123 5 is_stmt 1 view .LVU133
+ 500              	.LBB46:
+ 123:Src/ds18b20.c ****       memcpy(&tx_buff[1], romaddr[i], 8);       // Copy in the ROM address
+ 501              		.loc 1 123 10 view .LVU134
+ 502              	.LVL44:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 503              		.loc 1 124 7 view .LVU135
+ 125:Src/ds18b20.c ****     }
+ 504              		.loc 1 125 7 view .LVU136
+ 505 009c FFF7FEFF 		bl	onewire_tx
+ 506              	.LVL45:
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 507              		.loc 1 124 7 view .LVU137
+ 508 00a0 03CC     		ldmia	r4!, {r0, r1}
+ 125:Src/ds18b20.c ****     }
+ 509              		.loc 1 125 7 is_stmt 0 view .LVU138
+ 510 00a2 0A22     		movs	r2, #10
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 511              		.loc 1 124 7 view .LVU139
+ 512 00a4 C6F80510 		str	r1, [r6, #5]	@ unaligned
+ 125:Src/ds18b20.c ****     }
+ 513              		.loc 1 125 7 is_stmt 1 view .LVU140
+ 124:Src/ds18b20.c ****       onewire_tx(i, tx_buff, 10);               // Tell the device we want the scratchpad
+ 514              		.loc 1 124 7 is_stmt 0 view .LVU141
+ 515 00a8 C6F80100 		str	r0, [r6, #1]	@ unaligned
+ 125:Src/ds18b20.c ****     }
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 14
+
+
+ 516              		.loc 1 125 7 view .LVU142
+ 517 00ac 3146     		mov	r1, r6
+ 518 00ae 0120     		movs	r0, #1
+ 519 00b0 FFF7FEFF 		bl	onewire_tx
+ 520              	.LVL46:
+ 125:Src/ds18b20.c ****     }
+ 521              		.loc 1 125 7 view .LVU143
+ 522              	.LBE46:
+ 523              	.LBB47:
+ 128:Src/ds18b20.c **** 
+ 524              		.loc 1 128 7 is_stmt 1 view .LVU144
+ 525 00b4 3249     		ldr	r1, .L24+20
+ 526 00b6 334E     		ldr	r6, .L24+24
+ 527 00b8 0922     		movs	r2, #9
+ 528 00ba 01EB020A 		add	r10, r1, r2
+ 529 00be 0020     		movs	r0, #0
+ 530 00c0 FFF7FEFF 		bl	onewire_rx1
+ 531              	.LVL47:
+ 128:Src/ds18b20.c **** 
+ 532              		.loc 1 128 7 view .LVU145
+ 533 00c4 0922     		movs	r2, #9
+ 534 00c6 0AF10101 		add	r1, r10, #1
+ 535 00ca 0120     		movs	r0, #1
+ 536 00cc FFF7FEFF 		bl	onewire_rx1
+ 537              	.LVL48:
+ 128:Src/ds18b20.c **** 
+ 538              		.loc 1 128 7 is_stmt 0 view .LVU146
+ 539 00d0 A846     		mov	r8, r5
+ 540              	.LBE47:
+ 541              	.LBB48:
+ 130:Src/ds18b20.c ****       onewire_rx2(i, rx_buff[i], 9);            // get all 9 bytes of scratch pad - rx2 fetches the
+ 542              		.loc 1 130 14 view .LVU147
+ 543 00d2 4FF00009 		mov	r9, #0
+ 544              	.LVL49:
+ 545              	.L19:
+ 131:Src/ds18b20.c ****       crc_status[i] = crc8(rx_buff[i], 9);
+ 546              		.loc 1 131 7 is_stmt 1 view .LVU148
+ 547 00d6 AAF10905 		sub	r5, r10, #9
+ 548 00da 2946     		mov	r1, r5
+ 549 00dc 0922     		movs	r2, #9
+ 550 00de 4846     		mov	r0, r9
+ 551 00e0 FFF7FEFF 		bl	onewire_rx2
+ 552              	.LVL50:
+ 132:Src/ds18b20.c ****       temp_i[i] = ((int16_t)rx_buff[i][1] << 11 | (int16_t)rx_buff[i][0] << 3);
+ 553              		.loc 1 132 7 view .LVU149
+ 554              	.LBB49:
+ 555              	.LBI49:
+  54:Src/ds18b20.c **** {
+ 556              		.loc 1 54 16 view .LVU150
+ 557              	.LBB50:
+  56:Src/ds18b20.c ****   
+ 558              		.loc 1 56 3 view .LVU151
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 559              		.loc 1 58 3 view .LVU152
+  56:Src/ds18b20.c ****   
+ 560              		.loc 1 56 11 is_stmt 0 view .LVU153
+ 561 00e4 0024     		movs	r4, #0
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 15
+
+
+ 562              	.LVL51:
+ 563              	.L17:
+  59:Src/ds18b20.c ****   }
+ 564              		.loc 1 59 5 is_stmt 1 view .LVU154
+  59:Src/ds18b20.c ****   }
+ 565              		.loc 1 59 27 is_stmt 0 view .LVU155
+ 566 00e6 15F8013B 		ldrb	r3, [r5], #1	@ zero_extendqisi2
+ 567              	.LVL52:
+  59:Src/ds18b20.c ****   }
+ 568              		.loc 1 59 27 view .LVU156
+ 569 00ea 5C40     		eors	r4, r4, r3
+ 570              	.LVL53:
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 571              		.loc 1 58 9 view .LVU157
+ 572 00ec 5545     		cmp	r5, r10
+  59:Src/ds18b20.c ****   }
+ 573              		.loc 1 59 9 view .LVU158
+ 574 00ee 345D     		ldrb	r4, [r6, r4]	@ zero_extendqisi2
+ 575              	.LVL54:
+  58:Src/ds18b20.c ****     crc = dscrc_table[crc ^ *addr++];
+ 576              		.loc 1 58 9 view .LVU159
+ 577 00f0 F9D1     		bne	.L17
+  61:Src/ds18b20.c **** }
+ 578              		.loc 1 61 3 is_stmt 1 view .LVU160
+ 579              	.LVL55:
+  61:Src/ds18b20.c **** }
+ 580              		.loc 1 61 3 is_stmt 0 view .LVU161
+ 581              	.LBE50:
+ 582              	.LBE49:
+ 133:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 583              		.loc 1 133 51 view .LVU162
+ 584 00f2 15F8090C 		ldrb	r0, [r5, #-9]	@ zero_extendqisi2
+ 133:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 585              		.loc 1 133 20 view .LVU163
+ 586 00f6 15F8083C 		ldrb	r3, [r5, #-8]	@ zero_extendqisi2
+ 132:Src/ds18b20.c ****       temp_i[i] = ((int16_t)rx_buff[i][1] << 11 | (int16_t)rx_buff[i][0] << 3);
+ 587              		.loc 1 132 21 view .LVU164
+ 588 00fa 0BF8014B 		strb	r4, [fp], #1
+ 133:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 589              		.loc 1 133 7 is_stmt 1 view .LVU165
+ 134:Src/ds18b20.c ****       snprintf(log_buffer, sizeof(log_buffer),
+ 590              		.loc 1 134 7 view .LVU166
+ 133:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 591              		.loc 1 133 74 is_stmt 0 view .LVU167
+ 592 00fe C000     		lsls	r0, r0, #3
+ 133:Src/ds18b20.c ****       temp_f[i] = temp_i[i] * 0.0078125;
+ 593              		.loc 1 133 49 view .LVU168
+ 594 0100 40EAC320 		orr	r0, r0, r3, lsl #11
+ 134:Src/ds18b20.c ****       snprintf(log_buffer, sizeof(log_buffer),
+ 595              		.loc 1 134 29 view .LVU169
+ 596 0104 00B2     		sxth	r0, r0
+ 597 0106 FFF7FEFF 		bl	__aeabi_i2d
+ 598              	.LVL56:
+ 599 010a 0022     		movs	r2, #0
+ 600 010c 4FF07E53 		mov	r3, #1065353216
+ 601 0110 FFF7FEFF 		bl	__aeabi_dmul
+ 602              	.LVL57:
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 16
+
+
+ 603 0114 FFF7FEFF 		bl	__aeabi_d2f
+ 604              	.LVL58:
+ 135:Src/ds18b20.c **** 	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\n", i,
+ 605              		.loc 1 135 7 is_stmt 1 view .LVU170
+ 606 0118 1B4B     		ldr	r3, .L24+28
+ 607 011a 1C4A     		ldr	r2, .L24+32
+ 137:Src/ds18b20.c ****       debug_printf(log_buffer);
+ 608              		.loc 1 137 19 is_stmt 0 view .LVU171
+ 609 011c 18F801AB 		ldrb	r10, [r8], #1	@ zero_extendqisi2
+ 135:Src/ds18b20.c **** 	       "bus%d status: 0x%02x, crc: %s, temp: %.3fC\n", i,
+ 610              		.loc 1 135 7 view .LVU172
+ 611 0120 002C     		cmp	r4, #0
+ 612 0122 08BF     		it	eq
+ 613 0124 1A46     		moveq	r2, r3
+ 614 0126 1446     		mov	r4, r2
+ 615 0128 FFF7FEFF 		bl	__aeabi_f2d
+ 616              	.LVL59:
+ 617 012c CDF800A0 		str	r10, [sp]
+ 618 0130 CDE90201 		strd	r0, [sp, #8]
+ 619 0134 0194     		str	r4, [sp, #4]
+ 620 0136 4B46     		mov	r3, r9
+ 621 0138 154A     		ldr	r2, .L24+36
+ 622 013a 1648     		ldr	r0, .L24+40
+ 623 013c C821     		movs	r1, #200
+ 624 013e FFF7FEFF 		bl	snprintf
+ 625              	.LVL60:
+ 138:Src/ds18b20.c ****     }
+ 626              		.loc 1 138 7 is_stmt 1 view .LVU173
+ 627 0142 1448     		ldr	r0, .L24+40
+ 628 0144 05F10A0A 		add	r10, r5, #10
+ 629 0148 FFF7FEFF 		bl	debug_printf
+ 630              	.LVL61:
+ 130:Src/ds18b20.c ****       onewire_rx2(i, rx_buff[i], 9);            // get all 9 bytes of scratch pad - rx2 fetches the
+ 631              		.loc 1 130 5 is_stmt 0 view .LVU174
+ 632 014c B9F1000F 		cmp	r9, #0
+ 633 0150 08D0     		beq	.L21
+ 634              	.LBE48:
+ 141:Src/ds18b20.c ****     last_readout = HAL_GetTick();
+ 635              		.loc 1 141 5 is_stmt 1 view .LVU175
+ 141:Src/ds18b20.c ****     last_readout = HAL_GetTick();
+ 636              		.loc 1 141 28 is_stmt 0 view .LVU176
+ 637 0152 074B     		ldr	r3, .L24+4
+ 638 0154 0022     		movs	r2, #0
+ 639 0156 1A70     		strb	r2, [r3]
+ 142:Src/ds18b20.c ****   }
+ 640              		.loc 1 142 5 is_stmt 1 view .LVU177
+ 142:Src/ds18b20.c ****   }
+ 641              		.loc 1 142 20 is_stmt 0 view .LVU178
+ 642 0158 FFF7FEFF 		bl	HAL_GetTick
+ 643              	.LVL62:
+ 142:Src/ds18b20.c ****   }
+ 644              		.loc 1 142 18 view .LVU179
+ 645 015c 3860     		str	r0, [r7]
+ 646              		.loc 1 144 1 view .LVU180
+ 647 015e 05B0     		add	sp, sp, #20
+ 648              	.LCFI7:
+ 649              		.cfi_remember_state
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 17
+
+
+ 650              		.cfi_def_cfa_offset 36
+ 651              		@ sp needed
+ 652 0160 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 653              	.LVL63:
+ 654              	.L21:
+ 655              	.LCFI8:
+ 656              		.cfi_restore_state
+ 657              	.LBB51:
+ 658              		.loc 1 144 1 view .LVU181
+ 659 0164 4FF00109 		mov	r9, #1
+ 660              	.LVL64:
+ 661              		.loc 1 144 1 view .LVU182
+ 662 0168 B5E7     		b	.L19
+ 663              	.L25:
+ 664 016a 00BF     		.align	2
+ 665              	.L24:
+ 666 016c 00000000 		.word	.LANCHOR5
+ 667 0170 00000000 		.word	.LANCHOR6
+ 668 0174 00000000 		.word	.LANCHOR1
+ 669 0178 00000000 		.word	.LANCHOR2
+ 670 017c 00000000 		.word	.LANCHOR0
+ 671 0180 00000000 		.word	.LANCHOR7
+ 672 0184 00000000 		.word	.LANCHOR3
+ 673 0188 04000000 		.word	.LC1
+ 674 018c 00000000 		.word	.LC0
+ 675 0190 00000000 		.word	.LC3
+ 676 0194 00000000 		.word	log_buffer
+ 677 0198 00000000 		.word	.LANCHOR4
+ 678              	.LBE51:
+ 679              		.cfi_endproc
+ 680              	.LFE128:
+ 682              		.section	.bss.bus_status,"aw",%nobits
+ 683              		.align	2
+ 684              		.set	.LANCHOR1,. + 0
+ 687              	bus_status:
+ 688 0000 0000     		.space	2
+ 689              		.section	.bss.conversion_in_progress.10708,"aw",%nobits
+ 690              		.set	.LANCHOR6,. + 0
+ 693              	conversion_in_progress.10708:
+ 694 0000 00       		.space	1
+ 695              		.section	.bss.crc_status,"aw",%nobits
+ 696              		.align	2
+ 697              		.set	.LANCHOR4,. + 0
+ 700              	crc_status:
+ 701 0000 0000     		.space	2
+ 702              		.section	.bss.last_readout.10707,"aw",%nobits
+ 703              		.align	2
+ 704              		.set	.LANCHOR5,. + 0
+ 707              	last_readout.10707:
+ 708 0000 00000000 		.space	4
+ 709              		.section	.bss.romaddr,"aw",%nobits
+ 710              		.align	2
+ 711              		.set	.LANCHOR0,. + 0
+ 714              	romaddr:
+ 715 0000 00000000 		.space	16
+ 715      00000000 
+ 715      00000000 
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 18
+
+
+ 715      00000000 
+ 716              		.section	.bss.rx_buff,"aw",%nobits
+ 717              		.align	2
+ 718              		.set	.LANCHOR7,. + 0
+ 721              	rx_buff:
+ 722 0000 00000000 		.space	20
+ 722      00000000 
+ 722      00000000 
+ 722      00000000 
+ 722      00000000 
+ 723              		.section	.bss.tx_buff,"aw",%nobits
+ 724              		.align	2
+ 725              		.set	.LANCHOR2,. + 0
+ 728              	tx_buff:
+ 729 0000 00000000 		.space	10
+ 729      00000000 
+ 729      0000
+ 730              		.section	.rodata.dscrc_table,"a"
+ 731              		.align	2
+ 732              		.set	.LANCHOR3,. + 0
+ 735              	dscrc_table:
+ 736 0000 00       		.byte	0
+ 737 0001 5E       		.byte	94
+ 738 0002 BC       		.byte	-68
+ 739 0003 E2       		.byte	-30
+ 740 0004 61       		.byte	97
+ 741 0005 3F       		.byte	63
+ 742 0006 DD       		.byte	-35
+ 743 0007 83       		.byte	-125
+ 744 0008 C2       		.byte	-62
+ 745 0009 9C       		.byte	-100
+ 746 000a 7E       		.byte	126
+ 747 000b 20       		.byte	32
+ 748 000c A3       		.byte	-93
+ 749 000d FD       		.byte	-3
+ 750 000e 1F       		.byte	31
+ 751 000f 41       		.byte	65
+ 752 0010 9D       		.byte	-99
+ 753 0011 C3       		.byte	-61
+ 754 0012 21       		.byte	33
+ 755 0013 7F       		.byte	127
+ 756 0014 FC       		.byte	-4
+ 757 0015 A2       		.byte	-94
+ 758 0016 40       		.byte	64
+ 759 0017 1E       		.byte	30
+ 760 0018 5F       		.byte	95
+ 761 0019 01       		.byte	1
+ 762 001a E3       		.byte	-29
+ 763 001b BD       		.byte	-67
+ 764 001c 3E       		.byte	62
+ 765 001d 60       		.byte	96
+ 766 001e 82       		.byte	-126
+ 767 001f DC       		.byte	-36
+ 768 0020 23       		.byte	35
+ 769 0021 7D       		.byte	125
+ 770 0022 9F       		.byte	-97
+ 771 0023 C1       		.byte	-63
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 19
+
+
+ 772 0024 42       		.byte	66
+ 773 0025 1C       		.byte	28
+ 774 0026 FE       		.byte	-2
+ 775 0027 A0       		.byte	-96
+ 776 0028 E1       		.byte	-31
+ 777 0029 BF       		.byte	-65
+ 778 002a 5D       		.byte	93
+ 779 002b 03       		.byte	3
+ 780 002c 80       		.byte	-128
+ 781 002d DE       		.byte	-34
+ 782 002e 3C       		.byte	60
+ 783 002f 62       		.byte	98
+ 784 0030 BE       		.byte	-66
+ 785 0031 E0       		.byte	-32
+ 786 0032 02       		.byte	2
+ 787 0033 5C       		.byte	92
+ 788 0034 DF       		.byte	-33
+ 789 0035 81       		.byte	-127
+ 790 0036 63       		.byte	99
+ 791 0037 3D       		.byte	61
+ 792 0038 7C       		.byte	124
+ 793 0039 22       		.byte	34
+ 794 003a C0       		.byte	-64
+ 795 003b 9E       		.byte	-98
+ 796 003c 1D       		.byte	29
+ 797 003d 43       		.byte	67
+ 798 003e A1       		.byte	-95
+ 799 003f FF       		.byte	-1
+ 800 0040 46       		.byte	70
+ 801 0041 18       		.byte	24
+ 802 0042 FA       		.byte	-6
+ 803 0043 A4       		.byte	-92
+ 804 0044 27       		.byte	39
+ 805 0045 79       		.byte	121
+ 806 0046 9B       		.byte	-101
+ 807 0047 C5       		.byte	-59
+ 808 0048 84       		.byte	-124
+ 809 0049 DA       		.byte	-38
+ 810 004a 38       		.byte	56
+ 811 004b 66       		.byte	102
+ 812 004c E5       		.byte	-27
+ 813 004d BB       		.byte	-69
+ 814 004e 59       		.byte	89
+ 815 004f 07       		.byte	7
+ 816 0050 DB       		.byte	-37
+ 817 0051 85       		.byte	-123
+ 818 0052 67       		.byte	103
+ 819 0053 39       		.byte	57
+ 820 0054 BA       		.byte	-70
+ 821 0055 E4       		.byte	-28
+ 822 0056 06       		.byte	6
+ 823 0057 58       		.byte	88
+ 824 0058 19       		.byte	25
+ 825 0059 47       		.byte	71
+ 826 005a A5       		.byte	-91
+ 827 005b FB       		.byte	-5
+ 828 005c 78       		.byte	120
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 20
+
+
+ 829 005d 26       		.byte	38
+ 830 005e C4       		.byte	-60
+ 831 005f 9A       		.byte	-102
+ 832 0060 65       		.byte	101
+ 833 0061 3B       		.byte	59
+ 834 0062 D9       		.byte	-39
+ 835 0063 87       		.byte	-121
+ 836 0064 04       		.byte	4
+ 837 0065 5A       		.byte	90
+ 838 0066 B8       		.byte	-72
+ 839 0067 E6       		.byte	-26
+ 840 0068 A7       		.byte	-89
+ 841 0069 F9       		.byte	-7
+ 842 006a 1B       		.byte	27
+ 843 006b 45       		.byte	69
+ 844 006c C6       		.byte	-58
+ 845 006d 98       		.byte	-104
+ 846 006e 7A       		.byte	122
+ 847 006f 24       		.byte	36
+ 848 0070 F8       		.byte	-8
+ 849 0071 A6       		.byte	-90
+ 850 0072 44       		.byte	68
+ 851 0073 1A       		.byte	26
+ 852 0074 99       		.byte	-103
+ 853 0075 C7       		.byte	-57
+ 854 0076 25       		.byte	37
+ 855 0077 7B       		.byte	123
+ 856 0078 3A       		.byte	58
+ 857 0079 64       		.byte	100
+ 858 007a 86       		.byte	-122
+ 859 007b D8       		.byte	-40
+ 860 007c 5B       		.byte	91
+ 861 007d 05       		.byte	5
+ 862 007e E7       		.byte	-25
+ 863 007f B9       		.byte	-71
+ 864 0080 8C       		.byte	-116
+ 865 0081 D2       		.byte	-46
+ 866 0082 30       		.byte	48
+ 867 0083 6E       		.byte	110
+ 868 0084 ED       		.byte	-19
+ 869 0085 B3       		.byte	-77
+ 870 0086 51       		.byte	81
+ 871 0087 0F       		.byte	15
+ 872 0088 4E       		.byte	78
+ 873 0089 10       		.byte	16
+ 874 008a F2       		.byte	-14
+ 875 008b AC       		.byte	-84
+ 876 008c 2F       		.byte	47
+ 877 008d 71       		.byte	113
+ 878 008e 93       		.byte	-109
+ 879 008f CD       		.byte	-51
+ 880 0090 11       		.byte	17
+ 881 0091 4F       		.byte	79
+ 882 0092 AD       		.byte	-83
+ 883 0093 F3       		.byte	-13
+ 884 0094 70       		.byte	112
+ 885 0095 2E       		.byte	46
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 21
+
+
+ 886 0096 CC       		.byte	-52
+ 887 0097 92       		.byte	-110
+ 888 0098 D3       		.byte	-45
+ 889 0099 8D       		.byte	-115
+ 890 009a 6F       		.byte	111
+ 891 009b 31       		.byte	49
+ 892 009c B2       		.byte	-78
+ 893 009d EC       		.byte	-20
+ 894 009e 0E       		.byte	14
+ 895 009f 50       		.byte	80
+ 896 00a0 AF       		.byte	-81
+ 897 00a1 F1       		.byte	-15
+ 898 00a2 13       		.byte	19
+ 899 00a3 4D       		.byte	77
+ 900 00a4 CE       		.byte	-50
+ 901 00a5 90       		.byte	-112
+ 902 00a6 72       		.byte	114
+ 903 00a7 2C       		.byte	44
+ 904 00a8 6D       		.byte	109
+ 905 00a9 33       		.byte	51
+ 906 00aa D1       		.byte	-47
+ 907 00ab 8F       		.byte	-113
+ 908 00ac 0C       		.byte	12
+ 909 00ad 52       		.byte	82
+ 910 00ae B0       		.byte	-80
+ 911 00af EE       		.byte	-18
+ 912 00b0 32       		.byte	50
+ 913 00b1 6C       		.byte	108
+ 914 00b2 8E       		.byte	-114
+ 915 00b3 D0       		.byte	-48
+ 916 00b4 53       		.byte	83
+ 917 00b5 0D       		.byte	13
+ 918 00b6 EF       		.byte	-17
+ 919 00b7 B1       		.byte	-79
+ 920 00b8 F0       		.byte	-16
+ 921 00b9 AE       		.byte	-82
+ 922 00ba 4C       		.byte	76
+ 923 00bb 12       		.byte	18
+ 924 00bc 91       		.byte	-111
+ 925 00bd CF       		.byte	-49
+ 926 00be 2D       		.byte	45
+ 927 00bf 73       		.byte	115
+ 928 00c0 CA       		.byte	-54
+ 929 00c1 94       		.byte	-108
+ 930 00c2 76       		.byte	118
+ 931 00c3 28       		.byte	40
+ 932 00c4 AB       		.byte	-85
+ 933 00c5 F5       		.byte	-11
+ 934 00c6 17       		.byte	23
+ 935 00c7 49       		.byte	73
+ 936 00c8 08       		.byte	8
+ 937 00c9 56       		.byte	86
+ 938 00ca B4       		.byte	-76
+ 939 00cb EA       		.byte	-22
+ 940 00cc 69       		.byte	105
+ 941 00cd 37       		.byte	55
+ 942 00ce D5       		.byte	-43
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 22
+
+
+ 943 00cf 8B       		.byte	-117
+ 944 00d0 57       		.byte	87
+ 945 00d1 09       		.byte	9
+ 946 00d2 EB       		.byte	-21
+ 947 00d3 B5       		.byte	-75
+ 948 00d4 36       		.byte	54
+ 949 00d5 68       		.byte	104
+ 950 00d6 8A       		.byte	-118
+ 951 00d7 D4       		.byte	-44
+ 952 00d8 95       		.byte	-107
+ 953 00d9 CB       		.byte	-53
+ 954 00da 29       		.byte	41
+ 955 00db 77       		.byte	119
+ 956 00dc F4       		.byte	-12
+ 957 00dd AA       		.byte	-86
+ 958 00de 48       		.byte	72
+ 959 00df 16       		.byte	22
+ 960 00e0 E9       		.byte	-23
+ 961 00e1 B7       		.byte	-73
+ 962 00e2 55       		.byte	85
+ 963 00e3 0B       		.byte	11
+ 964 00e4 88       		.byte	-120
+ 965 00e5 D6       		.byte	-42
+ 966 00e6 34       		.byte	52
+ 967 00e7 6A       		.byte	106
+ 968 00e8 2B       		.byte	43
+ 969 00e9 75       		.byte	117
+ 970 00ea 97       		.byte	-105
+ 971 00eb C9       		.byte	-55
+ 972 00ec 4A       		.byte	74
+ 973 00ed 14       		.byte	20
+ 974 00ee F6       		.byte	-10
+ 975 00ef A8       		.byte	-88
+ 976 00f0 74       		.byte	116
+ 977 00f1 2A       		.byte	42
+ 978 00f2 C8       		.byte	-56
+ 979 00f3 96       		.byte	-106
+ 980 00f4 15       		.byte	21
+ 981 00f5 4B       		.byte	75
+ 982 00f6 A9       		.byte	-87
+ 983 00f7 F7       		.byte	-9
+ 984 00f8 B6       		.byte	-74
+ 985 00f9 E8       		.byte	-24
+ 986 00fa 0A       		.byte	10
+ 987 00fb 54       		.byte	84
+ 988 00fc D7       		.byte	-41
+ 989 00fd 89       		.byte	-119
+ 990 00fe 6B       		.byte	107
+ 991 00ff 35       		.byte	53
+ 992              		.section	.rodata.init_ds18b20s.str1.4,"aMS",%progbits,1
+ 993              		.align	2
+ 994              	.LC0:
+ 995 0000 62616400 		.ascii	"bad\000"
+ 996              	.LC1:
+ 997 0004 206F6B00 		.ascii	" ok\000"
+ 998              	.LC2:
+ 999 0008 62757325 		.ascii	"bus%d status: 0x%02x, crc: %s, addr: 0x%02x%02x%02x"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 23
+
+
+ 999      64207374 
+ 999      61747573 
+ 999      3A203078 
+ 999      25303278 
+ 1000 003b 25303278 		.ascii	"%02x%02x%02x%02x%02x\012\000"
+ 1000      25303278 
+ 1000      25303278 
+ 1000      25303278 
+ 1000      25303278 
+ 1001              		.section	.rodata.process_ds18b20s.str1.4,"aMS",%progbits,1
+ 1002              		.align	2
+ 1003              	.LC3:
+ 1004 0000 62757325 		.ascii	"bus%d status: 0x%02x, crc: %s, temp: %.3fC\012\000"
+ 1004      64207374 
+ 1004      61747573 
+ 1004      3A203078 
+ 1004      25303278 
+ 1005              		.text
+ 1006              	.Letext0:
+ 1007              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/machine/_default_types
+ 1008              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/lock.h"
+ 1009              		.file 4 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_types.h"
+ 1010              		.file 5 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/lib/gcc/arm-none-eabi/8.2.1/include/stddef.h
+ 1011              		.file 6 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/reent.h"
+ 1012              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/sys/_stdint.h"
+ 1013              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/math.h"
+ 1014              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/stdlib.h"
+ 1015              		.file 10 "Drivers/CMSIS/Include/core_cm4.h"
+ 1016              		.file 11 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 1017              		.file 12 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 1018              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 1019              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 1020              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 1021              		.file 16 "Inc/usart.h"
+ 1022              		.file 17 "/usr/local/gcc-arm-none-eabi-8-2018-q4-major/arm-none-eabi/include/stdio.h"
+ 1023              		.file 18 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ARM GAS  /var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s 			page 24
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ds18b20.c
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:18     .text.init_ds18b20s:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:27     .text.init_ds18b20s:0000000000000000 init_ds18b20s
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:292    .text.init_ds18b20s:00000000000000fc $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:310    .text.process_ds18b20s:0000000000000000 $t
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:318    .text.process_ds18b20s:0000000000000000 process_ds18b20s
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:666    .text.process_ds18b20s:000000000000016c $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:683    .bss.bus_status:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:687    .bss.bus_status:0000000000000000 bus_status
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:693    .bss.conversion_in_progress.10708:0000000000000000 conversion_in_progress.10708
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:694    .bss.conversion_in_progress.10708:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:696    .bss.crc_status:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:700    .bss.crc_status:0000000000000000 crc_status
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:703    .bss.last_readout.10707:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:707    .bss.last_readout.10707:0000000000000000 last_readout.10707
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:710    .bss.romaddr:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:714    .bss.romaddr:0000000000000000 romaddr
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:717    .bss.rx_buff:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:721    .bss.rx_buff:0000000000000000 rx_buff
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:724    .bss.tx_buff:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:728    .bss.tx_buff:0000000000000000 tx_buff
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:731    .rodata.dscrc_table:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:735    .rodata.dscrc_table:0000000000000000 dscrc_table
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:993    .rodata.init_ds18b20s.str1.4:0000000000000000 $d
+/var/folders/8c/gyvcglfx7f97kbqb2h83mm_r0000gn/T//ccBYEWH8.s:1002   .rodata.process_ds18b20s.str1.4:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+init_uarts
+onewire_reset
+onewire_tx
+onewire_rx1
+onewire_rx2
+snprintf
+debug_printf
+log_buffer
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2f
+__aeabi_f2d
+HAL_GetTick

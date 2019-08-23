@@ -1,0 +1,225 @@
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f3xx_hal_msp.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.HAL_MspInit,"ax",%progbits
+  18              		.align	1
+  19              		.global	HAL_MspInit
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	HAL_MspInit:
+  27              	.LFB126:
+  28              		.file 1 "Src/stm32f3xx_hal_msp.c"
+   1:Src/stm32f3xx_hal_msp.c **** /**
+   2:Src/stm32f3xx_hal_msp.c ****   ******************************************************************************
+   3:Src/stm32f3xx_hal_msp.c ****   * File Name          : stm32f3xx_hal_msp.c
+   4:Src/stm32f3xx_hal_msp.c ****   * Description        : This file provides code for the MSP Initialization 
+   5:Src/stm32f3xx_hal_msp.c ****   *                      and de-Initialization codes.
+   6:Src/stm32f3xx_hal_msp.c ****   ******************************************************************************
+   7:Src/stm32f3xx_hal_msp.c ****   ** This notice applies to any and all portions of this file
+   8:Src/stm32f3xx_hal_msp.c ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/stm32f3xx_hal_msp.c ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/stm32f3xx_hal_msp.c ****   * inserted by the user or by software development tools
+  11:Src/stm32f3xx_hal_msp.c ****   * are owned by their respective copyright owners.
+  12:Src/stm32f3xx_hal_msp.c ****   *
+  13:Src/stm32f3xx_hal_msp.c ****   * COPYRIGHT(c) 2019 STMicroelectronics
+  14:Src/stm32f3xx_hal_msp.c ****   *
+  15:Src/stm32f3xx_hal_msp.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  16:Src/stm32f3xx_hal_msp.c ****   * are permitted provided that the following conditions are met:
+  17:Src/stm32f3xx_hal_msp.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  18:Src/stm32f3xx_hal_msp.c ****   *      this list of conditions and the following disclaimer.
+  19:Src/stm32f3xx_hal_msp.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  20:Src/stm32f3xx_hal_msp.c ****   *      this list of conditions and the following disclaimer in the documentation
+  21:Src/stm32f3xx_hal_msp.c ****   *      and/or other materials provided with the distribution.
+  22:Src/stm32f3xx_hal_msp.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  23:Src/stm32f3xx_hal_msp.c ****   *      may be used to endorse or promote products derived from this software
+  24:Src/stm32f3xx_hal_msp.c ****   *      without specific prior written permission.
+  25:Src/stm32f3xx_hal_msp.c ****   *
+  26:Src/stm32f3xx_hal_msp.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  27:Src/stm32f3xx_hal_msp.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  28:Src/stm32f3xx_hal_msp.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  29:Src/stm32f3xx_hal_msp.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  30:Src/stm32f3xx_hal_msp.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s 			page 2
+
+
+  31:Src/stm32f3xx_hal_msp.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  32:Src/stm32f3xx_hal_msp.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  33:Src/stm32f3xx_hal_msp.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  34:Src/stm32f3xx_hal_msp.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  35:Src/stm32f3xx_hal_msp.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  36:Src/stm32f3xx_hal_msp.c ****   *
+  37:Src/stm32f3xx_hal_msp.c ****   ******************************************************************************
+  38:Src/stm32f3xx_hal_msp.c ****   */
+  39:Src/stm32f3xx_hal_msp.c **** /* Includes ------------------------------------------------------------------*/
+  40:Src/stm32f3xx_hal_msp.c **** #include "stm32f3xx_hal.h"
+  41:Src/stm32f3xx_hal_msp.c **** 
+  42:Src/stm32f3xx_hal_msp.c **** extern void _Error_Handler(char *, int);
+  43:Src/stm32f3xx_hal_msp.c **** /* USER CODE BEGIN 0 */
+  44:Src/stm32f3xx_hal_msp.c **** 
+  45:Src/stm32f3xx_hal_msp.c **** /* USER CODE END 0 */
+  46:Src/stm32f3xx_hal_msp.c **** /**
+  47:Src/stm32f3xx_hal_msp.c ****   * Initializes the Global MSP.
+  48:Src/stm32f3xx_hal_msp.c ****   */
+  49:Src/stm32f3xx_hal_msp.c **** void HAL_MspInit(void)
+  50:Src/stm32f3xx_hal_msp.c **** {
+  29              		.loc 1 50 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 83B0     		sub	sp, sp, #12
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 16
+  51:Src/stm32f3xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 0 */
+  52:Src/stm32f3xx_hal_msp.c **** 
+  53:Src/stm32f3xx_hal_msp.c ****   /* USER CODE END MspInit 0 */
+  54:Src/stm32f3xx_hal_msp.c **** 
+  55:Src/stm32f3xx_hal_msp.c ****   __HAL_RCC_SYSCFG_CLK_ENABLE();
+  40              		.loc 1 55 3 view .LVU1
+  41              	.LBB2:
+  42              		.loc 1 55 3 view .LVU2
+  43              		.loc 1 55 3 view .LVU3
+  44 0004 1C4B     		ldr	r3, .L3
+  45 0006 9A69     		ldr	r2, [r3, #24]
+  46 0008 42F00102 		orr	r2, r2, #1
+  47 000c 9A61     		str	r2, [r3, #24]
+  48              		.loc 1 55 3 view .LVU4
+  49 000e 9B69     		ldr	r3, [r3, #24]
+  50 0010 03F00103 		and	r3, r3, #1
+  51 0014 0193     		str	r3, [sp, #4]
+  52              		.loc 1 55 3 view .LVU5
+  53 0016 019B     		ldr	r3, [sp, #4]
+  54              	.LBE2:
+  56:Src/stm32f3xx_hal_msp.c **** 
+  57:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  55              		.loc 1 57 3 view .LVU6
+  56 0018 0320     		movs	r0, #3
+  57 001a FFF7FEFF 		bl	HAL_NVIC_SetPriorityGrouping
+  58              	.LVL0:
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s 			page 3
+
+
+  58:Src/stm32f3xx_hal_msp.c **** 
+  59:Src/stm32f3xx_hal_msp.c ****   /* System interrupt init*/
+  60:Src/stm32f3xx_hal_msp.c ****   /* MemoryManagement_IRQn interrupt configuration */
+  61:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+  59              		.loc 1 61 3 view .LVU7
+  60 001e 0022     		movs	r2, #0
+  61 0020 1146     		mov	r1, r2
+  62 0022 6FF00B00 		mvn	r0, #11
+  63 0026 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  64              	.LVL1:
+  62:Src/stm32f3xx_hal_msp.c ****   /* BusFault_IRQn interrupt configuration */
+  63:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+  65              		.loc 1 63 3 view .LVU8
+  66 002a 0022     		movs	r2, #0
+  67 002c 1146     		mov	r1, r2
+  68 002e 6FF00A00 		mvn	r0, #10
+  69 0032 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  70              	.LVL2:
+  64:Src/stm32f3xx_hal_msp.c ****   /* UsageFault_IRQn interrupt configuration */
+  65:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+  71              		.loc 1 65 3 view .LVU9
+  72 0036 0022     		movs	r2, #0
+  73 0038 1146     		mov	r1, r2
+  74 003a 6FF00900 		mvn	r0, #9
+  75 003e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  76              	.LVL3:
+  66:Src/stm32f3xx_hal_msp.c ****   /* SVCall_IRQn interrupt configuration */
+  67:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(SVCall_IRQn, 0, 0);
+  77              		.loc 1 67 3 view .LVU10
+  78 0042 0022     		movs	r2, #0
+  79 0044 1146     		mov	r1, r2
+  80 0046 6FF00400 		mvn	r0, #4
+  81 004a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  82              	.LVL4:
+  68:Src/stm32f3xx_hal_msp.c ****   /* DebugMonitor_IRQn interrupt configuration */
+  69:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(DebugMonitor_IRQn, 0, 0);
+  83              		.loc 1 69 3 view .LVU11
+  84 004e 0022     		movs	r2, #0
+  85 0050 1146     		mov	r1, r2
+  86 0052 6FF00300 		mvn	r0, #3
+  87 0056 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  88              	.LVL5:
+  70:Src/stm32f3xx_hal_msp.c ****   /* PendSV_IRQn interrupt configuration */
+  71:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(PendSV_IRQn, 0, 0);
+  89              		.loc 1 71 3 view .LVU12
+  90 005a 0022     		movs	r2, #0
+  91 005c 1146     		mov	r1, r2
+  92 005e 6FF00100 		mvn	r0, #1
+  93 0062 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  94              	.LVL6:
+  72:Src/stm32f3xx_hal_msp.c ****   /* SysTick_IRQn interrupt configuration */
+  73:Src/stm32f3xx_hal_msp.c ****   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+  95              		.loc 1 73 3 view .LVU13
+  96 0066 0022     		movs	r2, #0
+  97 0068 1146     		mov	r1, r2
+  98 006a 4FF0FF30 		mov	r0, #-1
+  99 006e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s 			page 4
+
+
+ 100              	.LVL7:
+  74:Src/stm32f3xx_hal_msp.c **** 
+  75:Src/stm32f3xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 1 */
+  76:Src/stm32f3xx_hal_msp.c **** 
+  77:Src/stm32f3xx_hal_msp.c ****   /* USER CODE END MspInit 1 */
+  78:Src/stm32f3xx_hal_msp.c **** }
+ 101              		.loc 1 78 1 is_stmt 0 view .LVU14
+ 102 0072 03B0     		add	sp, sp, #12
+ 103              	.LCFI2:
+ 104              		.cfi_def_cfa_offset 4
+ 105              		@ sp needed
+ 106 0074 5DF804FB 		ldr	pc, [sp], #4
+ 107              	.L4:
+ 108              		.align	2
+ 109              	.L3:
+ 110 0078 00100240 		.word	1073876992
+ 111              		.cfi_endproc
+ 112              	.LFE126:
+ 114              		.text
+ 115              	.Letext0:
+ 116              		.file 2 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_
+ 117              		.file 3 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 118              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 119              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 120              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 121              		.file 7 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/std
+ 122              		.file 8 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 123              		.file 9 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 124              		.file 10 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 125              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h"
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f3xx_hal_msp.c
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s:18     .text.HAL_MspInit:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s:26     .text.HAL_MspInit:0000000000000000 HAL_MspInit
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccxfddRy.s:110    .text.HAL_MspInit:0000000000000078 $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_SetPriorityGrouping
+HAL_NVIC_SetPriority

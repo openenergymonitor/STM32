@@ -53,3 +53,4 @@ Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
 *.s#3
 *.s#4
 *.s#5
+*.DS_Store

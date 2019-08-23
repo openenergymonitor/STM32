@@ -1,0 +1,468 @@
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"usbd_dfu_if.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MEM_If_Init_FS,"ax",%progbits
+  18              		.align	1
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	MEM_If_Init_FS:
+  26              	.LFB126:
+  27              		.file 1 "Src/usbd_dfu_if.c"
+   1:Src/usbd_dfu_if.c **** /* USER CODE BEGIN Header */
+   2:Src/usbd_dfu_if.c **** /**
+   3:Src/usbd_dfu_if.c ****   ******************************************************************************
+   4:Src/usbd_dfu_if.c ****   * @file           : usbd_dfu_if.c
+   5:Src/usbd_dfu_if.c ****   * @brief          : Usb device for Download Firmware Update.
+   6:Src/usbd_dfu_if.c ****   ******************************************************************************
+   7:Src/usbd_dfu_if.c ****   * @attention
+   8:Src/usbd_dfu_if.c ****   *
+   9:Src/usbd_dfu_if.c ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  10:Src/usbd_dfu_if.c ****   * All rights reserved.</center></h2>
+  11:Src/usbd_dfu_if.c ****   *
+  12:Src/usbd_dfu_if.c ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/usbd_dfu_if.c ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/usbd_dfu_if.c ****   * the License. You may obtain a copy of the License at:
+  15:Src/usbd_dfu_if.c ****   *                             www.st.com/SLA0044
+  16:Src/usbd_dfu_if.c ****   *
+  17:Src/usbd_dfu_if.c ****   ******************************************************************************
+  18:Src/usbd_dfu_if.c ****   */
+  19:Src/usbd_dfu_if.c **** /* USER CODE END Header */
+  20:Src/usbd_dfu_if.c **** 
+  21:Src/usbd_dfu_if.c **** /* Includes ------------------------------------------------------------------*/
+  22:Src/usbd_dfu_if.c **** #include "usbd_dfu_if.h"
+  23:Src/usbd_dfu_if.c **** 
+  24:Src/usbd_dfu_if.c **** /* USER CODE BEGIN INCLUDE */
+  25:Src/usbd_dfu_if.c **** 
+  26:Src/usbd_dfu_if.c **** /* USER CODE END INCLUDE */
+  27:Src/usbd_dfu_if.c **** 
+  28:Src/usbd_dfu_if.c **** /* Private typedef -----------------------------------------------------------*/
+  29:Src/usbd_dfu_if.c **** /* Private define ------------------------------------------------------------*/
+  30:Src/usbd_dfu_if.c **** /* Private macro -------------------------------------------------------------*/
+  31:Src/usbd_dfu_if.c **** 
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 2
+
+
+  32:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PV */
+  33:Src/usbd_dfu_if.c **** /* Private variables ---------------------------------------------------------*/
+  34:Src/usbd_dfu_if.c **** 
+  35:Src/usbd_dfu_if.c **** /* USER CODE END PV */
+  36:Src/usbd_dfu_if.c **** 
+  37:Src/usbd_dfu_if.c **** /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
+  38:Src/usbd_dfu_if.c ****   * @brief Usb device.
+  39:Src/usbd_dfu_if.c ****   * @{
+  40:Src/usbd_dfu_if.c ****   */
+  41:Src/usbd_dfu_if.c **** 
+  42:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU
+  43:Src/usbd_dfu_if.c ****   * @brief Usb DFU device module.
+  44:Src/usbd_dfu_if.c ****   * @{
+  45:Src/usbd_dfu_if.c ****   */
+  46:Src/usbd_dfu_if.c **** 
+  47:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_TypesDefinitions
+  48:Src/usbd_dfu_if.c ****   * @brief Private types.
+  49:Src/usbd_dfu_if.c ****   * @{
+  50:Src/usbd_dfu_if.c ****   */
+  51:Src/usbd_dfu_if.c **** 
+  52:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PRIVATE_TYPES */
+  53:Src/usbd_dfu_if.c **** 
+  54:Src/usbd_dfu_if.c **** /* USER CODE END PRIVATE_TYPES */
+  55:Src/usbd_dfu_if.c **** 
+  56:Src/usbd_dfu_if.c **** /**
+  57:Src/usbd_dfu_if.c ****   * @}
+  58:Src/usbd_dfu_if.c ****   */
+  59:Src/usbd_dfu_if.c **** 
+  60:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_Defines
+  61:Src/usbd_dfu_if.c ****   * @brief Private defines.
+  62:Src/usbd_dfu_if.c ****   * @{
+  63:Src/usbd_dfu_if.c ****   */
+  64:Src/usbd_dfu_if.c **** 
+  65:Src/usbd_dfu_if.c **** #define FLASH_DESC_STR      "@Internal Flash   /0x08000000/03*016Ka,01*016Kg,01*064Kg,07*128Kg,04*0
+  66:Src/usbd_dfu_if.c **** 
+  67:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PRIVATE_DEFINES */
+  68:Src/usbd_dfu_if.c **** 
+  69:Src/usbd_dfu_if.c **** /* USER CODE END PRIVATE_DEFINES */
+  70:Src/usbd_dfu_if.c **** 
+  71:Src/usbd_dfu_if.c **** /**
+  72:Src/usbd_dfu_if.c ****   * @}
+  73:Src/usbd_dfu_if.c ****   */
+  74:Src/usbd_dfu_if.c **** 
+  75:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_Macros
+  76:Src/usbd_dfu_if.c ****   * @brief Private macros.
+  77:Src/usbd_dfu_if.c ****   * @{
+  78:Src/usbd_dfu_if.c ****   */
+  79:Src/usbd_dfu_if.c **** 
+  80:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PRIVATE_MACRO */
+  81:Src/usbd_dfu_if.c **** 
+  82:Src/usbd_dfu_if.c **** /* USER CODE END PRIVATE_MACRO */
+  83:Src/usbd_dfu_if.c **** 
+  84:Src/usbd_dfu_if.c **** /**
+  85:Src/usbd_dfu_if.c ****   * @}
+  86:Src/usbd_dfu_if.c ****   */
+  87:Src/usbd_dfu_if.c **** 
+  88:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_Variables
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 3
+
+
+  89:Src/usbd_dfu_if.c ****   * @brief Private variables.
+  90:Src/usbd_dfu_if.c ****   * @{
+  91:Src/usbd_dfu_if.c ****   */
+  92:Src/usbd_dfu_if.c **** 
+  93:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PRIVATE_VARIABLES */
+  94:Src/usbd_dfu_if.c **** 
+  95:Src/usbd_dfu_if.c **** /* USER CODE END PRIVATE_VARIABLES */
+  96:Src/usbd_dfu_if.c **** 
+  97:Src/usbd_dfu_if.c **** /**
+  98:Src/usbd_dfu_if.c ****   * @}
+  99:Src/usbd_dfu_if.c ****   */
+ 100:Src/usbd_dfu_if.c **** 
+ 101:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Exported_Variables
+ 102:Src/usbd_dfu_if.c ****   * @brief Public variables.
+ 103:Src/usbd_dfu_if.c ****   * @{
+ 104:Src/usbd_dfu_if.c ****   */
+ 105:Src/usbd_dfu_if.c **** 
+ 106:Src/usbd_dfu_if.c **** extern USBD_HandleTypeDef hUsbDeviceFS;
+ 107:Src/usbd_dfu_if.c **** 
+ 108:Src/usbd_dfu_if.c **** /* USER CODE BEGIN EXPORTED_VARIABLES */
+ 109:Src/usbd_dfu_if.c **** 
+ 110:Src/usbd_dfu_if.c **** /* USER CODE END EXPORTED_VARIABLES */
+ 111:Src/usbd_dfu_if.c **** 
+ 112:Src/usbd_dfu_if.c **** /**
+ 113:Src/usbd_dfu_if.c ****   * @}
+ 114:Src/usbd_dfu_if.c ****   */
+ 115:Src/usbd_dfu_if.c **** 
+ 116:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_FunctionPrototypes
+ 117:Src/usbd_dfu_if.c ****   * @brief Private functions declaration.
+ 118:Src/usbd_dfu_if.c ****   * @{
+ 119:Src/usbd_dfu_if.c ****   */
+ 120:Src/usbd_dfu_if.c **** 
+ 121:Src/usbd_dfu_if.c **** static uint16_t MEM_If_Init_FS(void);
+ 122:Src/usbd_dfu_if.c **** static uint16_t MEM_If_Erase_FS(uint32_t Add);
+ 123:Src/usbd_dfu_if.c **** static uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len);
+ 124:Src/usbd_dfu_if.c **** static uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len);
+ 125:Src/usbd_dfu_if.c **** static uint16_t MEM_If_DeInit_FS(void);
+ 126:Src/usbd_dfu_if.c **** static uint16_t MEM_If_GetStatus_FS(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
+ 127:Src/usbd_dfu_if.c **** 
+ 128:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PRIVATE_FUNCTIONS_DECLARATION */
+ 129:Src/usbd_dfu_if.c **** 
+ 130:Src/usbd_dfu_if.c **** /* USER CODE END PRIVATE_FUNCTIONS_DECLARATION */
+ 131:Src/usbd_dfu_if.c **** 
+ 132:Src/usbd_dfu_if.c **** /**
+ 133:Src/usbd_dfu_if.c ****   * @}
+ 134:Src/usbd_dfu_if.c ****   */
+ 135:Src/usbd_dfu_if.c **** 
+ 136:Src/usbd_dfu_if.c **** #if defined ( __ICCARM__ ) /* IAR Compiler */
+ 137:Src/usbd_dfu_if.c ****   #pragma data_alignment=4
+ 138:Src/usbd_dfu_if.c **** #endif
+ 139:Src/usbd_dfu_if.c **** __ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_FS __ALIGN_END =
+ 140:Src/usbd_dfu_if.c **** {
+ 141:Src/usbd_dfu_if.c ****    (uint8_t*)FLASH_DESC_STR,
+ 142:Src/usbd_dfu_if.c ****     MEM_If_Init_FS,
+ 143:Src/usbd_dfu_if.c ****     MEM_If_DeInit_FS,
+ 144:Src/usbd_dfu_if.c ****     MEM_If_Erase_FS,
+ 145:Src/usbd_dfu_if.c ****     MEM_If_Write_FS,
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 4
+
+
+ 146:Src/usbd_dfu_if.c ****     MEM_If_Read_FS,
+ 147:Src/usbd_dfu_if.c ****     MEM_If_GetStatus_FS
+ 148:Src/usbd_dfu_if.c **** };
+ 149:Src/usbd_dfu_if.c **** 
+ 150:Src/usbd_dfu_if.c **** /* Private functions ---------------------------------------------------------*/
+ 151:Src/usbd_dfu_if.c **** /**
+ 152:Src/usbd_dfu_if.c ****   * @brief  Memory initialization routine.
+ 153:Src/usbd_dfu_if.c ****   * @retval USBD_OK if operation is successful, MAL_FAIL else.
+ 154:Src/usbd_dfu_if.c ****   */
+ 155:Src/usbd_dfu_if.c **** uint16_t MEM_If_Init_FS(void)
+ 156:Src/usbd_dfu_if.c **** {
+  28              		.loc 1 156 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 157:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 0 */
+ 158:Src/usbd_dfu_if.c ****   return (USBD_OK);
+  33              		.loc 1 158 3 view .LVU1
+ 159:Src/usbd_dfu_if.c ****   /* USER CODE END 0 */
+ 160:Src/usbd_dfu_if.c **** }
+  34              		.loc 1 160 1 is_stmt 0 view .LVU2
+  35 0000 0020     		movs	r0, #0
+  36 0002 7047     		bx	lr
+  37              		.cfi_endproc
+  38              	.LFE126:
+  40              		.section	.text.MEM_If_DeInit_FS,"ax",%progbits
+  41              		.align	1
+  42              		.syntax unified
+  43              		.thumb
+  44              		.thumb_func
+  45              		.fpu fpv4-sp-d16
+  47              	MEM_If_DeInit_FS:
+  48              	.LFB127:
+ 161:Src/usbd_dfu_if.c **** 
+ 162:Src/usbd_dfu_if.c **** /**
+ 163:Src/usbd_dfu_if.c ****   * @brief  De-Initializes Memory
+ 164:Src/usbd_dfu_if.c ****   * @retval USBD_OK if operation is successful, MAL_FAIL else
+ 165:Src/usbd_dfu_if.c ****   */
+ 166:Src/usbd_dfu_if.c **** uint16_t MEM_If_DeInit_FS(void)
+ 167:Src/usbd_dfu_if.c **** {
+  49              		.loc 1 167 1 is_stmt 1 view -0
+  50              		.cfi_startproc
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+ 168:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 1 */
+ 169:Src/usbd_dfu_if.c ****   return (USBD_OK);
+  54              		.loc 1 169 3 view .LVU4
+ 170:Src/usbd_dfu_if.c ****   /* USER CODE END 1 */
+ 171:Src/usbd_dfu_if.c **** }
+  55              		.loc 1 171 1 is_stmt 0 view .LVU5
+  56 0000 0020     		movs	r0, #0
+  57 0002 7047     		bx	lr
+  58              		.cfi_endproc
+  59              	.LFE127:
+  61              		.section	.text.MEM_If_Erase_FS,"ax",%progbits
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 5
+
+
+  62              		.align	1
+  63              		.syntax unified
+  64              		.thumb
+  65              		.thumb_func
+  66              		.fpu fpv4-sp-d16
+  68              	MEM_If_Erase_FS:
+  69              	.LVL0:
+  70              	.LFB128:
+ 172:Src/usbd_dfu_if.c **** 
+ 173:Src/usbd_dfu_if.c **** /**
+ 174:Src/usbd_dfu_if.c ****   * @brief  Erase sector.
+ 175:Src/usbd_dfu_if.c ****   * @param  Add: Address of sector to be erased.
+ 176:Src/usbd_dfu_if.c ****   * @retval 0 if operation is successful, MAL_FAIL else.
+ 177:Src/usbd_dfu_if.c ****   */
+ 178:Src/usbd_dfu_if.c **** uint16_t MEM_If_Erase_FS(uint32_t Add)
+ 179:Src/usbd_dfu_if.c **** {
+  71              		.loc 1 179 1 is_stmt 1 view -0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+ 180:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 2 */
+ 181:Src/usbd_dfu_if.c **** 
+ 182:Src/usbd_dfu_if.c ****   return (USBD_OK);
+  76              		.loc 1 182 3 view .LVU7
+ 183:Src/usbd_dfu_if.c ****   /* USER CODE END 2 */
+ 184:Src/usbd_dfu_if.c **** }
+  77              		.loc 1 184 1 is_stmt 0 view .LVU8
+  78 0000 0020     		movs	r0, #0
+  79              	.LVL1:
+  80              		.loc 1 184 1 view .LVU9
+  81 0002 7047     		bx	lr
+  82              		.cfi_endproc
+  83              	.LFE128:
+  85              		.section	.text.MEM_If_Write_FS,"ax",%progbits
+  86              		.align	1
+  87              		.syntax unified
+  88              		.thumb
+  89              		.thumb_func
+  90              		.fpu fpv4-sp-d16
+  92              	MEM_If_Write_FS:
+  93              	.LVL2:
+  94              	.LFB129:
+ 185:Src/usbd_dfu_if.c **** 
+ 186:Src/usbd_dfu_if.c **** /**
+ 187:Src/usbd_dfu_if.c ****   * @brief  Memory write routine.
+ 188:Src/usbd_dfu_if.c ****   * @param  src: Pointer to the source buffer. Address to be written to.
+ 189:Src/usbd_dfu_if.c ****   * @param  dest: Pointer to the destination buffer.
+ 190:Src/usbd_dfu_if.c ****   * @param  Len: Number of data to be written (in bytes).
+ 191:Src/usbd_dfu_if.c ****   * @retval USBD_OK if operation is successful, MAL_FAIL else.
+ 192:Src/usbd_dfu_if.c ****   */
+ 193:Src/usbd_dfu_if.c **** uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
+ 194:Src/usbd_dfu_if.c **** {
+  95              		.loc 1 194 1 is_stmt 1 view -0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 6
+
+
+  99              		@ link register save eliminated.
+ 195:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 3 */
+ 196:Src/usbd_dfu_if.c ****   return (USBD_OK);
+ 100              		.loc 1 196 3 view .LVU11
+ 197:Src/usbd_dfu_if.c ****   /* USER CODE END 3 */
+ 198:Src/usbd_dfu_if.c **** }
+ 101              		.loc 1 198 1 is_stmt 0 view .LVU12
+ 102 0000 0020     		movs	r0, #0
+ 103              	.LVL3:
+ 104              		.loc 1 198 1 view .LVU13
+ 105 0002 7047     		bx	lr
+ 106              		.cfi_endproc
+ 107              	.LFE129:
+ 109              		.section	.text.MEM_If_Read_FS,"ax",%progbits
+ 110              		.align	1
+ 111              		.syntax unified
+ 112              		.thumb
+ 113              		.thumb_func
+ 114              		.fpu fpv4-sp-d16
+ 116              	MEM_If_Read_FS:
+ 117              	.LVL4:
+ 118              	.LFB130:
+ 199:Src/usbd_dfu_if.c **** 
+ 200:Src/usbd_dfu_if.c **** /**
+ 201:Src/usbd_dfu_if.c ****   * @brief  Memory read routine.
+ 202:Src/usbd_dfu_if.c ****   * @param  src: Pointer to the source buffer. Address to be written to.
+ 203:Src/usbd_dfu_if.c ****   * @param  dest: Pointer to the destination buffer.
+ 204:Src/usbd_dfu_if.c ****   * @param  Len: Number of data to be read (in bytes).
+ 205:Src/usbd_dfu_if.c ****   * @retval Pointer to the physical address where data should be read.
+ 206:Src/usbd_dfu_if.c ****   */
+ 207:Src/usbd_dfu_if.c **** uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
+ 208:Src/usbd_dfu_if.c **** {
+ 119              		.loc 1 208 1 is_stmt 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+ 209:Src/usbd_dfu_if.c ****   /* Return a valid address to avoid HardFault */
+ 210:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 4 */
+ 211:Src/usbd_dfu_if.c ****   return (uint8_t*)(USBD_OK);
+ 124              		.loc 1 211 3 view .LVU15
+ 212:Src/usbd_dfu_if.c ****   /* USER CODE END 4 */
+ 213:Src/usbd_dfu_if.c **** }
+ 125              		.loc 1 213 1 is_stmt 0 view .LVU16
+ 126 0000 0020     		movs	r0, #0
+ 127              	.LVL5:
+ 128              		.loc 1 213 1 view .LVU17
+ 129 0002 7047     		bx	lr
+ 130              		.cfi_endproc
+ 131              	.LFE130:
+ 133              		.section	.text.MEM_If_GetStatus_FS,"ax",%progbits
+ 134              		.align	1
+ 135              		.syntax unified
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.fpu fpv4-sp-d16
+ 140              	MEM_If_GetStatus_FS:
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 7
+
+
+ 141              	.LVL6:
+ 142              	.LFB131:
+ 214:Src/usbd_dfu_if.c **** 
+ 215:Src/usbd_dfu_if.c **** /**
+ 216:Src/usbd_dfu_if.c ****   * @brief  Get status routine
+ 217:Src/usbd_dfu_if.c ****   * @param  Add: Address to be read from
+ 218:Src/usbd_dfu_if.c ****   * @param  Cmd: Number of data to be read (in bytes)
+ 219:Src/usbd_dfu_if.c ****   * @param  buffer: used for returning the time necessary for a program or an erase operation
+ 220:Src/usbd_dfu_if.c ****   * @retval USBD_OK if operation is successful
+ 221:Src/usbd_dfu_if.c ****   */
+ 222:Src/usbd_dfu_if.c **** uint16_t MEM_If_GetStatus_FS(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
+ 223:Src/usbd_dfu_if.c **** {
+ 143              		.loc 1 223 1 is_stmt 1 view -0
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 224:Src/usbd_dfu_if.c ****   /* USER CODE BEGIN 5 */
+ 225:Src/usbd_dfu_if.c ****   switch (Cmd)
+ 148              		.loc 1 225 3 view .LVU19
+ 226:Src/usbd_dfu_if.c ****   {
+ 227:Src/usbd_dfu_if.c ****     case DFU_MEDIA_PROGRAM:
+ 228:Src/usbd_dfu_if.c **** 
+ 229:Src/usbd_dfu_if.c ****     break;
+ 230:Src/usbd_dfu_if.c **** 
+ 231:Src/usbd_dfu_if.c ****     case DFU_MEDIA_ERASE:
+ 232:Src/usbd_dfu_if.c ****     default:
+ 233:Src/usbd_dfu_if.c **** 
+ 234:Src/usbd_dfu_if.c ****     break;
+ 235:Src/usbd_dfu_if.c ****   }
+ 236:Src/usbd_dfu_if.c ****   return (USBD_OK);
+ 149              		.loc 1 236 3 view .LVU20
+ 237:Src/usbd_dfu_if.c ****   /* USER CODE END 5 */
+ 238:Src/usbd_dfu_if.c **** }
+ 150              		.loc 1 238 1 is_stmt 0 view .LVU21
+ 151 0000 0020     		movs	r0, #0
+ 152              	.LVL7:
+ 153              		.loc 1 238 1 view .LVU22
+ 154 0002 7047     		bx	lr
+ 155              		.cfi_endproc
+ 156              	.LFE131:
+ 158              		.global	USBD_DFU_fops_FS
+ 159              		.section	.data.USBD_DFU_fops_FS,"aw"
+ 160              		.align	2
+ 163              	USBD_DFU_fops_FS:
+ 164 0000 00000000 		.word	.LC0
+ 165 0004 00000000 		.word	MEM_If_Init_FS
+ 166 0008 00000000 		.word	MEM_If_DeInit_FS
+ 167 000c 00000000 		.word	MEM_If_Erase_FS
+ 168 0010 00000000 		.word	MEM_If_Write_FS
+ 169 0014 00000000 		.word	MEM_If_Read_FS
+ 170 0018 00000000 		.word	MEM_If_GetStatus_FS
+ 171              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 172              		.align	2
+ 173              	.LC0:
+ 174 0000 40496E74 		.ascii	"@Internal Flash   /0x08000000/03*016Ka,01*016Kg,01*"
+ 174      65726E61 
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 8
+
+
+ 174      6C20466C 
+ 174      61736820 
+ 174      20202F30 
+ 175 0033 3036344B 		.ascii	"064Kg,07*128Kg,04*016Kg,01*064Kg,07*128Kg\000"
+ 175      672C3037 
+ 175      2A313238 
+ 175      4B672C30 
+ 175      342A3031 
+ 176              		.text
+ 177              	.Letext0:
+ 178              		.file 2 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_
+ 179              		.file 3 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/std
+ 180              		.file 4 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 181              		.file 5 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 182              		.file 6 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 183              		.file 7 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 184              		.file 8 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/stdlib.h"
+ 185              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
+ 186              		.file 10 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 187              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 188              		.file 12 "Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h"
+ 189              		.file 13 "Middlewares/ST/STM32_USB_Device_Library/Class/DFU/Inc/usbd_dfu.h"
+ 190              		.file 14 "Inc/usbd_dfu_if.h"
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 usbd_dfu_if.c
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:18     .text.MEM_If_Init_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:25     .text.MEM_If_Init_FS:0000000000000000 MEM_If_Init_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:41     .text.MEM_If_DeInit_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:47     .text.MEM_If_DeInit_FS:0000000000000000 MEM_If_DeInit_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:62     .text.MEM_If_Erase_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:68     .text.MEM_If_Erase_FS:0000000000000000 MEM_If_Erase_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:86     .text.MEM_If_Write_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:92     .text.MEM_If_Write_FS:0000000000000000 MEM_If_Write_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:110    .text.MEM_If_Read_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:116    .text.MEM_If_Read_FS:0000000000000000 MEM_If_Read_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:134    .text.MEM_If_GetStatus_FS:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:140    .text.MEM_If_GetStatus_FS:0000000000000000 MEM_If_GetStatus_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:163    .data.USBD_DFU_fops_FS:0000000000000000 USBD_DFU_fops_FS
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:160    .data.USBD_DFU_fops_FS:0000000000000000 $d
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccFeLNP9.s:172    .rodata.str1.4:0000000000000000 $d
+
+NO UNDEFINED SYMBOLS
