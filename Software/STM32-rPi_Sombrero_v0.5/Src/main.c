@@ -106,7 +106,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t echo;
+  uint8_t echo[50];
+  
   unsigned long previousMillis = 0;
   const long interval = 1000;
   // Set the ESP SPI3 CS pin to high, to disable possible interaction with ESP. 
@@ -117,17 +118,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    //HAL_UART_Receive(&huart3, &echo, 1, 100);
+    HAL_UART_Receive(&huart1, &echo, 50, 1000);
+    HAL_UART_Transmit(&huart2, &echo, 50, 1000);
+    //sprintf(log_buffer, echo);
     //debug_printf(echo);
     
     unsigned long currentMillis = HAL_GetTick();
     if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
+    char snum[5];
+    
+    /*
+    sprintf(log_buffer, itoa(currentMillis, snum, 10));
+    debug_printf(log_buffer);
+    sprintf(log_buffer,"\r\n");
+    debug_printf(log_buffer);
+    */
+   /*
     // SPI3
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_10);
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_12);
+    */
 
     // LEDs
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
@@ -136,8 +149,8 @@ int main(void)
 
 
 
-    sprintf(log_buffer,"Hello World\r\n");
-    debug_printf(log_buffer);
+    //sprintf(log_buffer,"Hello World\r\n");
+    //debug_printf(log_buffer);
     }
     
     /* USER CODE END WHILE */

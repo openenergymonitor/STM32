@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
   27:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 2
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 2
 
 
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
   84:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****         (++) HAL_SPIEx_FlushRxFifo()
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c **** 
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c **** @endverbatim
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 3
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 3
 
 
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****   * @{
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
   66              		.loc 1 102 10 view .LVU14
   67 001c DBB2     		uxtb	r3, r3
   68              	.LVL3:
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 4
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 4
 
 
  103:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c ****     tmpreg = hspi->Instance->DR;
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
  112              		.text
  113              	.Letext0:
  114              		.file 2 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 5
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 5
 
 
  115              		.file 3 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
@@ -253,12 +253,12 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 1
  124              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
  125              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi.h"
  126              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s 			page 6
+ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_spi_ex.c
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s:18     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cccE0OXC.s:26     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 HAL_SPIEx_FlushRxFifo
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s:18     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 $t
+/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//ccgvQnBp.s:26     .text.HAL_SPIEx_FlushRxFifo:0000000000000000 HAL_SPIEx_FlushRxFifo
 
 NO UNDEFINED SYMBOLS

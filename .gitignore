@@ -54,3 +54,6 @@ Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
 *.s#4
 *.s#5
 *.DS_Store
+*.b#6
+Software/STM32-rPi_Sombrero_v0.5/build/*
+*.code-workspace
