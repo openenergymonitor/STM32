@@ -1,0 +1,1570 @@
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"stm32f1xx_hal.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.HAL_MspInit,"ax",%progbits
+  16              		.align	1
+  17              		.weak	HAL_MspInit
+  18              		.arch armv7-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu softvfp
+  24              	HAL_MspInit:
+  25              	.LFB68:
+  26              		.file 1 "Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c"
+   1:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+   2:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   ******************************************************************************
+   3:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @file    stm32f1xx_hal.c
+   4:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @author  MCD Application Team
+   5:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief   HAL module driver.
+   6:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *          This is the common part of the HAL initialization
+   7:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+   8:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   @verbatim
+   9:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   ==============================================================================
+  10:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****                      ##### How to use this driver #####
+  11:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   ==============================================================================
+  12:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     [..]
+  13:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     The common HAL driver contains a set of generic and common APIs that can be
+  14:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     used by the PPP peripheral drivers and the user to start using the HAL.
+  15:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     [..]
+  16:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     The HAL contains two APIs' categories:
+  17:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****          (+) Common HAL APIs
+  18:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****          (+) Services HAL APIs
+  19:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  20:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   @endverbatim
+  21:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   ******************************************************************************
+  22:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @attention
+  23:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+  24:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  25:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+  26:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  27:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * are permitted provided that the following conditions are met:
+  28:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  29:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      this list of conditions and the following disclaimer.
+  30:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  31:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      this list of conditions and the following disclaimer in the documentation
+  32:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      and/or other materials provided with the distribution.
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 2
+
+
+  33:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  34:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      may be used to endorse or promote products derived from this software
+  35:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      without specific prior written permission.
+  36:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+  37:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  38:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  39:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  40:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  41:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  42:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  43:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  44:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  45:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  46:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  47:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+  48:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   ******************************************************************************
+  49:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  50:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  51:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Includes ------------------------------------------------------------------*/
+  52:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #include "stm32f1xx_hal.h"
+  53:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  54:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @addtogroup STM32F1xx_HAL_Driver
+  55:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+  56:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  57:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  58:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL HAL
+  59:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief HAL module driver.
+  60:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+  61:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  62:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  63:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #ifdef HAL_MODULE_ENABLED
+  64:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  65:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Private typedef -----------------------------------------------------------*/
+  66:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Private define ------------------------------------------------------------*/
+  67:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  68:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL_Private_Constants HAL Private Constants
+  69:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+  70:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  71:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+  72:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  * @brief STM32F1xx HAL Driver version number V1.1.3
+  73:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****    */
+  74:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define __STM32F1xx_HAL_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
+  75:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define __STM32F1xx_HAL_VERSION_SUB1   (0x01U) /*!< [23:16] sub1 version */
+  76:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define __STM32F1xx_HAL_VERSION_SUB2   (0x03U) /*!< [15:8]  sub2 version */
+  77:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define __STM32F1xx_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
+  78:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define __STM32F1xx_HAL_VERSION         ((__STM32F1xx_HAL_VERSION_MAIN << 24)\
+  79:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****                                         |(__STM32F1xx_HAL_VERSION_SUB1 << 16)\
+  80:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****                                         |(__STM32F1xx_HAL_VERSION_SUB2 << 8 )\
+  81:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****                                         |(__STM32F1xx_HAL_VERSION_RC))
+  82:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  83:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #define IDCODE_DEVID_MASK    0x00000FFFU
+  84:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  85:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+  86:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @}
+  87:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  88:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  89:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Private macro -------------------------------------------------------------*/
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 3
+
+
+  90:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Private variables ---------------------------------------------------------*/
+  91:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  92:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL_Private_Variables HAL Private Variables
+  93:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+  94:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+  95:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __IO uint32_t uwTick;
+  96:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** uint32_t uwTickPrio   = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
+  97:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
+  98:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+  99:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @}
+ 100:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 101:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Private function prototypes -----------------------------------------------*/
+ 102:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /* Exported functions ---------------------------------------------------------*/
+ 103:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 104:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL_Exported_Functions HAL Exported Functions
+ 105:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+ 106:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 107:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 108:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL_Exported_Functions_Group1 Initialization and de-initialization Functions
+ 109:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  *  @brief    Initialization and de-initialization functions
+ 110:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  *
+ 111:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** @verbatim
+ 112:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  ===============================================================================
+ 113:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****               ##### Initialization and de-initialization functions #####
+ 114:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  ===============================================================================
+ 115:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****    [..]  This section provides functions allowing to:
+ 116:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Initializes the Flash interface, the NVIC allocation and initial clock
+ 117:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****           configuration. It initializes the systick also when timeout is needed
+ 118:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****           and the backup domain when enabled.
+ 119:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) de-Initializes common part of the HAL.
+ 120:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Configure The time base source to have 1ms time base with a dedicated
+ 121:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****           Tick interrupt priority.
+ 122:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****         (++) SysTick timer is used by default as source of time base, but user
+ 123:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              can eventually implement his proper time base source (a general purpose
+ 124:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              timer for example or other time source), keeping in mind that Time base
+ 125:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+ 126:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              handled in milliseconds basis.
+ 127:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****         (++) Time base configuration function (HAL_InitTick ()) is called automatically
+ 128:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              at the beginning of the program after reset by HAL_Init() or at any time
+ 129:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              when clock is configured, by HAL_RCC_ClockConfig().
+ 130:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****         (++) Source of time base is configured  to generate interrupts at regular
+ 131:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              time intervals. Care must be taken if HAL_Delay() is called from a
+ 132:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              peripheral ISR process, the Tick interrupt line must have higher priority
+ 133:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****             (numerically lower) than the peripheral interrupt. Otherwise the caller
+ 134:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****             ISR process will be blocked.
+ 135:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****        (++) functions affecting time base configurations are declared as __weak
+ 136:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****              to make  override possible  in case of other  implementations in user file.
+ 137:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** @endverbatim
+ 138:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+ 139:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 140:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 141:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 142:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  This function is used to initialize the HAL Library; it must be the first
+ 143:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *         instruction to be executed in the main program (before to call any other
+ 144:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *         HAL function), it performs the following:
+ 145:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           Configure the Flash prefetch.
+ 146:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           Configures the SysTick to generate an interrupt each 1 millisecond,
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 4
+
+
+ 147:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           which is clocked by the HSI (at this stage, the clock is not yet
+ 148:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           configured and thus the system is running from the internal HSI at 16 MHz).
+ 149:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           Set NVIC Group Priority to 4.
+ 150:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           Calls the HAL_MspInit() callback function defined in user file
+ 151:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *           "stm32f1xx_hal_msp.c" to do the global low level hardware initialization
+ 152:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+ 153:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note   SysTick is used as time base for the HAL_Delay() function, the application
+ 154:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *         need to ensure that the SysTick time base is always set to 1 millisecond
+ 155:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *         to have correct HAL operation.
+ 156:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval HAL status
+ 157:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 158:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** HAL_StatusTypeDef HAL_Init(void)
+ 159:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 160:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Configure Flash prefetch */
+ 161:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #if (PREFETCH_ENABLE != 0)
+ 162:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #if defined(STM32F101x6) || defined(STM32F101xB) || defined(STM32F101xE) || defined(STM32F101xG) ||
+ 163:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     defined(STM32F102x6) || defined(STM32F102xB) || \
+ 164:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     defined(STM32F103x6) || defined(STM32F103xB) || defined(STM32F103xE) || defined(STM32F103xG) ||
+ 165:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     defined(STM32F105xC) || defined(STM32F107xC)
+ 166:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 167:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Prefetch buffer is not available on value line devices */
+ 168:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
+ 169:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #endif
+ 170:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #endif /* PREFETCH_ENABLE */
+ 171:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 172:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Set Interrupt Group Priority */
+ 173:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+ 174:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 175:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+ 176:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   HAL_InitTick(TICK_INT_PRIORITY);
+ 177:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 178:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Init the low level hardware */
+ 179:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   HAL_MspInit();
+ 180:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 181:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Return function status */
+ 182:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return HAL_OK;
+ 183:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 184:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 185:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 186:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief This function de-Initializes common part of the HAL and stops the systick.
+ 187:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *        of time base.
+ 188:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is optional.
+ 189:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval HAL status
+ 190:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 191:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** HAL_StatusTypeDef HAL_DeInit(void)
+ 192:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 193:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Reset of all peripherals */
+ 194:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB1_FORCE_RESET();
+ 195:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB1_RELEASE_RESET();
+ 196:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 197:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB2_FORCE_RESET();
+ 198:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB2_RELEASE_RESET();
+ 199:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 200:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #if defined(STM32F105xC) || defined(STM32F107xC)
+ 201:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_AHB_FORCE_RESET();
+ 202:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_AHB_RELEASE_RESET();
+ 203:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #endif
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 5
+
+
+ 204:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 205:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* De-Init the low level hardware */
+ 206:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   HAL_MspDeInit();
+ 207:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 208:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Return function status */
+ 209:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return HAL_OK;
+ 210:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 211:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 212:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 213:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Initialize the MSP.
+ 214:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 215:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 216:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_MspInit(void)
+ 217:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+  27              		.loc 1 217 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 218:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* NOTE : This function should not be modified, when the callback is needed,
+ 219:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****             the HAL_MspInit could be implemented in the user file
+ 220:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****    */
+ 221:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+  32              		.loc 1 221 1 view .LVU1
+  33 0000 7047     		bx	lr
+  34              		.cfi_endproc
+  35              	.LFE68:
+  37              		.section	.text.HAL_MspDeInit,"ax",%progbits
+  38              		.align	1
+  39              		.weak	HAL_MspDeInit
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+  43              		.fpu softvfp
+  45              	HAL_MspDeInit:
+  46              	.LFB69:
+ 222:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 223:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 224:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  DeInitializes the MSP.
+ 225:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 226:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 227:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_MspDeInit(void)
+ 228:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+  47              		.loc 1 228 1 view -0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 0
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51              		@ link register save eliminated.
+ 229:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* NOTE : This function should not be modified, when the callback is needed,
+ 230:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****             the HAL_MspDeInit could be implemented in the user file
+ 231:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****    */
+ 232:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+  52              		.loc 1 232 1 view .LVU3
+  53 0000 7047     		bx	lr
+  54              		.cfi_endproc
+  55              	.LFE69:
+  57              		.section	.text.HAL_DeInit,"ax",%progbits
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 6
+
+
+  58              		.align	1
+  59              		.global	HAL_DeInit
+  60              		.syntax unified
+  61              		.thumb
+  62              		.thumb_func
+  63              		.fpu softvfp
+  65              	HAL_DeInit:
+  66              	.LFB67:
+ 192:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Reset of all peripherals */
+  67              		.loc 1 192 1 view -0
+  68              		.cfi_startproc
+  69              		@ args = 0, pretend = 0, frame = 0
+  70              		@ frame_needed = 0, uses_anonymous_args = 0
+  71 0000 10B5     		push	{r4, lr}
+  72              	.LCFI0:
+  73              		.cfi_def_cfa_offset 8
+  74              		.cfi_offset 4, -8
+  75              		.cfi_offset 14, -4
+ 194:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB1_RELEASE_RESET();
+  76              		.loc 1 194 3 view .LVU5
+  77 0002 064B     		ldr	r3, .L5
+  78 0004 4FF0FF32 		mov	r2, #-1
+  79 0008 DA60     		str	r2, [r3, #12]
+ 195:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  80              		.loc 1 195 3 view .LVU6
+  81 000a 0024     		movs	r4, #0
+  82 000c 1C61     		str	r4, [r3, #16]
+ 197:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   __HAL_RCC_APB2_RELEASE_RESET();
+  83              		.loc 1 197 3 view .LVU7
+  84 000e DA60     		str	r2, [r3, #12]
+ 198:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  85              		.loc 1 198 3 view .LVU8
+  86 0010 DC60     		str	r4, [r3, #12]
+ 206:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  87              		.loc 1 206 3 view .LVU9
+  88 0012 FFF7FEFF 		bl	HAL_MspDeInit
+  89              	.LVL0:
+ 209:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+  90              		.loc 1 209 3 view .LVU10
+ 210:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+  91              		.loc 1 210 1 is_stmt 0 view .LVU11
+  92 0016 2046     		mov	r0, r4
+  93 0018 10BD     		pop	{r4, pc}
+  94              	.L6:
+  95 001a 00BF     		.align	2
+  96              	.L5:
+  97 001c 00100240 		.word	1073876992
+  98              		.cfi_endproc
+  99              	.LFE67:
+ 101              		.section	.text.HAL_InitTick,"ax",%progbits
+ 102              		.align	1
+ 103              		.weak	HAL_InitTick
+ 104              		.syntax unified
+ 105              		.thumb
+ 106              		.thumb_func
+ 107              		.fpu softvfp
+ 109              	HAL_InitTick:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 7
+
+
+ 110              	.LVL1:
+ 111              	.LFB70:
+ 233:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 234:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 235:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief This function configures the source of the time base.
+ 236:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *        The time source is configured  to have 1ms time base with a dedicated
+ 237:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *        Tick interrupt priority.
+ 238:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is called  automatically at the beginning of program after
+ 239:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       reset by HAL_Init() or at any time when clock is reconfigured  by HAL_RCC_ClockConfig().
+ 240:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note In the default implementation, SysTick timer is the source of time base.
+ 241:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       It is used to generate interrupts at regular time intervals.
+ 242:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Care must be taken if HAL_Delay() is called from a peripheral ISR process,
+ 243:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       The SysTick interrupt must have higher priority (numerically lower)
+ 244:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
+ 245:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       The function is declared as __weak  to be overwritten  in case of other
+ 246:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       implementation  in user file.
+ 247:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @param TickPriority Tick interrupt priority.
+ 248:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval HAL status
+ 249:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 250:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
+ 251:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 112              		.loc 1 251 1 is_stmt 1 view -0
+ 113              		.cfi_startproc
+ 114              		@ args = 0, pretend = 0, frame = 0
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116              		.loc 1 251 1 is_stmt 0 view .LVU13
+ 117 0000 10B5     		push	{r4, lr}
+ 118              	.LCFI1:
+ 119              		.cfi_def_cfa_offset 8
+ 120              		.cfi_offset 4, -8
+ 121              		.cfi_offset 14, -4
+ 122 0002 0446     		mov	r4, r0
+ 252:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Configure the SysTick to have interrupt in 1ms time basis*/
+ 253:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U)
+ 123              		.loc 1 253 3 is_stmt 1 view .LVU14
+ 124              		.loc 1 253 51 is_stmt 0 view .LVU15
+ 125 0004 0E4B     		ldr	r3, .L13
+ 126 0006 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 127              	.LVL2:
+ 128              		.loc 1 253 51 view .LVU16
+ 129 0008 4FF47A73 		mov	r3, #1000
+ 130 000c B3FBF0F3 		udiv	r3, r3, r0
+ 131              		.loc 1 253 7 view .LVU17
+ 132 0010 0C4A     		ldr	r2, .L13+4
+ 133 0012 1068     		ldr	r0, [r2]
+ 134 0014 B0FBF3F0 		udiv	r0, r0, r3
+ 135 0018 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 136              	.LVL3:
+ 137              		.loc 1 253 6 view .LVU18
+ 138 001c 68B9     		cbnz	r0, .L9
+ 254:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 255:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     return HAL_ERROR;
+ 256:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 257:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 258:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Configure the SysTick IRQ priority */
+ 259:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   if (TickPriority < (1UL << __NVIC_PRIO_BITS))
+ 139              		.loc 1 259 3 is_stmt 1 view .LVU19
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 8
+
+
+ 140              		.loc 1 259 6 is_stmt 0 view .LVU20
+ 141 001e 0F2C     		cmp	r4, #15
+ 142 0020 01D9     		bls	.L12
+ 260:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 261:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
+ 262:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     uwTickPrio = TickPriority;
+ 263:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 264:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   else
+ 265:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 266:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     return HAL_ERROR;
+ 143              		.loc 1 266 12 view .LVU21
+ 144 0022 0120     		movs	r0, #1
+ 145 0024 0AE0     		b	.L8
+ 146              	.L12:
+ 261:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     uwTickPrio = TickPriority;
+ 147              		.loc 1 261 5 is_stmt 1 view .LVU22
+ 148 0026 0022     		movs	r2, #0
+ 149 0028 2146     		mov	r1, r4
+ 150 002a 4FF0FF30 		mov	r0, #-1
+ 151 002e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 152              	.LVL4:
+ 262:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 153              		.loc 1 262 5 view .LVU23
+ 262:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 154              		.loc 1 262 16 is_stmt 0 view .LVU24
+ 155 0032 054B     		ldr	r3, .L13+8
+ 156 0034 1C60     		str	r4, [r3]
+ 267:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 268:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 269:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Return function status */
+ 270:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return HAL_OK;
+ 157              		.loc 1 270 3 is_stmt 1 view .LVU25
+ 158              		.loc 1 270 10 is_stmt 0 view .LVU26
+ 159 0036 0020     		movs	r0, #0
+ 160 0038 00E0     		b	.L8
+ 161              	.L9:
+ 255:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 162              		.loc 1 255 12 view .LVU27
+ 163 003a 0120     		movs	r0, #1
+ 164              	.L8:
+ 271:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 165              		.loc 1 271 1 view .LVU28
+ 166 003c 10BD     		pop	{r4, pc}
+ 167              	.LVL5:
+ 168              	.L14:
+ 169              		.loc 1 271 1 view .LVU29
+ 170 003e 00BF     		.align	2
+ 171              	.L13:
+ 172 0040 00000000 		.word	.LANCHOR0
+ 173 0044 00000000 		.word	SystemCoreClock
+ 174 0048 00000000 		.word	.LANCHOR1
+ 175              		.cfi_endproc
+ 176              	.LFE70:
+ 178              		.section	.text.HAL_Init,"ax",%progbits
+ 179              		.align	1
+ 180              		.global	HAL_Init
+ 181              		.syntax unified
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 9
+
+
+ 182              		.thumb
+ 183              		.thumb_func
+ 184              		.fpu softvfp
+ 186              	HAL_Init:
+ 187              	.LFB66:
+ 159:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Configure Flash prefetch */
+ 188              		.loc 1 159 1 is_stmt 1 view -0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192 0000 08B5     		push	{r3, lr}
+ 193              	.LCFI2:
+ 194              		.cfi_def_cfa_offset 8
+ 195              		.cfi_offset 3, -8
+ 196              		.cfi_offset 14, -4
+ 168:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** #endif
+ 197              		.loc 1 168 3 view .LVU31
+ 198 0002 074A     		ldr	r2, .L17
+ 199 0004 1368     		ldr	r3, [r2]
+ 200 0006 43F01003 		orr	r3, r3, #16
+ 201 000a 1360     		str	r3, [r2]
+ 173:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 202              		.loc 1 173 3 view .LVU32
+ 203 000c 0320     		movs	r0, #3
+ 204 000e FFF7FEFF 		bl	HAL_NVIC_SetPriorityGrouping
+ 205              	.LVL6:
+ 176:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 206              		.loc 1 176 3 view .LVU33
+ 207 0012 0020     		movs	r0, #0
+ 208 0014 FFF7FEFF 		bl	HAL_InitTick
+ 209              	.LVL7:
+ 179:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 210              		.loc 1 179 3 view .LVU34
+ 211 0018 FFF7FEFF 		bl	HAL_MspInit
+ 212              	.LVL8:
+ 182:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 213              		.loc 1 182 3 view .LVU35
+ 183:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 214              		.loc 1 183 1 is_stmt 0 view .LVU36
+ 215 001c 0020     		movs	r0, #0
+ 216 001e 08BD     		pop	{r3, pc}
+ 217              	.L18:
+ 218              		.align	2
+ 219              	.L17:
+ 220 0020 00200240 		.word	1073881088
+ 221              		.cfi_endproc
+ 222              	.LFE66:
+ 224              		.section	.text.HAL_IncTick,"ax",%progbits
+ 225              		.align	1
+ 226              		.weak	HAL_IncTick
+ 227              		.syntax unified
+ 228              		.thumb
+ 229              		.thumb_func
+ 230              		.fpu softvfp
+ 232              	HAL_IncTick:
+ 233              	.LFB71:
+ 272:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 10
+
+
+ 273:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 274:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @}
+ 275:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 276:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 277:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /** @defgroup HAL_Exported_Functions_Group2 HAL Control functions
+ 278:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *  @brief    HAL Control functions
+ 279:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *
+ 280:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** @verbatim
+ 281:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  ===============================================================================
+ 282:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****                       ##### HAL Control functions #####
+ 283:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****  ===============================================================================
+ 284:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     [..]  This section provides functions allowing to:
+ 285:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Provide a tick value in millisecond
+ 286:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Provide a blocking delay in millisecond
+ 287:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Suspend the time base source interrupt
+ 288:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Resume the time base source interrupt
+ 289:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Get the HAL API driver version
+ 290:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Get the device identifier
+ 291:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Get the device revision identifier
+ 292:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Enable/Disable Debug module during SLEEP mode
+ 293:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Enable/Disable Debug module during STOP mode
+ 294:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****       (+) Enable/Disable Debug module during STANDBY mode
+ 295:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 296:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** @endverbatim
+ 297:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @{
+ 298:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 299:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 300:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 301:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief This function is called to increment  a global variable "uwTick"
+ 302:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *        used as application time base.
+ 303:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note In the default implementation, this variable is incremented each 1ms
+ 304:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       in SysTick ISR.
+ 305:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is declared as __weak to be overwritten in case of other
+ 306:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *      implementations in user file.
+ 307:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 308:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 309:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_IncTick(void)
+ 310:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 234              		.loc 1 310 1 is_stmt 1 view -0
+ 235              		.cfi_startproc
+ 236              		@ args = 0, pretend = 0, frame = 0
+ 237              		@ frame_needed = 0, uses_anonymous_args = 0
+ 238              		@ link register save eliminated.
+ 311:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   uwTick += uwTickFreq;
+ 239              		.loc 1 311 3 view .LVU38
+ 240              		.loc 1 311 10 is_stmt 0 view .LVU39
+ 241 0000 034A     		ldr	r2, .L20
+ 242 0002 1168     		ldr	r1, [r2]
+ 243 0004 034B     		ldr	r3, .L20+4
+ 244 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 245 0008 0B44     		add	r3, r3, r1
+ 246 000a 1360     		str	r3, [r2]
+ 312:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 247              		.loc 1 312 1 view .LVU40
+ 248 000c 7047     		bx	lr
+ 249              	.L21:
+ 250 000e 00BF     		.align	2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 11
+
+
+ 251              	.L20:
+ 252 0010 00000000 		.word	uwTick
+ 253 0014 00000000 		.word	.LANCHOR0
+ 254              		.cfi_endproc
+ 255              	.LFE71:
+ 257              		.section	.text.HAL_GetTick,"ax",%progbits
+ 258              		.align	1
+ 259              		.weak	HAL_GetTick
+ 260              		.syntax unified
+ 261              		.thumb
+ 262              		.thumb_func
+ 263              		.fpu softvfp
+ 265              	HAL_GetTick:
+ 266              	.LFB72:
+ 313:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 314:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 315:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Provides a tick value in millisecond.
+ 316:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note  This function is declared as __weak to be overwritten in case of other
+ 317:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       implementations in user file.
+ 318:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval tick value
+ 319:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 320:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak uint32_t HAL_GetTick(void)
+ 321:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 267              		.loc 1 321 1 is_stmt 1 view -0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 322:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return uwTick;
+ 272              		.loc 1 322 3 view .LVU42
+ 273              		.loc 1 322 10 is_stmt 0 view .LVU43
+ 274 0000 014B     		ldr	r3, .L23
+ 275 0002 1868     		ldr	r0, [r3]
+ 323:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 276              		.loc 1 323 1 view .LVU44
+ 277 0004 7047     		bx	lr
+ 278              	.L24:
+ 279 0006 00BF     		.align	2
+ 280              	.L23:
+ 281 0008 00000000 		.word	uwTick
+ 282              		.cfi_endproc
+ 283              	.LFE72:
+ 285              		.section	.text.HAL_GetTickPrio,"ax",%progbits
+ 286              		.align	1
+ 287              		.global	HAL_GetTickPrio
+ 288              		.syntax unified
+ 289              		.thumb
+ 290              		.thumb_func
+ 291              		.fpu softvfp
+ 293              	HAL_GetTickPrio:
+ 294              	.LFB73:
+ 324:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 325:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 326:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief This function returns a tick priority.
+ 327:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval tick priority
+ 328:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 329:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** uint32_t HAL_GetTickPrio(void)
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 12
+
+
+ 330:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 295              		.loc 1 330 1 is_stmt 1 view -0
+ 296              		.cfi_startproc
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              		@ link register save eliminated.
+ 331:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return uwTickPrio;
+ 300              		.loc 1 331 3 view .LVU46
+ 332:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 301              		.loc 1 332 1 is_stmt 0 view .LVU47
+ 302 0000 014B     		ldr	r3, .L26
+ 303 0002 1868     		ldr	r0, [r3]
+ 304 0004 7047     		bx	lr
+ 305              	.L27:
+ 306 0006 00BF     		.align	2
+ 307              	.L26:
+ 308 0008 00000000 		.word	.LANCHOR1
+ 309              		.cfi_endproc
+ 310              	.LFE73:
+ 312              		.section	.text.HAL_SetTickFreq,"ax",%progbits
+ 313              		.align	1
+ 314              		.global	HAL_SetTickFreq
+ 315              		.syntax unified
+ 316              		.thumb
+ 317              		.thumb_func
+ 318              		.fpu softvfp
+ 320              	HAL_SetTickFreq:
+ 321              	.LVL9:
+ 322              	.LFB74:
+ 333:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 334:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 335:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Set new tick Freq.
+ 336:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval Status
+ 337:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 338:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
+ 339:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 323              		.loc 1 339 1 is_stmt 1 view -0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 0
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              		.loc 1 339 1 is_stmt 0 view .LVU49
+ 328 0000 08B5     		push	{r3, lr}
+ 329              	.LCFI3:
+ 330              		.cfi_def_cfa_offset 8
+ 331              		.cfi_offset 3, -8
+ 332              		.cfi_offset 14, -4
+ 340:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   HAL_StatusTypeDef status  = HAL_OK;
+ 333              		.loc 1 340 3 is_stmt 1 view .LVU50
+ 334              	.LVL10:
+ 341:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   assert_param(IS_TICKFREQ(Freq));
+ 335              		.loc 1 341 3 view .LVU51
+ 342:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 343:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   if (uwTickFreq != Freq)
+ 336              		.loc 1 343 3 view .LVU52
+ 337              		.loc 1 343 18 is_stmt 0 view .LVU53
+ 338 0002 064B     		ldr	r3, .L33
+ 339 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 13
+
+
+ 340              		.loc 1 343 6 view .LVU54
+ 341 0006 8342     		cmp	r3, r0
+ 342 0008 01D1     		bne	.L32
+ 340:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   assert_param(IS_TICKFREQ(Freq));
+ 343              		.loc 1 340 21 view .LVU55
+ 344 000a 0020     		movs	r0, #0
+ 345              	.LVL11:
+ 346              	.L29:
+ 344:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 345:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     uwTickFreq = Freq;
+ 346:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 347:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     /* Apply the new tick Freq  */
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     status = HAL_InitTick(uwTickPrio);
+ 349:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 350:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 351:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return status;
+ 347              		.loc 1 351 3 is_stmt 1 view .LVU56
+ 352:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 348              		.loc 1 352 1 is_stmt 0 view .LVU57
+ 349 000c 08BD     		pop	{r3, pc}
+ 350              	.LVL12:
+ 351              	.L32:
+ 345:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 352              		.loc 1 345 5 is_stmt 1 view .LVU58
+ 345:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 353              		.loc 1 345 16 is_stmt 0 view .LVU59
+ 354 000e 034B     		ldr	r3, .L33
+ 355 0010 1870     		strb	r0, [r3]
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 356              		.loc 1 348 5 is_stmt 1 view .LVU60
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 357              		.loc 1 348 14 is_stmt 0 view .LVU61
+ 358 0012 034B     		ldr	r3, .L33+4
+ 359 0014 1868     		ldr	r0, [r3]
+ 360              	.LVL13:
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 361              		.loc 1 348 14 view .LVU62
+ 362 0016 FFF7FEFF 		bl	HAL_InitTick
+ 363              	.LVL14:
+ 348:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 364              		.loc 1 348 14 view .LVU63
+ 365 001a F7E7     		b	.L29
+ 366              	.L34:
+ 367              		.align	2
+ 368              	.L33:
+ 369 001c 00000000 		.word	.LANCHOR0
+ 370 0020 00000000 		.word	.LANCHOR1
+ 371              		.cfi_endproc
+ 372              	.LFE74:
+ 374              		.section	.text.HAL_GetTickFreq,"ax",%progbits
+ 375              		.align	1
+ 376              		.global	HAL_GetTickFreq
+ 377              		.syntax unified
+ 378              		.thumb
+ 379              		.thumb_func
+ 380              		.fpu softvfp
+ 382              	HAL_GetTickFreq:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 14
+
+
+ 383              	.LFB75:
+ 353:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 354:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 355:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Return tick frequency.
+ 356:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval tick period in Hz
+ 357:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 358:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** HAL_TickFreqTypeDef HAL_GetTickFreq(void)
+ 359:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 384              		.loc 1 359 1 is_stmt 1 view -0
+ 385              		.cfi_startproc
+ 386              		@ args = 0, pretend = 0, frame = 0
+ 387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 388              		@ link register save eliminated.
+ 360:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return uwTickFreq;
+ 389              		.loc 1 360 3 view .LVU65
+ 361:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 390              		.loc 1 361 1 is_stmt 0 view .LVU66
+ 391 0000 014B     		ldr	r3, .L36
+ 392 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 393 0004 7047     		bx	lr
+ 394              	.L37:
+ 395 0006 00BF     		.align	2
+ 396              	.L36:
+ 397 0008 00000000 		.word	.LANCHOR0
+ 398              		.cfi_endproc
+ 399              	.LFE75:
+ 401              		.section	.text.HAL_Delay,"ax",%progbits
+ 402              		.align	1
+ 403              		.weak	HAL_Delay
+ 404              		.syntax unified
+ 405              		.thumb
+ 406              		.thumb_func
+ 407              		.fpu softvfp
+ 409              	HAL_Delay:
+ 410              	.LVL15:
+ 411              	.LFB76:
+ 362:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 363:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 364:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief This function provides minimum delay (in milliseconds) based
+ 365:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *        on variable incremented.
+ 366:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note In the default implementation , SysTick timer is the source of time base.
+ 367:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       It is used to generate interrupts at regular time intervals where uwTick
+ 368:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       is incremented.
+ 369:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is declared as __weak to be overwritten in case of other
+ 370:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       implementations in user file.
+ 371:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @param Delay specifies the delay time length, in milliseconds.
+ 372:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 373:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 374:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_Delay(uint32_t Delay)
+ 375:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 412              		.loc 1 375 1 is_stmt 1 view -0
+ 413              		.cfi_startproc
+ 414              		@ args = 0, pretend = 0, frame = 0
+ 415              		@ frame_needed = 0, uses_anonymous_args = 0
+ 416              		.loc 1 375 1 is_stmt 0 view .LVU68
+ 417 0000 38B5     		push	{r3, r4, r5, lr}
+ 418              	.LCFI4:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 15
+
+
+ 419              		.cfi_def_cfa_offset 16
+ 420              		.cfi_offset 3, -16
+ 421              		.cfi_offset 4, -12
+ 422              		.cfi_offset 5, -8
+ 423              		.cfi_offset 14, -4
+ 424 0002 0446     		mov	r4, r0
+ 376:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   uint32_t tickstart = HAL_GetTick();
+ 425              		.loc 1 376 3 is_stmt 1 view .LVU69
+ 426              		.loc 1 376 24 is_stmt 0 view .LVU70
+ 427 0004 FFF7FEFF 		bl	HAL_GetTick
+ 428              	.LVL16:
+ 429              		.loc 1 376 24 view .LVU71
+ 430 0008 0546     		mov	r5, r0
+ 431              	.LVL17:
+ 377:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   uint32_t wait = Delay;
+ 432              		.loc 1 377 3 is_stmt 1 view .LVU72
+ 378:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 379:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Add a freq to guarantee minimum wait */
+ 380:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   if (wait < HAL_MAX_DELAY)
+ 433              		.loc 1 380 3 view .LVU73
+ 434              		.loc 1 380 6 is_stmt 0 view .LVU74
+ 435 000a B4F1FF3F 		cmp	r4, #-1
+ 436 000e 02D0     		beq	.L40
+ 381:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 382:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****     wait += (uint32_t)(uwTickFreq);
+ 437              		.loc 1 382 5 is_stmt 1 view .LVU75
+ 438              		.loc 1 382 13 is_stmt 0 view .LVU76
+ 439 0010 044B     		ldr	r3, .L42
+ 440 0012 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 441              		.loc 1 382 10 view .LVU77
+ 442 0014 1C44     		add	r4, r4, r3
+ 443              	.LVL18:
+ 444              	.L40:
+ 383:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 384:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 385:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   while ((HAL_GetTick() - tickstart) < wait)
+ 386:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 387:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   }
+ 445              		.loc 1 387 3 is_stmt 1 discriminator 1 view .LVU78
+ 385:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 446              		.loc 1 385 11 is_stmt 0 discriminator 1 view .LVU79
+ 447 0016 FFF7FEFF 		bl	HAL_GetTick
+ 448              	.LVL19:
+ 385:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 449              		.loc 1 385 25 discriminator 1 view .LVU80
+ 450 001a 401B     		subs	r0, r0, r5
+ 385:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   {
+ 451              		.loc 1 385 9 discriminator 1 view .LVU81
+ 452 001c A042     		cmp	r0, r4
+ 453 001e FAD3     		bcc	.L40
+ 388:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 454              		.loc 1 388 1 view .LVU82
+ 455 0020 38BD     		pop	{r3, r4, r5, pc}
+ 456              	.LVL20:
+ 457              	.L43:
+ 458              		.loc 1 388 1 view .LVU83
+ 459 0022 00BF     		.align	2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 16
+
+
+ 460              	.L42:
+ 461 0024 00000000 		.word	.LANCHOR0
+ 462              		.cfi_endproc
+ 463              	.LFE76:
+ 465              		.section	.text.HAL_SuspendTick,"ax",%progbits
+ 466              		.align	1
+ 467              		.weak	HAL_SuspendTick
+ 468              		.syntax unified
+ 469              		.thumb
+ 470              		.thumb_func
+ 471              		.fpu softvfp
+ 473              	HAL_SuspendTick:
+ 474              	.LFB77:
+ 389:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 390:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 391:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Suspend Tick increment.
+ 392:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note In the default implementation , SysTick timer is the source of time base. It is
+ 393:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       used to generate interrupts at regular time intervals. Once HAL_SuspendTick()
+ 394:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       is called, the SysTick interrupt will be disabled and so Tick increment
+ 395:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       is suspended.
+ 396:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is declared as __weak to be overwritten in case of other
+ 397:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       implementations in user file.
+ 398:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 399:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 400:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_SuspendTick(void)
+ 401:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 475              		.loc 1 401 1 is_stmt 1 view -0
+ 476              		.cfi_startproc
+ 477              		@ args = 0, pretend = 0, frame = 0
+ 478              		@ frame_needed = 0, uses_anonymous_args = 0
+ 479              		@ link register save eliminated.
+ 402:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Disable SysTick Interrupt */
+ 403:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_TICKINT_Msk);
+ 480              		.loc 1 403 3 view .LVU85
+ 481 0000 024A     		ldr	r2, .L45
+ 482 0002 1368     		ldr	r3, [r2]
+ 483 0004 23F00203 		bic	r3, r3, #2
+ 484 0008 1360     		str	r3, [r2]
+ 404:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 485              		.loc 1 404 1 is_stmt 0 view .LVU86
+ 486 000a 7047     		bx	lr
+ 487              	.L46:
+ 488              		.align	2
+ 489              	.L45:
+ 490 000c 10E000E0 		.word	-536813552
+ 491              		.cfi_endproc
+ 492              	.LFE77:
+ 494              		.section	.text.HAL_ResumeTick,"ax",%progbits
+ 495              		.align	1
+ 496              		.weak	HAL_ResumeTick
+ 497              		.syntax unified
+ 498              		.thumb
+ 499              		.thumb_func
+ 500              		.fpu softvfp
+ 502              	HAL_ResumeTick:
+ 503              	.LFB78:
+ 405:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 17
+
+
+ 406:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 407:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Resume Tick increment.
+ 408:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note In the default implementation , SysTick timer is the source of time base. It is
+ 409:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       used to generate interrupts at regular time intervals. Once HAL_ResumeTick()
+ 410:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       is called, the SysTick interrupt will be enabled and so Tick increment
+ 411:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       is resumed.
+ 412:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @note This function is declared as __weak to be overwritten in case of other
+ 413:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       implementations in user file.
+ 414:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 415:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 416:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** __weak void HAL_ResumeTick(void)
+ 417:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 504              		.loc 1 417 1 is_stmt 1 view -0
+ 505              		.cfi_startproc
+ 506              		@ args = 0, pretend = 0, frame = 0
+ 507              		@ frame_needed = 0, uses_anonymous_args = 0
+ 508              		@ link register save eliminated.
+ 418:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   /* Enable SysTick Interrupt */
+ 419:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   SET_BIT(SysTick->CTRL, SysTick_CTRL_TICKINT_Msk);
+ 509              		.loc 1 419 3 view .LVU88
+ 510 0000 024A     		ldr	r2, .L48
+ 511 0002 1368     		ldr	r3, [r2]
+ 512 0004 43F00203 		orr	r3, r3, #2
+ 513 0008 1360     		str	r3, [r2]
+ 420:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 514              		.loc 1 420 1 is_stmt 0 view .LVU89
+ 515 000a 7047     		bx	lr
+ 516              	.L49:
+ 517              		.align	2
+ 518              	.L48:
+ 519 000c 10E000E0 		.word	-536813552
+ 520              		.cfi_endproc
+ 521              	.LFE78:
+ 523              		.section	.text.HAL_GetHalVersion,"ax",%progbits
+ 524              		.align	1
+ 525              		.global	HAL_GetHalVersion
+ 526              		.syntax unified
+ 527              		.thumb
+ 528              		.thumb_func
+ 529              		.fpu softvfp
+ 531              	HAL_GetHalVersion:
+ 532              	.LFB79:
+ 421:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 422:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 423:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Returns the HAL revision
+ 424:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval version 0xXYZR (8bits for each decimal, R for RC)
+ 425:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 426:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** uint32_t HAL_GetHalVersion(void)
+ 427:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 533              		.loc 1 427 1 is_stmt 1 view -0
+ 534              		.cfi_startproc
+ 535              		@ args = 0, pretend = 0, frame = 0
+ 536              		@ frame_needed = 0, uses_anonymous_args = 0
+ 537              		@ link register save eliminated.
+ 428:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return __STM32F1xx_HAL_VERSION;
+ 538              		.loc 1 428 3 view .LVU91
+ 429:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 18
+
+
+ 539              		.loc 1 429 1 is_stmt 0 view .LVU92
+ 540 0000 0048     		ldr	r0, .L51
+ 541 0002 7047     		bx	lr
+ 542              	.L52:
+ 543              		.align	2
+ 544              	.L51:
+ 545 0004 00030101 		.word	16843520
+ 546              		.cfi_endproc
+ 547              	.LFE79:
+ 549              		.section	.text.HAL_GetREVID,"ax",%progbits
+ 550              		.align	1
+ 551              		.global	HAL_GetREVID
+ 552              		.syntax unified
+ 553              		.thumb
+ 554              		.thumb_func
+ 555              		.fpu softvfp
+ 557              	HAL_GetREVID:
+ 558              	.LFB80:
+ 430:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 431:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 432:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Returns the device revision identifier.
+ 433:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 434:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 435:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 436:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 437:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 438:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 439:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 440:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval Device revision identifier
+ 441:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 442:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** uint32_t HAL_GetREVID(void)
+ 443:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 559              		.loc 1 443 1 is_stmt 1 view -0
+ 560              		.cfi_startproc
+ 561              		@ args = 0, pretend = 0, frame = 0
+ 562              		@ frame_needed = 0, uses_anonymous_args = 0
+ 563              		@ link register save eliminated.
+ 444:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return ((DBGMCU->IDCODE) >> DBGMCU_IDCODE_REV_ID_Pos);
+ 564              		.loc 1 444 3 view .LVU94
+ 565              		.loc 1 444 18 is_stmt 0 view .LVU95
+ 566 0000 014B     		ldr	r3, .L54
+ 567 0002 1868     		ldr	r0, [r3]
+ 445:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 568              		.loc 1 445 1 view .LVU96
+ 569 0004 000C     		lsrs	r0, r0, #16
+ 570 0006 7047     		bx	lr
+ 571              	.L55:
+ 572              		.align	2
+ 573              	.L54:
+ 574 0008 002004E0 		.word	-536600576
+ 575              		.cfi_endproc
+ 576              	.LFE80:
+ 578              		.section	.text.HAL_GetDEVID,"ax",%progbits
+ 579              		.align	1
+ 580              		.global	HAL_GetDEVID
+ 581              		.syntax unified
+ 582              		.thumb
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 19
+
+
+ 583              		.thumb_func
+ 584              		.fpu softvfp
+ 586              	HAL_GetDEVID:
+ 587              	.LFB81:
+ 446:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 447:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 448:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Returns the device identifier.
+ 449:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 450:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 451:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 452:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 453:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 454:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 455:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 456:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval Device identifier
+ 457:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 458:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** uint32_t HAL_GetDEVID(void)
+ 459:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 588              		.loc 1 459 1 is_stmt 1 view -0
+ 589              		.cfi_startproc
+ 590              		@ args = 0, pretend = 0, frame = 0
+ 591              		@ frame_needed = 0, uses_anonymous_args = 0
+ 592              		@ link register save eliminated.
+ 460:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   return ((DBGMCU->IDCODE) & IDCODE_DEVID_MASK);
+ 593              		.loc 1 460 3 view .LVU98
+ 594              		.loc 1 460 18 is_stmt 0 view .LVU99
+ 595 0000 024B     		ldr	r3, .L57
+ 596 0002 1868     		ldr	r0, [r3]
+ 461:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 597              		.loc 1 461 1 view .LVU100
+ 598 0004 C0F30B00 		ubfx	r0, r0, #0, #12
+ 599 0008 7047     		bx	lr
+ 600              	.L58:
+ 601 000a 00BF     		.align	2
+ 602              	.L57:
+ 603 000c 002004E0 		.word	-536600576
+ 604              		.cfi_endproc
+ 605              	.LFE81:
+ 607              		.section	.text.HAL_DBGMCU_EnableDBGSleepMode,"ax",%progbits
+ 608              		.align	1
+ 609              		.global	HAL_DBGMCU_EnableDBGSleepMode
+ 610              		.syntax unified
+ 611              		.thumb
+ 612              		.thumb_func
+ 613              		.fpu softvfp
+ 615              	HAL_DBGMCU_EnableDBGSleepMode:
+ 616              	.LFB82:
+ 462:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 463:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 464:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Enable the Debug Module during SLEEP mode
+ 465:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 466:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 467:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_EnableDBGSleepMode(void)
+ 468:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 617              		.loc 1 468 1 is_stmt 1 view -0
+ 618              		.cfi_startproc
+ 619              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 20
+
+
+ 620              		@ frame_needed = 0, uses_anonymous_args = 0
+ 621              		@ link register save eliminated.
+ 469:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_SLEEP);
+ 622              		.loc 1 469 3 view .LVU102
+ 623 0000 024A     		ldr	r2, .L60
+ 624 0002 5368     		ldr	r3, [r2, #4]
+ 625 0004 43F00103 		orr	r3, r3, #1
+ 626 0008 5360     		str	r3, [r2, #4]
+ 470:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 627              		.loc 1 470 1 is_stmt 0 view .LVU103
+ 628 000a 7047     		bx	lr
+ 629              	.L61:
+ 630              		.align	2
+ 631              	.L60:
+ 632 000c 002004E0 		.word	-536600576
+ 633              		.cfi_endproc
+ 634              	.LFE82:
+ 636              		.section	.text.HAL_DBGMCU_DisableDBGSleepMode,"ax",%progbits
+ 637              		.align	1
+ 638              		.global	HAL_DBGMCU_DisableDBGSleepMode
+ 639              		.syntax unified
+ 640              		.thumb
+ 641              		.thumb_func
+ 642              		.fpu softvfp
+ 644              	HAL_DBGMCU_DisableDBGSleepMode:
+ 645              	.LFB83:
+ 471:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 472:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 473:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Disable the Debug Module during SLEEP mode
+ 474:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 475:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 476:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 477:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 478:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 479:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 480:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 481:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 482:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 483:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_DisableDBGSleepMode(void)
+ 484:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 646              		.loc 1 484 1 is_stmt 1 view -0
+ 647              		.cfi_startproc
+ 648              		@ args = 0, pretend = 0, frame = 0
+ 649              		@ frame_needed = 0, uses_anonymous_args = 0
+ 650              		@ link register save eliminated.
+ 485:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_SLEEP);
+ 651              		.loc 1 485 3 view .LVU105
+ 652 0000 024A     		ldr	r2, .L63
+ 653 0002 5368     		ldr	r3, [r2, #4]
+ 654 0004 23F00103 		bic	r3, r3, #1
+ 655 0008 5360     		str	r3, [r2, #4]
+ 486:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 656              		.loc 1 486 1 is_stmt 0 view .LVU106
+ 657 000a 7047     		bx	lr
+ 658              	.L64:
+ 659              		.align	2
+ 660              	.L63:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 21
+
+
+ 661 000c 002004E0 		.word	-536600576
+ 662              		.cfi_endproc
+ 663              	.LFE83:
+ 665              		.section	.text.HAL_DBGMCU_EnableDBGStopMode,"ax",%progbits
+ 666              		.align	1
+ 667              		.global	HAL_DBGMCU_EnableDBGStopMode
+ 668              		.syntax unified
+ 669              		.thumb
+ 670              		.thumb_func
+ 671              		.fpu softvfp
+ 673              	HAL_DBGMCU_EnableDBGStopMode:
+ 674              	.LFB84:
+ 487:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 488:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 489:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Enable the Debug Module during STOP mode
+ 490:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 491:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 492:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 493:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 494:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 495:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 496:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 497:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On all STM32F1 devices:
+ 498:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       If the system tick timer interrupt is enabled during the Stop mode
+ 499:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug (DBG_STOP bit set in the DBGMCU_CR register ), it will wakeup
+ 500:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       the system from Stop mode.
+ 501:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Workaround: To debug the Stop mode, disable the system tick timer
+ 502:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       interrupt.
+ 503:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 504:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On all STM32F1 devices:
+ 505:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       If the system tick timer interrupt is enabled during the Stop mode
+ 506:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug (DBG_STOP bit set in the DBGMCU_CR register ), it will wakeup
+ 507:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       the system from Stop mode.
+ 508:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Workaround: To debug the Stop mode, disable the system tick timer
+ 509:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       interrupt.
+ 510:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 511:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 512:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 513:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_EnableDBGStopMode(void)
+ 514:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 675              		.loc 1 514 1 is_stmt 1 view -0
+ 676              		.cfi_startproc
+ 677              		@ args = 0, pretend = 0, frame = 0
+ 678              		@ frame_needed = 0, uses_anonymous_args = 0
+ 679              		@ link register save eliminated.
+ 515:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STOP);
+ 680              		.loc 1 515 3 view .LVU108
+ 681 0000 024A     		ldr	r2, .L66
+ 682 0002 5368     		ldr	r3, [r2, #4]
+ 683 0004 43F00203 		orr	r3, r3, #2
+ 684 0008 5360     		str	r3, [r2, #4]
+ 516:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 685              		.loc 1 516 1 is_stmt 0 view .LVU109
+ 686 000a 7047     		bx	lr
+ 687              	.L67:
+ 688              		.align	2
+ 689              	.L66:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 22
+
+
+ 690 000c 002004E0 		.word	-536600576
+ 691              		.cfi_endproc
+ 692              	.LFE84:
+ 694              		.section	.text.HAL_DBGMCU_DisableDBGStopMode,"ax",%progbits
+ 695              		.align	1
+ 696              		.global	HAL_DBGMCU_DisableDBGStopMode
+ 697              		.syntax unified
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.fpu softvfp
+ 702              	HAL_DBGMCU_DisableDBGStopMode:
+ 703              	.LFB85:
+ 517:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 518:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 519:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Disable the Debug Module during STOP mode
+ 520:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 521:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 522:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 523:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 524:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 525:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 526:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 527:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 528:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 529:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_DisableDBGStopMode(void)
+ 530:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 704              		.loc 1 530 1 is_stmt 1 view -0
+ 705              		.cfi_startproc
+ 706              		@ args = 0, pretend = 0, frame = 0
+ 707              		@ frame_needed = 0, uses_anonymous_args = 0
+ 708              		@ link register save eliminated.
+ 531:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STOP);
+ 709              		.loc 1 531 3 view .LVU111
+ 710 0000 024A     		ldr	r2, .L69
+ 711 0002 5368     		ldr	r3, [r2, #4]
+ 712 0004 23F00203 		bic	r3, r3, #2
+ 713 0008 5360     		str	r3, [r2, #4]
+ 532:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 714              		.loc 1 532 1 is_stmt 0 view .LVU112
+ 715 000a 7047     		bx	lr
+ 716              	.L70:
+ 717              		.align	2
+ 718              	.L69:
+ 719 000c 002004E0 		.word	-536600576
+ 720              		.cfi_endproc
+ 721              	.LFE85:
+ 723              		.section	.text.HAL_DBGMCU_EnableDBGStandbyMode,"ax",%progbits
+ 724              		.align	1
+ 725              		.global	HAL_DBGMCU_EnableDBGStandbyMode
+ 726              		.syntax unified
+ 727              		.thumb
+ 728              		.thumb_func
+ 729              		.fpu softvfp
+ 731              	HAL_DBGMCU_EnableDBGStandbyMode:
+ 732              	.LFB86:
+ 533:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 534:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 23
+
+
+ 535:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Enable the Debug Module during STANDBY mode
+ 536:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 537:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 538:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 539:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 540:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 541:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 542:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 543:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 544:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 545:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_EnableDBGStandbyMode(void)
+ 546:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 733              		.loc 1 546 1 is_stmt 1 view -0
+ 734              		.cfi_startproc
+ 735              		@ args = 0, pretend = 0, frame = 0
+ 736              		@ frame_needed = 0, uses_anonymous_args = 0
+ 737              		@ link register save eliminated.
+ 547:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STANDBY);
+ 738              		.loc 1 547 3 view .LVU114
+ 739 0000 024A     		ldr	r2, .L72
+ 740 0002 5368     		ldr	r3, [r2, #4]
+ 741 0004 43F00403 		orr	r3, r3, #4
+ 742 0008 5360     		str	r3, [r2, #4]
+ 548:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 743              		.loc 1 548 1 is_stmt 0 view .LVU115
+ 744 000a 7047     		bx	lr
+ 745              	.L73:
+ 746              		.align	2
+ 747              	.L72:
+ 748 000c 002004E0 		.word	-536600576
+ 749              		.cfi_endproc
+ 750              	.LFE86:
+ 752              		.section	.text.HAL_DBGMCU_DisableDBGStandbyMode,"ax",%progbits
+ 753              		.align	1
+ 754              		.global	HAL_DBGMCU_DisableDBGStandbyMode
+ 755              		.syntax unified
+ 756              		.thumb
+ 757              		.thumb_func
+ 758              		.fpu softvfp
+ 760              	HAL_DBGMCU_DisableDBGStandbyMode:
+ 761              	.LFB87:
+ 549:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 550:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 551:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief  Disable the Debug Module during STANDBY mode
+ 552:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * Note: On devices STM32F10xx8 and STM32F10xxB,
+ 553:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xC/D/E and STM32F103xC/D/E,
+ 554:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F101xF/G and STM32F103xF/G
+ 555:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *                  STM32F10xx4 and STM32F10xx6
+ 556:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Debug registers DBGMCU_IDCODE and DBGMCU_CR are accessible only in
+ 557:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       debug mode (not accessible by the user software in normal mode).
+ 558:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   *       Refer to errata sheet of these devices for more details.
+ 559:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval None
+ 560:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 561:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_DBGMCU_DisableDBGStandbyMode(void)
+ 562:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 762              		.loc 1 562 1 is_stmt 1 view -0
+ 763              		.cfi_startproc
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 24
+
+
+ 764              		@ args = 0, pretend = 0, frame = 0
+ 765              		@ frame_needed = 0, uses_anonymous_args = 0
+ 766              		@ link register save eliminated.
+ 563:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STANDBY);
+ 767              		.loc 1 563 3 view .LVU117
+ 768 0000 024A     		ldr	r2, .L75
+ 769 0002 5368     		ldr	r3, [r2, #4]
+ 770 0004 23F00403 		bic	r3, r3, #4
+ 771 0008 5360     		str	r3, [r2, #4]
+ 564:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 772              		.loc 1 564 1 is_stmt 0 view .LVU118
+ 773 000a 7047     		bx	lr
+ 774              	.L76:
+ 775              		.align	2
+ 776              	.L75:
+ 777 000c 002004E0 		.word	-536600576
+ 778              		.cfi_endproc
+ 779              	.LFE87:
+ 781              		.section	.text.HAL_GetUID,"ax",%progbits
+ 782              		.align	1
+ 783              		.global	HAL_GetUID
+ 784              		.syntax unified
+ 785              		.thumb
+ 786              		.thumb_func
+ 787              		.fpu softvfp
+ 789              	HAL_GetUID:
+ 790              	.LVL21:
+ 791              	.LFB88:
+ 565:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** 
+ 566:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** /**
+ 567:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @brief Return the unique device identifier (UID based on 96 bits)
+ 568:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @param UID pointer to 3 words array.
+ 569:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   * @retval Device identifier
+ 570:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   */
+ 571:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** void HAL_GetUID(uint32_t *UID)
+ 572:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** {
+ 792              		.loc 1 572 1 is_stmt 1 view -0
+ 793              		.cfi_startproc
+ 794              		@ args = 0, pretend = 0, frame = 0
+ 795              		@ frame_needed = 0, uses_anonymous_args = 0
+ 796              		@ link register save eliminated.
+ 573:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   UID[0] = (uint32_t)(READ_REG(*((uint32_t *)UID_BASE)));
+ 797              		.loc 1 573 3 view .LVU120
+ 798              		.loc 1 573 12 is_stmt 0 view .LVU121
+ 799 0000 044B     		ldr	r3, .L78
+ 800 0002 1B68     		ldr	r3, [r3]
+ 801              		.loc 1 573 10 view .LVU122
+ 802 0004 0360     		str	r3, [r0]
+ 574:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   UID[1] = (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE + 4U))));
+ 803              		.loc 1 574 3 is_stmt 1 view .LVU123
+ 804              		.loc 1 574 12 is_stmt 0 view .LVU124
+ 805 0006 044B     		ldr	r3, .L78+4
+ 806 0008 1B68     		ldr	r3, [r3]
+ 807              		.loc 1 574 10 view .LVU125
+ 808 000a 4360     		str	r3, [r0, #4]
+ 575:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ****   UID[2] = (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE + 8U))));
+ 809              		.loc 1 575 3 is_stmt 1 view .LVU126
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 25
+
+
+ 810              		.loc 1 575 12 is_stmt 0 view .LVU127
+ 811 000c 034B     		ldr	r3, .L78+8
+ 812 000e 1B68     		ldr	r3, [r3]
+ 813              		.loc 1 575 10 view .LVU128
+ 814 0010 8360     		str	r3, [r0, #8]
+ 576:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c **** }
+ 815              		.loc 1 576 1 view .LVU129
+ 816 0012 7047     		bx	lr
+ 817              	.L79:
+ 818              		.align	2
+ 819              	.L78:
+ 820 0014 E8F7FF1F 		.word	536868840
+ 821 0018 ECF7FF1F 		.word	536868844
+ 822 001c F0F7FF1F 		.word	536868848
+ 823              		.cfi_endproc
+ 824              	.LFE88:
+ 826              		.global	uwTickFreq
+ 827              		.global	uwTickPrio
+ 828              		.comm	uwTick,4,4
+ 829              		.section	.data.uwTickFreq,"aw"
+ 830              		.set	.LANCHOR0,. + 0
+ 833              	uwTickFreq:
+ 834 0000 01       		.byte	1
+ 835              		.section	.data.uwTickPrio,"aw"
+ 836              		.align	2
+ 837              		.set	.LANCHOR1,. + 0
+ 840              	uwTickPrio:
+ 841 0000 10000000 		.word	16
+ 842              		.text
+ 843              	.Letext0:
+ 844              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_type
+ 845              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 846              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
+ 847              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h"
+ 848              		.file 6 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 849              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/stddef.
+ 850              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 851              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 852              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 853              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 854              		.file 12 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 855              		.file 13 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 26
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f1xx_hal.c
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:16     .text.HAL_MspInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:24     .text.HAL_MspInit:0000000000000000 HAL_MspInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:38     .text.HAL_MspDeInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:45     .text.HAL_MspDeInit:0000000000000000 HAL_MspDeInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:58     .text.HAL_DeInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:65     .text.HAL_DeInit:0000000000000000 HAL_DeInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:97     .text.HAL_DeInit:000000000000001c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:102    .text.HAL_InitTick:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:109    .text.HAL_InitTick:0000000000000000 HAL_InitTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:172    .text.HAL_InitTick:0000000000000040 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:179    .text.HAL_Init:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:186    .text.HAL_Init:0000000000000000 HAL_Init
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:220    .text.HAL_Init:0000000000000020 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:225    .text.HAL_IncTick:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:232    .text.HAL_IncTick:0000000000000000 HAL_IncTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:252    .text.HAL_IncTick:0000000000000010 $d
+                            *COM*:0000000000000004 uwTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:258    .text.HAL_GetTick:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:265    .text.HAL_GetTick:0000000000000000 HAL_GetTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:281    .text.HAL_GetTick:0000000000000008 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:286    .text.HAL_GetTickPrio:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:293    .text.HAL_GetTickPrio:0000000000000000 HAL_GetTickPrio
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:308    .text.HAL_GetTickPrio:0000000000000008 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:313    .text.HAL_SetTickFreq:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:320    .text.HAL_SetTickFreq:0000000000000000 HAL_SetTickFreq
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:369    .text.HAL_SetTickFreq:000000000000001c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:375    .text.HAL_GetTickFreq:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:382    .text.HAL_GetTickFreq:0000000000000000 HAL_GetTickFreq
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:397    .text.HAL_GetTickFreq:0000000000000008 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:402    .text.HAL_Delay:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:409    .text.HAL_Delay:0000000000000000 HAL_Delay
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:461    .text.HAL_Delay:0000000000000024 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:466    .text.HAL_SuspendTick:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:473    .text.HAL_SuspendTick:0000000000000000 HAL_SuspendTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:490    .text.HAL_SuspendTick:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:495    .text.HAL_ResumeTick:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:502    .text.HAL_ResumeTick:0000000000000000 HAL_ResumeTick
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:519    .text.HAL_ResumeTick:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:524    .text.HAL_GetHalVersion:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:531    .text.HAL_GetHalVersion:0000000000000000 HAL_GetHalVersion
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:545    .text.HAL_GetHalVersion:0000000000000004 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:550    .text.HAL_GetREVID:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:557    .text.HAL_GetREVID:0000000000000000 HAL_GetREVID
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:574    .text.HAL_GetREVID:0000000000000008 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:579    .text.HAL_GetDEVID:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:586    .text.HAL_GetDEVID:0000000000000000 HAL_GetDEVID
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:603    .text.HAL_GetDEVID:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:608    .text.HAL_DBGMCU_EnableDBGSleepMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:615    .text.HAL_DBGMCU_EnableDBGSleepMode:0000000000000000 HAL_DBGMCU_EnableDBGSleepMode
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:632    .text.HAL_DBGMCU_EnableDBGSleepMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:637    .text.HAL_DBGMCU_DisableDBGSleepMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:644    .text.HAL_DBGMCU_DisableDBGSleepMode:0000000000000000 HAL_DBGMCU_DisableDBGSleepMode
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:661    .text.HAL_DBGMCU_DisableDBGSleepMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:666    .text.HAL_DBGMCU_EnableDBGStopMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:673    .text.HAL_DBGMCU_EnableDBGStopMode:0000000000000000 HAL_DBGMCU_EnableDBGStopMode
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s 			page 27
+
+
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:690    .text.HAL_DBGMCU_EnableDBGStopMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:695    .text.HAL_DBGMCU_DisableDBGStopMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:702    .text.HAL_DBGMCU_DisableDBGStopMode:0000000000000000 HAL_DBGMCU_DisableDBGStopMode
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:719    .text.HAL_DBGMCU_DisableDBGStopMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:724    .text.HAL_DBGMCU_EnableDBGStandbyMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:731    .text.HAL_DBGMCU_EnableDBGStandbyMode:0000000000000000 HAL_DBGMCU_EnableDBGStandbyMode
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:748    .text.HAL_DBGMCU_EnableDBGStandbyMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:753    .text.HAL_DBGMCU_DisableDBGStandbyMode:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:760    .text.HAL_DBGMCU_DisableDBGStandbyMode:0000000000000000 HAL_DBGMCU_DisableDBGStandbyMode
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:777    .text.HAL_DBGMCU_DisableDBGStandbyMode:000000000000000c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:782    .text.HAL_GetUID:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:789    .text.HAL_GetUID:0000000000000000 HAL_GetUID
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:820    .text.HAL_GetUID:0000000000000014 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:833    .data.uwTickFreq:0000000000000000 uwTickFreq
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:840    .data.uwTickPrio:0000000000000000 uwTickPrio
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccjsTo4i.s:836    .data.uwTickPrio:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_SYSTICK_Config
+HAL_NVIC_SetPriority
+SystemCoreClock
+HAL_NVIC_SetPriorityGrouping

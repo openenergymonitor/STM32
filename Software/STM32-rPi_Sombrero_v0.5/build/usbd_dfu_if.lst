@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
   29:Src/usbd_dfu_if.c **** /* Private define ------------------------------------------------------------*/
   30:Src/usbd_dfu_if.c **** /* Private macro -------------------------------------------------------------*/
   31:Src/usbd_dfu_if.c **** 
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 2
 
 
   32:Src/usbd_dfu_if.c **** /* USER CODE BEGIN PV */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
   86:Src/usbd_dfu_if.c ****   */
   87:Src/usbd_dfu_if.c **** 
   88:Src/usbd_dfu_if.c **** /** @defgroup USBD_DFU_Private_Variables
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 3
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 3
 
 
   89:Src/usbd_dfu_if.c ****   * @brief Private variables.
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
  143:Src/usbd_dfu_if.c ****     MEM_If_DeInit_FS,
  144:Src/usbd_dfu_if.c ****     MEM_If_Erase_FS,
  145:Src/usbd_dfu_if.c ****     MEM_If_Write_FS,
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 4
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 4
 
 
  146:Src/usbd_dfu_if.c ****     MEM_If_Read_FS,
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
   58              		.cfi_endproc
   59              	.LFE127:
   61              		.section	.text.MEM_If_Erase_FS,"ax",%progbits
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 5
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 5
 
 
   62              		.align	1
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
   96              		.cfi_startproc
   97              		@ args = 0, pretend = 0, frame = 0
   98              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 6
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 6
 
 
   99              		@ link register save eliminated.
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
  137              		.thumb_func
  138              		.fpu fpv4-sp-d16
  140              	MEM_If_GetStatus_FS:
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 7
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 7
 
 
  141              	.LVL6:
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
  173              	.LC0:
  174 0000 40496E74 		.ascii	"@Internal Flash   /0x08000000/03*016Ka,01*016Kg,01*"
  174      65726E61 
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 8
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 8
 
 
  174      6C20466C 
@@ -431,38 +431,38 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 1
  175      342A3031 
  176              		.text
  177              	.Letext0:
- 178              		.file 2 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_
- 179              		.file 3 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/std
- 180              		.file 4 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
- 181              		.file 5 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
- 182              		.file 6 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
- 183              		.file 7 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
- 184              		.file 8 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/stdlib.h"
+ 178              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_type
+ 179              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/stddef.
+ 180              		.file 4 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 181              		.file 5 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 182              		.file 6 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 183              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 184              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/stdlib.h"
  185              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
  186              		.file 10 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
  187              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
  188              		.file 12 "Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h"
  189              		.file 13 "Middlewares/ST/STM32_USB_Device_Library/Class/DFU/Inc/usbd_dfu.h"
  190              		.file 14 "Inc/usbd_dfu_if.h"
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s 			page 9
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 usbd_dfu_if.c
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:18     .text.MEM_If_Init_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:25     .text.MEM_If_Init_FS:0000000000000000 MEM_If_Init_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:41     .text.MEM_If_DeInit_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:47     .text.MEM_If_DeInit_FS:0000000000000000 MEM_If_DeInit_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:62     .text.MEM_If_Erase_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:68     .text.MEM_If_Erase_FS:0000000000000000 MEM_If_Erase_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:86     .text.MEM_If_Write_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:92     .text.MEM_If_Write_FS:0000000000000000 MEM_If_Write_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:110    .text.MEM_If_Read_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:116    .text.MEM_If_Read_FS:0000000000000000 MEM_If_Read_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:134    .text.MEM_If_GetStatus_FS:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:140    .text.MEM_If_GetStatus_FS:0000000000000000 MEM_If_GetStatus_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:163    .data.USBD_DFU_fops_FS:0000000000000000 USBD_DFU_fops_FS
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:160    .data.USBD_DFU_fops_FS:0000000000000000 $d
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchg5f3m.s:172    .rodata.str1.4:0000000000000000 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:18     .text.MEM_If_Init_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:25     .text.MEM_If_Init_FS:0000000000000000 MEM_If_Init_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:41     .text.MEM_If_DeInit_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:47     .text.MEM_If_DeInit_FS:0000000000000000 MEM_If_DeInit_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:62     .text.MEM_If_Erase_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:68     .text.MEM_If_Erase_FS:0000000000000000 MEM_If_Erase_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:86     .text.MEM_If_Write_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:92     .text.MEM_If_Write_FS:0000000000000000 MEM_If_Write_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:110    .text.MEM_If_Read_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:116    .text.MEM_If_Read_FS:0000000000000000 MEM_If_Read_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:134    .text.MEM_If_GetStatus_FS:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:140    .text.MEM_If_GetStatus_FS:0000000000000000 MEM_If_GetStatus_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:163    .data.USBD_DFU_fops_FS:0000000000000000 USBD_DFU_fops_FS
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:160    .data.USBD_DFU_fops_FS:0000000000000000 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc7ay1EO.s:172    .rodata.str1.4:0000000000000000 $d
 
 NO UNDEFINED SYMBOLS

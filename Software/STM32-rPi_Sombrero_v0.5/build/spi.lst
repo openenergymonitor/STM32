@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
   28:Src/spi.c     **** 
   29:Src/spi.c     **** /* SPI3 init function */
   30:Src/spi.c     **** void MX_SPI3_Init(void)
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 2
 
 
   31:Src/spi.c     **** {
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
   71              		.loc 1 42 29 is_stmt 0 view .LVU20
   72 0022 8362     		str	r3, [r0, #40]
   43:Src/spi.c     ****   hspi3.Init.CRCPolynomial = 7;
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 3
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 3
 
 
   73              		.loc 1 43 3 is_stmt 1 view .LVU21
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  117              		.loc 1 54 1 is_stmt 1 view -0
  118              		.cfi_startproc
  119              		@ args = 0, pretend = 0, frame = 32
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 4
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 4
 
 
  120              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  146              		.loc 1 82 1 view .LVU40
  147 0018 09B0     		add	sp, sp, #36
  148              	.LCFI3:
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 5
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 5
 
 
  149              		.cfi_remember_state
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  190              		.loc 1 72 5 is_stmt 1 view .LVU53
   72:Src/spi.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  191              		.loc 1 72 26 is_stmt 0 view .LVU54
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 6
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 6
 
 
  192 004c 0223     		movs	r3, #2
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  238              		.cfi_def_cfa_offset 8
  239              		.cfi_offset 3, -8
  240              		.cfi_offset 14, -4
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 7
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 7
 
 
   86:Src/spi.c     **** 
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  271 0024 003C0040 		.word	1073757184
  272 0028 00100240 		.word	1073876992
  273 002c 00080048 		.word	1207961600
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 8
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 8
 
 
  274              		.cfi_endproc
@@ -478,49 +478,105 @@ ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 1
  321              	.L22:
  322 0026 00BF     		.align	2
  323              	.L21:
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 9
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 9
 
 
  324 0028 00000000 		.word	hspi3
  325              		.cfi_endproc
  326              	.LFE129:
- 328              		.comm	hspi3,100,4
- 329              		.text
- 330              	.Letext0:
- 331              		.file 2 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_
- 332              		.file 3 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
- 333              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 334              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
- 335              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
- 336              		.file 7 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/std
- 337              		.file 8 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
- 338              		.file 9 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
- 339              		.file 10 "/usr/local/opt/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
- 340              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
- 341              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
- 342              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
- 343              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi.h"
- 344              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
- 345              		.file 16 "Inc/spi.h"
- 346              		.file 17 "Inc/main.h"
-ARM GAS  /var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s 			page 10
+ 328              		.section	.text.SPI_receive8,"ax",%progbits
+ 329              		.align	1
+ 330              		.global	SPI_receive8
+ 331              		.syntax unified
+ 332              		.thumb
+ 333              		.thumb_func
+ 334              		.fpu fpv4-sp-d16
+ 336              	SPI_receive8:
+ 337              	.LFB130:
+ 116:Src/spi.c     **** 
+ 117:Src/spi.c     **** uint8_t SPI_receive8 (void) { // function to transfer 1byte on SPI with readback
+ 338              		.loc 1 117 29 is_stmt 1 view -0
+ 339              		.cfi_startproc
+ 340              		@ args = 0, pretend = 0, frame = 8
+ 341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 342 0000 00B5     		push	{lr}
+ 343              	.LCFI9:
+ 344              		.cfi_def_cfa_offset 4
+ 345              		.cfi_offset 14, -4
+ 346 0002 83B0     		sub	sp, sp, #12
+ 347              	.LCFI10:
+ 348              		.cfi_def_cfa_offset 16
+ 118:Src/spi.c     ****   uint8_t rx_byte;
+ 349              		.loc 1 118 3 view .LVU81
+ 119:Src/spi.c     **** 
+ 120:Src/spi.c     ****   HAL_SPI_Receive(&hspi3, &rx_byte, 1, 10);
+ 350              		.loc 1 120 3 view .LVU82
+ 351 0004 0A23     		movs	r3, #10
+ 352 0006 0122     		movs	r2, #1
+ 353 0008 0DF10701 		add	r1, sp, #7
+ 354 000c 0348     		ldr	r0, .L25
+ 355 000e FFF7FEFF 		bl	HAL_SPI_Receive
+ 356              	.LVL15:
+ 121:Src/spi.c     ****   return rx_byte;
+ 357              		.loc 1 121 3 view .LVU83
+ 122:Src/spi.c     ****   
+ 123:Src/spi.c     **** }
+ 358              		.loc 1 123 1 is_stmt 0 view .LVU84
+ 359 0012 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 360 0016 03B0     		add	sp, sp, #12
+ 361              	.LCFI11:
+ 362              		.cfi_def_cfa_offset 4
+ 363              		@ sp needed
+ 364 0018 5DF804FB 		ldr	pc, [sp], #4
+ 365              	.L26:
+ 366              		.align	2
+ 367              	.L25:
+ 368 001c 00000000 		.word	hspi3
+ 369              		.cfi_endproc
+ 370              	.LFE130:
+ 372              		.comm	hspi3,100,4
+ 373              		.text
+ 374              	.Letext0:
+ 375              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_type
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 10
+
+
+ 376              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 377              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 378              		.file 5 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 379              		.file 6 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h"
+ 380              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/stddef.
+ 381              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 382              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 383              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 384              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 385              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 386              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 387              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_spi.h"
+ 388              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 389              		.file 16 "Inc/spi.h"
+ 390              		.file 17 "Inc/main.h"
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 spi.c
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:18     .text.MX_SPI3_Init:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:26     .text.MX_SPI3_Init:0000000000000000 MX_SPI3_Init
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:101    .text.MX_SPI3_Init:000000000000003c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:18     .text.MX_SPI3_Init:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:26     .text.MX_SPI3_Init:0000000000000000 MX_SPI3_Init
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:101    .text.MX_SPI3_Init:000000000000003c $d
                             *COM*:0000000000000064 hspi3
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:107    .text.HAL_SPI_MspInit:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:114    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:215    .text.HAL_SPI_MspInit:0000000000000064 $d
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:221    .text.HAL_SPI_MspDeInit:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:228    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:271    .text.HAL_SPI_MspDeInit:0000000000000024 $d
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:278    .text.SPI_transfer8:0000000000000000 $t
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:285    .text.SPI_transfer8:0000000000000000 SPI_transfer8
-/var/folders/_1/sgnj6dm57r56n1x62bwb5w5h0000gn/T//cchP0GVC.s:324    .text.SPI_transfer8:0000000000000028 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:107    .text.HAL_SPI_MspInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:114    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:215    .text.HAL_SPI_MspInit:0000000000000064 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:221    .text.HAL_SPI_MspDeInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:228    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:271    .text.HAL_SPI_MspDeInit:0000000000000024 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:278    .text.SPI_transfer8:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:285    .text.SPI_transfer8:0000000000000000 SPI_transfer8
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:324    .text.SPI_transfer8:0000000000000028 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:329    .text.SPI_receive8:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:336    .text.SPI_receive8:0000000000000000 SPI_receive8
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cc9QF9EC.s:368    .text.SPI_receive8:000000000000001c $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init
@@ -528,3 +584,4 @@ Error_Handler
 HAL_GPIO_Init
 HAL_GPIO_DeInit
 HAL_SPI_TransmitReceive
+HAL_SPI_Receive

@@ -39,7 +39,8 @@ extern SPI_HandleTypeDef hspi3;
 void MX_SPI3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+uint8_t SPI_receive8 (void);
+uint8_t SPI_transfer8 (uint8_t);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

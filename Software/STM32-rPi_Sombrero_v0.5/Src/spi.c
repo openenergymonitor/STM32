@@ -113,6 +113,14 @@ uint8_t SPI_transfer8 (uint8_t tx_byte) { // function to transfer 1byte on SPI w
   return rx_byte;
 
 }
+
+uint8_t SPI_receive8 (void) { // function to transfer 1byte on SPI with readback
+  uint8_t rx_byte;
+
+  HAL_SPI_Receive(&hspi3, &rx_byte, 1, 10);
+  return rx_byte;
+  
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
