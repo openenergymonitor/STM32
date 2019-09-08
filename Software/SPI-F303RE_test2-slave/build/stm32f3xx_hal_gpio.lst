@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
   27:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****     (+) All GPIO pins have weak internal pull-up and pull-down resistors, which can be
   28:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         activated or not.
   29:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 2
 
 
   30:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****     (+) In Output or Alternate mode, each IO can be configured on open-drain or push-pull
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
   84:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         priority over the GPIO function.
   85:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
   86:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****     (#) The HSE oscillator pins OSC_IN/OSC_OUT can be used as
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 3
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 3
 
 
   87:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         general purpose PF0 and PF1, respectively, when the HSE oscillator is off.
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  141:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** #define EXTI_MODE             (0x10000000U)
  142:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** #define GPIO_MODE_IT          (0x00010000U)
  143:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** #define GPIO_MODE_EVT         (0x00020000U)
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 4
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 4
 
 
  144:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** #define RISING_EDGE           (0x00100000U)
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
   38              		.cfi_def_cfa_offset 16
   39              		.cfi_offset 4, -16
   40              		.cfi_offset 5, -12
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 5
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 5
 
 
   41              		.cfi_offset 6, -8
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  223:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       /* Configure IO Direction mode (Input, Output, Alternate or Analog) */
  224:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       temp = GPIOx->MODER;
  225:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 6
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 6
 
 
  226:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       temp |= ((GPIO_Init->Mode & GPIO_MODE) << (position * 2U));
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
   76 0016 46F82540 		str	r4, [r6, r5, lsl #2]
  265:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
  266:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         /* Clear EXTI line configuration */
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 7
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 7
 
 
  267:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         temp = EXTI->IMR;
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  279:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****           temp |= iocurrent;
  119              		.loc 1 279 11 is_stmt 1 view .LVU37
  120              		.loc 1 279 16 is_stmt 0 view .LVU38
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 8
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 8
 
 
  121 0042 42EA0506 		orr	r6, r2, r5
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  160              		.loc 1 294 22 is_stmt 0 view .LVU57
  161 0064 4E68     		ldr	r6, [r1, #4]
  162              		.loc 1 294 11 view .LVU58
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 9
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 9
 
 
  163 0066 16F4001F 		tst	r6, #2097152
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  200              		.loc 1 210 20 is_stmt 0 view .LVU74
  201 0088 4D68     		ldr	r5, [r1, #4]
  210:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 10
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 10
 
 
  202              		.loc 1 210 9 view .LVU75
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  239 00b0 40F82650 		str	r5, [r0, r6, lsl #2]
  240              	.LVL25:
  241              	.L5:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 11
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 11
 
 
  224:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  278 00da 03D9     		bls	.L6
  230:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****          (GPIO_Init->Mode == GPIO_MODE_OUTPUT_OD) || (GPIO_Init->Mode == GPIO_MODE_AF_OD))
  279              		.loc 1 230 91 discriminator 1 view .LVU111
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 12
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 12
 
 
  280 00dc 112E     		cmp	r6, #17
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  316 00fa 4E68     		ldr	r6, [r1, #4]
  244:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         GPIOx->OTYPER = temp;
  317              		.loc 1 244 56 view .LVU130
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 13
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 13
 
 
  318 00fc C6F30016 		ubfx	r6, r6, #4, #1
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  259:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
  355              		.loc 1 259 9 is_stmt 1 view .LVU148
  356              	.LBB2:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 14
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 14
 
 
  259:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  396 0150 A042     		cmp	r0, r4
  397 0152 16D0     		beq	.L15
  263:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         SYSCFG->EXTICR[position >> 2] = temp;
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 15
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 15
 
 
  398              		.loc 1 263 18 discriminator 3 view .LVU164
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  445              		.cfi_restore 7
  446              		.cfi_restore 6
  447              		.cfi_restore 5
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 16
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 16
 
 
  448              		.cfi_restore 4
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  483 0000 0023     		movs	r3, #0
  484              		.loc 1 324 9 view .LVU179
  485 0002 7CE0     		b	.L39
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 17
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 17
 
 
  486              	.LVL46:
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  357:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
  358:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         /* Clear EXTI line configuration */
  359:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         EXTI->IMR &= ~((uint32_t)iocurrent);
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 18
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 18
 
 
  360:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****         EXTI->EMR &= ~((uint32_t)iocurrent);
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  540              		.loc 1 336 7 is_stmt 1 view .LVU197
  336:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
  541              		.loc 1 336 33 is_stmt 0 view .LVU198
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 19
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 19
 
 
  542 0032 DF08     		lsrs	r7, r3, #3
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  352:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       if(tmp == (GPIO_GET_INDEX(GPIOx) << (4U * (position & 0x03U))))
  581              		.loc 1 352 30 view .LVU214
  582 0070 9200     		lsls	r2, r2, #2
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 20
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 20
 
 
  352:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****       if(tmp == (GPIO_GET_INDEX(GPIOx) << (4U * (position & 0x03U))))
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  626 00b6 0325     		movs	r5, #3
  627 00b8 A7E7     		b	.L29
  628              	.L35:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 21
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 21
 
 
  629 00ba 0425     		movs	r5, #4
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  669 00f2 0CEA0202 		and	r2, ip, r2
  670 00f6 E260     		str	r2, [r4, #12]
  671 00f8 8BE7     		b	.L28
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 22
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 22
 
 
  672              	.LVL56:
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  715              	.L47:
  716              	.LCFI7:
  717              		.cfi_def_cfa_offset 0
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 23
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 23
 
 
  718              		.cfi_restore 4
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  747              		@ args = 0, pretend = 0, frame = 0
  748              		@ frame_needed = 0, uses_anonymous_args = 0
  749              		@ link register save eliminated.
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 24
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 24
 
 
  397:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   GPIO_PinState bitstatus;
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  418:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   *         the read and the modify access.
  419:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   *
  420:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   * @param  GPIOx where x can be (A..F) to select the GPIO peripheral for STM32F3 family
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 25
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 25
 
 
  421:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   * @param  GPIO_Pin specifies the port bit to be written.
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  818              	.LFB130:
  444:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
  445:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** /**
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 26
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 26
 
 
  446:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   * @brief  Toggle the specified GPIO pin.
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  849              		.cfi_startproc
  850              		@ args = 0, pretend = 0, frame = 8
  851              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 27
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 27
 
 
  852              		@ link register save eliminated.
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  888 001e 13F4803F 		tst	r3, #65536
  889 0022 02D0     		beq	.L60
  490:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 28
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 28
 
 
  491:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****     return HAL_OK;
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  511:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c ****   }
  512:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** }
  513:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 29
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 29
 
 
  514:Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c **** /**
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  961 0006 0342     		tst	r3, r0
  962 0008 00D1     		bne	.L66
  963              	.LVL75:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 30
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 30
 
 
  964              	.L63:
@@ -1779,29 +1779,29 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 1
  996              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
  997              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
  998              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s 			page 31
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s 			page 31
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f3xx_hal_gpio.c
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:18     .text.HAL_GPIO_Init:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:26     .text.HAL_GPIO_Init:0000000000000000 HAL_GPIO_Init
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:454    .text.HAL_GPIO_Init:000000000000019c $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:462    .text.HAL_GPIO_DeInit:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:469    .text.HAL_GPIO_DeInit:0000000000000000 HAL_GPIO_DeInit
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:728    .text.HAL_GPIO_DeInit:0000000000000114 $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:735    .text.HAL_GPIO_ReadPin:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:742    .text.HAL_GPIO_ReadPin:0000000000000000 HAL_GPIO_ReadPin
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:775    .text.HAL_GPIO_WritePin:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:782    .text.HAL_GPIO_WritePin:0000000000000000 HAL_GPIO_WritePin
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:809    .text.HAL_GPIO_TogglePin:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:816    .text.HAL_GPIO_TogglePin:0000000000000000 HAL_GPIO_TogglePin
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:838    .text.HAL_GPIO_LockPin:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:845    .text.HAL_GPIO_LockPin:0000000000000000 HAL_GPIO_LockPin
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:914    .text.HAL_GPIO_EXTI_Callback:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:921    .text.HAL_GPIO_EXTI_Callback:0000000000000000 HAL_GPIO_EXTI_Callback
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:936    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:943    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000000 HAL_GPIO_EXTI_IRQHandler
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccDoH7vt.s:980    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000018 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:18     .text.HAL_GPIO_Init:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:26     .text.HAL_GPIO_Init:0000000000000000 HAL_GPIO_Init
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:454    .text.HAL_GPIO_Init:000000000000019c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:462    .text.HAL_GPIO_DeInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:469    .text.HAL_GPIO_DeInit:0000000000000000 HAL_GPIO_DeInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:728    .text.HAL_GPIO_DeInit:0000000000000114 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:735    .text.HAL_GPIO_ReadPin:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:742    .text.HAL_GPIO_ReadPin:0000000000000000 HAL_GPIO_ReadPin
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:775    .text.HAL_GPIO_WritePin:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:782    .text.HAL_GPIO_WritePin:0000000000000000 HAL_GPIO_WritePin
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:809    .text.HAL_GPIO_TogglePin:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:816    .text.HAL_GPIO_TogglePin:0000000000000000 HAL_GPIO_TogglePin
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:838    .text.HAL_GPIO_LockPin:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:845    .text.HAL_GPIO_LockPin:0000000000000000 HAL_GPIO_LockPin
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:914    .text.HAL_GPIO_EXTI_Callback:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:921    .text.HAL_GPIO_EXTI_Callback:0000000000000000 HAL_GPIO_EXTI_Callback
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:936    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:943    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000000 HAL_GPIO_EXTI_IRQHandler
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccHMgfnT.s:980    .text.HAL_GPIO_EXTI_IRQHandler:0000000000000018 $d
 
 NO UNDEFINED SYMBOLS

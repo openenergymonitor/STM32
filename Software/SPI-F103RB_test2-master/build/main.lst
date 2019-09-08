@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
   30:Src/main.c    **** /* USER CODE END Includes */
   31:Src/main.c    **** 
   32:Src/main.c    **** /* Private typedef -----------------------------------------------------------*/
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 2
 
 
   33:Src/main.c    **** /* USER CODE BEGIN PTD */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
   87:Src/main.c    ****   /* USER CODE BEGIN SysInit */
   88:Src/main.c    **** 
   89:Src/main.c    ****   /* USER CODE END SysInit */
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 3
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 3
 
 
   90:Src/main.c    **** 
@@ -127,7 +127,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
   93:Src/main.c    ****   MX_USART2_UART_Init();
   94:Src/main.c    ****   MX_SPI1_Init();
   95:Src/main.c    ****   /* USER CODE BEGIN 2 */
-  96:Src/main.c    ****   uint8_t input, output = 0;
+  96:Src/main.c    ****   char message[] = "H";
   97:Src/main.c    ****   /* USER CODE END 2 */
   98:Src/main.c    **** 
   99:Src/main.c    ****   /* Infinite loop */
@@ -138,7 +138,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
  104:Src/main.c    ****     {
  105:Src/main.c    ****         int result = 0;
  106:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
- 107:Src/main.c    ****         HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&i, (uint8_t*)&result, sizeof(i), HAL_MAX_DELAY)
+ 107:Src/main.c    ****         HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&message, (uint8_t*)&result, sizeof(message), HA
  108:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
  109:Src/main.c    ****         if (result != (i - 1))
  110:Src/main.c    ****         {
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
   41              		.loc 1 129 22 is_stmt 0 view .LVU2
   42 0004 2022     		movs	r2, #32
   43 0006 0021     		movs	r1, #0
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 4
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 4
 
 
   44 0008 07A8     		add	r0, sp, #28
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
   81              		.loc 1 146 31 is_stmt 0 view .LVU19
   82 0034 0F23     		movs	r3, #15
   83 0036 0193     		str	r3, [sp, #4]
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 5
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 5
 
 
  147:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -293,142 +293,146 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
  123              		.cfi_startproc
  124              		@ args = 0, pretend = 0, frame = 8
  125              		@ frame_needed = 0, uses_anonymous_args = 0
- 126 0000 10B5     		push	{r4, lr}
+ 126 0000 30B5     		push	{r4, r5, lr}
  127              	.LCFI3:
- 128              		.cfi_def_cfa_offset 8
- 129              		.cfi_offset 4, -8
- 130              		.cfi_offset 14, -4
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 6
+ 128              		.cfi_def_cfa_offset 12
+ 129              		.cfi_offset 4, -12
+ 130              		.cfi_offset 5, -8
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 6
 
 
- 131 0002 84B0     		sub	sp, sp, #16
- 132              	.LCFI4:
- 133              		.cfi_def_cfa_offset 24
+ 131              		.cfi_offset 14, -4
+ 132 0002 85B0     		sub	sp, sp, #20
+ 133              	.LCFI4:
+ 134              		.cfi_def_cfa_offset 32
   78:Src/main.c    **** 
- 134              		.loc 1 78 3 view .LVU32
- 135 0004 FFF7FEFF 		bl	HAL_Init
- 136              	.LVL3:
+ 135              		.loc 1 78 3 view .LVU32
+ 136 0004 FFF7FEFF 		bl	HAL_Init
+ 137              	.LVL3:
   85:Src/main.c    **** 
- 137              		.loc 1 85 3 view .LVU33
- 138 0008 FFF7FEFF 		bl	SystemClock_Config
- 139              	.LVL4:
+ 138              		.loc 1 85 3 view .LVU33
+ 139 0008 FFF7FEFF 		bl	SystemClock_Config
+ 140              	.LVL4:
   92:Src/main.c    ****   MX_USART2_UART_Init();
- 140              		.loc 1 92 3 view .LVU34
- 141 000c FFF7FEFF 		bl	MX_GPIO_Init
- 142              	.LVL5:
+ 141              		.loc 1 92 3 view .LVU34
+ 142 000c FFF7FEFF 		bl	MX_GPIO_Init
+ 143              	.LVL5:
   93:Src/main.c    ****   MX_SPI1_Init();
- 143              		.loc 1 93 3 view .LVU35
- 144 0010 FFF7FEFF 		bl	MX_USART2_UART_Init
- 145              	.LVL6:
+ 144              		.loc 1 93 3 view .LVU35
+ 145 0010 FFF7FEFF 		bl	MX_USART2_UART_Init
+ 146              	.LVL6:
   94:Src/main.c    ****   /* USER CODE BEGIN 2 */
- 146              		.loc 1 94 3 view .LVU36
- 147 0014 FFF7FEFF 		bl	MX_SPI1_Init
- 148              	.LVL7:
+ 147              		.loc 1 94 3 view .LVU36
+ 148 0014 FFF7FEFF 		bl	MX_SPI1_Init
+ 149              	.LVL7:
   96:Src/main.c    ****   /* USER CODE END 2 */
- 149              		.loc 1 96 3 view .LVU37
+ 150              		.loc 1 96 3 view .LVU37
+  96:Src/main.c    ****   /* USER CODE END 2 */
+ 151              		.loc 1 96 8 is_stmt 0 view .LVU38
+ 152 0018 4823     		movs	r3, #72
+ 153 001a ADF80C30 		strh	r3, [sp, #12]	@ movhi
  101:Src/main.c    ****   {
- 150              		.loc 1 101 3 view .LVU38
+ 154              		.loc 1 101 3 is_stmt 1 view .LVU39
  103:Src/main.c    ****     {
- 151              		.loc 1 103 5 view .LVU39
- 152              	.LBB2:
+ 155              		.loc 1 103 5 view .LVU40
+ 156              	.LBB2:
  103:Src/main.c    ****     {
- 153              		.loc 1 103 10 view .LVU40
+ 157              		.loc 1 103 10 view .LVU41
+ 158              	.LVL8:
  103:Src/main.c    ****     {
- 154              		.loc 1 103 14 is_stmt 0 view .LVU41
- 155 0018 0023     		movs	r3, #0
- 156 001a 0293     		str	r3, [sp, #8]
- 157 001c 05E0     		b	.L5
- 158              	.L4:
- 159              	.LBB3:
+ 159              		.loc 1 103 14 is_stmt 0 view .LVU42
+ 160 001e 0024     		movs	r4, #0
+ 161 0020 03E0     		b	.L5
+ 162              	.LVL9:
+ 163              	.L4:
+ 164              	.LBB3:
  114:Src/main.c    ****     }
- 160              		.loc 1 114 9 is_stmt 1 view .LVU42
- 161 001e 0A20     		movs	r0, #10
- 162 0020 FFF7FEFF 		bl	HAL_Delay
- 163              	.LVL8:
- 164              	.LBE3:
+ 165              		.loc 1 114 9 is_stmt 1 view .LVU43
+ 166 0022 0A20     		movs	r0, #10
+ 167 0024 FFF7FEFF 		bl	HAL_Delay
+ 168              	.LVL10:
+ 169              	.LBE3:
  103:Src/main.c    ****     {
- 165              		.loc 1 103 23 is_stmt 0 view .LVU43
- 166 0024 029B     		ldr	r3, [sp, #8]
- 167 0026 0133     		adds	r3, r3, #1
- 168 0028 0293     		str	r3, [sp, #8]
- 169              	.L5:
- 170              	.LBB4:
- 105:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
- 171              		.loc 1 105 9 is_stmt 1 view .LVU44
- 105:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
- 172              		.loc 1 105 13 is_stmt 0 view .LVU45
- 173 002a 0022     		movs	r2, #0
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 7
+ 170              		.loc 1 103 23 is_stmt 0 view .LVU44
+ 171 0028 0134     		adds	r4, r4, #1
+ 172              	.LVL11:
+ 173              	.L5:
+ 174              	.LBB4:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 7
 
 
- 174 002c 0392     		str	r2, [sp, #12]
- 106:Src/main.c    ****         HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&i, (uint8_t*)&result, sizeof(i), HAL_MAX_DELAY)
- 175              		.loc 1 106 9 is_stmt 1 view .LVU46
- 176 002e 0D4C     		ldr	r4, .L7
- 177 0030 4021     		movs	r1, #64
- 178 0032 2046     		mov	r0, r4
- 179 0034 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 180              	.LVL9:
+ 105:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+ 175              		.loc 1 105 9 is_stmt 1 view .LVU45
+ 105:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+ 176              		.loc 1 105 13 is_stmt 0 view .LVU46
+ 177 002a 0022     		movs	r2, #0
+ 178 002c 0292     		str	r2, [sp, #8]
+ 106:Src/main.c    ****         HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&message, (uint8_t*)&result, sizeof(message), HA
+ 179              		.loc 1 106 9 is_stmt 1 view .LVU47
+ 180 002e 0C4D     		ldr	r5, .L7
+ 181 0030 4021     		movs	r1, #64
+ 182 0032 2846     		mov	r0, r5
+ 183 0034 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 184              	.LVL12:
  107:Src/main.c    ****         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
- 181              		.loc 1 107 9 view .LVU47
- 182 0038 4FF0FF33 		mov	r3, #-1
- 183 003c 0093     		str	r3, [sp]
- 184 003e 0423     		movs	r3, #4
- 185 0040 03AA     		add	r2, sp, #12
- 186 0042 02A9     		add	r1, sp, #8
- 187 0044 0848     		ldr	r0, .L7+4
- 188 0046 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
- 189              	.LVL10:
+ 185              		.loc 1 107 9 view .LVU48
+ 186 0038 4FF0FF33 		mov	r3, #-1
+ 187 003c 0093     		str	r3, [sp]
+ 188 003e 0223     		movs	r3, #2
+ 189 0040 02AA     		add	r2, sp, #8
+ 190 0042 03A9     		add	r1, sp, #12
+ 191 0044 0748     		ldr	r0, .L7+4
+ 192 0046 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 193              	.LVL13:
  108:Src/main.c    ****         if (result != (i - 1))
- 190              		.loc 1 108 9 view .LVU48
- 191 004a 0122     		movs	r2, #1
- 192 004c 4021     		movs	r1, #64
- 193 004e 2046     		mov	r0, r4
- 194 0050 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 195              	.LVL11:
+ 194              		.loc 1 108 9 view .LVU49
+ 195 004a 0122     		movs	r2, #1
+ 196 004c 4021     		movs	r1, #64
+ 197 004e 2846     		mov	r0, r5
+ 198 0050 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 199              	.LVL14:
  109:Src/main.c    ****         {
- 196              		.loc 1 109 9 view .LVU49
+ 200              		.loc 1 109 9 view .LVU50
  109:Src/main.c    ****         {
- 197              		.loc 1 109 26 is_stmt 0 view .LVU50
- 198 0054 029B     		ldr	r3, [sp, #8]
- 199 0056 013B     		subs	r3, r3, #1
+ 201              		.loc 1 109 26 is_stmt 0 view .LVU51
+ 202 0054 631E     		subs	r3, r4, #1
  109:Src/main.c    ****         {
- 200              		.loc 1 109 20 view .LVU51
- 201 0058 039A     		ldr	r2, [sp, #12]
+ 203              		.loc 1 109 20 view .LVU52
+ 204 0056 029A     		ldr	r2, [sp, #8]
  109:Src/main.c    ****         {
- 202              		.loc 1 109 12 view .LVU52
- 203 005a 9342     		cmp	r3, r2
- 204 005c DFD0     		beq	.L4
+ 205              		.loc 1 109 12 view .LVU53
+ 206 0058 9342     		cmp	r3, r2
+ 207 005a E2D0     		beq	.L4
  111:Src/main.c    ****         }
- 205              		.loc 1 111 13 is_stmt 1 view .LVU53
- 206              		.syntax unified
- 207              	@ 111 "Src/main.c" 1
- 208 005e 00BF     		nop
- 209              	@ 0 "" 2
- 210              		.thumb
- 211              		.syntax unified
- 212 0060 DDE7     		b	.L4
- 213              	.L8:
- 214 0062 00BF     		.align	2
- 215              	.L7:
- 216 0064 000C0140 		.word	1073810432
- 217 0068 00000000 		.word	hspi1
- 218              	.LBE4:
- 219              	.LBE2:
- 220              		.cfi_endproc
- 221              	.LFE66:
- 223              		.section	.text.Error_Handler,"ax",%progbits
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 8
+ 208              		.loc 1 111 13 is_stmt 1 view .LVU54
+ 209              		.syntax unified
+ 210              	@ 111 "Src/main.c" 1
+ 211 005c 00BF     		nop
+ 212              	@ 0 "" 2
+ 213              		.thumb
+ 214              		.syntax unified
+ 215 005e E0E7     		b	.L4
+ 216              	.L8:
+ 217              		.align	2
+ 218              	.L7:
+ 219 0060 000C0140 		.word	1073810432
+ 220 0064 00000000 		.word	hspi1
+ 221              	.LBE4:
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 8
 
 
- 224              		.align	1
- 225              		.global	Error_Handler
- 226              		.syntax unified
- 227              		.thumb
- 228              		.thumb_func
- 229              		.fpu softvfp
- 231              	Error_Handler:
- 232              	.LFB68:
+ 222              	.LBE2:
+ 223              		.cfi_endproc
+ 224              	.LFE66:
+ 226              		.section	.text.Error_Handler,"ax",%progbits
+ 227              		.align	1
+ 228              		.global	Error_Handler
+ 229              		.syntax unified
+ 230              		.thumb
+ 231              		.thumb_func
+ 232              		.fpu softvfp
+ 234              	Error_Handler:
+ 235              	.LFB68:
  158:Src/main.c    **** 
  159:Src/main.c    **** /* USER CODE BEGIN 4 */
  160:Src/main.c    **** 
@@ -440,55 +444,58 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 1
  166:Src/main.c    ****   */
  167:Src/main.c    **** void Error_Handler(void)
  168:Src/main.c    **** {
- 233              		.loc 1 168 1 view -0
- 234              		.cfi_startproc
- 235              		@ args = 0, pretend = 0, frame = 0
- 236              		@ frame_needed = 0, uses_anonymous_args = 0
- 237              		@ link register save eliminated.
+ 236              		.loc 1 168 1 view -0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240              		@ link register save eliminated.
  169:Src/main.c    ****   /* USER CODE BEGIN Error_Handler_Debug */
  170:Src/main.c    ****   /* User can add his own implementation to report the HAL error return state */
  171:Src/main.c    **** 
  172:Src/main.c    ****   /* USER CODE END Error_Handler_Debug */
  173:Src/main.c    **** }
- 238              		.loc 1 173 1 view .LVU55
- 239 0000 7047     		bx	lr
- 240              		.cfi_endproc
- 241              	.LFE68:
- 243              		.text
- 244              	.Letext0:
- 245              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_type
- 246              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
- 247              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
- 248              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h"
- 249              		.file 6 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 250              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/stddef.
- 251              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
- 252              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
- 253              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
- 254              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 255              		.file 12 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
- 256              		.file 13 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
- 257              		.file 14 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
- 258              		.file 15 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 259              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
- 260              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
- 261              		.file 18 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
- 262              		.file 19 "Inc/spi.h"
- 263              		.file 20 "Inc/usart.h"
- 264              		.file 21 "Inc/gpio.h"
- 265              		.file 22 "<built-in>"
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s 			page 9
+ 241              		.loc 1 173 1 view .LVU56
+ 242 0000 7047     		bx	lr
+ 243              		.cfi_endproc
+ 244              	.LFE68:
+ 246              		.text
+ 247              	.Letext0:
+ 248              		.file 2 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/machine/_default_type
+ 249              		.file 3 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_stdint.h"
+ 250              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
+ 251              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h"
+ 252              		.file 6 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 253              		.file 7 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/include/stddef.
+ 254              		.file 8 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_types.h"
+ 255              		.file 9 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/reent.h"
+ 256              		.file 10 "/usr/local/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lock.h"
+ 257              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 258              		.file 12 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
+ 259              		.file 13 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
+ 260              		.file 14 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 261              		.file 15 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 262              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
+ 263              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 264              		.file 18 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 265              		.file 19 "Inc/spi.h"
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 9
+
+
+ 266              		.file 20 "Inc/usart.h"
+ 267              		.file 21 "Inc/gpio.h"
+ 268              		.file 22 "<built-in>"
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:16     .text.SystemClock_Config:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:24     .text.SystemClock_Config:0000000000000000 SystemClock_Config
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:113    .text.main:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:120    .text.main:0000000000000000 main
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:216    .text.main:0000000000000064 $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:224    .text.Error_Handler:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//cczbwqCh.s:231    .text.Error_Handler:0000000000000000 Error_Handler
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:16     .text.SystemClock_Config:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:24     .text.SystemClock_Config:0000000000000000 SystemClock_Config
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:113    .text.main:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:120    .text.main:0000000000000000 main
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:219    .text.main:0000000000000060 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:227    .text.Error_Handler:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccROPYwH.s:234    .text.Error_Handler:0000000000000000 Error_Handler
 
 UNDEFINED SYMBOLS
 memset

@@ -733,18 +733,18 @@ LOAD /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/
  .text.SystemClock_Config
                 0x000000000800014c       0x50 build/main.o
                 0x000000000800014c                SystemClock_Config
- .text.main     0x000000000800019c       0x6c build/main.o
+ .text.main     0x000000000800019c       0x68 build/main.o
                 0x000000000800019c                main
  .text.Error_Handler
-                0x0000000008000208        0x2 build/main.o
-                0x0000000008000208                Error_Handler
- *fill*         0x000000000800020a        0x2 
+                0x0000000008000204        0x2 build/main.o
+                0x0000000008000204                Error_Handler
+ *fill*         0x0000000008000206        0x2 
  .text.MX_GPIO_Init
-                0x000000000800020c      0x138 build/gpio.o
-                0x000000000800020c                MX_GPIO_Init
+                0x0000000008000208      0x138 build/gpio.o
+                0x0000000008000208                MX_GPIO_Init
  .text.MX_SPI1_Init
-                0x0000000008000344       0x44 build/spi.o
-                0x0000000008000344                MX_SPI1_Init
+                0x0000000008000340       0x48 build/spi.o
+                0x0000000008000340                MX_SPI1_Init
  .text.HAL_SPI_MspInit
                 0x0000000008000388       0x88 build/spi.o
                 0x0000000008000388                HAL_SPI_MspInit
@@ -1092,55 +1092,55 @@ LOAD /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/
                 0x000000000000033b       0x1d /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/8.3.1/thumb/v7-m/nofp/crtn.o
 OUTPUT(build/SPI-F103RB_test2-master.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x122e3
- .debug_info    0x0000000000000000     0x16d0 build/main.o
- .debug_info    0x00000000000016d0     0x10ad build/gpio.o
- .debug_info    0x000000000000277d     0x141a build/spi.o
- .debug_info    0x0000000000003b97     0x12f2 build/usart.o
- .debug_info    0x0000000000004e89      0xc34 build/stm32f1xx_it.o
- .debug_info    0x0000000000005abd      0xca6 build/stm32f1xx_hal_msp.o
- .debug_info    0x0000000000006763     0x2746 build/stm32f1xx_hal_spi.o
- .debug_info    0x0000000000008ea9     0x10bf build/stm32f1xx_hal_spi_ex.o
- .debug_info    0x0000000000009f68     0x2416 build/stm32f1xx_hal_uart.o
- .debug_info    0x000000000000c37e     0x1228 build/stm32f1xx_hal.o
- .debug_info    0x000000000000d5a6     0x1515 build/stm32f1xx_hal_rcc.o
- .debug_info    0x000000000000eabb     0x114b build/stm32f1xx_hal_gpio.o
- .debug_info    0x000000000000fc06     0x1866 build/stm32f1xx_hal_cortex.o
- .debug_info    0x000000000001146c      0xe55 build/system_stm32f1xx.o
- .debug_info    0x00000000000122c1       0x22 build/startup_stm32f103xb.o
+.debug_info     0x0000000000000000    0x122ee
+ .debug_info    0x0000000000000000     0x16db build/main.o
+ .debug_info    0x00000000000016db     0x10ad build/gpio.o
+ .debug_info    0x0000000000002788     0x141a build/spi.o
+ .debug_info    0x0000000000003ba2     0x12f2 build/usart.o
+ .debug_info    0x0000000000004e94      0xc34 build/stm32f1xx_it.o
+ .debug_info    0x0000000000005ac8      0xca6 build/stm32f1xx_hal_msp.o
+ .debug_info    0x000000000000676e     0x2746 build/stm32f1xx_hal_spi.o
+ .debug_info    0x0000000000008eb4     0x10bf build/stm32f1xx_hal_spi_ex.o
+ .debug_info    0x0000000000009f73     0x2416 build/stm32f1xx_hal_uart.o
+ .debug_info    0x000000000000c389     0x1228 build/stm32f1xx_hal.o
+ .debug_info    0x000000000000d5b1     0x1515 build/stm32f1xx_hal_rcc.o
+ .debug_info    0x000000000000eac6     0x114b build/stm32f1xx_hal_gpio.o
+ .debug_info    0x000000000000fc11     0x1866 build/stm32f1xx_hal_cortex.o
+ .debug_info    0x0000000000011477      0xe55 build/system_stm32f1xx.o
+ .debug_info    0x00000000000122cc       0x22 build/startup_stm32f103xb.o
 
-.debug_abbrev   0x0000000000000000     0x281f
- .debug_abbrev  0x0000000000000000      0x2da build/main.o
- .debug_abbrev  0x00000000000002da      0x26a build/gpio.o
- .debug_abbrev  0x0000000000000544      0x28f build/spi.o
- .debug_abbrev  0x00000000000007d3      0x27b build/usart.o
- .debug_abbrev  0x0000000000000a4e      0x238 build/stm32f1xx_it.o
- .debug_abbrev  0x0000000000000c86      0x21c build/stm32f1xx_hal_msp.o
- .debug_abbrev  0x0000000000000ea2      0x35c build/stm32f1xx_hal_spi.o
- .debug_abbrev  0x00000000000011fe      0x21a build/stm32f1xx_hal_spi_ex.o
- .debug_abbrev  0x0000000000001418      0x385 build/stm32f1xx_hal_uart.o
- .debug_abbrev  0x000000000000179d      0x348 build/stm32f1xx_hal.o
- .debug_abbrev  0x0000000000001ae5      0x386 build/stm32f1xx_hal_rcc.o
- .debug_abbrev  0x0000000000001e6b      0x30a build/stm32f1xx_hal_gpio.o
- .debug_abbrev  0x0000000000002175      0x459 build/stm32f1xx_hal_cortex.o
- .debug_abbrev  0x00000000000025ce      0x23f build/system_stm32f1xx.o
- .debug_abbrev  0x000000000000280d       0x12 build/startup_stm32f103xb.o
+.debug_abbrev   0x0000000000000000     0x2802
+ .debug_abbrev  0x0000000000000000      0x2bd build/main.o
+ .debug_abbrev  0x00000000000002bd      0x26a build/gpio.o
+ .debug_abbrev  0x0000000000000527      0x28f build/spi.o
+ .debug_abbrev  0x00000000000007b6      0x27b build/usart.o
+ .debug_abbrev  0x0000000000000a31      0x238 build/stm32f1xx_it.o
+ .debug_abbrev  0x0000000000000c69      0x21c build/stm32f1xx_hal_msp.o
+ .debug_abbrev  0x0000000000000e85      0x35c build/stm32f1xx_hal_spi.o
+ .debug_abbrev  0x00000000000011e1      0x21a build/stm32f1xx_hal_spi_ex.o
+ .debug_abbrev  0x00000000000013fb      0x385 build/stm32f1xx_hal_uart.o
+ .debug_abbrev  0x0000000000001780      0x348 build/stm32f1xx_hal.o
+ .debug_abbrev  0x0000000000001ac8      0x386 build/stm32f1xx_hal_rcc.o
+ .debug_abbrev  0x0000000000001e4e      0x30a build/stm32f1xx_hal_gpio.o
+ .debug_abbrev  0x0000000000002158      0x459 build/stm32f1xx_hal_cortex.o
+ .debug_abbrev  0x00000000000025b1      0x23f build/system_stm32f1xx.o
+ .debug_abbrev  0x00000000000027f0       0x12 build/startup_stm32f103xb.o
 
-.debug_loc      0x0000000000000000     0x5d5a
- .debug_loc     0x0000000000000000       0x65 build/main.o
- .debug_loc     0x0000000000000065       0x6d build/gpio.o
- .debug_loc     0x00000000000000d2      0x13d build/spi.o
- .debug_loc     0x000000000000020f      0x108 build/usart.o
- .debug_loc     0x0000000000000317       0x40 build/stm32f1xx_it.o
- .debug_loc     0x0000000000000357       0x41 build/stm32f1xx_hal_msp.o
- .debug_loc     0x0000000000000398     0x2431 build/stm32f1xx_hal_spi.o
- .debug_loc     0x00000000000027c9       0x85 build/stm32f1xx_hal_spi_ex.o
- .debug_loc     0x000000000000284e     0x1d20 build/stm32f1xx_hal_uart.o
- .debug_loc     0x000000000000456e      0x1cc build/stm32f1xx_hal.o
- .debug_loc     0x000000000000473a      0x815 build/stm32f1xx_hal_rcc.o
- .debug_loc     0x0000000000004f4f      0x5a1 build/stm32f1xx_hal_gpio.o
- .debug_loc     0x00000000000054f0      0x76b build/stm32f1xx_hal_cortex.o
- .debug_loc     0x0000000000005c5b       0xff build/system_stm32f1xx.o
+.debug_loc      0x0000000000000000     0x5d7d
+ .debug_loc     0x0000000000000000       0x88 build/main.o
+ .debug_loc     0x0000000000000088       0x6d build/gpio.o
+ .debug_loc     0x00000000000000f5      0x13d build/spi.o
+ .debug_loc     0x0000000000000232      0x108 build/usart.o
+ .debug_loc     0x000000000000033a       0x40 build/stm32f1xx_it.o
+ .debug_loc     0x000000000000037a       0x41 build/stm32f1xx_hal_msp.o
+ .debug_loc     0x00000000000003bb     0x2431 build/stm32f1xx_hal_spi.o
+ .debug_loc     0x00000000000027ec       0x85 build/stm32f1xx_hal_spi_ex.o
+ .debug_loc     0x0000000000002871     0x1d20 build/stm32f1xx_hal_uart.o
+ .debug_loc     0x0000000000004591      0x1cc build/stm32f1xx_hal.o
+ .debug_loc     0x000000000000475d      0x815 build/stm32f1xx_hal_rcc.o
+ .debug_loc     0x0000000000004f72      0x5a1 build/stm32f1xx_hal_gpio.o
+ .debug_loc     0x0000000000005513      0x76b build/stm32f1xx_hal_cortex.o
+ .debug_loc     0x0000000000005c7e       0xff build/system_stm32f1xx.o
 
 .debug_aranges  0x0000000000000000      0x790
  .debug_aranges
@@ -1191,53 +1191,53 @@ OUTPUT(build/SPI-F103RB_test2-master.elf elf32-littlearm)
  .debug_ranges  0x00000000000006f0       0x18 build/system_stm32f1xx.o
  .debug_ranges  0x0000000000000708       0x20 build/startup_stm32f103xb.o
 
-.debug_line     0x0000000000000000     0x73ac
- .debug_line    0x0000000000000000      0x3c6 build/main.o
- .debug_line    0x00000000000003c6      0x317 build/gpio.o
- .debug_line    0x00000000000006dd      0x3ac build/spi.o
- .debug_line    0x0000000000000a89      0x36e build/usart.o
- .debug_line    0x0000000000000df7      0x30d build/stm32f1xx_it.o
- .debug_line    0x0000000000001104      0x23c build/stm32f1xx_hal_msp.o
- .debug_line    0x0000000000001340     0x20ac build/stm32f1xx_hal_spi.o
- .debug_line    0x00000000000033ec      0x2ef build/stm32f1xx_hal_spi_ex.o
- .debug_line    0x00000000000036db     0x1a9e build/stm32f1xx_hal_uart.o
- .debug_line    0x0000000000005179      0x559 build/stm32f1xx_hal.o
- .debug_line    0x00000000000056d2      0xc2e build/stm32f1xx_hal_rcc.o
- .debug_line    0x0000000000006300      0x69e build/stm32f1xx_hal_gpio.o
- .debug_line    0x000000000000699e      0x66f build/stm32f1xx_hal_cortex.o
- .debug_line    0x000000000000700d      0x32d build/system_stm32f1xx.o
- .debug_line    0x000000000000733a       0x72 build/startup_stm32f103xb.o
+.debug_line     0x0000000000000000     0x73b3
+ .debug_line    0x0000000000000000      0x3cd build/main.o
+ .debug_line    0x00000000000003cd      0x317 build/gpio.o
+ .debug_line    0x00000000000006e4      0x3ac build/spi.o
+ .debug_line    0x0000000000000a90      0x36e build/usart.o
+ .debug_line    0x0000000000000dfe      0x30d build/stm32f1xx_it.o
+ .debug_line    0x000000000000110b      0x23c build/stm32f1xx_hal_msp.o
+ .debug_line    0x0000000000001347     0x20ac build/stm32f1xx_hal_spi.o
+ .debug_line    0x00000000000033f3      0x2ef build/stm32f1xx_hal_spi_ex.o
+ .debug_line    0x00000000000036e2     0x1a9e build/stm32f1xx_hal_uart.o
+ .debug_line    0x0000000000005180      0x559 build/stm32f1xx_hal.o
+ .debug_line    0x00000000000056d9      0xc2e build/stm32f1xx_hal_rcc.o
+ .debug_line    0x0000000000006307      0x69e build/stm32f1xx_hal_gpio.o
+ .debug_line    0x00000000000069a5      0x66f build/stm32f1xx_hal_cortex.o
+ .debug_line    0x0000000000007014      0x32d build/system_stm32f1xx.o
+ .debug_line    0x0000000000007341       0x72 build/startup_stm32f103xb.o
 
-.debug_str      0x0000000000000000     0x2508
- .debug_str     0x0000000000000000      0xd18 build/main.o
-                                        0xddd (size before relaxing)
- .debug_str     0x0000000000000d18      0x3b1 build/gpio.o
+.debug_str      0x0000000000000000     0x2503
+ .debug_str     0x0000000000000000      0xd13 build/main.o
+                                        0xdd8 (size before relaxing)
+ .debug_str     0x0000000000000d13      0x3b1 build/gpio.o
                                         0xaa4 (size before relaxing)
- .debug_str     0x00000000000010c9       0x53 build/spi.o
+ .debug_str     0x00000000000010c4       0x53 build/spi.o
                                         0xb8f (size before relaxing)
- .debug_str     0x000000000000111c       0x49 build/usart.o
+ .debug_str     0x0000000000001117       0x49 build/usart.o
                                         0xb48 (size before relaxing)
- .debug_str     0x0000000000001165       0xdd build/stm32f1xx_it.o
+ .debug_str     0x0000000000001160       0xdd build/stm32f1xx_it.o
                                         0x774 (size before relaxing)
- .debug_str     0x0000000000001242       0x24 build/stm32f1xx_hal_msp.o
+ .debug_str     0x000000000000123d       0x24 build/stm32f1xx_hal_msp.o
                                         0x71b (size before relaxing)
- .debug_str     0x0000000000001266      0x51d build/stm32f1xx_hal_spi.o
+ .debug_str     0x0000000000001261      0x51d build/stm32f1xx_hal_spi.o
                                         0xfda (size before relaxing)
- .debug_str     0x0000000000001783       0x38 build/stm32f1xx_hal_spi_ex.o
+ .debug_str     0x000000000000177e       0x38 build/stm32f1xx_hal_spi_ex.o
                                         0xac2 (size before relaxing)
- .debug_str     0x00000000000017bb      0x532 build/stm32f1xx_hal_uart.o
+ .debug_str     0x00000000000017b6      0x532 build/stm32f1xx_hal_uart.o
                                        0x104f (size before relaxing)
- .debug_str     0x0000000000001ced      0x236 build/stm32f1xx_hal.o
+ .debug_str     0x0000000000001ce8      0x236 build/stm32f1xx_hal.o
                                         0xc72 (size before relaxing)
- .debug_str     0x0000000000001f23      0x1b7 build/stm32f1xx_hal_rcc.o
+ .debug_str     0x0000000000001f1e      0x1b7 build/stm32f1xx_hal_rcc.o
                                         0xade (size before relaxing)
- .debug_str     0x00000000000020da      0x105 build/stm32f1xx_hal_gpio.o
+ .debug_str     0x00000000000020d5      0x105 build/stm32f1xx_hal_gpio.o
                                         0x907 (size before relaxing)
- .debug_str     0x00000000000021df      0x2bb build/stm32f1xx_hal_cortex.o
+ .debug_str     0x00000000000021da      0x2bb build/stm32f1xx_hal_cortex.o
                                         0xd9a (size before relaxing)
- .debug_str     0x000000000000249a       0x4a build/system_stm32f1xx.o
+ .debug_str     0x0000000000002495       0x4a build/system_stm32f1xx.o
                                         0x770 (size before relaxing)
- .debug_str     0x00000000000024e4       0x24 build/startup_stm32f103xb.o
+ .debug_str     0x00000000000024df       0x24 build/startup_stm32f103xb.o
                                          0x9e (size before relaxing)
 
 .comment        0x0000000000000000       0x76
@@ -1257,23 +1257,23 @@ OUTPUT(build/SPI-F103RB_test2-master.elf elf32-littlearm)
  .comment       0x0000000000000076       0x77 build/stm32f1xx_hal_cortex.o
  .comment       0x0000000000000076       0x77 build/system_stm32f1xx.o
 
-.debug_frame    0x0000000000000000     0x1424
- .debug_frame   0x0000000000000000       0x60 build/main.o
- .debug_frame   0x0000000000000060       0x3c build/gpio.o
- .debug_frame   0x000000000000009c       0x6c build/spi.o
- .debug_frame   0x0000000000000108       0x68 build/usart.o
- .debug_frame   0x0000000000000170       0xc8 build/stm32f1xx_it.o
- .debug_frame   0x0000000000000238       0x28 build/stm32f1xx_hal_msp.o
- .debug_frame   0x0000000000000260      0x608 build/stm32f1xx_hal_spi.o
- .debug_frame   0x0000000000000868       0x30 build/stm32f1xx_hal_spi_ex.o
- .debug_frame   0x0000000000000898      0x57c build/stm32f1xx_hal_uart.o
- .debug_frame   0x0000000000000e14      0x1c0 build/stm32f1xx_hal.o
- .debug_frame   0x0000000000000fd4      0x1b0 build/stm32f1xx_hal_rcc.o
- .debug_frame   0x0000000000001184       0xe8 build/stm32f1xx_hal_gpio.o
- .debug_frame   0x000000000000126c      0x13c build/stm32f1xx_hal_cortex.o
- .debug_frame   0x00000000000013a8       0x30 build/system_stm32f1xx.o
- .debug_frame   0x00000000000013d8       0x2c /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
- .debug_frame   0x0000000000001404       0x20 /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
+.debug_frame    0x0000000000000000     0x1428
+ .debug_frame   0x0000000000000000       0x64 build/main.o
+ .debug_frame   0x0000000000000064       0x3c build/gpio.o
+ .debug_frame   0x00000000000000a0       0x6c build/spi.o
+ .debug_frame   0x000000000000010c       0x68 build/usart.o
+ .debug_frame   0x0000000000000174       0xc8 build/stm32f1xx_it.o
+ .debug_frame   0x000000000000023c       0x28 build/stm32f1xx_hal_msp.o
+ .debug_frame   0x0000000000000264      0x608 build/stm32f1xx_hal_spi.o
+ .debug_frame   0x000000000000086c       0x30 build/stm32f1xx_hal_spi_ex.o
+ .debug_frame   0x000000000000089c      0x57c build/stm32f1xx_hal_uart.o
+ .debug_frame   0x0000000000000e18      0x1c0 build/stm32f1xx_hal.o
+ .debug_frame   0x0000000000000fd8      0x1b0 build/stm32f1xx_hal_rcc.o
+ .debug_frame   0x0000000000001188       0xe8 build/stm32f1xx_hal_gpio.o
+ .debug_frame   0x0000000000001270      0x13c build/stm32f1xx_hal_cortex.o
+ .debug_frame   0x00000000000013ac       0x30 build/system_stm32f1xx.o
+ .debug_frame   0x00000000000013dc       0x2c /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x0000000000001408       0x20 /usr/local/gcc-arm-none-eabi-8-2019-q3-update/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc_nano.a(lib_a-memset.o)
 
 Cross Reference Table
 

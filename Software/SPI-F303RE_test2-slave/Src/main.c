@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,7 +58,59 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+bool SPI_TransmitReceiveWithSync(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
+{
+    hspi->ErrorCode   = HAL_SPI_ERROR_NONE;
+    hspi->pRxBuffPtr  = (uint8_t *)pRxData;
+    hspi->RxXferCount = Size;
+    hspi->RxXferSize  = Size;
+    hspi->pTxBuffPtr  = (uint8_t *)pTxData;
+    hspi->TxXferCount = Size;
+    hspi->TxXferSize  = Size;
+ 
+      /*Init field not used in handle to zero */
+    hspi->RxISR       = NULL;
+    hspi->TxISR       = NULL;
+ 
+      /* Check if the SPI is already enabled */
+    if ((hspi->Instance->CR1 &SPI_CR1_SPE) != SPI_CR1_SPE)
+    {
+      /* Enable SPI peripheral */
+        __HAL_SPI_ENABLE(hspi);
+    }
+    
+    int txallowed = 1;
+    if ((hspi->Init.Mode == SPI_MODE_SLAVE) || (hspi->TxXferCount == 0x01U))
+    {
+        *((__IO uint8_t*)&hspi->Instance->DR) = (*pTxData);
+        pTxData += sizeof(uint8_t);
+        hspi->TxXferCount--;
+    }
+    while ((hspi->TxXferCount > 0U) || (hspi->RxXferCount > 0U))
+    {
+      /* check TXE flag */
+        if (txallowed && (hspi->TxXferCount > 0U) && (__HAL_SPI_GET_FLAG(hspi, SPI_FLAG_TXE)))
+        {
+            *(__IO uint8_t *)&hspi->Instance->DR = (*pTxData++);
+            hspi->TxXferCount--;
+            /* Next Data is a reception (Rx). Tx not allowed */ 
+            txallowed = 0U;
+        }
+ 
+              /* Wait until RXNE flag is reset */
+        if ((hspi->RxXferCount > 0U) && (__HAL_SPI_GET_FLAG(hspi, SPI_FLAG_RXNE)))
+        {
+            (*(uint8_t *)pRxData++) = hspi->Instance->DR;
+            hspi->RxXferCount--;
+            /* Next Data is a Transmission (Tx). Tx is allowed */ 
+            txallowed = 1U;
+        }
+        
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15))
+            return 0;
+    }
+    return 1;
+}
 /* USER CODE END 0 */
 
 /**
@@ -93,7 +145,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t input, output = 0;
+  uint8_t input = 0;
+  uint8_t output = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,8 +155,9 @@ int main(void)
   {
     for (;;)
     {
-        HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);        
-        output = input;
+      SPI_TransmitReceiveWithSync(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);
+      //HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);        
+      output = input;
     }
     /* USER CODE END WHILE */
 

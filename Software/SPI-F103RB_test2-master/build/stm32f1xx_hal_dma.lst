@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
   30:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                    
   31:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      -@-   In Memory-to-Memory transfer mode, Circular mode is not allowed.
   32:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      *** Polling mode IO operation ***
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 2
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 2
 
 
   33:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****      =================================
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
   87:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   88:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
   89:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 3
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 3
 
 
   90:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  144:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     [..]
  145:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     The HAL_DMA_Init() function follows the DMA configuration procedures as described in
  146:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     reference manual.  
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 4
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 4
 
 
  147:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  201:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  202:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Get the CR register value */
  203:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   tmp = hdma->Instance->CCR;
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 5
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 5
 
 
  204:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  258:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  259:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Reset DMA Channel memory address register */
  260:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   hdma->Instance->CMAR = 0U;
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 6
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 6
 
 
  261:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  315:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Configure the source, destination address and data length and Start DMA transfer
  316:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Configure the source, destination address and data length and
  317:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****           Start DMA transfer with interrupt
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 7
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 7
 
 
  318:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       (+) Abort DMA transfer
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  372:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
  373:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  SrcAddress: The source memory Buffer address
  374:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DstAddress: The destination memory Buffer address
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 8
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 8
 
 
  375:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  DataLength: The length of data to be transferred from source to destination
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  429:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.
  430:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @retval HAL status
  431:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   */
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 9
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 9
 
 
  432:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** HAL_StatusTypeDef HAL_DMA_Abort(DMA_HandleTypeDef *hdma)
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  486:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     __HAL_UNLOCK(hdma);
  487:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  488:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* Call User Abort callback */
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 10
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 10
 
 
  489:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     if(hdma->XferAbortCallback != NULL)
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  543:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
  544:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* When a DMA transfer error occurs */
  545:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* A hardware clear of its EN bits is performed */
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 11
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 11
 
 
  546:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       /* Clear all flags */
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  600:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
  601:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Handles DMA interrupt request.
  602:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 12
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 12
 
 
  603:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   *               the configuration information for the specified DMA Channel.  
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  657:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Transfer Error Interrupt management **************************************/
  658:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   else if (( RESET != (flag_it & (DMA_FLAG_TE1 << hdma->ChannelIndex))) && (RESET != (source_it & D
  659:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 13
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 13
 
 
  660:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     /* When a DMA transfer error occurs */
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  714:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  715:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case  HAL_DMA_XFER_ERROR_CB_ID:
  716:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback = pCallback;
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 14
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 14
 
 
  717:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  771:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferAbortCallback = NULL;
  772:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break; 
  773:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 15
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 15
 
 
  774:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     case   HAL_DMA_XFER_ALL_CB_ID:
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  828:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  829:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** /**
  830:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @brief  Return the DMA error code.
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 16
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 16
 
 
  831:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   * @param  hdma : pointer to a DMA_HandleTypeDef structure that contains
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
   47              		.loc 1 864 30 view .LVU6
   48 000a 6C60     		str	r4, [r5, #4]
  865:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 17
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 17
 
 
  866:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Configure DMA Channel data length */
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
   81 0020 7047     		bx	lr
   82              	.LVL3:
   83              	.L5:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 18
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 18
 
 
   84              	.LCFI2:
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  171:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_PERIPHERAL_INC_STATE(hdma->Init.PeriphInc));
  128              		.loc 1 171 3 view .LVU32
  172:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   assert_param(IS_DMA_MEMORY_INC_STATE(hdma->Init.MemInc));
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 19
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 19
 
 
  129              		.loc 1 172 3 view .LVU33
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  206:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****                       DMA_CCR_MINC  | DMA_CCR_PINC   | DMA_CCR_CIRC   | \
  164              		.loc 1 206 7 is_stmt 0 view .LVU53
  165 0024 20F47F50 		bic	r0, r0, #16320
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 20
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 20
 
 
  166              	.LVL8:
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  202 0048 0B60     		str	r3, [r1]
  220:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  203              		.loc 1 220 3 is_stmt 1 view .LVU72
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 21
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 21
 
 
  220:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  237:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   /* Check the DMA handle allocation */
  250              		.loc 1 237 1 is_stmt 1 view -0
  251              		.cfi_startproc
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 22
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 22
 
 
  252              		@ args = 0, pretend = 0, frame = 0
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  260:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  290              		.loc 1 260 7 is_stmt 0 view .LVU100
  291 0020 1A68     		ldr	r2, [r3]
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 23
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 23
 
 
  260:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  327              		.loc 1 289 3 is_stmt 1 view .LVU119
  289:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  328              		.loc 1 289 27 is_stmt 0 view .LVU120
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 24
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 24
 
 
  329 0048 5863     		str	r0, [r3, #52]
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  374              		.cfi_startproc
  375              		@ args = 0, pretend = 0, frame = 0
  376              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 25
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 25
 
 
  336:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  416              	.LVL23:
  417              	.L29:
  367:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 26
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 26
 
 
  418              		.loc 1 367 1 view .LVU147
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  462              		.thumb_func
  463              		.fpu softvfp
  465              	HAL_DMA_Start_IT:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 27
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 27
 
 
  466              	.LVL28:
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  505              		.loc 1 421 12 is_stmt 0 view .LVU173
  506 001e 0220     		movs	r0, #2
  507              	.LVL32:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 28
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 28
 
 
  508              	.L31:
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  548 0050 43F00103 		orr	r3, r3, #1
  549 0054 1360     		str	r3, [r2]
  380:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 29
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 29
 
 
  550              		.loc 1 380 21 is_stmt 0 view .LVU188
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  598 0006 22F00E02 		bic	r2, r2, #14
  599 000a 0A60     		str	r2, [r1]
  440:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 30
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 30
 
 
  600              		.loc 1 440 3 view .LVU197
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  461:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
  644              		.loc 1 461 1 is_stmt 0 view .LVU210
  645 0000 08B5     		push	{r3, lr}
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 31
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 31
 
 
  646              	.LCFI9:
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  687 002c 14D0     		beq	.L43
  480:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  688              		.loc 1 480 5 is_stmt 0 discriminator 1 view .LVU224
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 32
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 32
 
 
  689 002e 1432     		adds	r2, r2, #20
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  489:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
  731              		.loc 1 489 7 discriminator 24 view .LVU237
  732 006c 6BB1     		cbz	r3, .L49
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 33
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 33
 
 
  491:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     } 
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  782              		.loc 1 507 3 view .LVU244
  508:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  783              		.loc 1 508 3 view .LVU245
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 34
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 34
 
 
  510:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  823 0022 15D1     		bne	.L103
  526:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
  824              		.loc 1 526 3 is_stmt 1 view .LVU261
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 35
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 35
 
 
  526:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  865              		.loc 1 598 1 view .LVU275
  866 0058 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
  867              	.LVL53:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 36
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 36
 
 
  868              	.L104:
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  538:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  912              		.loc 1 538 3 is_stmt 1 view .LVU286
  538:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 37
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 37
 
 
  913              		.loc 1 538 15 is_stmt 0 view .LVU287
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  960              		.loc 1 542 7 discriminator 24 view .LVU294
  961 00da 1A42     		tst	r2, r3
  962 00dc 29D1     		bne	.L106
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 38
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 38
 
 
  561:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1005              	.L83:
  1006 011c 8023     		movs	r3, #128
  1007 011e DCE7     		b	.L61
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 39
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 39
 
 
  1008              	.L84:
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1047 0152 FFF7FEFF 		bl	HAL_GetTick
  1048              	.LVL59:
  563:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 40
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 40
 
 
  1049              		.loc 1 563 45 discriminator 1 view .LVU322
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1089 018c 9342     		cmp	r3, r2
  1090 018e 1AD0     		beq	.L91
  582:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 41
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 41
 
 
  1091              		.loc 1 582 5 discriminator 7 view .LVU337
@@ -2458,7 +2458,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1135 01d0 EBE7     		b	.L67
  1136              	.L66:
  591:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   }
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 42
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 42
 
 
  1137              		.loc 1 591 5 is_stmt 1 view .LVU348
@@ -2518,7 +2518,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1183 0216 4FF48042 		mov	r2, #16384
  1184 021a F4E7     		b	.L69
  1185              	.L98:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 43
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 43
 
 
  1186 021c 4FF48022 		mov	r2, #262144
@@ -2578,7 +2578,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1232              		.loc 1 612 40 is_stmt 0 view .LVU366
  1233 000a 016C     		ldr	r1, [r0, #64]
  612:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 44
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 44
 
 
  1234              		.loc 1 612 33 view .LVU367
@@ -2638,7 +2638,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1276 0048 17D0     		beq	.L126
  621:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
  1277              		.loc 1 621 5 discriminator 9 view .LVU380
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 45
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 45
 
 
  1278 004a 1432     		adds	r2, r2, #20
@@ -2698,7 +2698,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1322 0080 0223     		movs	r3, #2
  1323 0082 8B40     		lsls	r3, r3, r1
  634:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 46
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 46
 
 
  1324              		.loc 1 634 11 view .LVU391
@@ -2758,7 +2758,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1365 00be 1432     		adds	r2, r2, #20
  1366 00c0 9342     		cmp	r3, r2
  1367 00c2 1BD0     		beq	.L132
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 47
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 47
 
 
  645:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c **** 
@@ -2818,7 +2818,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1411 00fc 4FF40032 		mov	r2, #131072
  1412 0100 EAE7     		b	.L121
  1413              	.LVL70:
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 48
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 48
 
 
  1414              	.L119:
@@ -2878,7 +2878,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  677:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
  1451              		.loc 1 677 13 is_stmt 0 view .LVU433
  1452 0132 036B     		ldr	r3, [r0, #48]
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 49
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 49
 
 
  677:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****     {
@@ -2938,7 +2938,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  703:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
  1499              		.loc 1 703 3 discriminator 2 view .LVU444
  703:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   {
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 50
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 50
 
 
  1500              		.loc 1 703 33 is_stmt 0 discriminator 2 view .LVU445
@@ -2998,7 +2998,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1540              		.loc 1 712 7 is_stmt 1 view .LVU459
  712:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       break;         
  1541              		.loc 1 712 34 is_stmt 0 view .LVU460
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 51
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 51
 
 
  1542 0034 DA62     		str	r2, [r3, #44]
@@ -3058,7 +3058,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1583              	.LVL79:
  1584              	.LFB75:
  748:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****   HAL_StatusTypeDef status = HAL_OK;
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 52
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 52
 
 
  1585              		.loc 1 748 1 is_stmt 1 view -0
@@ -3118,7 +3118,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1625 0026 DFE801F0 		tbb	[pc, r1]
  1626              	.L154:
  1627 002a 03       		.byte	(.L158-.L154)/2
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 53
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 53
 
 
  1628 002b 07       		.byte	(.L157-.L154)/2
@@ -3178,7 +3178,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1666              		.loc 1 775 30 is_stmt 0 view .LVU506
  1667 004a 0020     		movs	r0, #0
  1668 004c 9862     		str	r0, [r3, #40]
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 54
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 54
 
 
  776:Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ****       hdma->XferErrorCallback = NULL;
@@ -3238,7 +3238,7 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1712              		.cfi_endproc
  1713              	.LFE76:
  1715              		.section	.text.HAL_DMA_GetError,"ax",%progbits
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 55
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 55
 
 
  1716              		.align	1
@@ -3282,47 +3282,47 @@ ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 1
  1752              		.file 12 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
  1753              		.file 13 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
  1754              		.file 14 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
-ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s 			page 56
+ARM GAS  /var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s 			page 56
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f1xx_hal_dma.c
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:16     .text.DMA_SetConfig:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:23     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:102    .text.HAL_DMA_Init:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:109    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:233    .text.HAL_DMA_Init:0000000000000060 $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:240    .text.HAL_DMA_DeInit:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:247    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:356    .text.HAL_DMA_DeInit:000000000000005c $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:363    .text.HAL_DMA_Start:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:370    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:458    .text.HAL_DMA_Start_IT:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:465    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:576    .text.HAL_DMA_Abort:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:583    .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:630    .text.HAL_DMA_Abort_IT:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:637    .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:762    .text.HAL_DMA_Abort_IT:0000000000000090 $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:768    .text.HAL_DMA_PollForTransfer:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:775    .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1191   .text.HAL_DMA_PollForTransfer:0000000000000224 $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1197   .text.HAL_DMA_IRQHandler:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1204   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1464   .text.HAL_DMA_IRQHandler:000000000000013c $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1470   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1477   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1525   .text.HAL_DMA_RegisterCallback:000000000000002a $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1529   .text.HAL_DMA_RegisterCallback:000000000000002e $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1575   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1582   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1627   .text.HAL_DMA_UnRegisterCallback:000000000000002a $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1691   .text.HAL_DMA_GetState:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1698   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1716   .text.HAL_DMA_GetError:0000000000000000 $t
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1723   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1632   .text.HAL_DMA_UnRegisterCallback:000000000000002f $d
-/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccqc0wbP.s:1632   .text.HAL_DMA_UnRegisterCallback:0000000000000030 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:16     .text.DMA_SetConfig:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:23     .text.DMA_SetConfig:0000000000000000 DMA_SetConfig
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:102    .text.HAL_DMA_Init:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:109    .text.HAL_DMA_Init:0000000000000000 HAL_DMA_Init
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:233    .text.HAL_DMA_Init:0000000000000060 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:240    .text.HAL_DMA_DeInit:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:247    .text.HAL_DMA_DeInit:0000000000000000 HAL_DMA_DeInit
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:356    .text.HAL_DMA_DeInit:000000000000005c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:363    .text.HAL_DMA_Start:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:370    .text.HAL_DMA_Start:0000000000000000 HAL_DMA_Start
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:458    .text.HAL_DMA_Start_IT:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:465    .text.HAL_DMA_Start_IT:0000000000000000 HAL_DMA_Start_IT
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:576    .text.HAL_DMA_Abort:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:583    .text.HAL_DMA_Abort:0000000000000000 HAL_DMA_Abort
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:630    .text.HAL_DMA_Abort_IT:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:637    .text.HAL_DMA_Abort_IT:0000000000000000 HAL_DMA_Abort_IT
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:762    .text.HAL_DMA_Abort_IT:0000000000000090 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:768    .text.HAL_DMA_PollForTransfer:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:775    .text.HAL_DMA_PollForTransfer:0000000000000000 HAL_DMA_PollForTransfer
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1191   .text.HAL_DMA_PollForTransfer:0000000000000224 $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1197   .text.HAL_DMA_IRQHandler:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1204   .text.HAL_DMA_IRQHandler:0000000000000000 HAL_DMA_IRQHandler
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1464   .text.HAL_DMA_IRQHandler:000000000000013c $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1470   .text.HAL_DMA_RegisterCallback:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1477   .text.HAL_DMA_RegisterCallback:0000000000000000 HAL_DMA_RegisterCallback
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1525   .text.HAL_DMA_RegisterCallback:000000000000002a $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1529   .text.HAL_DMA_RegisterCallback:000000000000002e $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1575   .text.HAL_DMA_UnRegisterCallback:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1582   .text.HAL_DMA_UnRegisterCallback:0000000000000000 HAL_DMA_UnRegisterCallback
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1627   .text.HAL_DMA_UnRegisterCallback:000000000000002a $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1691   .text.HAL_DMA_GetState:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1698   .text.HAL_DMA_GetState:0000000000000000 HAL_DMA_GetState
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1716   .text.HAL_DMA_GetError:0000000000000000 $t
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1723   .text.HAL_DMA_GetError:0000000000000000 HAL_DMA_GetError
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1632   .text.HAL_DMA_UnRegisterCallback:000000000000002f $d
+/var/folders/md/lgcc8l7571l9vt9sx0g0zflw0000gn/T//ccCgfayo.s:1632   .text.HAL_DMA_UnRegisterCallback:0000000000000030 $t
 
 UNDEFINED SYMBOLS
 HAL_GetTick

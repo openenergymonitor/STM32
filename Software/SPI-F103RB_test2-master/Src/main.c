@@ -93,7 +93,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t input, output = 0;
+  char message[] = "H";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,7 +104,7 @@ int main(void)
     {
         int result = 0;
         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
-        HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&i, (uint8_t*)&result, sizeof(i), HAL_MAX_DELAY);
+        HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&message, (uint8_t*)&result, sizeof(message), HAL_MAX_DELAY);
         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
         if (result != (i - 1))
         {
