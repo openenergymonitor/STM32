@@ -104,14 +104,10 @@ int main(void)
     {
         int result = 0;
         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
-        HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&message, (uint8_t*)&result, sizeof(message), HAL_MAX_DELAY);
+        HAL_SPI_Transmit(&hspi1, (uint8_t *)&message, sizeof(message), HAL_MAX_DELAY);
         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
-        if (result != (i - 1))
-        {
-            asm("nop");
-        }
-        
-        HAL_Delay(10);
+                
+        HAL_Delay(1);
     }
     /* USER CODE END WHILE */
 

@@ -145,8 +145,9 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t input = 0;
-  uint8_t output = 0;
+  uint8_t input, output = 0;
+  uint8_t rX_data = 0;
+  uint8_t tX_data = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -155,9 +156,12 @@ int main(void)
   {
     for (;;)
     {
-      SPI_TransmitReceiveWithSync(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);
+      //SPI_TransmitReceiveWithSync(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);
+      HAL_SPI_Receive(&hspi1, &rX_data, sizeof(rX_data), HAL_MAX_DELAY);
+      tX_data = rX_data;
+      HAL_SPI_Transmit(&hspi1, &tX_data, sizeof(tX_data), HAL_MAX_DELAY);
       //HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&output, (uint8_t*)&input, sizeof(input), HAL_MAX_DELAY);        
-      output = input;
+      //output = input;
     }
     /* USER CODE END WHILE */
 
