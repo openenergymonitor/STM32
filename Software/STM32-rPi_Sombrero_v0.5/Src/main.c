@@ -106,75 +106,44 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t echo[50];
   
+
   unsigned long previousMillis = 0;
   const long interval = 2000;
-  // Set the ESP SPI3 CS pin to high, to disable possible interaction with ESP. 
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET);
-  uint8_t spibuff = 0;
-  sprintf(log_buffer,"Hello World\r\n");
+
+  sprintf(log_buffer, "Hello World\r\n");
   debug_printf(log_buffer);
 
-  uint8_t spi_Rxbuffer[16] ={0};
-uint8_t spi_Txbuffer[16] ={0};
-uint8_t uart_buff[1] ={0};
+  uint8_t uart_buff[1] = {0};
+  //char RxCounter = 0;
 
-  // initialise table
-
-char RxTable[16];     
-char RxCounter=0;
-// clear RxSPI buffers  // not sure if its double buffered or not.
-    while ((hspi1.Instance->SR  & SPI_FLAG_RXNE)) {
-          RxSPI = hspi1.Instance->DR & 0xFF;   // dump old bytes in buffer
-}
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-    HAL_UART_Receive(&uart1, )
-    while (HAL_GPIO_ReadPin(GPIOA, 15) == 0) {
-      spibuff = SPI_receive8();
-      //SPI_transfer8();
-    }
-    sprintf(log_buffer, "Character is %c \n\r", spibuff);
-    debug_printf(log_buffer);
-    //HAL_UART_Receive(&huart1, &echo, 50, 1000);
-    //HAL_UART_Transmit(&huart2, &echo, 50, 1000);
-    //sprintf(log_buffer, echo);
-    //debug_printf(echo);
-    
+ {
+    HAL_UART_Receive(&huart1, *uart_buff, sizeof(uart_buff), 100);
+  
+    //sprintf(log_buffer, "Character is %c \n\r", uart_buff);
+    //debug_printf(log_buffer);
+
     unsigned long currentMillis = HAL_GetTick();
-    if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-    char snum[5];
-    
-    /*
-    sprintf(log_buffer, itoa(currentMillis, snum, 10));
-    debug_printf(log_buffer);
-    sprintf(log_buffer,"\r\n");
-    debug_printf(log_buffer);
-    */
-
-   /*
-    // SPI3
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_10);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_12);
-    */
-
-    // LEDs
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_9);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10);
-
-    sprintf(log_buffer,"Hello World\r\n");
-    debug_printf(log_buffer);
+    if (currentMillis - previousMillis >= interval)
+    {
+      previousMillis = currentMillis;
+      
+      // LEDs
+      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
+      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_9);
+      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10);
+      
+      sprintf(log_buffer, "buff %s\r\n", uart_buff);
+      debug_printf(log_buffer);
+      sprintf(log_buffer, "Hello World\r\n");
+      debug_printf(log_buffer);
     }
-    
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
