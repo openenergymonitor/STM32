@@ -118,6 +118,7 @@ int main(void)
 
   uint8_t spi_Rxbuffer[16] ={0};
 uint8_t spi_Txbuffer[16] ={0};
+uint8_t uart_buff[1] ={0};
 
   // initialise table
 
@@ -133,6 +134,7 @@ char RxCounter=0;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_UART_Receive(&uart1, )
     while (HAL_GPIO_ReadPin(GPIOA, 15) == 0) {
       spibuff = SPI_receive8();
       //SPI_transfer8();
