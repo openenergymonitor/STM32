@@ -43,17 +43,9 @@ temp/*
 
 test/*
 Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
-*.b#3
-*.b#1
-*.b#2
-*.s#1
-*.s#2
-*.b#4
-*.b#5
-*.s#3
-*.s#4
-*.s#5
+*.b#*
+*.s#*
 *.DS_Store
-*.b#6
 Software/STM32-rPi_Sombrero_v0.5/build/*
 *.code-workspace
+Software/Sombrero_UART/build/*
