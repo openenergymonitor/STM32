@@ -49,3 +49,4 @@ Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
 Software/STM32-rPi_Sombrero_v0.5/build/*
 *.code-workspace
 Software/Sombrero_UART/build/*
+Software/Sombrero_UART3/build/*

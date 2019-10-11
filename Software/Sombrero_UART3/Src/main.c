@@ -68,6 +68,7 @@ volatile uint8_t buff_rx[50];
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+/*
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 { 
   sprintf(log_buffer, "heya!");
@@ -78,7 +79,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //sprintf(log_buffer, rx_data);
   //debug_printf(log_buffer);
 }
-/*
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 
@@ -193,7 +194,7 @@ int main(void)
   {
     if (flag)
     {
-      HAL_Delay(1);
+      HAL_Delay(2);
       HAL_UART_Receive_IT(&huart2, buff_rx, sizeof buff_rx);
       HAL_Delay(1);
       sprintf(log_buffer, "buffrx: %s\r\n", buff_rx);
