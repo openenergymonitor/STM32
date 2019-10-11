@@ -21,17 +21,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "dma.h"
 #include "i2c.h"
 #include "opamp.h"
 #include "spi.h"
 #include "usart.h"
-#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,7 +50,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char log_buffer[100];
+volatile char log_buffer[150];
+char *buff_tx = "Hello!\n\r";
+volatile uint8_t buff_rx[150];
+volatile uint8_t counter = 0;
+uint32_t interval = 500;
+volatile uint32_t previousMillis = 0;
+volatile uint32_t currentMillis = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,11 +67,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-unsigned long previousMillis = 0;
-const long interval = 2000;
-uint8_t uart_txbuff[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-uint8_t uart_rxbuff[10];
-uint8_t RxCounter = 0;
+
 /* USER CODE END 0 */
 
 /**
@@ -98,22 +98,22 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_ADC3_Init();
   MX_ADC4_Init();
-  MX_USART1_UART_Init();
-  MX_USART3_UART_Init();
   MX_I2C1_Init();
   MX_OPAMP4_Init();
-  MX_USB_DEVICE_Init();
   MX_USART2_UART_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
+  // ---
+  // PVs
 
-  HAL_UART_Receive_DMA(&huart1, uart_rxbuff, sizeof(uart_rxbuff));
-  HAL_UART_Transmit_DMA(&huart1, uart_txbuff, sizeof(uart_txbuff));
+  // ---
+
+  //__HAL_UART_ENABLE_IT(&huart2, UART_IT_TC);   // enable Tx UART interrupt.
+  //__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE); // enable Rx UART interrupt.
 
   /* USER CODE END 2 */
 
@@ -121,25 +121,42 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    //sprintf(log_buffer, "Character is %c \n\r", uart_buff);
-    //debug_printf(log_buffer);
-
-    unsigned long currentMillis = HAL_GetTick();
+    HAL_UART_Receive(&huart2, buff_rx, sizeof(buff_rx), 2);
+    currentMillis = HAL_GetTick();
     if (currentMillis - previousMillis >= interval)
     {
       previousMillis = currentMillis;
-
-      // LEDs
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_9);
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10);
-
-      sprintf(log_buffer, "buff %s\r\n", uart_rxbuff);
+      sprintf(log_buffer, "millis: %ld\r\n", currentMillis);
       debug_printf(log_buffer);
-      sprintf(log_buffer, "Hello World\r\n");
+      //HAL_Delay(1);
+      sprintf(log_buffer, "buffrx: %s\r\n", buff_rx);
       debug_printf(log_buffer);
+      //HAL_Delay(1);
+      int i;
+      for (i = 0; i < sizeof(buff_rx); i++)
+      {
+        buff_rx[i] = 0;
+      }
     }
+    //__HAL_UART_FLUSH_DRREGISTER(&huart2);
+    //debug_printf(buff_tx); // hello!
+    //HAL_Delay(1);
+    /*
+    counter++;
+    sprintf(log_buffer, "testing interrupt method: %d\r\n", currentMillis);
+    debug_printf(log_buffer);
+    //__HAL_UART_FLUSH_DRREGISTER(&huart2);
+    //HAL_Delay(500);
+    
+    
+    HAL_Delay(1);
+    sprintf(log_buffer, "testing rx buffer %s\r\n", buff_rx);
+    debug_printf(log_buffer);
+        HAL_Delay(1);
+
+    //memset(buff_rx, 0, sizeof(buff_rx));
+    HAL_Delay(1);
+    */
 
     /* USER CODE END WHILE */
 
@@ -184,14 +201,11 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB | RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | RCC_PERIPHCLK_I2C1 | RCC_PERIPHCLK_ADC12 | RCC_PERIPHCLK_ADC34;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_I2C1 | RCC_PERIPHCLK_ADC12 | RCC_PERIPHCLK_ADC34;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
-  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV4;
   PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV4;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
-  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -199,10 +213,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  __NOP();
-}
+
 /* USER CODE END 4 */
 
 /**
