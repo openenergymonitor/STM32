@@ -50,3 +50,6 @@ Software/STM32-rPi_Sombrero_v0.5/build/*
 *.code-workspace
 Software/Sombrero_UART/build/*
 Software/Sombrero_UART3/build/*
+Software/UART2_IT/build/*
+Software/UART3_DMA/build/*
+Software/UART4_DMA/build/*
