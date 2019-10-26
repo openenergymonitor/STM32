@@ -39,7 +39,7 @@ extern UART_HandleTypeDef huart2;
 void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void debug_printf (char* p);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

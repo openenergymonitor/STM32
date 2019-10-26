@@ -19,7 +19,7 @@ In adc.c the main addition is the callback function to mark half way through blo
 
 adc.c:
 
-View source: [../DMA/Src/adc.c](../DMA/Src/adc.c)
+View sources: [../DMA/Src/adc.c](../DMA/Src/adc.c) [../DMA/Src/adc.h](../DMA/Src/adc.h)
 
     /* USER CODE BEGIN 1 */
     void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
@@ -45,9 +45,21 @@ View source: [../DMA/Src/adc.c](../DMA/Src/adc.c)
     }
     /* USER CODE END 1 */
 
-In main.c there are two additions:
+In main.c there are a few additions:
 
 View source: [../DMA/Src/main.c](../DMA/Src/main.c)
+
+A few variables:
+
+    /* USER CODE BEGIN PV */
+    char log_buffer[100];
+    #define true 1
+    #define false 0
+    int sampleA0 = 0;
+    int sampleA1 = 0;
+    long sumA0 = 0;
+    long sumA1 = 0;
+    /* USER CODE END PV */
 
 A function for processing a frame/block of samples:
 
@@ -64,6 +76,12 @@ A function for processing a frame/block of samples:
     }
     /* USER CODE END 0 */
     
+Start the conversions:
+
+    /* USER CODE BEGIN 2 */
+      start_ADC1();
+    /* USER CODE END 2 */
+
 The main loop:
 
     /* Infinite loop */

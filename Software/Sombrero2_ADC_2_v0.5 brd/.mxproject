@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=//vmware-host/Shared Folders/iCloud Drive/PROJECT FILES/github/emonSTM32-db/Software/UART_ADC_2_v0.5+ brd/Inc
+HeaderPath=//vmware-host/Shared Folders/iCloud Drive/PROJECT FILES/github/emonSTM32-db/Software/Sombrero2_ADC_2_v0.5 brd/Inc
 HeaderFiles=gpio.h;adc.h;i2c.h;opamp.h;spi.h;usart.h;stm32f3xx_it.h;stm32f3xx_hal_conf.h;main.h;usb.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_dfu_if.h;dma.h;
-SourcePath=//vmware-host/Shared Folders/iCloud Drive/PROJECT FILES/github/emonSTM32-db/Software/UART_ADC_2_v0.5+ brd/Src
+SourcePath=//vmware-host/Shared Folders/iCloud Drive/PROJECT FILES/github/emonSTM32-db/Software/Sombrero2_ADC_2_v0.5 brd/Src
 SourceFiles=gpio.c;adc.c;i2c.c;opamp.c;spi.c;usart.c;stm32f3xx_it.c;stm32f3xx_hal_msp.c;main.c;usb.c;usb_device.c;usbd_conf.c;usbd_desc.c;usbd_dfu_if.c;dma.c;
 
 [PreviousLibFiles]

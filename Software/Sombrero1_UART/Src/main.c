@@ -122,19 +122,19 @@ int main(void)
     // if the IDLE flag interrupt has been trigger, this flag should be set to indicate the Rx buffer has data.
     if (rx_flag)
     {
-      sprintf(log_buffer, "buffrx: %s\r\n", rx_buff);
-      debug_printf(log_buffer); // print contents of buffer for debug.
-      // two things
-      process_rx_buffer(rx_buff);
+      uint16_t currentMillis1 = HAL_GetTick();
+      //
       HAL_UART_DMAStop(&huart2); 
-      int i;
-      //memset(0, rx_buff, sizeof(rx_buff)); // this might be valid
-      for (i = 0; i < sizeof(rx_buff); i++)
-      {
-        rx_buff[i] = 0;
-      }
+      memset(rx_buff,0,sizeof(rx_buff));
       HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
       rx_flag = 0;
+      //
+      uint16_t currentMillis2 = HAL_GetTick();
+      uint16_t millis_taken = currentMillis2 - currentMillis1;
+      
+
+      sprintf(log_buffer, "millis_taken: %d\r\n", millis_taken);
+      debug_printf(log_buffer);
     }
 
     // print the millis since boot every interval.
@@ -200,6 +200,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+/*
 void command_breaker(void)
 {
   uint8_t code;
@@ -207,7 +208,7 @@ void command_breaker(void)
   uint8_t property;
   uint8_t value;
 }
-
+*/
 /* USER CODE END 4 */
 
 /**

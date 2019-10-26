@@ -30,7 +30,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,6 +53,41 @@
 
 /* USER CODE BEGIN PV */
 
+#define true 1
+#define false 0
+#define MID_ADC_READING 2048
+
+
+char log_buffer[100];
+
+
+
+// Flag
+int8_t readings_ready = false;
+
+// Calibration
+double VCAL = 268.97;
+double ICAL = 90.9;
+
+// ISR accumulators
+typedef struct channel_ {
+  int64_t sum_P;
+  uint64_t sum_V_sq;
+  uint64_t sum_I_sq;
+  int64_t sum_V;
+  int64_t sum_I;
+  uint64_t count;
+
+  uint8_t positive_V;
+  uint8_t last_positive_V;
+  uint8_t cycles;
+} channel_t;
+
+uint64_t pulseCount = 0;
+
+static channel_t channels[3];
+static channel_t channels_copy[3];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,7 +98,59 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void process_frame(uint16_t offset)
+{
+  int32_t sample_V, sample_I, signed_V, signed_I;
+  
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);
 
+  for (int i=0; i<3000; i+=3) {
+    // Cycle through channels
+    for (int n=0; n<3; n++) {
+      channel_t* channel = &channels[n];
+      
+      // ----------------------------------------
+      // Voltage
+      sample_V = adc1_dma_buff[offset+i+n];
+      signed_V = sample_V - MID_ADC_READING;
+      channel->sum_V += signed_V;
+      channel->sum_V_sq += signed_V * signed_V;
+      // ----------------------------------------
+      // Current
+      sample_I = adc3_dma_buff[offset+i+n];
+      signed_I = sample_I - MID_ADC_READING;
+      channel->sum_I += signed_I;
+      channel->sum_I_sq += signed_I * signed_I;
+      // ----------------------------------------
+      // Power
+      channel->sum_P += signed_V * signed_I;
+      
+      channel->count ++;
+    
+    
+      // Zero crossing detection
+      channel->last_positive_V = channel->positive_V;
+      if (signed_V > 0) channel->positive_V = true; else channel->positive_V = false;
+      if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
+      
+      // 125 cycles or 2.5 seconds
+      if (channel->cycles>=125) {
+        channel->cycles = 0;
+        
+        channel_t* channel_copy = &channels_copy[n];
+        // Copy accumulators for use in main loop 
+        memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
+        // Reset accumulators to zero ready for next set of measurements
+        memset((void*)channel, 0, sizeof(channel_t));
+        
+        if (n==2) {
+          readings_ready = true;
+        }
+      }
+    }
+  }
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_RESET);
+}
 /* USER CODE END 0 */
 
 /**
@@ -73,8 +161,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
+  float V_RATIO = VCAL * (3.3 / 4096.0);
+  float I_RATIO = ICAL * (3.3 / 4096.0);
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -105,12 +194,80 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 
+  debug_printf("start\n");
+  HAL_Delay(10);
+  HAL_OPAMP_Start(&hopamp4);
+  start_ADCs();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if (readings_ready) {
+       readings_ready = false;
+       //process_ds18b20s();
+       
+       for (int n=0; n<3; n++) {
+         channel_t* chn = &channels_copy[n];
+       
+         double Vmean = chn->sum_V * (1.0 / chn->count);
+         double Imean = chn->sum_I * (1.0 / chn->count);
+         
+         chn->sum_V_sq *= (1.0 / chn->count);
+         chn->sum_V_sq -= (Vmean*Vmean);
+         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
+         
+         chn->sum_I_sq *= (1.0 / chn->count);
+         chn->sum_I_sq -= (Imean*Imean);
+         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
+         
+         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
+         double realPower = V_RATIO * I_RATIO * mean_P;
+         
+         double apparentPower = Vrms * Irms;
+         double powerFactor = realPower / apparentPower; 
+       
+         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%d,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
+         debug_printf(log_buffer);
+       
+       }
+       
+       //sprintf(log_buffer,"\r\n");
+       //debug_printf(log_buffer);
+       
+       sprintf(log_buffer,"PC:%d\r\n",pulseCount);
+       debug_printf(log_buffer);
+       
+     }
+     /*
+    if (adc1_half_conv_complete && !adc1_half_conv_overrun) 
+      {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
+        adc1_half_conv_complete = false;
+        process_frame(0);  // 0 to 2000
+      }
+
+      if (adc1_full_conv_complete && !adc1_full_conv_overrun) 
+      {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);        // LED on
+        adc1_full_conv_complete = false;
+        process_frame(2000); // offset 2000 to 4000
+        
+        // 4000 Samples all together divided by 2 inputs = 2000 samples per input
+        int meanA0 = sumA0 / 2000;
+        int meanA1 = sumA1 / 2000;
+        
+        sprintf(log_buffer,"Mean A0 %d\r\n", meanA0);
+        debug_printf(log_buffer);
+
+        sprintf(log_buffer,"Mean A1 %d\r\n", meanA1);
+        debug_printf(log_buffer);
+        
+        sumA0 = 0;
+        sumA1 = 0;
+      }
+      */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

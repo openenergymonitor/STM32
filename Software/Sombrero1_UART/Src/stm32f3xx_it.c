@@ -227,19 +227,6 @@ void USART2_IRQHandler(void)
   {
     __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
     rx_flag = 1;
-#ifdef DEBUG
-    sprintf(log_buffer, "usart2 it, idle flag it\r\n");
-    debug_printf(log_buffer);
-#endif
-  }
-  else
-  {
-#ifdef DEBUG
-    sprintf(log_buffer, "usart2 it\r\n");
-    debug_printf(log_buffer);
-#endif
-  }
-
   /* USER CODE END USART2_IRQn 1 */
 }
 

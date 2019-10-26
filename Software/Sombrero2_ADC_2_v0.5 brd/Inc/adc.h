@@ -36,7 +36,19 @@ extern ADC_HandleTypeDef hadc3;
 extern ADC_HandleTypeDef hadc4;
 
 /* USER CODE BEGIN Private defines */
-
+#define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
+extern volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
+extern volatile uint16_t adc3_dma_buff[ADC_DMA_BUFFSIZE];
+/*
+#define ADC1_DMA_BUFFSIZE 3000    // must me integer multiple of number of channels?
+extern volatile uint16_t adc1_dma_buff[ADC1_DMA_BUFFSIZE];
+extern volatile uint8_t adc1_half_conv_complete, adc1_full_conv_complete;
+extern volatile uint8_t adc1_half_conv_overrun, adc1_full_conv_overrun;
+#define ADC3_DMA_BUFFSIZE 9000    // must me integer multiple of number of channels?
+extern volatile uint16_t adc3_dma_buff[ADC3_DMA_BUFFSIZE];
+extern volatile uint8_t adc3_half_conv_complete, adc3_full_conv_complete;
+extern volatile uint8_t adc3_half_conv_overrun, adc3_full_conv_overrun;
+*/
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);

@@ -54,7 +54,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void process_frame(uint16_t offset);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
