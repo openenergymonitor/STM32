@@ -35,21 +35,9 @@ Emon3CT_CB/build/*
 !Emon3CT_CB/build/Emon3CT_CB.bin
 Emon3CT_CB/.pioenvs/*
 
-RFM69/build/*
-
 Emon3CT_RFM69/build/*
 
-temp/*
+RFM69/build/*
 
-test/*
-Hardware/stm32-pi_full/cube_emonSTM32_db/build/*
-*.b#*
-*.s#*
 *.DS_Store
-Software/STM32-rPi_Sombrero_v0.5/build/*
 *.code-workspace
-Software/Sombrero_UART/build/*
-Software/Sombrero_UART3/build/*
-Software/UART2_IT/build/*
-Software/UART3_DMA/build/*
-Software/UART4_DMA/build/*
