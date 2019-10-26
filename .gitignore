@@ -34,3 +34,5 @@ BlinkCB/.pioenvs/*
 Emon3CT_CB/build/*
 !Emon3CT_CB/build/Emon3CT_CB.bin
 Emon3CT_CB/.pioenvs/*
+*.DS_Store
+*.code-workspace
