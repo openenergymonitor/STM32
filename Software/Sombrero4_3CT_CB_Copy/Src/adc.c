@@ -308,7 +308,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if (hadc==&hadc3) process_frame(1500);
+  if (hadc==&hadc3) process_frame(3000);
 }
 
 void start_ADCs (void) {

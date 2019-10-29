@@ -70,9 +70,9 @@ char log_buffer[150];
 int8_t readings_ready = false;
 
 // Calibration
-const double VOLTS_PER_DIV = (3.3 / 4096.0);
-double VCAL = 268.97;
-double ICAL = 90.9;
+const float VOLTS_PER_DIV = (3.3 / 4096.0);
+float VCAL = 268.97;
+float ICAL = 90.9;
 
 // ISR accumulators
 typedef struct channel_ {
@@ -88,7 +88,7 @@ typedef struct channel_ {
   uint32_t cycles;
 } channel_t;
 
-uint64_t pulseCount = 0;
+uint32_t pulseCount = 0;
 
 static channel_t channels[3];
 static channel_t channels_copy[3];
@@ -110,7 +110,7 @@ void process_frame(uint16_t offset)
   int32_t sample_V, sample_I, signed_V, signed_I;
   
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);
-  for (int i=0; i<1500; i+=3) {
+  for (int i=0; i<3000; i+=3) {
     // Cycle through channels
     for (int n=0; n<3; n++) {
       channel_t* channel = &channels[n];
@@ -144,7 +144,7 @@ void process_frame(uint16_t offset)
       // 125 cycles or 2.5 seconds
       if (channel->cycles>=125) {
         channel->cycles = 0;
-        
+                
         channel_t* channel_copy = &channels_copy[n];
         // Copy accumulators for use in main loop 
         memcpy((void*)channel_copy, (void*)channel, sizeof(channel_t));
@@ -170,8 +170,8 @@ void process_frame(uint16_t offset)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  double V_RATIO = VCAL * VOLTS_PER_DIV;
-  double I_RATIO = ICAL * VOLTS_PER_DIV;
+  float V_RATIO = VCAL * VOLTS_PER_DIV;
+  float I_RATIO = ICAL * VOLTS_PER_DIV;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -222,28 +222,28 @@ int main(void)
        for (int n=0; n<3; n++) {
          channel_t* chn = &channels_copy[n];
        
-         double Vmean = chn->sum_V * (1.0 / chn->count);
-         double Imean = chn->sum_I * (1.0 / chn->count);
+         float Vmean = chn->sum_V * (1.0 / chn->count);
+         float Imean = chn->sum_I * (1.0 / chn->count);
          
          chn->sum_V_sq *= (1.0 / chn->count);
          chn->sum_V_sq -= (Vmean*Vmean);
-         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
+         float Vrms = V_RATIO * sqrt((float)chn->sum_V_sq);
          
          chn->sum_I_sq *= (1.0 / chn->count);
          chn->sum_I_sq -= (Imean*Imean);
-         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
+         float Irms = I_RATIO * sqrt((float)chn->sum_I_sq);
          
-         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
-         double realPower = V_RATIO * I_RATIO * mean_P;
+         float mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
+         float realPower = V_RATIO * I_RATIO * mean_P;
          
-         double apparentPower = Vrms * Irms;
-         double powerFactor = realPower / apparentPower; 
+         float apparentPower = Vrms * Irms;
+         float powerFactor = realPower / apparentPower; 
        
-         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%d,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
+         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%lld,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
          debug_printf(log_buffer);
          
          uint32_t current_millis = HAL_GetTick();
-         sprintf(log_buffer,"millis:%d\r\n", current_millis);
+         sprintf(log_buffer,"millis:%ld\r\n", current_millis);
          debug_printf(log_buffer);
          //debug_printf("\r\n");
        }
@@ -252,7 +252,7 @@ int main(void)
        //sprintf(log_buffer,"\r\n");
        //debug_printf(log_buffer);
        
-       sprintf(log_buffer,"PC:%d\r\n",pulseCount);
+       sprintf(log_buffer,"PC:%ld\r\n",pulseCount);
        debug_printf(log_buffer);
        
      }

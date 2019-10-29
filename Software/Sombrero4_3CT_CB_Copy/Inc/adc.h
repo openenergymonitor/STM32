@@ -55,7 +55,7 @@ extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc3;
 
 /* USER CODE BEGIN Private defines */
-#define ADC_DMA_BUFFSIZE 3000    // must me integer multiple of number of channels?
+#define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
 extern volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
 extern volatile uint16_t adc3_dma_buff[ADC_DMA_BUFFSIZE];
 

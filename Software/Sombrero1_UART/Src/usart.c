@@ -23,7 +23,7 @@
 /* USER CODE BEGIN 0 */
 #include <string.h>
 
-uint8_t log_buffer[150];
+char log_buffer[150];
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart2;

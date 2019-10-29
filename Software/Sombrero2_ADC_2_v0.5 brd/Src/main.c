@@ -240,34 +240,7 @@ int main(void)
        debug_printf(log_buffer);
        
      }
-     /*
-    if (adc1_half_conv_complete && !adc1_half_conv_overrun) 
-      {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);      // LED off
-        adc1_half_conv_complete = false;
-        process_frame(0);  // 0 to 2000
-      }
-
-      if (adc1_full_conv_complete && !adc1_full_conv_overrun) 
-      {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);        // LED on
-        adc1_full_conv_complete = false;
-        process_frame(2000); // offset 2000 to 4000
-        
-        // 4000 Samples all together divided by 2 inputs = 2000 samples per input
-        int meanA0 = sumA0 / 2000;
-        int meanA1 = sumA1 / 2000;
-        
-        sprintf(log_buffer,"Mean A0 %d\r\n", meanA0);
-        debug_printf(log_buffer);
-
-        sprintf(log_buffer,"Mean A1 %d\r\n", meanA1);
-        debug_printf(log_buffer);
-        
-        sumA0 = 0;
-        sumA1 = 0;
-      }
-      */
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

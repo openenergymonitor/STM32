@@ -57,7 +57,8 @@ volatile uint32_t previousMillis = 0;
 volatile uint32_t interval[5] = {0}; // array for different intervals, just in case.
 
 volatile uint8_t rx_buff[150];
-volatile uint8_t rx_flag;
+volatile char rx_string[150];
+volatile int rx_flag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,19 +123,21 @@ int main(void)
     // if the IDLE flag interrupt has been trigger, this flag should be set to indicate the Rx buffer has data.
     if (rx_flag)
     {
-      uint16_t currentMillis1 = HAL_GetTick();
-      //
-      HAL_UART_DMAStop(&huart2); 
+      uint32_t currentMillis1 = HAL_GetTick(); // debug
+      memcpy(rx_string, rx_buff, sizeof(rx_buff));
       memset(rx_buff,0,sizeof(rx_buff));
-      HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
+      huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
+      huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
+      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; 
       rx_flag = 0;
-      //
-      uint16_t currentMillis2 = HAL_GetTick();
-      uint16_t millis_taken = currentMillis2 - currentMillis1;
-      
-
+      uint32_t currentMillis2 = HAL_GetTick(); // debug
+        // debug
+      uint32_t millis_taken = currentMillis2 - currentMillis1;
+      sprintf(log_buffer, "rx_string: %s\r\n", rx_string);
+      debug_printf(log_buffer);
       sprintf(log_buffer, "millis_taken: %d\r\n", millis_taken);
       debug_printf(log_buffer);
+      
     }
 
     // print the millis since boot every interval.

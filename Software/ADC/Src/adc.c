@@ -164,13 +164,13 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc1)
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  uint32_t ADCValue = HAL_ADC_GetValue(hadc1);
+  uint32_t ADCValue = HAL_ADC_GetValue(hadc);
   sprintf(log_buffer, "ADCValue 1: %d\r\n", ADCValue);
   debug_printf(log_buffer);
 
-  ADCValue = HAL_ADC_GetValue(hadc1);
+  ADCValue = HAL_ADC_GetValue(hadc);
   sprintf(log_buffer, "ADCValue 2: %d\r\n", ADCValue);
   debug_printf(log_buffer);
 }

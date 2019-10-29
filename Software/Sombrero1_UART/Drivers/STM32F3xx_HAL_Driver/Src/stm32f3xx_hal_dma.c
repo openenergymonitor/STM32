@@ -327,10 +327,10 @@ HAL_StatusTypeDef HAL_DMA_Start(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, ui
   	
   	/* Remain BUSY */
   	status = HAL_BUSY;
-  }  
+  }
 
   return status; 
-} 
+}
 
 /**
   * @brief  Start the DMA Transfer with interrupt enabled.

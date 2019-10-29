@@ -33,7 +33,7 @@
 extern UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN Private defines */
-extern uint8_t log_buffer[150];
+extern char log_buffer[150];
 /* USER CODE END Private defines */
 
 void MX_USART2_UART_Init(void);

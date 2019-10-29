@@ -227,6 +227,7 @@ void USART2_IRQHandler(void)
   {
     __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
     rx_flag = 1;
+  }
   /* USER CODE END USART2_IRQn 1 */
 }
 

@@ -125,8 +125,7 @@ void process_frame(uint16_t offset)
       // Power
       channel->sum_P += signed_V * signed_I;
 
-      channel->count ++;
-
+      channel->count++;
 
       // Zero crossing detection
       channel->last_positive_V = channel->positive_V;
@@ -137,7 +136,7 @@ void process_frame(uint16_t offset)
       if (channel->cycles>=125) {
         channel->cycles = 0;
 
-        channel_t* channel_copy = &channels_copy[n];
+        channel_t *channel_copy = &channels_copy[n];
         // Copy accumulators for use in main loop
         memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
         // Reset accumulators to zero ready for next set of measurements
