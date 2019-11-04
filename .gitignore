@@ -28,6 +28,9 @@ emonTxshield_dBC/.pioenvs/*
 dBC_txshield_demo/build/*
 dBC_txshield_demo/.pioenvs/*
 
+MBUS/MBUS1/build/*
+MBUS/MBUS1/.pioenvs/*
+
 BlinkCB/build/*
 BlinkCB/.pioenvs/*
 

@@ -39,16 +39,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
-#include "adc.h"
 #include "dma.h"
-#include "opamp.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
-#include "ds18b20.h"
+#define MBUS_MAX_LEN 100
 
 /* USER CODE END Includes */
 
@@ -56,40 +52,11 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
-#define true 1
-#define false 0
-#define MID_ADC_READING 2048
-
-// Serial output buffer
-char log_buffer[150];
-
-// Flag
-int8_t readings_ready = false;
-
-// Calibration
-double VCAL = 268.97;
-double ICAL = 90.9;
-
-// ISR accumulators
-typedef struct channel_ {
-  int64_t sum_P;
-  uint64_t sum_V_sq;
-  uint64_t sum_I_sq;
-  int64_t sum_V;
-  int64_t sum_I;
-  uint64_t count;
-
-  uint8_t positive_V;
-  uint8_t last_positive_V;
-  uint8_t cycles;
-} channel_t;
-
-uint64_t pulseCount = 0;
-
-static channel_t channels[3];
-static channel_t channels_copy[3];
-
+char log_buffer[100];
+uint8_t serial_ready_1 = 1;
+uint8_t serial_available_1 = 0;
+uint8_t serial_ready_2 = 1;
+uint8_t serial_available_2 = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,58 +68,25 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-void process_frame(uint16_t offset)
-{
-  int32_t sample_V, sample_I, signed_V, signed_I;
+uint8_t tx_buff_1[10];
+uint8_t rx_buff_1[MBUS_MAX_LEN];
+uint8_t rx_buff_2[10];
+
+void mbus_short_frame(uint8_t address, uint8_t C_field) {
+
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  HAL_Delay(200);
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  HAL_Delay(200);
+
+  tx_buff_1[0] = 0x10;
+  tx_buff_1[1] = C_field;
+  tx_buff_1[2] = address;
+  tx_buff_1[3] = tx_buff_1[1]+tx_buff_1[2];
+  tx_buff_1[4] = 0x16;
+  tx_buff_1[5] = '\0';
   
-  
-  //HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-  for (int i=0; i<3000; i+=3) {
-    // Cycle through channels
-    for (int n=0; n<3; n++) {
-      channel_t* channel = &channels[n];
-      
-      // ----------------------------------------
-      // Voltage
-      sample_V = adc4_dma_buff[offset+i+n];
-      signed_V = sample_V - MID_ADC_READING;
-      channel->sum_V += signed_V;
-      channel->sum_V_sq += signed_V * signed_V;
-      // ----------------------------------------
-      // Current
-      sample_I = adc1_dma_buff[offset+i+n];
-      signed_I = sample_I - MID_ADC_READING;
-      channel->sum_I += signed_I;
-      channel->sum_I_sq += signed_I * signed_I;
-      // ----------------------------------------
-      // Power
-      channel->sum_P += signed_V * signed_I;
-      
-      channel->count ++;
-    
-    
-      // Zero crossing detection
-      channel->last_positive_V = channel->positive_V;
-      if (signed_V > 0) channel->positive_V = true; else channel->positive_V = false;
-      if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
-      
-      // 125 cycles or 2.5 seconds
-      if (channel->cycles>=125) {
-        channel->cycles = 0;
-        
-        channel_t* channel_copy = &channels_copy[n];
-        // Copy accumulators for use in main loop 
-        memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
-        // Reset accumulators to zero ready for next set of measurements
-        memset((void*)channel, 0, sizeof(channel_t));
-        
-        if (n==2) {
-          readings_ready = true;
-        }
-      }
-    }
-  }
-  //HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_UART_Transmit_DMA(&huart1,(uint8_t*)tx_buff_1,6);
 }
 
 /* USER CODE END 0 */
@@ -165,7 +99,7 @@ void process_frame(uint16_t offset)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -174,8 +108,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  double V_RATIO = VCAL * (3.3 / 4096.0);
-  double I_RATIO = ICAL * (3.3 / 4096.0);
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -188,68 +121,69 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_OPAMP2_Init();
+  MX_USART2_UART_Init();
   MX_USART1_UART_Init();
-  MX_ADC1_Init();
-  MX_ADC4_Init();
-  MX_TIM8_Init();
-  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_OPAMP_Start(&hopamp2);
-
-  //sprintf(log_buffer,"init init_ds18b20s\r\n");
-  //debug_printf(log_buffer);
   
-  init_ds18b20s();
+  HAL_UART_Receive_DMA(&huart1,rx_buff_1,MBUS_MAX_LEN);
+  HAL_UART_Receive_DMA(&huart2,rx_buff_2,10);
+  
+  // Send initial MBUS request
+  HAL_Delay(1000);
+  mbus_short_frame(92,0x5b);
 
-  //sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
-  //debug_printf(log_buffer);
-  
-  start_ADCs();
-  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-     if (readings_ready) {
-       readings_ready = false;
-       process_ds18b20s();
-       
-       for (int n=0; n<3; n++) {
-         channel_t* chn = &channels_copy[n];
-       
-         double Vmean = chn->sum_V * (1.0 / chn->count);
-         double Imean = chn->sum_I * (1.0 / chn->count);
-         
-         chn->sum_V_sq *= (1.0 / chn->count);
-         chn->sum_V_sq -= (Vmean*Vmean);
-         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
-         
-         chn->sum_I_sq *= (1.0 / chn->count);
-         chn->sum_I_sq -= (Imean*Imean);
-         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
-         
-         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
-         double realPower = V_RATIO * I_RATIO * mean_P;
-         
-         double apparentPower = Vrms * Irms;
-         double powerFactor = realPower / apparentPower; 
-       
-         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%lld,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
-         debug_printf(log_buffer);
-       
-       }
-       
-       //sprintf(log_buffer,"\r\n");
-       //debug_printf(log_buffer);
-       
-       sprintf(log_buffer,"PC:%d\r\n",pulseCount);
-       debug_printf(log_buffer);
-       
-     }
+    // -------------------------------------------------------------------------
+    // 1) Read in DEBUG uart
+    // -------------------------------------------------------------------------
+    if (serial_available_2) {
+        serial_available_2 = 0;
+        
+        if (serial_ready_2) {
+            serial_ready_2 = 0;
+            
+            // echo content back
+            HAL_UART_Transmit_DMA(&huart2,(uint8_t*)rx_buff_2,strlen(rx_buff_2));
+            // Send MBUS request
+            mbus_short_frame(92,0x5b);
+        }
+        // Start listening again on uart2
+        HAL_UART_Receive_DMA(&huart2,rx_buff_2,10);
+    }
+
+    // -------------------------------------------------------------------------
+    // 1) Read in MBUS uart
+    // -------------------------------------------------------------------------
+    if (serial_available_1) {
+        serial_available_1 = 0;
+        
+        // LED indicator to show mbus data available
+        int i;
+        for (i=0; i<10; i++) {
+            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+            HAL_Delay(50);
+        }
+        
+        // Send MBUS reply to DEBUG UART
+        if (serial_ready_2) {
+            serial_ready_2 = 0;
+            
+            int i;
+            for (i=0; i<76; i++) {
+              sprintf(log_buffer,"%i %i \r\n",i,rx_buff_1[i]);
+              HAL_UART_Transmit(&huart2, (uint8_t*)log_buffer, strlen(log_buffer), 1000);
+            }
+        }
+        // Start listening again on uart1
+        HAL_UART_Receive_DMA(&huart1,rx_buff_1,MBUS_MAX_LEN);
+    }
+      
+    HAL_Delay(200);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -272,13 +206,10 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -288,21 +219,19 @@ void SystemClock_Config(void)
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART3
-                              |RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
-  PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
+  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -322,8 +251,14 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void onPulse() {
-    pulseCount ++;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+    if (huart==&huart1) serial_available_1 = 1;
+    if (huart==&huart2) serial_available_2 = 1;
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
+    if (huart==&huart1) serial_ready_1 = 1;
+    if (huart==&huart2) serial_ready_2 = 1;
 }
 
 

@@ -105,7 +105,7 @@ int main(void)
   /* USER CODE END WHILE */
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
     /* Insert delay 100 ms */
-    HAL_Delay(100);
+    HAL_Delay(500);
   /* USER CODE BEGIN 3 */
 
   }
