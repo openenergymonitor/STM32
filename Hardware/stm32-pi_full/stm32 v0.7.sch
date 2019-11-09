@@ -29028,20 +29028,20 @@ SWDIO + SWCLK added to the top</text>
 <instance part="SUPPLY10" gate="GND" x="228.6" y="48.26" smashed="yes">
 <attribute name="VALUE" x="226.695" y="45.085" size="1.778" layer="96"/>
 </instance>
-<instance part="RFV3" gate="G$1" x="261.62" y="187.96" smashed="yes" rot="R180">
-<attribute name="NAME" x="265.43" y="186.4614" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="265.43" y="191.262" size="1.778" layer="96" rot="R180"/>
+<instance part="RFV3" gate="G$1" x="264.16" y="187.96" smashed="yes" rot="R180">
+<attribute name="NAME" x="267.97" y="186.4614" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="267.97" y="191.262" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="CFV3" gate="G$1" x="256.54" y="175.26" smashed="yes" rot="R180">
-<attribute name="NAME" x="255.016" y="174.879" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="255.016" y="179.959" size="1.778" layer="96" rot="R180"/>
+<instance part="CFV3" gate="G$1" x="259.08" y="177.8" smashed="yes">
+<attribute name="NAME" x="260.604" y="178.181" size="1.778" layer="95"/>
+<attribute name="VALUE" x="260.604" y="173.101" size="1.778" layer="96"/>
 </instance>
 <instance part="SUPPLY14" gate="GND" x="256.54" y="167.64" smashed="yes">
 <attribute name="VALUE" x="254.635" y="164.465" size="1.778" layer="96"/>
 </instance>
-<instance part="RVPU33" gate="G$1" x="251.46" y="213.36" smashed="yes" rot="R90">
-<attribute name="NAME" x="249.9614" y="209.55" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="254.762" y="209.55" size="1.778" layer="96" rot="R90"/>
+<instance part="RVPU33" gate="G$1" x="261.62" y="198.12" smashed="yes" rot="R90">
+<attribute name="NAME" x="260.1214" y="194.31" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="264.922" y="194.31" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="RVPU3" gate="G$1" x="269.24" y="198.12" smashed="yes" rot="R270">
 <attribute name="NAME" x="270.7386" y="201.93" size="1.778" layer="95" rot="R270"/>
@@ -29088,7 +29088,7 @@ SWDIO + SWCLK added to the top</text>
 <attribute name="VALUE" x="10.541" y="37.592" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="VT3" gate="G$1" x="274.32" y="208.28" smashed="yes" rot="R180">
-<attribute name="NAME" x="276.86" y="203.2" size="1.27" layer="95" rot="R180"/>
+<attribute name="NAME" x="284.48" y="203.2" size="1.27" layer="95" rot="R180"/>
 </instance>
 <instance part="SJ1" gate="1" x="-40.64" y="-53.34" smashed="yes">
 <attribute name="NAME" x="-42.672" y="-52.832" size="1.778" layer="95"/>
@@ -29111,11 +29111,11 @@ SWDIO + SWCLK added to the top</text>
 <instance part="CT1" gate="G$1" x="386.08" y="66.04" smashed="yes" rot="R180">
 <attribute name="NAME" x="404.622" y="70.612" size="1.27" layer="94" rot="R270"/>
 </instance>
-<instance part="VT2" gate="G$1" x="289.56" y="208.28" smashed="yes" rot="R180">
-<attribute name="NAME" x="292.1" y="203.2" size="1.27" layer="95" rot="R180"/>
+<instance part="VT2" gate="G$1" x="297.18" y="208.28" smashed="yes" rot="R180">
+<attribute name="NAME" x="314.96" y="203.2" size="1.27" layer="95" rot="R180"/>
 </instance>
-<instance part="VT1" gate="G$1" x="304.8" y="208.28" smashed="yes" rot="R180">
-<attribute name="NAME" x="307.34" y="203.2" size="1.27" layer="95" rot="R180"/>
+<instance part="VT1" gate="G$1" x="320.04" y="208.28" smashed="yes" rot="R180">
+<attribute name="NAME" x="322.58" y="203.2" size="1.27" layer="95" rot="R180"/>
 </instance>
 <instance part="RJ45_1" gate="G$1" x="360.68" y="17.78" smashed="yes">
 <attribute name="NAME" x="369.316" y="7.112" size="3.81" layer="95" rot="R90"/>
@@ -29123,37 +29123,37 @@ SWDIO + SWCLK added to the top</text>
 <instance part="STM32F303VE" gate="G$1" x="88.9" y="35.56" smashed="yes">
 <attribute name="NAME" x="71.12" y="121.92" size="1.778" layer="95"/>
 </instance>
-<instance part="RVPU2" gate="G$1" x="284.48" y="198.12" smashed="yes" rot="R90">
-<attribute name="NAME" x="282.9814" y="194.31" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="287.782" y="194.31" size="1.778" layer="96" rot="R90"/>
+<instance part="RVPU2" gate="G$1" x="292.1" y="198.12" smashed="yes" rot="R90">
+<attribute name="NAME" x="290.6014" y="194.31" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="295.402" y="194.31" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="RVPU1" gate="G$1" x="299.72" y="198.12" smashed="yes" rot="R90">
-<attribute name="NAME" x="298.2214" y="194.31" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="303.022" y="194.31" size="1.778" layer="96" rot="R90"/>
+<instance part="RVPU1" gate="G$1" x="314.96" y="198.12" smashed="yes" rot="R90">
+<attribute name="NAME" x="313.4614" y="194.31" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="318.262" y="194.31" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="RFV2" gate="G$1" x="279.4" y="187.96" smashed="yes" rot="R180">
-<attribute name="NAME" x="283.21" y="186.4614" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="283.21" y="191.262" size="1.778" layer="96" rot="R180"/>
+<instance part="RFV2" gate="G$1" x="287.02" y="187.96" smashed="yes" rot="R180">
+<attribute name="NAME" x="290.83" y="186.4614" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="290.83" y="191.262" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="RFV1" gate="G$1" x="294.64" y="187.96" smashed="yes" rot="R180">
-<attribute name="NAME" x="298.45" y="186.4614" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="298.45" y="191.262" size="1.778" layer="96" rot="R180"/>
+<instance part="RFV1" gate="G$1" x="309.88" y="187.96" smashed="yes" rot="R180">
+<attribute name="NAME" x="313.69" y="186.4614" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="313.69" y="191.262" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="CFV2" gate="G$1" x="274.32" y="175.26" smashed="yes" rot="R180">
-<attribute name="NAME" x="272.796" y="174.879" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="272.796" y="179.959" size="1.778" layer="96" rot="R180"/>
+<instance part="CFV2" gate="G$1" x="281.94" y="177.8" smashed="yes">
+<attribute name="NAME" x="283.464" y="178.181" size="1.778" layer="95"/>
+<attribute name="VALUE" x="283.464" y="173.101" size="1.778" layer="96"/>
 </instance>
-<instance part="CFV1" gate="G$1" x="289.56" y="175.26" smashed="yes" rot="R180">
-<attribute name="NAME" x="288.036" y="174.879" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="288.036" y="179.959" size="1.778" layer="96" rot="R180"/>
+<instance part="CFV1" gate="G$1" x="304.8" y="177.8" smashed="yes">
+<attribute name="NAME" x="306.324" y="178.181" size="1.778" layer="95"/>
+<attribute name="VALUE" x="306.324" y="173.101" size="1.778" layer="96"/>
 </instance>
-<instance part="RVPU22" gate="G$1" x="243.84" y="213.36" smashed="yes" rot="R90">
-<attribute name="NAME" x="242.3414" y="209.55" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="247.142" y="209.55" size="1.778" layer="96" rot="R90"/>
+<instance part="RVPU22" gate="G$1" x="281.94" y="198.12" smashed="yes" rot="R90">
+<attribute name="NAME" x="280.4414" y="194.31" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="285.242" y="194.31" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="RVPU11" gate="G$1" x="236.22" y="213.36" smashed="yes" rot="R90">
-<attribute name="NAME" x="234.7214" y="209.55" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="239.522" y="209.55" size="1.778" layer="96" rot="R90"/>
+<instance part="RVPU11" gate="G$1" x="304.8" y="198.12" smashed="yes" rot="R90">
+<attribute name="NAME" x="303.3014" y="194.31" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="308.102" y="194.31" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="RB4" gate="G$1" x="309.88" y="68.58" smashed="yes" rot="R90">
 <attribute name="NAME" x="308.3814" y="64.77" size="1.778" layer="95" rot="R90"/>
@@ -29558,19 +29558,16 @@ SWDIO + SWCLK added to the top</text>
 </instance>
 <instance part="D1" gate="G$1" x="226.06" y="210.82" smashed="yes" rot="R90">
 <attribute name="NAME" x="223.52" y="208.28" size="1.27" layer="95" rot="R90"/>
-<attribute name="VALUE" x="229.87" y="208.28" size="1.27" layer="96" rot="R90"/>
 </instance>
 <instance part="D2" gate="G$1" x="220.98" y="172.72" smashed="yes" rot="R90">
 <attribute name="NAME" x="218.44" y="170.18" size="1.27" layer="95" rot="R90"/>
-<attribute name="VALUE" x="224.79" y="170.18" size="1.27" layer="96" rot="R90"/>
+<attribute name="VALUE" x="228.346" y="172.212" size="1.27" layer="96"/>
 </instance>
 <instance part="D3" gate="G$1" x="226.06" y="175.26" smashed="yes" rot="R90">
 <attribute name="NAME" x="223.52" y="172.72" size="1.27" layer="95" rot="R90"/>
-<attribute name="VALUE" x="229.87" y="172.72" size="1.27" layer="96" rot="R90"/>
 </instance>
 <instance part="D4" gate="G$1" x="231.14" y="177.8" smashed="yes" rot="R90">
 <attribute name="NAME" x="228.6" y="175.26" size="1.27" layer="95" rot="R90"/>
-<attribute name="VALUE" x="234.95" y="175.26" size="1.27" layer="96" rot="R90"/>
 </instance>
 <instance part="D5" gate="G$1" x="251.46" y="134.62" smashed="yes" rot="R90">
 <attribute name="NAME" x="248.92" y="132.08" size="1.27" layer="95" rot="R90"/>
@@ -29897,15 +29894,7 @@ SWDIO + SWCLK added to the top</text>
 <junction x="228.6" y="50.8"/>
 </segment>
 <segment>
-<pinref part="CFV3" gate="G$1" pin="1"/>
 <pinref part="SUPPLY14" gate="GND" pin="GND"/>
-<wire x1="256.54" y1="172.72" x2="256.54" y2="170.18" width="0.1524" layer="91"/>
-<pinref part="CFV2" gate="G$1" pin="1"/>
-<wire x1="274.32" y1="172.72" x2="256.54" y2="172.72" width="0.1524" layer="91"/>
-<junction x="256.54" y="172.72"/>
-<pinref part="CFV1" gate="G$1" pin="1"/>
-<wire x1="274.32" y1="172.72" x2="289.56" y2="172.72" width="0.1524" layer="91"/>
-<junction x="274.32" y="172.72"/>
 <pinref part="D4" gate="G$1" pin="A"/>
 <wire x1="231.14" y1="175.26" x2="231.14" y2="170.18" width="0.1524" layer="91"/>
 <pinref part="D2" gate="G$1" pin="A"/>
@@ -29916,7 +29905,18 @@ SWDIO + SWCLK added to the top</text>
 <junction x="226.06" y="170.18"/>
 <wire x1="231.14" y1="170.18" x2="256.54" y2="170.18" width="0.1524" layer="91"/>
 <junction x="231.14" y="170.18"/>
+<pinref part="CFV3" gate="G$1" pin="2"/>
+<wire x1="259.08" y1="172.72" x2="259.08" y2="170.18" width="0.1524" layer="91"/>
+<wire x1="259.08" y1="170.18" x2="256.54" y2="170.18" width="0.1524" layer="91"/>
 <junction x="256.54" y="170.18"/>
+<wire x1="259.08" y1="170.18" x2="281.94" y2="170.18" width="0.1524" layer="91"/>
+<junction x="259.08" y="170.18"/>
+<pinref part="CFV2" gate="G$1" pin="2"/>
+<wire x1="281.94" y1="170.18" x2="281.94" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="170.18" x2="304.8" y2="170.18" width="0.1524" layer="91"/>
+<junction x="281.94" y="170.18"/>
+<pinref part="CFV1" gate="G$1" pin="2"/>
+<wire x1="304.8" y1="170.18" x2="304.8" y2="172.72" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R23" gate="G$1" pin="1"/>
@@ -30721,13 +30721,8 @@ SWDIO + SWCLK added to the top</text>
 </net>
 <net name="BIAS" class="0">
 <segment>
-<wire x1="269.24" y1="218.44" x2="251.46" y2="218.44" width="0.1524" layer="91"/>
 <label x="223.52" y="218.44" size="1.778" layer="95"/>
 <pinref part="RVPU33" gate="G$1" pin="2"/>
-<wire x1="251.46" y1="218.44" x2="243.84" y2="218.44" width="0.1524" layer="91"/>
-<junction x="251.46" y="218.44"/>
-<wire x1="243.84" y1="218.44" x2="236.22" y2="218.44" width="0.1524" layer="91"/>
-<wire x1="236.22" y1="218.44" x2="226.06" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="218.44" x2="223.52" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="269.24" y1="208.28" x2="269.24" y2="210.82" width="0.1524" layer="91"/>
 <pinref part="VT3" gate="G$1" pin="RING"/>
@@ -30736,26 +30731,36 @@ SWDIO + SWCLK added to the top</text>
 <junction x="269.24" y="210.82"/>
 <junction x="269.24" y="208.28"/>
 <pinref part="VT2" gate="G$1" pin="RING"/>
-<wire x1="269.24" y1="218.44" x2="284.48" y2="218.44" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="218.44" x2="284.48" y2="210.82" width="0.1524" layer="91"/>
+<wire x1="269.24" y1="218.44" x2="281.94" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="218.44" x2="292.1" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="292.1" y1="218.44" x2="292.1" y2="210.82" width="0.1524" layer="91"/>
 <junction x="269.24" y="218.44"/>
 <pinref part="VT2" gate="G$1" pin="RING_SW"/>
-<wire x1="284.48" y1="210.82" x2="284.48" y2="208.28" width="0.1524" layer="91"/>
-<junction x="284.48" y="210.82"/>
-<wire x1="284.48" y1="218.44" x2="299.72" y2="218.44" width="0.1524" layer="91"/>
-<junction x="284.48" y="218.44"/>
+<wire x1="292.1" y1="210.82" x2="292.1" y2="208.28" width="0.1524" layer="91"/>
+<junction x="292.1" y="210.82"/>
+<wire x1="292.1" y1="218.44" x2="304.8" y2="218.44" width="0.1524" layer="91"/>
+<junction x="292.1" y="218.44"/>
 <pinref part="VT1" gate="G$1" pin="RING"/>
-<wire x1="299.72" y1="218.44" x2="299.72" y2="210.82" width="0.1524" layer="91"/>
+<wire x1="304.8" y1="218.44" x2="314.96" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="218.44" x2="314.96" y2="210.82" width="0.1524" layer="91"/>
 <pinref part="VT1" gate="G$1" pin="RING_SW"/>
-<wire x1="299.72" y1="210.82" x2="299.72" y2="208.28" width="0.1524" layer="91"/>
-<junction x="299.72" y="210.82"/>
+<wire x1="314.96" y1="210.82" x2="314.96" y2="208.28" width="0.1524" layer="91"/>
+<junction x="314.96" y="210.82"/>
 <pinref part="RVPU22" gate="G$1" pin="2"/>
-<junction x="243.84" y="218.44"/>
 <pinref part="RVPU11" gate="G$1" pin="2"/>
-<junction x="236.22" y="218.44"/>
 <pinref part="D1" gate="G$1" pin="C"/>
 <wire x1="226.06" y1="213.36" x2="226.06" y2="218.44" width="0.1524" layer="91"/>
 <junction x="226.06" y="218.44"/>
+<wire x1="261.62" y1="203.2" x2="261.62" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="261.62" y1="218.44" x2="269.24" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="261.62" y1="218.44" x2="226.06" y2="218.44" width="0.1524" layer="91"/>
+<junction x="261.62" y="218.44"/>
+<wire x1="226.06" y1="218.44" x2="220.98" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="220.98" y1="218.44" x2="220.98" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="304.8" y1="203.2" x2="304.8" y2="218.44" width="0.1524" layer="91"/>
+<junction x="304.8" y="218.44"/>
+<wire x1="281.94" y1="203.2" x2="281.94" y2="218.44" width="0.1524" layer="91"/>
+<junction x="281.94" y="218.44"/>
 </segment>
 <segment>
 <wire x1="317.5" y1="66.04" x2="314.96" y2="66.04" width="0.1524" layer="91"/>
@@ -30970,10 +30975,9 @@ SWDIO + SWCLK added to the top</text>
 <pinref part="RVPU33" gate="G$1" pin="1"/>
 <pinref part="RVPU3" gate="G$1" pin="2"/>
 <junction x="269.24" y="193.04"/>
-<wire x1="269.24" y1="193.04" x2="251.46" y2="208.28" width="0.1524" layer="91"/>
+<wire x1="269.24" y1="193.04" x2="261.62" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="269.24" y1="193.04" x2="269.24" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="RFV3" gate="G$1" pin="1"/>
-<wire x1="269.24" y1="187.96" x2="266.7" y2="187.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="AC3" class="0">
@@ -30991,15 +30995,17 @@ SWDIO + SWCLK added to the top</text>
 <label x="53.34" y="5.08" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="CFV1" gate="G$1" pin="2"/>
 <pinref part="RFV1" gate="G$1" pin="2"/>
-<wire x1="289.56" y1="180.34" x2="289.56" y2="182.88" width="0.1524" layer="91"/>
-<wire x1="289.56" y1="182.88" x2="289.56" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="289.56" y1="182.88" x2="220.98" y2="182.88" width="0.1524" layer="91"/>
-<junction x="289.56" y="182.88"/>
+<wire x1="304.8" y1="182.88" x2="304.8" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="304.8" y1="182.88" x2="220.98" y2="182.88" width="0.1524" layer="91"/>
 <label x="236.22" y="182.88" size="1.778" layer="95"/>
 <pinref part="D2" gate="G$1" pin="C"/>
 <wire x1="220.98" y1="175.26" x2="220.98" y2="182.88" width="0.1524" layer="91"/>
+<pinref part="CFV1" gate="G$1" pin="1"/>
+<wire x1="304.8" y1="180.34" x2="304.8" y2="182.88" width="0.1524" layer="91"/>
+<junction x="304.8" y="182.88"/>
+<wire x1="220.98" y1="182.88" x2="215.9" y2="182.88" width="0.1524" layer="91"/>
+<junction x="220.98" y="182.88"/>
 </segment>
 </net>
 <net name="CT1" class="0">
@@ -31184,47 +31190,49 @@ SWDIO + SWCLK added to the top</text>
 <segment>
 <pinref part="RVPU2" gate="G$1" pin="1"/>
 <pinref part="RFV2" gate="G$1" pin="1"/>
-<wire x1="284.48" y1="193.04" x2="284.48" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="292.1" y1="193.04" x2="292.1" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="RVPU22" gate="G$1" pin="1"/>
-<wire x1="284.48" y1="193.04" x2="243.84" y2="208.28" width="0.1524" layer="91"/>
-<junction x="284.48" y="193.04"/>
+<wire x1="292.1" y1="193.04" x2="281.94" y2="193.04" width="0.1524" layer="91"/>
+<junction x="292.1" y="193.04"/>
 </segment>
 </net>
 <net name="AC2" class="0">
 <segment>
 <pinref part="RVPU2" gate="G$1" pin="2"/>
 <pinref part="VT2" gate="G$1" pin="TIP"/>
-<wire x1="284.48" y1="203.2" x2="284.48" y2="205.74" width="0.1524" layer="91"/>
+<wire x1="292.1" y1="203.2" x2="292.1" y2="205.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="AC1" class="0">
 <segment>
 <pinref part="VT1" gate="G$1" pin="TIP"/>
 <pinref part="RVPU1" gate="G$1" pin="2"/>
-<wire x1="299.72" y1="205.74" x2="299.72" y2="203.2" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="205.74" x2="314.96" y2="203.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$37" class="0">
 <segment>
 <pinref part="RVPU1" gate="G$1" pin="1"/>
 <pinref part="RFV1" gate="G$1" pin="1"/>
-<wire x1="299.72" y1="193.04" x2="299.72" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="193.04" x2="314.96" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="RVPU11" gate="G$1" pin="1"/>
-<wire x1="299.72" y1="193.04" x2="236.22" y2="208.28" width="0.1524" layer="91"/>
-<junction x="299.72" y="193.04"/>
+<wire x1="314.96" y1="193.04" x2="304.8" y2="193.04" width="0.1524" layer="91"/>
+<junction x="314.96" y="193.04"/>
 </segment>
 </net>
 <net name="VSIG2" class="0">
 <segment>
 <pinref part="RFV2" gate="G$1" pin="2"/>
-<pinref part="CFV2" gate="G$1" pin="2"/>
-<wire x1="274.32" y1="187.96" x2="274.32" y2="185.42" width="0.1524" layer="91"/>
-<wire x1="274.32" y1="185.42" x2="274.32" y2="180.34" width="0.1524" layer="91"/>
-<wire x1="274.32" y1="185.42" x2="226.06" y2="185.42" width="0.1524" layer="91"/>
-<junction x="274.32" y="185.42"/>
+<wire x1="281.94" y1="185.42" x2="226.06" y2="185.42" width="0.1524" layer="91"/>
 <label x="236.22" y="185.42" size="1.778" layer="95"/>
 <pinref part="D3" gate="G$1" pin="C"/>
 <wire x1="226.06" y1="185.42" x2="226.06" y2="177.8" width="0.1524" layer="91"/>
+<pinref part="CFV2" gate="G$1" pin="1"/>
+<wire x1="281.94" y1="180.34" x2="281.94" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="185.42" x2="281.94" y2="187.96" width="0.1524" layer="91"/>
+<junction x="281.94" y="185.42"/>
+<wire x1="226.06" y1="185.42" x2="215.9" y2="185.42" width="0.1524" layer="91"/>
+<junction x="226.06" y="185.42"/>
 </segment>
 <segment>
 <wire x1="53.34" y1="2.54" x2="63.5" y2="2.54" width="0.1524" layer="91"/>
@@ -31235,13 +31243,15 @@ SWDIO + SWCLK added to the top</text>
 <net name="VSIG3" class="0">
 <segment>
 <pinref part="RFV3" gate="G$1" pin="2"/>
-<pinref part="CFV3" gate="G$1" pin="2"/>
-<wire x1="256.54" y1="187.96" x2="256.54" y2="180.34" width="0.1524" layer="91"/>
-<wire x1="256.54" y1="187.96" x2="231.14" y2="187.96" width="0.1524" layer="91"/>
 <label x="236.22" y="187.96" size="1.778" layer="95"/>
-<junction x="256.54" y="187.96"/>
 <pinref part="D4" gate="G$1" pin="C"/>
+<wire x1="259.08" y1="187.96" x2="231.14" y2="187.96" width="0.1524" layer="91"/>
 <wire x1="231.14" y1="180.34" x2="231.14" y2="187.96" width="0.1524" layer="91"/>
+<pinref part="CFV3" gate="G$1" pin="1"/>
+<wire x1="259.08" y1="180.34" x2="259.08" y2="187.96" width="0.1524" layer="91"/>
+<junction x="259.08" y="187.96"/>
+<junction x="231.14" y="187.96"/>
+<wire x1="231.14" y1="187.96" x2="215.9" y2="187.96" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="STM32F303VE" gate="G$1" pin="PF4"/>
