@@ -46,3 +46,6 @@ Software/Sombrero4_3CT_CB_Copy/build/*
 !Software/Sombrero4_3CT_CB_Copy/build/*.bin
 Software/emonTxshield_dBC/build/*
 Software/Sombrero1_UART/build/*
+docs/tests/*.odt
+*.s#*
+*.b#*

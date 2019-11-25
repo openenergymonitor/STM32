@@ -80,9 +80,9 @@ typedef struct channel_
 {
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
-  int64_t sum_V;
-  int64_t sum_I;
-  int64_t sum_P;
+  uint32_t sum_V;
+  uint32_t sum_I;
+  uint32_t sum_P;
   uint32_t count;
 
   uint8_t positive_V;
@@ -112,7 +112,7 @@ void process_frame(uint16_t offset)
 {
   int32_t sample_V, sample_I, signed_V, signed_I;
 
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);
+  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);
   for (int i = 0; i < adc_buff_half_size; i += CTn)
   {
     // Cycle through channels
@@ -198,7 +198,7 @@ void process_frame(uint16_t offset)
       }
     }
   }
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_RESET);
+  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_RESET);
 }
 
 /* USER CODE END 0 */
@@ -255,6 +255,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    /*
     if (adc1_half_conv_complete && !adc1_half_conv_overrun)
     {
       adc1_half_conv_complete = false;
@@ -266,7 +267,7 @@ int main(void)
       adc1_full_conv_complete = false;
       process_frame(adc_buff_half_size);
     }
-
+*/
     if (readings_ready)
     {
       readings_ready = false;
