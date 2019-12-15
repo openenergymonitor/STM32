@@ -48,6 +48,7 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+
 #define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
 volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
 volatile uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE];

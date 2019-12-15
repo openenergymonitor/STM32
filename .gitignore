@@ -49,3 +49,7 @@ Software/Sombrero1_UART/build/*
 docs/tests/*.odt
 *.s#*
 *.b#*
+Software/ADC_CB/build/*
+!Software/ADC_CB/build/*.bin
+Software/Emon3CT_CB/build/*
+!Software/Emon3CT_CB/build/*.bin

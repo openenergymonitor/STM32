@@ -76,18 +76,17 @@ float VCAL = 268.97;
 float ICAL = 90.9;
 
 // ISR accumulators
-typedef struct channel_
-{
+typedef struct channel_ {
+  int64_t sum_P;
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
-  uint32_t sum_V;
-  uint32_t sum_I;
-  uint32_t sum_P;
+  int32_t sum_V;
+  int32_t sum_I;
   uint32_t count;
 
-  uint8_t positive_V;
-  uint8_t last_positive_V;
-  uint8_t cycles;
+  uint32_t positive_V;
+  uint32_t last_positive_V;
+  uint32_t cycles;
 } channel_t;
 
 uint32_t pulseCount = 0;
@@ -122,8 +121,6 @@ void process_frame(uint16_t offset)
 
       // ----------------------------------------
       // Voltage
-      //float32_t theresult;
-      //arm_rms_f32(float* adc1_dma_buff, uint32_t* sizeof(adc1_dma_buff), float* theresult);
       sample_V = adc1_dma_buff[offset + i + ch];
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
@@ -163,37 +160,6 @@ void process_frame(uint16_t offset)
         if (ch == (CTn - 1))
         {
           readings_ready = true;
-          /*
-          sprintf(log_buffer, "chn->sum_V_sq:%lld\r\n", chn->sum_V_sq);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->sum_I_sq:%lld\r\n", chn->sum_I_sq);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->sum_V:%lld\r\n", chn->sum_V);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->sum_I:%lld\r\n", chn->sum_I);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->sum_P:%lld\r\n", chn->sum_P);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->count:%ld\r\n", chn->count);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->positive_V:%d\r\n", chn->positive_V);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->last_positive_V:%d\r\n", chn->last_positive_V);
-          debug_printf(log_buffer);
-          sprintf(log_buffer, "chn->cycles:%d\r\n", chn->cycles);
-          debug_printf(log_buffer);
-          
-            uint32_t sum_V_sq;
-            uint32_t sum_I_sq;
-            int32_t sum_V;
-            int32_t sum_I;
-            int32_t sum_P;
-            uint32_t count;
-
-            uint8_t positive_V;
-            uint8_t last_positive_V;
-            uint8_t cycles;
-            */
         }
       }
     }
@@ -315,19 +281,13 @@ int main(void)
         }
         else
           powerFactor = 0;
-
-        sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%ld,", ch, Vrms, ch, Irms, ch, realPower, ch, apparentPower, ch, powerFactor, ch, chn->count);
+        int _ch = ch + 1;
+        sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, apparentPower, _ch, powerFactor, _ch, chn->count);
         debug_printf(log_buffer);
 
         uint32_t current_millis = HAL_GetTick();
         sprintf(log_buffer, "millis:%ld\r\n", current_millis);
         debug_printf(log_buffer);
-
-        //ref_rms_f32();
-        //sprintf(log_buffer,"\r\n");
-        //debug_printf(log_buffer);
-
-        
       }
       sprintf(log_buffer, "PC:%ld\r\n", pulseCount);
         debug_printf(log_buffer);
