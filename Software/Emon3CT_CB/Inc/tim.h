@@ -65,7 +65,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                 
 
 /* USER CODE BEGIN Prototypes */
-
+void pulse_tim8_ch2 (int pulse_width_usec);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

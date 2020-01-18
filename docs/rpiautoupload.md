@@ -32,13 +32,17 @@ Create script called *upload.sh* with the following content:
 
     #!/bin/bash
 
-    gpio -g mode 4 out
-    gpio -g write 4 1
+    echo 17 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio17/direction
+    echo 1 > /sys/class/gpio/gpio17/value
     echo "boot0 high"
     sleep 0.2
 
-    gpio -g mode 17 out
-    gpio -g mode 17 in
+    echo 4 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio4/direction
+    echo 0 > /sys/class/gpio/gpio4/value
+    sleep 0.2
+    echo 1 > /sys/class/gpio/gpio4/value
     echo "NRST"
     sleep 0.2
 
@@ -46,13 +50,18 @@ Create script called *upload.sh* with the following content:
 
     sleep 0.2
 
-    gpio -g write 4 0
+    echo 0 > /sys/class/gpio/gpio17/value
     echo "boot0 low"
     sleep 0.2
 
-    gpio -g mode 17 out
-    gpio -g mode 17 in
+    echo 0 > /sys/class/gpio/gpio4/value
+    sleep 0.2
+    echo 1 > /sys/class/gpio/gpio4/value
     echo "NRST"
+    sleep 0.2
+
+    echo 4 > /sys/class/gpio/unexport
+    echo 17 > /sys/class/gpio/unexport
 
 
 run with:

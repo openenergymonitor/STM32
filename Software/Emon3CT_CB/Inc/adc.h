@@ -68,7 +68,8 @@ void MX_ADC1_Init(void);
 void MX_ADC4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void start_ADCs (void);
+void process_frame(uint16_t offset);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

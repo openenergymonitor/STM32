@@ -62,9 +62,12 @@ extern bool adc_conv_cplt_flag;
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
+uint32_t time2;
+uint32_t time1;
+uint32_t time_diff;
 
 // Serial output buffer
-char log_buffer[150];
+char log_buffer[250];
 
 // Flag
 bool readings_ready = false;
@@ -72,6 +75,9 @@ bool readings_ready = false;
 // Calibration
 float VCAL = 268.97;
 float ICAL = 90.9;
+
+// Number of waveforms to count
+uint8_t waveforms = 250;
 
 // ISR accumulators
 typedef struct channel_
@@ -82,17 +88,19 @@ typedef struct channel_
   int32_t sum_V;
   int32_t sum_I;
   uint32_t count;
-
+  
   uint32_t positive_V;
   uint32_t last_positive_V;
   uint32_t cycles;
 } channel_t;
 
+#define NUMBER_OF_CHANNELS 3
+static channel_t channels[NUMBER_OF_CHANNELS];
+static channel_t channels_copy[NUMBER_OF_CHANNELS];
+
+double Ws_acc[NUMBER_OF_CHANNELS] = {0}; // Watt second accumulator
+
 uint32_t pulseCount = 0;
-
-static channel_t channels[3];
-static channel_t channels_copy[3];
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,16 +112,16 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-//bool chanmark1 = 1;
+
 void process_frame(uint16_t offset)
 {
   int32_t sample_V, sample_I, signed_V, signed_I;
 
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-  for (int i = 0; i < 3000; i += 3)
+  for (int i = 0; i < 3000; i += NUMBER_OF_CHANNELS)
   {
     // Cycle through channels
-    for (int n = 0; n < 3; n++)
+    for (int n = 0; n < NUMBER_OF_CHANNELS; n++)
     {
       channel_t *channel = &channels[n];
 
@@ -132,20 +140,29 @@ void process_frame(uint16_t offset)
       // ----------------------------------------
       // Power
       channel->sum_P += signed_V * signed_I;
-
+      // ----------------------------------------
+      // Sample Count
       channel->count++;
-
+      // ----------------------------------------
       // Zero crossing detection
       channel->last_positive_V = channel->positive_V;
-      if (signed_V > 0)
+      if (signed_V > 5)
+      {
         channel->positive_V = true;
-      else
+      }
+      else if (signed_V < -5)
+      {
         channel->positive_V = false;
+      }
+      
       if (!channel->last_positive_V && channel->positive_V)
+      {
         channel->cycles++;
+      }
 
-      // 125 cycles or 2.5 seconds
-      if (channel->cycles >= 125)
+      // ----------------------------------------
+      // Complete Waveform Cycles to count
+      if (channel->cycles == waveforms)
       {
         channel->cycles = 0;
 
@@ -155,7 +172,7 @@ void process_frame(uint16_t offset)
         // Reset accumulators to zero ready for next set of measurements
         memset((void *)channel, 0, sizeof(channel_t));
 
-        if (n == 2)
+        if (n == NUMBER_OF_CHANNELS - 1)
         {
           readings_ready = true;
         }
@@ -216,24 +233,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    if (adc_conv_halfcplt_flag)
-    {
-      process_frame(0);
-      adc_conv_halfcplt_flag = false;
-    }
-    if (adc_conv_cplt_flag)
-    {
-      process_frame(3000);
-      adc_conv_cplt_flag = false;
-    }
-
     if (readings_ready)
     {
-
       readings_ready = false;
-
-      for (int n = 0; n < 3; n++)
+      time2 = time1;
+      time1 = HAL_GetTick();
+      time_diff = time1 - time2;
+      for (int n = 0; n < NUMBER_OF_CHANNELS; n++)
       {
         channel_t *chn = &channels_copy[n];
 
@@ -241,7 +247,7 @@ int main(void)
         float Imean = chn->sum_I / (float)chn->count;
 
         chn->sum_V_sq /= (float)chn->count;
-        chn->sum_V_sq -= (Vmean * Vmean);
+        chn->sum_V_sq -= (Vmean * Vmean); // offset subtraction
 
         if (chn->sum_V_sq < 0) // if offset removal cause a negative number,
           chn->sum_V_sq = 0;   // make it 0 to avoid a nan at sqrt.
@@ -260,21 +266,35 @@ int main(void)
         float realPower = V_RATIO * I_RATIO * mean_P;
 
         float apparentPower = Vrms * Irms;
-        
+
         float powerFactor;
-        if (apparentPower != 0)
+        if (apparentPower != 0) // prevents 'inf' at division
         {
           powerFactor = realPower / apparentPower;
         }
         else
           powerFactor = 0;
 
+        Ws_acc[n] += ((float)(time_diff / 1000.0)) * realPower; // Watt second accumulator.
+        float Wh_acc = Ws_acc[n] / 3600.0;                      // Wh_acc
+        float frequency = 250.0 / (float)(time_diff / 1000.0);    // Hz
+
         int _n = n + 1; // for nicer serial print out
-        sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%ld", _n, Vrms, _n, Irms, _n, realPower, _n, apparentPower, _n, powerFactor, _n, chn->count);
+        sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,Wh%d:%.3f,Hz%d:%.2f,C%d:%ld", _n, Vrms, _n, Irms, _n, realPower, _n, apparentPower, _n, powerFactor, _n, Wh_acc, _n, frequency, _n, chn->count);
         debug_printf(log_buffer);
       }
 
       debug_printf("\r\n");
+
+      /*
+      CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+      ITM->LAR = 0xC5ACCE55;
+      DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+      DWT->CYCCNT = 0;
+      uint32_t DWTcounter = DWT->CYCCNT;
+      sprintf(log_buffer, "here:%ld\r\n", DWTcounter);
+      debug_printf(log_buffer);
+      */
     }
     /* USER CODE END WHILE */
 
