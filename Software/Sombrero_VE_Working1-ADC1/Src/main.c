@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * COPYRIGHT(c) 2020 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -45,12 +45,12 @@
 #include "opamp.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -58,23 +58,24 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-#define true 1
-#define false 0
+//#define true 1
+//#define false 0
 #define MID_ADC_READING 2048
 
 // Serial output buffer
-char log_buffer[150];
+extern char log_buffer[150];
 
 // Flag
-uint8_t readings_ready = false;
+bool readings_ready = false;
 
 // Calibration
 const float VOLTS_PER_DIV = (3.3 / 4096.0);
-float VCAL = 268.97;
+float VCAL = 224.4418228954;
 float ICAL = 90.9;
 
 // ISR accumulators
-typedef struct channel_ {
+typedef struct channel_
+{
   int64_t sum_P;
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
@@ -88,11 +89,12 @@ typedef struct channel_ {
   uint32_t cycles;
 } channel_t;
 
+uint32_t pulseCount = 0;
+
+//#define CTn 9 // number of CT channels
 static channel_t channels[CTn];
 static channel_t channels_copy[CTn];
 
-
-uint32_t pulseCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,20 +109,16 @@ void SystemClock_Config(void);
 void process_frame(uint16_t offset)
 {
   int32_t sample_V, sample_I, signed_V, signed_I;
-  //int32_t offset_local;
-
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_SET);
+  
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
   for (int i = 0; i < adc_buff_half_size; i += CTn)
   {
     // Cycle through channels
     for (int ch = 0; ch < CTn; ch++)
     {
       channel_t *channel = &channels[ch];
-      
-      //offset_local = adc4_dma_buff[offset + i + ch];
-      //channel->sum_offset += offset_local;
-      //sprintf(log_buffer, "here:%ld\r\n", offset_local);
-      //debug_printf(log_buffer);
+
+     
       // ----------------------------------------
       // Voltage
       sample_V = adc1_dma_buff[offset + i + ch];
@@ -152,13 +150,13 @@ void process_frame(uint16_t offset)
       if (channel->cycles == 125)
       {
         channel->cycles = 0;
-
         channel_t *chn = &channels_copy[ch];
         // Copy accumulators for use in main loop
         memcpy((void *)chn, (void *)channel, sizeof(channel_t));
         // Reset accumulators to zero ready for next set of measurements
         memset((void *)channel, 0, sizeof(channel_t));
-
+        
+        
         if (ch == (CTn - 1))
         {
           readings_ready = true;
@@ -166,140 +164,8 @@ void process_frame(uint16_t offset)
       }
     }
   }
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
 }
-
-
-
-//---------------------------------------
-// RESET CAUSE
-//---------------------------------------
-
-/// @brief  Possible STM32 system reset causes
-typedef enum reset_cause_e
-{
-    RESET_CAUSE_UNKNOWN = 0,
-    RESET_CAUSE_LOW_POWER_RESET,
-    RESET_CAUSE_WINDOW_WATCHDOG_RESET,
-    RESET_CAUSE_INDEPENDENT_WATCHDOG_RESET,
-    RESET_CAUSE_SOFTWARE_RESET,
-    RESET_CAUSE_POWER_ON_POWER_DOWN_RESET,
-    RESET_CAUSE_EXTERNAL_RESET_PIN_RESET,
-    RESET_CAUSE_EXTERNAL_OPTION_BYTE_LOAD_RESET,
-} reset_cause_t;
-
-/// @brief      Obtain the STM32 system reset cause
-/// @param      None
-/// @return     The system reset cause
-reset_cause_t reset_cause_get(void)
-{
-    reset_cause_t reset_cause;
-    /*
-  *            @arg @ref RCC_FLAG_OBLRST Option Byte Load reset
-  *            @arg @ref RCC_FLAG_PINRST  Pin reset.
-  *            @arg @ref RCC_FLAG_PORRST  POR/PDR reset.
-  *            @arg @ref RCC_FLAG_SFTRST  Software reset.
-  *            @arg @ref RCC_FLAG_IWDGRST Independent Watchdog reset.
-  *            @arg @ref RCC_FLAG_WWDGRST Window Watchdog reset.
-  *            @arg @ref RCC_FLAG_LPWRRST Low Power reset.
-  * */
-    if (__HAL_RCC_GET_FLAG(RCC_FLAG_LPWRRST))
-    {
-        reset_cause = RESET_CAUSE_LOW_POWER_RESET;
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST))
-    {
-        reset_cause = RESET_CAUSE_WINDOW_WATCHDOG_RESET;
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST))
-    {
-        reset_cause = RESET_CAUSE_INDEPENDENT_WATCHDOG_RESET;
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_SFTRST))
-    {
-        reset_cause = RESET_CAUSE_SOFTWARE_RESET; // This reset is induced by calling the ARM CMSIS `NVIC_SystemReset()` function!
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_PORRST))
-    {
-        reset_cause = RESET_CAUSE_POWER_ON_POWER_DOWN_RESET;
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_PINRST))
-    {
-        reset_cause = RESET_CAUSE_EXTERNAL_RESET_PIN_RESET;
-    }
-    else if (__HAL_RCC_GET_FLAG(RCC_FLAG_OBLRST))
-    {
-        reset_cause = RESET_CAUSE_EXTERNAL_OPTION_BYTE_LOAD_RESET;
-    }
-    else
-    {
-        reset_cause = RESET_CAUSE_UNKNOWN;
-    }
-
-    // Clear all the reset flags or else they will remain set during future resets until system power is fully removed.
-    __HAL_RCC_CLEAR_RESET_FLAGS();
-
-    return reset_cause; 
-}
-
-// Note: any of the STM32 Hardware Abstraction Layer (HAL) Reset and Clock Controller (RCC) header
-// files, such as "STM32Cube_FW_F7_V1.12.0/Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h",
-// "STM32Cube_FW_F2_V1.7.0/Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h", etc., indicate that the 
-// brownout flag, `RCC_FLAG_BORRST`, will be set in the event of a "POR/PDR or BOR reset". This means that a 
-// Power-On Reset (POR), Power-Down Reset (PDR), OR Brownout Reset (BOR) will trip this flag. See the 
-// doxygen just above their definition for the `__HAL_RCC_GET_FLAG()` macro to see this:
-// "@arg RCC_FLAG_BORRST: POR/PDR or BOR reset." <== indicates the Brownout Reset flag will *also* be set in 
-// the event of a POR/PDR. 
-// Therefore, you must check the Brownout Reset flag, `RCC_FLAG_BORRST`, *after* first checking the 
-// `RCC_FLAG_PORRST` flag in order to ensure first that the reset cause is NOT a POR/PDR reset.
-
-
-/// @brief      Obtain the system reset cause as an ASCII-printable name string from a reset cause type
-/// @param[in]  reset_cause     The previously-obtained system reset cause
-/// @return     A null-terminated ASCII name string describing the system reset cause
-const char * reset_cause_get_name(reset_cause_t reset_cause)
-{
-    const char * reset_cause_name = "TBD";
-
-    switch (reset_cause)
-    {
-        case RESET_CAUSE_UNKNOWN:
-            reset_cause_name = "UNKNOWN";
-            break;
-        case RESET_CAUSE_LOW_POWER_RESET:
-            reset_cause_name = "LOW_POWER_RESET";
-            break;
-        case RESET_CAUSE_WINDOW_WATCHDOG_RESET:
-            reset_cause_name = "WINDOW_WATCHDOG_RESET";
-            break;
-        case RESET_CAUSE_INDEPENDENT_WATCHDOG_RESET:
-            reset_cause_name = "INDEPENDENT_WATCHDOG_RESET";
-            break;
-        case RESET_CAUSE_SOFTWARE_RESET:
-            reset_cause_name = "SOFTWARE_RESET";
-            break;
-        case RESET_CAUSE_POWER_ON_POWER_DOWN_RESET:
-            reset_cause_name = "POWER-ON_RESET (POR) / POWER-DOWN_RESET (PDR)";
-            break;
-        case RESET_CAUSE_EXTERNAL_RESET_PIN_RESET:
-            reset_cause_name = "EXTERNAL_RESET_PIN_RESET";
-            break;
-        case RESET_CAUSE_EXTERNAL_OPTION_BYTE_LOAD_RESET:
-            reset_cause_name = "OPTION_BYTE_LOAD_RESET";
-            break;
-    }
-
-    return reset_cause_name;
-}
-/*
-Example usage:
-reset_cause_t reset_cause = reset_cause_get();
-printf("The system reset cause is \"%s\"\n", reset_cause_get_name(reset_cause));
-*/
-//---------------------------------------
-// RESET CAUSE END
-//---------------------------------------
-
 
 /* USER CODE END 0 */
 
@@ -311,7 +177,7 @@ printf("The system reset cause is \"%s\"\n", reset_cause_get_name(reset_cause));
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-float V_RATIO = VCAL * VOLTS_PER_DIV;
+  float V_RATIO = VCAL * VOLTS_PER_DIV;
   float I_RATIO = ICAL * VOLTS_PER_DIV;
   /* USER CODE END 1 */
 
@@ -336,28 +202,32 @@ float V_RATIO = VCAL * VOLTS_PER_DIV;
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_OPAMP4_Init();
-  MX_USART1_UART_Init();
-  MX_USB_PCD_Init();
   MX_ADC3_Init();
-  MX_ADC1_Init();
   MX_TIM8_Init();
-  MX_ADC4_Init();
   MX_I2C1_Init();
+  MX_ADC1_Init();
+  MX_USART1_UART_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   debug_printf("start, conn. VT\r\n");
 
   //HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   //HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
+  //HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
 
   HAL_OPAMP_Start(&hopamp4);
-
+  HAL_Delay(2);
+  
   start_ADCs();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  
   while (1)
   {
+    
     if (readings_ready)
     {
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET);
@@ -377,20 +247,15 @@ float V_RATIO = VCAL * VOLTS_PER_DIV;
         float f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
         f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
+
         if (f32sum_V_sq_avg < 0) // if offset removal cause a negative number,
           f32sum_V_sq_avg = 0;   // make it 0 to avoid a nan at sqrt.
         if (f32sum_I_sq_avg < 0)
           f32sum_I_sq_avg = 0;
+          
 
         float Vrms = V_RATIO * sqrtf(f32sum_V_sq_avg);
         float Irms = I_RATIO * sqrtf(f32sum_I_sq_avg);
-
-        //float* sqrtV_temp;
-        //float* sqrtI_temp;
-        //arm_sqrt_f32(f32sum_V_sq_avg, sqrtV_temp);
-        //arm_sqrt_f32(f32sum_I_sq_avg, sqrtI_temp);
-        //float Vrms = V_RATIO * *sqrtV_temp;
-        //float Irms = I_RATIO * *sqrtI_temp;
 
         float f32_sum_P_avg = (float)chn->sum_P / (float)chn->count;
         float mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
@@ -407,10 +272,7 @@ float V_RATIO = VCAL * VOLTS_PER_DIV;
         else
           powerFactor = 0;
 
-        //float offset_avg = (float)chn->sum_offset / (float)chn->count;
-
         int _ch = ch + 1;
-        //sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,Off%d:%.2f,C%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, apparentPower, _ch, powerFactor, _ch, offset_avg, _ch, chn->count);
         sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, apparentPower, _ch, powerFactor, _ch, chn->count);
         debug_printf(log_buffer);
 
@@ -419,22 +281,19 @@ float V_RATIO = VCAL * VOLTS_PER_DIV;
         debug_printf(log_buffer);
       }
       sprintf(log_buffer, "PC:%ld\r\n", pulseCount);
-        debug_printf(log_buffer);
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
-    }
-    /*
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_8);
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_9);
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_10);
-      sprintf(log_buffer, "millis:%d\r\n", HAL_GetTick());
       debug_printf(log_buffer);
-      debug_printf("test\r\n");
-      HAL_Delay(200);
-      */
+    /*
+      int BIAS_Value = adc4_dma_buff[3000];
+      sprintf(log_buffer, "BIAS:%d\r\n", BIAS_Value);
+      debug_printf(log_buffer);
+      sprintf(log_buffer, "sizeofBIAS:%d\r\n", sizeof(adc4_dma_buff));
+      debug_printf(log_buffer);
+    */
+      HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
+    }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
   }
   /* USER CODE END 3 */
 
@@ -453,12 +312,11 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -480,13 +338,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
-                              |RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1
-                              |RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
-  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -519,7 +375,7 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while(1)
+  while (1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
