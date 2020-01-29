@@ -51,6 +51,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -61,16 +62,19 @@
 //#define true 1
 //#define false 0
 #define MID_ADC_READING 2048
-
+int cycles = 125;
 // Serial output buffer
 extern char log_buffer[150];
 
 // Flag
 bool readings_ready = false;
 
+extern const uint16_t adc_buff_half_size;
+
 // Calibration
 const float VOLTS_PER_DIV = (3.3 / 4096.0);
-float VCAL = 224.4418228954;
+//float VCAL = 266.1238757156; // note - single-phase board
+float VCAL = 224.4135906687; // note - 3-phase board
 float ICAL = 90.9;
 
 // ISR accumulators
@@ -81,19 +85,25 @@ typedef struct channel_
   uint64_t sum_I_sq;
   int32_t sum_V;
   int32_t sum_I;
-  //uint32_t sum_offset;
   uint32_t count;
 
-  uint32_t positive_V;
-  uint32_t last_positive_V;
-  uint32_t cycles;
 } channel_t;
 
 uint32_t pulseCount = 0;
 
-//#define CTn 9 // number of CT channels
 static channel_t channels[CTn];
-static channel_t channels_copy[CTn];
+static channel_t channels_ready[CTn];
+
+int16_t sample_V, sample_I, signed_V, signed_I;
+int16_t sample_V_Hz, signed_V_Hz, previous_V_Hz, cycles_Hz;
+bool hz_ready = 0;
+int32_t Hz_t1 = 0;
+
+#define Hz_ARRAY_SIZE 5
+uint32_t Hz_array[Hz_ARRAY_SIZE] = {0};
+int Hz_array_counter = 0;
+uint32_t Hz_sum = 0;
+bool Hz_value_ready = false;
 
 /* USER CODE END PV */
 
@@ -108,17 +118,58 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void process_frame(uint16_t offset)
 {
-  int32_t sample_V, sample_I, signed_V, signed_I;
-  
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
+  //CLEAR_TO_GO = false;
+
   for (int i = 0; i < adc_buff_half_size; i += CTn)
   {
-    // Cycle through channels
+
+    // zero-crossing detection //
+    sample_V_Hz = adc1_dma_buff[offset + i];
+    signed_V_Hz = sample_V_Hz - MID_ADC_READING;
+
+    if (signed_V_Hz > 0 && previous_V_Hz < 0)
+    {
+      previous_V_Hz = signed_V_Hz;
+      cycles_Hz++;
+    }
+    else
+    {
+      previous_V_Hz = signed_V_Hz;
+    }
+
+    // for example, 125 upwards-only-zero-crossings approx 2.5 seconds @ 50Hz.
+    if (cycles_Hz == cycles)
+    {
+      cycles_Hz = 0;
+      hz_ready = true;
+    }
+
+    if (hz_ready)
+    {
+
+      hz_ready = false;
+
+      // copy and reset accu.
+      for (int ch = 0; ch < CTn; ch++)
+      {
+        channel_t *channel = &channels[ch];
+        channel_t *chn = &channels_ready[ch];
+        // Copy accumulators for use in main loop
+        memcpy((void *)chn, (void *)channel, sizeof(channel_t));
+        // Reset accumulators to zero ready for next set of measurements
+        memset((void *)channel, 0, sizeof(channel_t));
+      }
+
+      readings_ready = true;
+    }
+
+    // Cycle through channels, accumulating
     for (int ch = 0; ch < CTn; ch++)
     {
+
       channel_t *channel = &channels[ch];
 
-     
       // ----------------------------------------
       // Voltage
       sample_V = adc1_dma_buff[offset + i + ch];
@@ -136,34 +187,9 @@ void process_frame(uint16_t offset)
       channel->sum_P += signed_V * signed_I;
 
       channel->count++;
-
-      // Zero crossing detection
-      channel->last_positive_V = channel->positive_V;
-      if (signed_V > 0)
-        channel->positive_V = true;
-      else
-        channel->positive_V = false;
-      if (!channel->last_positive_V && channel->positive_V)
-        channel->cycles++;
-
-      // 125 cycles or 2.5 seconds
-      if (channel->cycles == 125)
-      {
-        channel->cycles = 0;
-        channel_t *chn = &channels_copy[ch];
-        // Copy accumulators for use in main loop
-        memcpy((void *)chn, (void *)channel, sizeof(channel_t));
-        // Reset accumulators to zero ready for next set of measurements
-        memset((void *)channel, 0, sizeof(channel_t));
-        
-        
-        if (ch == (CTn - 1))
-        {
-          readings_ready = true;
-        }
-      }
     }
   }
+  //CLEAR_TO_GO = true;
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
 }
 
@@ -206,28 +232,38 @@ int main(void)
   MX_TIM8_Init();
   MX_I2C1_Init();
   MX_ADC1_Init();
-  MX_USART1_UART_Init();
-  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
-  debug_printf("start, conn. VT\r\n");
 
-  //HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
-  //HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
-  //HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
+  debug_printf("start, conn. VT\r\n");
+  sprintf(log_buffer, "%d\r\n", adc_buff_half_size);
+
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+  HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
 
   HAL_OPAMP_Start(&hopamp4);
+
   HAL_Delay(2);
-  
+
   start_ADCs();
-  
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  
+
   while (1)
   {
-    
+    if (conv_cplt_flag)
+    {
+      conv_cplt_flag = false;
+      process_frame(0);
+    }
+    if (conv_hfcplt_flag)
+    {
+      conv_hfcplt_flag = false;
+      process_frame(adc_buff_half_size);
+    }
+
     if (readings_ready)
     {
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET);
@@ -236,7 +272,7 @@ int main(void)
 
       for (int ch = 0; ch < CTn; ch++)
       {
-        channel_t *chn = &channels_copy[ch];
+        channel_t *chn = &channels_ready[ch];
 
         float Vmean = (float)chn->sum_V / (float)chn->count;
         float Imean = (float)chn->sum_I / (float)chn->count;
@@ -247,12 +283,10 @@ int main(void)
         float f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
         f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
-
         if (f32sum_V_sq_avg < 0) // if offset removal cause a negative number,
           f32sum_V_sq_avg = 0;   // make it 0 to avoid a nan at sqrt.
         if (f32sum_I_sq_avg < 0)
           f32sum_I_sq_avg = 0;
-          
 
         float Vrms = V_RATIO * sqrtf(f32sum_V_sq_avg);
         float Irms = I_RATIO * sqrtf(f32sum_I_sq_avg);
@@ -282,21 +316,42 @@ int main(void)
       }
       sprintf(log_buffer, "PC:%ld\r\n", pulseCount);
       debug_printf(log_buffer);
-    /*
-      int BIAS_Value = adc4_dma_buff[3000];
-      sprintf(log_buffer, "BIAS:%d\r\n", BIAS_Value);
+
+      uint32_t Hz_t2 = HAL_GetTick();
+      uint32_t Hz_td = (Hz_t2 - Hz_t1);
+      //sprintf(log_buffer, "Hz_td:%ld\r\n", Hz_td);
+      //debug_printf(log_buffer);
+
+      Hz_array[Hz_array_counter] = Hz_td;
+      Hz_array_counter++;
+      //if (Hz_array_counter
+      //sprintf(log_buffer, "Hz_array_counter:%d\r\n", Hz_array_counter);
+      //debug_printf(log_buffer);
+      Hz_t1 = Hz_t2;
+      if (Hz_array_counter >= Hz_ARRAY_SIZE)
+      {
+        Hz_value_ready = true;
+        Hz_array_counter = 0;
+      }
+      for (int i = 0; i < Hz_ARRAY_SIZE; i++)
+      {
+        //sprintf(log_buffer, "Hz_ARRAY:%ld :%d\r\n", Hz_array[i], i);
+        //debug_printf(log_buffer);
+        Hz_sum += Hz_array[i];
+      }
+      //}
+      float Hz_value = 1000.0/((float)Hz_sum / (cycles*Hz_ARRAY_SIZE));
+      sprintf(log_buffer, "Hz_sum:%.2f:Ready?:%d\r\n", Hz_value, Hz_value_ready);
       debug_printf(log_buffer);
-      sprintf(log_buffer, "sizeofBIAS:%d\r\n", sizeof(adc4_dma_buff));
-      debug_printf(log_buffer);
-    */
+      Hz_sum = 0;
+
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
     }
-  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -310,13 +365,13 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+  /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -324,10 +379,9 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+  /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -338,22 +392,20 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM8;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_I2C1 | RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure the Systick interrupt time 
+  /**Configure the Systick interrupt time 
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
 
-    /**Configure the Systick 
+  /**Configure the Systick 
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -381,7 +433,7 @@ void _Error_Handler(char *file, int line)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -389,8 +441,8 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
+void assert_failed(uint8_t *file, uint32_t line)
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
