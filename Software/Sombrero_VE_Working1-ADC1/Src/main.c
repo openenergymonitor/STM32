@@ -73,8 +73,8 @@ extern const uint16_t adc_buff_half_size;
 
 // Calibration
 const float VOLTS_PER_DIV = (3.3 / 4096.0);
-//float VCAL = 266.1238757156; // note - single-phase board
-float VCAL = 224.4135906687; // note - 3-phase board
+float VCAL = 266.1238757156; // note - single-phase board
+//float VCAL = 224.4135906687; // note - 3-phase board
 float ICAL = 90.9;
 
 // ISR accumulators
@@ -99,7 +99,7 @@ int16_t sample_V_Hz, signed_V_Hz, previous_V_Hz, cycles_Hz;
 bool hz_ready = 0;
 int32_t Hz_t1 = 0;
 
-#define Hz_ARRAY_SIZE 5
+#define Hz_ARRAY_SIZE 20
 uint32_t Hz_array[Hz_ARRAY_SIZE] = {0};
 int Hz_array_counter = 0;
 uint32_t Hz_sum = 0;
@@ -232,6 +232,7 @@ int main(void)
   MX_TIM8_Init();
   MX_I2C1_Init();
   MX_ADC1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   debug_printf("start, conn. VT\r\n");
@@ -347,11 +348,12 @@ int main(void)
 
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
     }
-    /* USER CODE END WHILE */
+  /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+  /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
+
 }
 
 /**
@@ -365,13 +367,13 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
-  /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -379,9 +381,10 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -392,7 +395,9 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_I2C1 | RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
@@ -401,11 +406,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  /**Configure the Systick interrupt time 
+    /**Configure the Systick interrupt time 
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-  /**Configure the Systick 
+    /**Configure the Systick 
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -433,7 +438,7 @@ void _Error_Handler(char *file, int line)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -441,8 +446,8 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{
+void assert_failed(uint8_t* file, uint32_t line)
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

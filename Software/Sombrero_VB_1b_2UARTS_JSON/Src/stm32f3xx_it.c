@@ -125,12 +125,12 @@ void USART2_IRQHandler(void)
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
-if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE) == SET)
-  {
-    __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
-    rx_flag2 = 1;
-    //debug_printf("int.\r\n");
-  }
+  if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE) == SET)
+    {
+      __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
+      rx_flag2 = 1;
+      //debug_printf("int.\r\n");
+    }
   /* USER CODE END USART2_IRQn 1 */
 }
 
