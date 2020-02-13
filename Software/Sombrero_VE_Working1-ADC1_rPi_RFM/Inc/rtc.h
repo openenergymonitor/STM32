@@ -1,12 +1,16 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f3xx.h
-  * @author  MCD Application Team
-  * @brief   CMSIS Cortex-M4 Device System Source File for STM32F3xx devices.  
+  * File Name          : RTC.h
+  * Description        : This file provides code for the configuration
+  *                      of the RTC instances.
   ******************************************************************************
-  * @attention
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2020 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -31,92 +35,47 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
-
-/** @addtogroup CMSIS
-  * @{
   */
-
-/** @addtogroup stm32f3xx_system
-  * @{
-  */  
-  
-/**
-  * @brief Define to prevent recursive inclusion
-  */
-#ifndef __SYSTEM_STM32F3XX_H
-#define __SYSTEM_STM32F3XX_H
-
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __rtc_H
+#define __rtc_H
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
-/** @addtogroup STM32F3xx_System_Includes
-  * @{
-  */
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
+#include "main.h"
 
-/**
-  * @}
-  */
+/* USER CODE BEGIN Includes */
 
+/* USER CODE END Includes */
 
-/** @addtogroup STM32F3xx_System_Exported_types
-  * @{
-  */
-  /* This variable is updated in three ways:
-      1) by calling CMSIS function SystemCoreClockUpdate()
-      3) by calling HAL API function HAL_RCC_GetHCLKFreq()
-      3) by calling HAL API function HAL_RCC_ClockConfig()
-         Note: If you use this function to configure the system clock; then there
-               is no need to call the 2 first functions listed above, since SystemCoreClock
-               variable is updated automatically.
-  */
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
-extern const uint8_t AHBPrescTable[16];   /*!< AHB prescalers table values */
-extern const uint8_t APBPrescTable[8];    /*!< APB prescalers table values */
+extern RTC_HandleTypeDef hrtc;
 
+/* USER CODE BEGIN Private defines */
 
-/**
-  * @}
-  */
+/* USER CODE END Private defines */
 
-/** @addtogroup STM32F3xx_System_Exported_Constants
-  * @{
-  */
+extern void _Error_Handler(char *, int);
 
-/**
-  * @}
-  */
+void MX_RTC_Init(void);
 
-/** @addtogroup STM32F3xx_System_Exported_Macros
-  * @{
-  */
+/* USER CODE BEGIN Prototypes */
 
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F3xx_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
-/**
-  * @}
-  */
+/* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /*__SYSTEM_STM32F3XX_H */
+#endif /*__ rtc_H */
 
 /**
   * @}
   */
-  
+
 /**
   * @}
-  */  
+  */
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

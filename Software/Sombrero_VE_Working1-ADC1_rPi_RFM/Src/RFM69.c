@@ -33,7 +33,7 @@
 #include <RFM69_ext.h>
 
 
-char log_buffer[150];
+extern char log_buffer[];
 uint8_t data[RF69_MAX_DATA_LEN]; // recv/xmit buf, including header & crc bytes
 #define RFM69_DATA(x) data[x] // function to grab specific bytes from data[]
 uint8_t datalen;

@@ -49,11 +49,11 @@
 #define false 0
 uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = adc_buff_size / 2;
-volatile uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-volatile uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-volatile uint16_t adc4_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-extern volatile bool conv_hfcplt_flag;
-extern volatile bool conv_cplt_flag;
+uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adc4_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+bool conv_hfcplt_flag;
+bool conv_cplt_flag;
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;

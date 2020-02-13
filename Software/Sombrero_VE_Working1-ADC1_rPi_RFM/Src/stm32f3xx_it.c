@@ -37,6 +37,9 @@
 
 /* USER CODE BEGIN 0 */
 #include "usart.h"
+bool rx_enable1 = 0;
+bool rx_enable2 = 0;
+
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -44,10 +47,13 @@ extern DMA_HandleTypeDef hdma_adc1;
 extern DMA_HandleTypeDef hdma_adc3;
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc3;
+extern RTC_HandleTypeDef hrtc;
 extern TIM_HandleTypeDef htim16;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
+extern DMA_HandleTypeDef hdma_usart2_rx;
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -74,6 +80,20 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
+
+/**
+* @brief This function handles RTC tamper and timestamp interrupts through EXTI line 19.
+*/
+void TAMP_STAMP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TAMP_STAMP_IRQn 0 */
+
+  /* USER CODE END TAMP_STAMP_IRQn 0 */
+  HAL_RTCEx_TamperTimeStampIRQHandler(&hrtc);
+  /* USER CODE BEGIN TAMP_STAMP_IRQn 1 */
+
+  /* USER CODE END TAMP_STAMP_IRQn 1 */
+}
 
 /**
 * @brief This function handles DMA1 channel1 global interrupt.
@@ -118,6 +138,20 @@ void DMA1_Channel5_IRQHandler(void)
 }
 
 /**
+* @brief This function handles DMA1 channel6 global interrupt.
+*/
+void DMA1_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_rx);
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 1 */
+}
+
+/**
 * @brief This function handles ADC1 and ADC2 interrupts.
 */
 void ADC1_2_IRQHandler(void)
@@ -129,6 +163,20 @@ void ADC1_2_IRQHandler(void)
   /* USER CODE BEGIN ADC1_2_IRQn 1 */
 
   /* USER CODE END ADC1_2_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[9:5] interrupts.
+*/
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+  
+  /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
 /**
@@ -156,13 +204,34 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
+  if (!rx_enable1) { __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE); rx_enable1 ^= true; return; }
   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET)
     {
-      __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE);
+      ;
       usart1_rx_flag = 1;
       //debug_printf("int.\r\n");
     }
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+* @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
+*/
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
+
+  /* USER CODE END USART2_IRQn 0 */
+  HAL_UART_IRQHandler(&huart2);
+  /* USER CODE BEGIN USART2_IRQn 1 */
+  if (!rx_enable2) { __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);  rx_enable2 ^= true; return; }
+  if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE) == SET)
+    {
+      __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
+      usart2_rx_flag = 1;
+      //debug_printf("int.\r\n");
+    }
+  /* USER CODE END USART2_IRQn 1 */
 }
 
 /**

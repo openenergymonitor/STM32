@@ -53,12 +53,12 @@
 #define ADC_DMA_BUFFSIZE_PERCHANNEL 1000 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
 uint16_t const adc_buff_size;
 uint16_t const adc_buff_half_size;
-volatile uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-volatile uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
 uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-volatile bool conv_hfcplt_flag;
-volatile bool conv_cplt_flag;
+bool conv_hfcplt_flag;
+bool conv_cplt_flag;
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;

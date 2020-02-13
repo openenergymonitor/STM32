@@ -65,8 +65,9 @@
 #define PUSHIN_3_GPIO_Port GPIOC
 #define DS18B20_RJ1_Pin GPIO_PIN_9
 #define DS18B20_RJ1_GPIO_Port GPIOC
-#define PULSE_RJ1_Pin GPIO_PIN_8
-#define PULSE_RJ1_GPIO_Port GPIOA
+#define RJ1_PULSE_Pin GPIO_PIN_8
+#define RJ1_PULSE_GPIO_Port GPIOA
+#define RJ1_PULSE_EXTI_IRQn EXTI9_5_IRQn
 #define ADC_TRIG_Pin GPIO_PIN_14
 #define ADC_TRIG_GPIO_Port GPIOA
 #define RFM_CS_Pin GPIO_PIN_15
@@ -86,7 +87,7 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
-
+int mode;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
