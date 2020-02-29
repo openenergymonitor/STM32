@@ -66,7 +66,7 @@
 // MODES
 // 0 = Standalone
 // 1 = rPi
-int mode = 0;
+int mode = 1; // in testing...
 
 #define MID_ADC_READING 2048
 // const int crossings = 251;
@@ -185,18 +185,11 @@ void process_frame(uint16_t offset)
     {
       previous_V_Hz = signed_V_Hz;
     }
-/*
-    if (crossings_Hz == crossings)
-    {
-      crossings_Hz = 0;
-      //hz_ready = true;
-    }
-*/
+
     if (post_flag && ((crossings_Hz % 2) == crossings_flip))
     {
-      crossings_flip ^= true;
+      crossings_flip ^= true; // boolean toggle.
       post_flag = false;
-      //hz_ready = false;
 
       // copy and reset accu.
       for (int ch = 0; ch < CTn; ch++)
@@ -441,10 +434,10 @@ int main(void)
       readings_ready = false;
       readings_pls = false;
       
-      memset(log_buffer, 0, sizeof(log_buffer));
+      //memset(log_buffer, 0, sizeof(log_buffer));
       
-      sprintf(temp_buffer, "VCLIP:%d,", Vclipped);
-      strcat(log_buffer, temp_buffer);
+      sprintf(log_buffer, "VCLIP:%d,", Vclipped);
+      //strcat(log_buffer, temp_buffer);
 
       for (int ch = 0; ch < CTn; ch++)
       {
@@ -654,7 +647,7 @@ void _Error_Handler(char *file, int line)
   /* User can add his own implementation to report the HAL error return state */
   while (1)
   {
-    sprintf(log_buffer, "sys_error:%s,line:%d", file, line);
+    sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
     debug_printf(log_buffer);
   }
   /* USER CODE END Error_Handler_Debug */
