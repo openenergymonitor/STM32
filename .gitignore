@@ -63,3 +63,5 @@ Software/Sombrero_VE_Working1-ADC1_rPi_RFM/build/*
 !Software/Sombrero_VE_Working1-ADC1_rPi_RFM/build/*.bin
 Software/Sombrero_VE_Working1-ADC1_rPi/build/*
 !Software/Sombrero_VE_Working1-ADC1_rPi/build/*.bin
+Software/Sombrero_VE_Working1-ADC1_rPi_RFM copy/build/*
+!Software/Sombrero_VE_Working1-ADC1_rPi_RFM copy/build/*.bin
