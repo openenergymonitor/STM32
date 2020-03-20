@@ -50,7 +50,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
 #define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
+#define ADC_DMA_BUFFSIZE_PERCHANNEL 500 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
 uint16_t const adc_buff_size;
 uint16_t const adc_buff_half_size;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];

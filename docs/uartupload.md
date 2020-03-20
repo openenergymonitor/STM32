@@ -26,11 +26,11 @@ I compiled the Arduino example Blink for the Nucleo64 STM32F303 using the Arduin
 
 I could then upload to the STM32F303 by running:
 
-    sudo stm32flash -w blink.ino.bin /dev/ttyUSB0 -b 115200
+    sudo stm32flash -b 115200 -w blink.ino.bin /dev/ttyUSB0 
 
 Terminal output:
 
-    $ sudo stm32flash -w Blink.ino.bin /dev/ttyUSB0 -b 115200
+    $ sudo stm32flash -b 115200 w Blink.ino.bin /dev/ttyUSB0
     stm32flash 0.5
 
     http://stm32flash.sourceforge.net/

@@ -1,4 +1,3 @@
-
 /**
   ******************************************************************************
   * @file           : main.c
@@ -76,21 +75,16 @@ int mode = 1; // for testing.
 // ADC
 //--------
 #define MID_ADC_READING 2048
-const int crossings = 251;
-uint32_t post_interval = 5000; // millis to post data at.
-bool post_flag;
-bool readings_ready;
-extern const uint16_t adc_buff_half_size;
-int16_t sample_V_Hz, signed_V_Hz, previous_V_Hz, crossings_Hz;
-bool hz_ready;
-uint16_t Hzcounter, Hzaccumulator, Hzacc_begin, Hz_value_count;
-float Hz_value, Hz_value_accumulator, Hz_value_averaged;
-const float Tconv = 614.0*(1.0/72000000.0); // time in seconds for an ADC conversion
-bool Vclipped;
-bool crossings_flip;
-bool first_readings;
-int freq_index;
-int last_freq_index;
+uint32_t posting_interval = 5000; // millis to post data at.
+bool posting_flag = false;
+bool readings_ready = false;
+bool first_readings = false;
+extern uint16_t const adc_buff_half_size;
+const float adc_conversion_time = 614.0*(1.0/72000000.0); // time in seconds for an ADC conversion, for estimating mains AC frequency, divide by 4 necessary?
+float mains_frequency;
+double Wh_accumulator[CTn];
+//bool Vclipped; // unlikely?
+
 
 
 //--------
@@ -101,23 +95,23 @@ typedef struct channel_
   int64_t sum_P;
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
-  int32_t sum_V;
-  int32_t sum_I;
+  int64_t sum_V;
+  int64_t sum_I;
   uint32_t count;
-  bool Iclipped;
-  uint8_t positive_V;
-  uint8_t last_positive_V;
-  uint8_t cycles;
-} channel_t;
+  uint32_t cycles;
+  uint32_t positive_V;
+  uint32_t last_positive_V;
+  uint32_t Iclipped;
+} channel_t; // data struct per CT channel, stm32 only does 32-bit struct items, anything else gets padded out to 32-bit automatically by
 
 static channel_t channels[CTn];
 static channel_t channels_ready[CTn];
-bool channel_ready[CTn] = {0}; // 
+bool channel_rdy_bools[CTn] = {0}; // 
 
 
-//--------
+//----------------
 // CALIBRATION
-//--------
+//----------------
 const float VOLTS_PER_DIV = (3.3 / 4096.0);
 //float VCAL = 266.1238757156; // note - single-phase proto board
 //float VCAL = 224.4135906687; // note - 3-phase proto board
@@ -125,32 +119,31 @@ float VCAL = 236.660160908; // dan's 2nd hand ac-ac adaptor
 float ICAL = 90.9;
 
 
-//--------
+//------------------------
 // UART SERIAL BUFFERS
-//--------
+//------------------------
 extern char log_buffer[];
-bool log_buffer_flag;
 char rx_string[COMMAND_BUFFER_SIZE];
-char string_buffer[150];
-
+char string_buffer[300];
+char readings_rdy_buffer[1000];
 
 //--------
 // RADIO
 //--------
-bool radio_send;
+bool radio_send = 0; // set to 1 to send test data with RFM69.
 uint16_t networkID = 210; // a.k.a. Network Group
-uint8_t nodeID = 1;
-uint16_t freqBand = 433;
-uint8_t toAddress = 10;
-bool requestACK = false;
-char encryptkey[20] = "asdfasdfasdfasdf";
-typedef struct
-{
-  uint32_t nodeId; // store this nodeId
-  uint32_t uptime; // uptime in ms
-  //float         temp;   // other data
+uint8_t nodeID = 10; // this node's ID (address).
+uint16_t freqBand = 433; // MHz
+uint8_t toAddress = 1; // destination address.
+bool requestACK = false; // untested.
+char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
+//char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
+typedef struct { 
+  uint32_t nodeId; 
+  uint32_t uptime;
+  //float temperature;   // other data
 } Payload;
-Payload theData;
+Payload radioData;
 
 
 //--------
@@ -159,10 +152,12 @@ Payload theData;
 uint32_t current_millis;
 uint32_t previous_millis;
 
+
 //--------
 // MISC
 //--------
 uint32_t pulseCount = 0;
+
 
 /* USER CODE END PV */
 
@@ -187,69 +182,57 @@ void process_frame (uint16_t offset)
     for (int ch = 0; ch < CTn; ch++)
     {
       channel_t *channel = &channels[ch];
-      // ----------------------------------------
+      //----------------------------------------
       // Voltage
       sample_V = adc1_dma_buff[offset + i + ch];
-      // if (sample_V == 4095) Vclipped = true; // unlikely
+      //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
       channel->sum_V_sq += signed_V * signed_V;
-      // ----------------------------------------
+      //----------------------------------------
       // Current
       sample_I = adc3_dma_buff[offset + i + ch];
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
-      signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADCs, option for future.
+      signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
       channel->sum_I += signed_I;
       channel->sum_I_sq += signed_I * signed_I;
-      // ----------------------------------------
+      //----------------------------------------
       // Power
       channel->sum_P += signed_V * signed_I;
-
+      
       channel->count++;
-
+      
       // upwards-zero-crossing detection, whole waveforms.
       channel->last_positive_V = channel->positive_V; // retrieve the previous value.
-      if (signed_V >= 0) channel->positive_V = true; // changed > to >= . offset correction via midrail removal is option.
-        else { channel->positive_V = false; }
-      // --------------------------------------------------
-      // --------------------------------------------------
-      if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.
-      
-        // ----------------------------------------
-        // Frequency, UNTESTED
-        // ----------------------------------------
-        if (ch == 0) { // calculate mains frequency on one channel to save cpu time. UNTESTED
-          last_freq_index = freq_index;
-          freq_index = i;
-          uint16_t index_difference = freq_index - last_freq_index;
-          Hz_value = 1.0 / ((float)index_difference * Tconv);
-        }
-        
-        if (post_flag) { // and if readings are needed.
-          // channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
+      if (signed_V >= 0) channel->positive_V = true; // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
+      else channel->positive_V = false;
+      //--------------------------------------------------
+      //--------------------------------------------------
+      if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.        
+      channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them, consider especially timing of 60Hz systems.
+      // cycles counted anyway for the frequency calculation. 
+        if (posting_flag && !readings_ready) { // if readings are needed by the main loop.
           // copy and clear accummulator if main() loop demands readings.
-          channel_t *channels_ready = &channels_ready[ch];
+          channel_t *channel_ready = &channels_ready[ch];
           // Copy accumulators for use in main loop.
-          memcpy ((void*)channels_ready, (void*)channel, sizeof(channel_t));
+          memcpy ((void*)channel_ready, (void*)channel, sizeof(channel_t));
           // Reset accumulators to zero.
           memset((void*)channel, 0, sizeof(channel_t));
           // set channel_ready for the channel.
-          channel_ready[ch] = true;
+          channel_rdy_bools[ch] = true;
           // are all the channels ready?
-          uint8_t ready_count = 0;
-          for (uint8_t i = 0; i < CTn; i++) 
-          {
-            if (channel_ready[i]) ready_count++;
+          int chn_ready_count = 0;
+          for (int rdy = 0; rdy < CTn; rdy++) {
+            if (channel_rdy_bools[rdy]) chn_ready_count++;
           }
           // if all the channels are ready
-          if (ready_count == CTn) { readings_ready = true;  memset(channel_ready, 0, CTn); }
+          if (chn_ready_count == CTn) { readings_ready = true; posting_flag = false; memset(channel_rdy_bools, 0, CTn); }
         }
       }
-      // --------------------------------------------------
-      // --------------------------------------------------
+      //--------------------------------------------------
+      //--------------------------------------------------
     }
   }
-
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
 }
 
@@ -316,7 +299,7 @@ int main(void)
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
-    debug_printf(log_buffer);
+    //debug_printf(log_buffer);
     //RFM69_readAllRegs(); // debugging
   }
   else
@@ -359,10 +342,11 @@ int main(void)
     //------------------------
     // check time for posting primary data.
     //------------------------
-    if (current_millis - previous_millis >= post_interval) {
-      uint32_t correction = current_millis - previous_millis - post_interval;
+    if (current_millis - previous_millis >= posting_interval) {
+      uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
-      post_flag = true;
+      posting_flag = true;
+      //sprintf(log_buffer, "timecheck\r\n");
     }
     
     //------------------------
@@ -378,6 +362,7 @@ int main(void)
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN;
       rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
       json_parser(rx_string); // the actual response is posted from json_parser() result;
+      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
     }
     if (usart2_rx_flag)
     {
@@ -391,7 +376,7 @@ int main(void)
       json_parser(rx_string); // the actual response is posted from json_parser() result;
       
       //(!strcmp(select, "boot_reason"))
-      //sprintf(log_buffer, "%s\r\n", rx_string);
+      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
       //rPi_printf(log_buffer);
       //rPi_printf("baker_street:100:D:doodoodooo:80085\r\n");
     }
@@ -422,7 +407,7 @@ int main(void)
       
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); // blink the led
       
-      sprintf(log_buffer, "VCLIP:%d,", Vclipped); // first sprint, next ones are strcat().
+      sprintf(readings_rdy_buffer, "STM32:0.1,"); // initital write to log_buffer.
 
       for (int ch = 0; ch < CTn; ch++)
       {
@@ -445,6 +430,8 @@ int main(void)
         float Vrms = V_RATIO * sqrtf(f32sum_V_sq_avg);
         float Irms = I_RATIO * sqrtf(f32sum_I_sq_avg);
 
+        Wh_accumulator[ch] += Vrms * Irms * (posting_interval / 3600000.0);
+
         float f32_sum_P_avg = (float)chn->sum_P / (float)chn->count;
         float mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
         float realPower = V_RATIO * I_RATIO * mean_P;
@@ -460,46 +447,45 @@ int main(void)
         else
           powerFactor = 0;
 
-        int _ch = ch + 1;
+        // UNTESTED mains AC freuency, most error due to CPU clock frequency error (varying with components, temperature, age), one channel only for an estimate.
+        if (ch ==0) { mains_frequency = chn->cycles / (chn->count * adc_conversion_time); }
+
+        int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
         if (mode == 1) {
-          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,ICLIP%d:%d,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, chn->Iclipped);
-          strcat(log_buffer, string_buffer);
+          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,Wh%d:%.3f,Clip%d:%d,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, Wh_accumulator[ch], _ch, chn->Iclipped);
+          strcat(readings_rdy_buffer, string_buffer);
         }
-        Vclipped = false;
+        //Vclipped = false;
       }
 
-      //current_millis = HAL_GetTick(); no point doing it twice in the main loop?
+      // Main frequency estimate, untested.
+      sprintf(string_buffer, "Hz_estimate:%.1f,", mains_frequency);
+      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
+      // Millis
       sprintf(string_buffer, "millis:%ld,", current_millis);
-      if (mode == 1) strcat(log_buffer, string_buffer);
-
+      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
+      // Pulsecount
       sprintf(string_buffer, "PC:%ld", pulseCount);
-      if (mode == 1) strcat(log_buffer, string_buffer);
-
-      // mains AC freuency, approximate due to CPU clock inaccuracy.
-      // Hz_value_averaged
-      sprintf(string_buffer, ",Hz_estimate:%.2f", Hz_value_averaged);
-      if (mode == 1) strcat(log_buffer, string_buffer);
-
+      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
       // has the adc buffer overrun?
       sprintf(string_buffer, ",buffOverrun:%d", overrun_adc_buffer);
-      if (mode == 1) strcat(log_buffer, string_buffer);
+      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
       overrun_adc_buffer = 0; // reset
 
-      
 
       // close the string
-      if (mode == 1) strcat(log_buffer, "\r\n");
-      log_buffer_flag = 1;
+      if (mode == 1) strcat(readings_rdy_buffer, "\r\n");
+
 
       // RFM69 send.
-      if (radio_send)
+      if (radio_send) // sending data, test data only.
       {
-        theData.nodeId = 1;
-        theData.uptime = HAL_GetTick();
+        radioData.nodeId = nodeID;
+        radioData.uptime = HAL_GetTick();
         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1);
         HAL_TIM_Base_Start_IT(&htim16); // LED blink
-        RFM69_send(toAddress, (const void *)(&theData), sizeof(theData), requestACK);
-        //RFM69_sendWithRetry(toAddress, (const void *)(&theData), sizeof(theData), 3,20);
+        RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
+        //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
 
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
@@ -508,7 +494,9 @@ int main(void)
 
     } EndJump: // end main readings_ready output.
 
+    //-------------------------------
     // RFM69 receive
+    //-------------------------------
     if (RFM69_ReadDIO0Pin()) {
       debug_printf("RFM69 DIO0 high.\r\n");
       RFM69_interruptHandler();
@@ -524,19 +512,25 @@ int main(void)
     }
 
 
-    // Print anything in the log buffer to serial.
-    if (log_buffer[0] != '\0') { // null terminated strings!
+    //-------------------------------
+    // Print anything in log_buffer to serial.
+    //-------------------------------
+    if (log_buffer[0] != '\0') { // looking at for null terminated strings!
       rPi_printf(log_buffer);
-      log_buffer[0] = '\0';
+      log_buffer[0] = '\0'; // set index of string to null to effectively delete the string, efficient?
       // https://stackoverflow.com/questions/632846/clearing-a-char-array-c
     }
+    if (readings_rdy_buffer[0] != '\0') {
+      rPi_printf(readings_rdy_buffer);
+      readings_rdy_buffer[0] = '\0';
+    }
+    
 
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -636,7 +630,7 @@ void _Error_Handler(char *file, int line)
   while (1)
   {
     sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
-    debug_printf(log_buffer);
+    //debug_printf(log_buffer);
   }
   /* USER CODE END Error_Handler_Debug */
 }

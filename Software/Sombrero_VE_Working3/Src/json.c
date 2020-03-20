@@ -603,5 +603,5 @@ void IOCommands(bool getset, int ch, char *command, char *property)
 
 void error_handler(void)
 {
-  debug_printf("ERROR\r\n");
+  debug_printf("CMD_ERROR\r\n");
 }
