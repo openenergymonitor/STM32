@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : OPAMP.c
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of the OPAMP instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,53 +36,90 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
+#include "opamp.h"
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
+#include "gpio.h"
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
+/* USER CODE BEGIN 0 */
 
-/* USER CODE BEGIN Private defines */
+/* USER CODE END 0 */
 
-/* USER CODE END Private defines */
+OPAMP_HandleTypeDef hopamp4;
 
-extern void _Error_Handler(char *, int);
+/* OPAMP4 init function */
+void MX_OPAMP4_Init(void)
+{
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+  hopamp4.Instance = OPAMP4;
+  hopamp4.Init.Mode = OPAMP_FOLLOWER_MODE;
+  hopamp4.Init.NonInvertingInput = OPAMP_NONINVERTINGINPUT_IO1;
+  hopamp4.Init.TimerControlledMuxmode = OPAMP_TIMERCONTROLLEDMUXMODE_DISABLE;
+  hopamp4.Init.UserTrimming = OPAMP_TRIMMING_FACTORY;
+  if (HAL_OPAMP_Init(&hopamp4) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ adc_H */
+
+void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef* opampHandle)
+{
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(opampHandle->Instance==OPAMP4)
+  {
+  /* USER CODE BEGIN OPAMP4_MspInit 0 */
+
+  /* USER CODE END OPAMP4_MspInit 0 */
+  
+    /**OPAMP4 GPIO Configuration    
+    PB12     ------> OPAMP4_VOUT
+    PD11     ------> OPAMP4_VINP 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_12;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_11;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN OPAMP4_MspInit 1 */
+
+  /* USER CODE END OPAMP4_MspInit 1 */
+  }
+}
+
+void HAL_OPAMP_MspDeInit(OPAMP_HandleTypeDef* opampHandle)
+{
+
+  if(opampHandle->Instance==OPAMP4)
+  {
+  /* USER CODE BEGIN OPAMP4_MspDeInit 0 */
+
+  /* USER CODE END OPAMP4_MspDeInit 0 */
+  
+    /**OPAMP4 GPIO Configuration    
+    PB12     ------> OPAMP4_VOUT
+    PD11     ------> OPAMP4_VINP 
+    */
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
+
+    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11);
+
+  /* USER CODE BEGIN OPAMP4_MspDeInit 1 */
+
+  /* USER CODE END OPAMP4_MspDeInit 1 */
+  }
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

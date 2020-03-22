@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : USART.h
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of the USART instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -37,8 +37,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
+#ifndef __usart_H
+#define __usart_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -49,21 +49,16 @@
 
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
+#define COMMAND_BUFFER_SIZE 150
+uint8_t rx_buff[COMMAND_BUFFER_SIZE];
+bool usart1_rx_flag;
+bool usart2_rx_flag;
+char log_buffer[500];
 /* USER CODE END Includes */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
+extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
 
@@ -71,18 +66,19 @@ extern ADC_HandleTypeDef hadc3;
 
 extern void _Error_Handler(char *, int);
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+void MX_USART1_UART_Init(void);
+void MX_USART2_UART_Init(void);
+void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
+void debug_printf (char* p);
+void rPi_printf (char* p);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
+#endif /*__ usart_H */
 
 /**
   * @}

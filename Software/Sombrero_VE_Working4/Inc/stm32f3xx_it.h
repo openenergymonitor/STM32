@@ -1,14 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  * @file    stm32f3xx_it.h
+  * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
   *
   * COPYRIGHT(c) 2020 STMicroelectronics
   *
@@ -36,60 +30,41 @@
   *
   ******************************************************************************
   */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
+#ifndef __STM32F3xx_IT_H
+#define __STM32F3xx_IT_H
+
 #ifdef __cplusplus
  extern "C" {
-#endif
+#endif 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
 #include "main.h"
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions ------------------------------------------------------- */
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
-
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
-extern void _Error_Handler(char *, int);
-
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
+void SysTick_Handler(void);
+void TAMP_STAMP_IRQHandler(void);
+void DMA1_Channel1_IRQHandler(void);
+void DMA1_Channel4_IRQHandler(void);
+void DMA1_Channel5_IRQHandler(void);
+void DMA1_Channel6_IRQHandler(void);
+void ADC1_2_IRQHandler(void);
+void EXTI9_5_IRQHandler(void);
+void TIM1_UP_TIM16_IRQHandler(void);
+void USART1_IRQHandler(void);
+void USART2_IRQHandler(void);
+void ADC3_IRQHandler(void);
+void DMA2_Channel5_IRQHandler(void);
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+#endif /* __STM32F3xx_IT_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

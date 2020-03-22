@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  * File Name          : stm32f3xx_hal_msp.c
+  * Description        : This file provides code for the MSP Initialization 
+  *                      and de-Initialization codes.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,53 +36,50 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
-#include "main.h"
-
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
-
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
 extern void _Error_Handler(char *, int);
+/* USER CODE BEGIN 0 */
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+/* USER CODE END 0 */
+/**
+  * Initializes the Global MSP.
+  */
+void HAL_MspInit(void)
+{
+  /* USER CODE BEGIN MspInit 0 */
 
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
+  /* USER CODE END MspInit 0 */
 
-#ifdef __cplusplus
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
+
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
+  /* MemoryManagement_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+  /* BusFault_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+  /* UsageFault_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+  /* SVCall_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SVCall_IRQn, 0, 0);
+  /* DebugMonitor_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DebugMonitor_IRQn, 0, 0);
+  /* PendSV_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(PendSV_IRQn, 0, 0);
+  /* SysTick_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+
+  /* USER CODE BEGIN MspInit 1 */
+
+  /* USER CODE END MspInit 1 */
 }
-#endif
-#endif /*__ adc_H */
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

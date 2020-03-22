@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : dma.c
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of all the requested memory to memory DMA transfers.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,53 +36,52 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
+#include "dma.h"
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
+/* USER CODE BEGIN 0 */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
+/* USER CODE END 0 */
 
-/* USER CODE BEGIN Private defines */
+/*----------------------------------------------------------------------------*/
+/* Configure DMA                                                              */
+/*----------------------------------------------------------------------------*/
 
-/* USER CODE END Private defines */
+/* USER CODE BEGIN 1 */
 
-extern void _Error_Handler(char *, int);
+/* USER CODE END 1 */
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+/** 
+  * Enable DMA controller clock
+  */
+void MX_DMA_Init(void) 
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
 
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  /* DMA1_Channel4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+  /* DMA1_Channel6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
+  /* DMA2_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Channel5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel5_IRQn);
 
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ adc_H */
+
+/* USER CODE BEGIN 2 */
+
+/* USER CODE END 2 */
 
 /**
   * @}

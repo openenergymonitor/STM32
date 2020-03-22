@@ -2812,7 +2812,7 @@
 <text x="77.27" y="72.621603125" size="1.016" layer="25" font="vector" ratio="20">v0.8</text>
 <text x="46.741175" y="61.848565625" size="1.397" layer="25" rot="R90">3V3</text>
 <text x="47.34691875" y="64.0136125" size="1.397" layer="25">BIAS</text>
-<text x="91.821" y="49.911" size="1.016" layer="25" rot="R90">RST</text>
+<text x="91.821" y="49.911" size="1.016" layer="25" rot="R90">RTS</text>
 <text x="92.075" y="54.356" size="1.016" layer="25" rot="R180">Tx</text>
 <text x="92.202" y="56.769" size="1.016" layer="25" rot="R180">Rx</text>
 <text x="95.377" y="58.928" size="1.016" layer="25" rot="R270" align="bottom-center">5V</text>

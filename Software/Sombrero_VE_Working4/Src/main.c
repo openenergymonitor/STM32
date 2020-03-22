@@ -235,6 +235,14 @@ void process_frame (uint16_t offset)
   {
 
     //----------------------------------------
+    // Power Factor Hunting
+    //----------------------------------------
+    /*if (hunt_PF) {
+      calcPF(offset);
+      return;
+    }
+    */
+    //----------------------------------------
     // Frequency
     //----------------------------------------
     if (!have_hz) {
@@ -503,7 +511,7 @@ int main(void)
       {
         channel_t *chn = &channels_ready[ch];
 
-        calcPower(ch); // combined power calcs.
+        calcPower(ch);
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
         if (mode == 1) {
@@ -514,7 +522,7 @@ int main(void)
       }
 
       // Main frequency estimate.
-      if (mains_frequency > 40 && mains_frequency < 70) { // prevents spurious data.
+      if (mains_frequency > 40 && mains_frequency < 70) {
         sprintf(string_buffer, "Hz_estimate:%.1f,", mains_frequency);
         if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
         mains_frequency = 0; have_hz = false; // reset

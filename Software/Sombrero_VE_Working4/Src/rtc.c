@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : RTC.c
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of the RTC instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,53 +36,109 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
+#include "rtc.h"
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
+/* USER CODE BEGIN 0 */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
+/* USER CODE END 0 */
 
-/* USER CODE BEGIN Private defines */
+RTC_HandleTypeDef hrtc;
 
-/* USER CODE END Private defines */
+/* RTC init function */
+void MX_RTC_Init(void)
+{
+  RTC_TimeTypeDef sTime;
+  RTC_DateTypeDef sDate;
 
-extern void _Error_Handler(char *, int);
+    /**Initialize RTC Only 
+    */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+    /**Initialize RTC and set the Time and Date 
+    */
+  sTime.Hours = 0x18;
+  sTime.Minutes = 0x0;
+  sTime.Seconds = 0x0;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Month = RTC_MONTH_FEBRUARY;
+  sDate.Date = 0x10;
+  sDate.Year = 0x20;
 
-#ifdef __cplusplus
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Enable the TimeStamp 
+    */
+  if (HAL_RTCEx_SetTimeStamp_IT(&hrtc, RTC_TIMESTAMPEDGE_RISING, RTC_TIMESTAMPPIN_DEFAULT) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
 }
-#endif
-#endif /*__ adc_H */
+
+void HAL_RTC_MspInit(RTC_HandleTypeDef* rtcHandle)
+{
+
+  if(rtcHandle->Instance==RTC)
+  {
+  /* USER CODE BEGIN RTC_MspInit 0 */
+
+  /* USER CODE END RTC_MspInit 0 */
+    /* RTC clock enable */
+    __HAL_RCC_RTC_ENABLE();
+
+    /* RTC interrupt Init */
+    HAL_NVIC_SetPriority(TAMP_STAMP_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TAMP_STAMP_IRQn);
+  /* USER CODE BEGIN RTC_MspInit 1 */
+
+  /* USER CODE END RTC_MspInit 1 */
+  }
+}
+
+void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
+{
+
+  if(rtcHandle->Instance==RTC)
+  {
+  /* USER CODE BEGIN RTC_MspDeInit 0 */
+
+  /* USER CODE END RTC_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_RTC_DISABLE();
+
+    /* RTC interrupt Deinit */
+    HAL_NVIC_DisableIRQ(TAMP_STAMP_IRQn);
+  /* USER CODE BEGIN RTC_MspDeInit 1 */
+
+  /* USER CODE END RTC_MspDeInit 1 */
+  }
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

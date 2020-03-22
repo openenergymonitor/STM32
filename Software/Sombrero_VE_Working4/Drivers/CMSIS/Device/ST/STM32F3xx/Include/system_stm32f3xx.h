@@ -1,16 +1,12 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  * @file    system_stm32f3xx.h
+  * @author  MCD Application Team
+  * @brief   CMSIS Cortex-M4 Device System Source File for STM32F3xx devices.  
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2020 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,61 +31,92 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
+  */ 
+
+/** @addtogroup CMSIS
+  * @{
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
+
+/** @addtogroup stm32f3xx_system
+  * @{
+  */  
+  
+/**
+  * @brief Define to prevent recursive inclusion
+  */
+#ifndef __SYSTEM_STM32F3XX_H
+#define __SYSTEM_STM32F3XX_H
+
 #ifdef __cplusplus
  extern "C" {
-#endif
+#endif 
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
+/** @addtogroup STM32F3xx_System_Includes
+  * @{
+  */
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
+/**
+  * @}
+  */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
 
-/* USER CODE BEGIN Private defines */
+/** @addtogroup STM32F3xx_System_Exported_types
+  * @{
+  */
+  /* This variable is updated in three ways:
+      1) by calling CMSIS function SystemCoreClockUpdate()
+      3) by calling HAL API function HAL_RCC_GetHCLKFreq()
+      3) by calling HAL API function HAL_RCC_ClockConfig()
+         Note: If you use this function to configure the system clock; then there
+               is no need to call the 2 first functions listed above, since SystemCoreClock
+               variable is updated automatically.
+  */
+extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+extern const uint8_t AHBPrescTable[16];   /*!< AHB prescalers table values */
+extern const uint8_t APBPrescTable[8];    /*!< APB prescalers table values */
 
-/* USER CODE END Private defines */
 
-extern void _Error_Handler(char *, int);
+/**
+  * @}
+  */
 
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
+/** @addtogroup STM32F3xx_System_Exported_Constants
+  * @{
+  */
 
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F3xx_System_Exported_Macros
+  * @{
+  */
+
+/**
+  * @}
+  */
+
+/** @addtogroup STM32F3xx_System_Exported_Functions
+  * @{
+  */
+  
+extern void SystemInit(void);
+extern void SystemCoreClockUpdate(void);
+/**
+  * @}
+  */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
+
+#endif /*__SYSTEM_STM32F3XX_H */
 
 /**
   * @}
   */
-
+  
 /**
   * @}
-  */
-
+  */  
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

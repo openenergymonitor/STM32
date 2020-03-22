@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
-  * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  * @file           : main.h
+  * @brief          : Header for main.c file.
+  *                   This file contains the common defines of the application.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,60 +36,70 @@
   *
   ******************************************************************************
   */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
+#ifndef __MAIN_H__
+#define __MAIN_H__
+
+/* Includes ------------------------------------------------------------------*/
+
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private define ------------------------------------------------------------*/
+
+#define RFM_RST_Pin GPIO_PIN_6
+#define RFM_RST_GPIO_Port GPIOE
+#define BUTTON1_Pin GPIO_PIN_14
+#define BUTTON1_GPIO_Port GPIOB
+#define RPI_GPIO16_Pin GPIO_PIN_12
+#define RPI_GPIO16_GPIO_Port GPIOD
+#define RPI_GPIO20_Pin GPIO_PIN_13
+#define RPI_GPIO20_GPIO_Port GPIOD
+#define PUSHIN_1_Pin GPIO_PIN_6
+#define PUSHIN_1_GPIO_Port GPIOC
+#define PUSHIN_2_Pin GPIO_PIN_7
+#define PUSHIN_2_GPIO_Port GPIOC
+#define PUSHIN_3_Pin GPIO_PIN_8
+#define PUSHIN_3_GPIO_Port GPIOC
+#define DS18B20_RJ1_Pin GPIO_PIN_9
+#define DS18B20_RJ1_GPIO_Port GPIOC
+#define RJ1_PULSE_Pin GPIO_PIN_8
+#define RJ1_PULSE_GPIO_Port GPIOA
+#define RJ1_PULSE_EXTI_IRQn EXTI9_5_IRQn
+#define ADC_TRIG_Pin GPIO_PIN_14
+#define ADC_TRIG_GPIO_Port GPIOA
+#define RFM_CS_Pin GPIO_PIN_15
+#define RFM_CS_GPIO_Port GPIOA
+#define DS18B20_RJ2_Pin GPIO_PIN_0
+#define DS18B20_RJ2_GPIO_Port GPIOD
+#define RFM_IRQ_Pin GPIO_PIN_3
+#define RFM_IRQ_GPIO_Port GPIOB
+#define pushin_byant_Pin GPIO_PIN_0
+#define pushin_byant_GPIO_Port GPIOE
+
+/* ########################## Assert Selection ############################## */
+/**
+  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
+  *        HAL drivers code
+  */
+/* #define USE_FULL_ASSERT    1U */
+
+/* USER CODE BEGIN Private defines */
+int mode;
+/* USER CODE END Private defines */
+
 #ifdef __cplusplus
  extern "C" {
 #endif
+void _Error_Handler(char *, int);
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
-
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool overrun_adc_buffer;
-/* USER CODE END Includes */
-
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc3;
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
-extern void _Error_Handler(char *, int);
-
-void MX_ADC1_Init(void);
-void MX_ADC3_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
-
+#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+#endif /* __MAIN_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
