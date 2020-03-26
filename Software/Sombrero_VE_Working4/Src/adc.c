@@ -50,13 +50,15 @@ uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = adc_buff_size / 2;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc4_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc3;
+ADC_HandleTypeDef hadc4;
 DMA_HandleTypeDef hdma_adc1;
 DMA_HandleTypeDef hdma_adc3;
+DMA_HandleTypeDef hdma_adc4;
 
 /* ADC1 init function */
 void MX_ADC1_Init(void)
@@ -98,7 +100,7 @@ void MX_ADC1_Init(void)
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_601CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -147,7 +149,7 @@ void MX_ADC3_Init(void)
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_601CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
@@ -228,6 +230,48 @@ void MX_ADC3_Init(void)
   }
 
 }
+/* ADC4 init function */
+void MX_ADC4_Init(void)
+{
+  ADC_ChannelConfTypeDef sConfig;
+
+    /**Common config 
+    */
+  hadc4.Instance = ADC4;
+  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc4.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc4.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc4.Init.ContinuousConvMode = ENABLE;
+  hadc4.Init.DiscontinuousConvMode = DISABLE;
+  hadc4.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_FALLING;
+  hadc4.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
+  hadc4.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc4.Init.NbrOfConversion = 1;
+  hadc4.Init.DMAContinuousRequests = ENABLE;
+  hadc4.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  hadc4.Init.LowPowerAutoWait = DISABLE;
+  hadc4.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+  if (HAL_ADC_Init(&hadc4) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Configure Regular Channel 
+    */
+  sConfig.Channel = ADC_CHANNEL_VOPAMP4;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc4, &sConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+static uint32_t HAL_RCC_ADC34_CLK_ENABLED=0;
 
 void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 {
@@ -242,8 +286,14 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     __HAL_RCC_ADC12_CLK_ENABLE();
   
     /**ADC1 GPIO Configuration    
+    PF2     ------> ADC1_IN10
     PA0     ------> ADC1_IN1 
     */
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -279,7 +329,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC3_MspInit 0 */
     /* ADC3 clock enable */
-    __HAL_RCC_ADC34_CLK_ENABLE();
+    HAL_RCC_ADC34_CLK_ENABLED++;
+    if(HAL_RCC_ADC34_CLK_ENABLED==1){
+      __HAL_RCC_ADC34_CLK_ENABLE();
+    }
   
     /**ADC3 GPIO Configuration    
     PB0     ------> ADC3_IN12
@@ -327,6 +380,41 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC3_MspInit 1 */
   }
+  else if(adcHandle->Instance==ADC4)
+  {
+  /* USER CODE BEGIN ADC4_MspInit 0 */
+
+  /* USER CODE END ADC4_MspInit 0 */
+    /* ADC4 clock enable */
+    HAL_RCC_ADC34_CLK_ENABLED++;
+    if(HAL_RCC_ADC34_CLK_ENABLED==1){
+      __HAL_RCC_ADC34_CLK_ENABLE();
+    }
+  
+    /* ADC4 DMA Init */
+    /* ADC4 Init */
+    hdma_adc4.Instance = DMA2_Channel2;
+    hdma_adc4.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_adc4.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_adc4.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_adc4.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_adc4.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_adc4.Init.Mode = DMA_CIRCULAR;
+    hdma_adc4.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_adc4) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
+
+    __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc4);
+
+    /* ADC4 interrupt Init */
+    HAL_NVIC_SetPriority(ADC4_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC4_IRQn);
+  /* USER CODE BEGIN ADC4_MspInit 1 */
+
+  /* USER CODE END ADC4_MspInit 1 */
+  }
 }
 
 void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
@@ -341,8 +429,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     __HAL_RCC_ADC12_CLK_DISABLE();
   
     /**ADC1 GPIO Configuration    
+    PF2     ------> ADC1_IN10
     PA0     ------> ADC1_IN1 
     */
+    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_2);
+
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
 
     /* ADC1 DMA DeInit */
@@ -360,7 +451,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC3_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_ADC34_CLK_DISABLE();
+    HAL_RCC_ADC34_CLK_ENABLED--;
+    if(HAL_RCC_ADC34_CLK_ENABLED==0){
+      __HAL_RCC_ADC34_CLK_DISABLE();
+    }
   
     /**ADC3 GPIO Configuration    
     PB0     ------> ADC3_IN12
@@ -387,6 +481,26 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC3_MspDeInit 1 */
   }
+  else if(adcHandle->Instance==ADC4)
+  {
+  /* USER CODE BEGIN ADC4_MspDeInit 0 */
+
+  /* USER CODE END ADC4_MspDeInit 0 */
+    /* Peripheral clock disable */
+    HAL_RCC_ADC34_CLK_ENABLED--;
+    if(HAL_RCC_ADC34_CLK_ENABLED==0){
+      __HAL_RCC_ADC34_CLK_DISABLE();
+    }
+
+    /* ADC4 DMA DeInit */
+    HAL_DMA_DeInit(adcHandle->DMA_Handle);
+
+    /* ADC4 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(ADC4_IRQn);
+  /* USER CODE BEGIN ADC4_MspDeInit 1 */
+
+  /* USER CODE END ADC4_MspDeInit 1 */
+  }
 } 
 
 /* USER CODE BEGIN 1 */
@@ -404,23 +518,29 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
   if (hadc==&hadc1) {
-    if (conv_hfcplt_flag) overrun_adc_buffer = true; // has the buffer overrun?
-    conv_hfcplt_flag = 1;
+    if (conv_cplt_flag) overrun_adc_buffer = true; // has the buffer overrun?
+    conv_cplt_flag = 1;
   }
 }
 
 
-void start_ADCs (void) {
+void start_ADCs (void) 
+{
+  // if they're already running.
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_ADC_Stop_DMA(&hadc3);
+  HAL_ADC_Stop_DMA(&hadc4);
   
-  HAL_Delay(1);
+  HAL_Delay(2);
   
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc1_dma_buff, adc_buff_size);
-  HAL_ADC_Start_DMA(&hadc3, (uint32_t*)adc3_dma_buff, adc_buff_size);
+  HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adc1_dma_buff, adc_buff_size);
+  HAL_ADC_Start_DMA(&hadc3, (uint16_t*)adc3_dma_buff, adc_buff_size);
+  HAL_ADC_Start_DMA(&hadc4, (uint16_t*)adc4_dma_buff, ADC_DMA_BUFFSIZE_PERCHANNEL);
   
-  HAL_Delay(10);
-  pulse_tim8_ch2(1);
+  HAL_Delay(50); // this delay is important.
+
+  pwm_tim8_ch2(1); // start the trigger.
+  //pulse_tim8_ch2(10); // start the trigger.
 }
 /* USER CODE END 1 */
 

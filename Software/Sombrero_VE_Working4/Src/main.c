@@ -1,3 +1,4 @@
+
 /**
   ******************************************************************************
   * @file           : main.c
@@ -68,35 +69,38 @@
 //--------
 // 0 = Standalone
 // 1 = rPi
-int mode = 1; // for testing.
+// 2 = ESP32
+int mode = 1; // initialised as rPi mode for testing.
 
 
-//--------
-// ADC
-//--------
+//------------------------------------------------
+// timing, ADCs, power and frequency variables
+//------------------------------------------------
 #define MID_ADC_READING 2048
-uint32_t posting_interval = 5000; // millis to post data at.
+uint32_t posting_interval = 2500; // millis to post data at.
 bool readings_ready = false;
 bool readings_requested = false;
 bool first_readings = false;
-float V_RATIO;
-float I_RATIO;
+double V_RATIO;
+double I_RATIO;
 extern uint16_t const adc_buff_half_size;
-const float adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
+const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
+//const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
+//const double phase_resolution = (adc_conversion_time / (1.0/50.0)) * 360.0);
 uint32_t hz_begin = 0;
 uint32_t hz_end = 0;
 bool have_hz = 0;
-float mains_frequency;
-double Wh_accumulator[CTn];
+double mains_frequency;
+double Ws_accumulator[CTn];
 //bool Vclipped; // unlikely?
 bool hz_last_positive_V;
 bool hz_positive_V;
 bool hunt_PF;
 
 
-//--------
+//------------------------
 // ISR accumulators
-//--------
+//------------------------
 typedef struct channel_
 {
   int64_t sum_P;
@@ -106,25 +110,25 @@ typedef struct channel_
   int64_t sum_I;
   uint32_t count;
   uint32_t cycles;
-  int phase_shift;
-  bool positive_V;
-  bool last_positive_V;
-  bool Iclipped;
+  uint32_t phase_shift;
+  uint32_t positive_V;
+  uint32_t last_positive_V;
+  uint32_t Iclipped;
 } channel_t; // data struct per CT channel, stm32 only does 32-bit struct items, anything else gets padded out to 32-bit automatically by
 
 static channel_t channels[CTn];
 static channel_t channels_ready[CTn];
-bool channel_rdy_bools[CTn] = {0};
+bool channel_rdy_bools[CTn];
 
 
 //----------------
 // CALIBRATION
 //----------------
-const float VOLTS_PER_DIV = (3.3 / 4096.0);
-//float VCAL = 266.1238757156; // note - single-phase proto board
-//float VCAL = 224.4135906687; // note - 3-phase proto board
-float VCAL = 236.660160908; // dan's 2nd hand ac-ac adaptor
-float ICAL = 90.9;
+const double VOLTS_PER_DIV = (3.3 / 4096.0);
+//double VCAL = 266.1238757156; // note - single-phase proto board
+//double VCAL = 224.4135906687; // note - 3-phase proto board
+double VCAL = 236.660160908; // dan's 2nd hand ac-ac adaptor
+double ICAL = 90.9;
 
 
 //------------------------
@@ -132,7 +136,7 @@ float ICAL = 90.9;
 //------------------------
 extern char log_buffer[];
 char rx_string[COMMAND_BUFFER_SIZE];
-char string_buffer[300];
+char string_buffer[200];
 char readings_rdy_buffer[1000];
 
 
@@ -150,14 +154,14 @@ char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for not
 typedef struct { 
   uint32_t nodeId; 
   uint32_t uptime;
-  //float temperature;   // other data
+  //double temperature;   // other data
 } Payload;
 Payload radioData;
 
 
-//--------
+//----------------
 // Time variables
-//--------
+//----------------
 uint32_t current_millis;
 uint32_t previous_millis;
 
@@ -180,36 +184,36 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-float Vrms;
-float Irms;
-float realPower;
-float apparentPower;
-float powerFactor;
+double Vrms;
+double Irms;
+double realPower;
+double apparentPower;
+double powerFactor;
 
-//----------------------------------
-// Calculate Power Data
-//----------------------------------
+//------------------------------------------
+// Calculate Power Data for one Channel
+//------------------------------------------
 void calcPower (int ch)
 {
   channel_t *chn = &channels_ready[ch];
 
-  float Vmean = (float)chn->sum_V / (float)chn->count;
-  float Imean = (float)chn->sum_I / (float)chn->count;
+  double Vmean = (float)chn->sum_V / (float)chn->count;
+  double Imean = (float)chn->sum_I / (float)chn->count;
 
-  float f32sum_V_sq_avg = (float)chn->sum_V_sq / (float)chn->count;
+  double f32sum_V_sq_avg = (float)chn->sum_V_sq / (float)chn->count;
   f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
 
-  float f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
+  double f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
   f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
   if (f32sum_V_sq_avg < 0) f32sum_V_sq_avg = 0; // if offset removal cause a negative number
   if (f32sum_I_sq_avg < 0) f32sum_I_sq_avg = 0; // make it 0 to avoid a nan at sqrt.
 
-  float Vrms = V_RATIO * sqrtf(f32sum_V_sq_avg);
-  float Irms = I_RATIO * sqrtf(f32sum_I_sq_avg);
+  Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
+  Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
 
-  float f32_sum_P_avg = (float)chn->sum_P / (float)chn->count;
-  float mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
+  double f32_sum_P_avg = (float)chn->sum_P / (float)chn->count;
+  double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
   
   realPower = V_RATIO * I_RATIO * mean_P;
   apparentPower = Vrms * Irms;
@@ -218,33 +222,32 @@ void calcPower (int ch)
   if (apparentPower != 0) { powerFactor = realPower / apparentPower; }
   else powerFactor = 0;
 
-  Wh_accumulator[ch] += (Vrms * Irms * (posting_interval / 3600000.0));
+  Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
 }
 
 
 bool phase_corrector;
 bool phase_corrector_channel[CTn];
 int phase_corrections[CTn];
+double last_powerFactor[CTn];
 void process_frame (uint16_t offset)
 {
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
 
-  int16_t sample_V, sample_I, signed_V, signed_I;
-
-  for (int i = 0; i < adc_buff_half_size; i += CTn) // CTn = CT channel quanity.
+  uint16_t sample_V, sample_I;
+  int16_t signed_V, signed_I;
+/*
+  sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
+  debug_printf(log_buffer);
+  log_buffer[0] = '\0';
+*/
+  for (uint16_t i = 0; i < adc_buff_half_size; i += CTn) // CTn = CT channel quanity.
   {
-
-    //----------------------------------------
-    // Power Factor Hunting
-    //----------------------------------------
-    /*if (hunt_PF) {
-      calcPF(offset);
-      return;
-    }
-    */
+    
     //----------------------------------------
     // Frequency
     //----------------------------------------
+    
     if (!have_hz) {
       sample_V = adc1_dma_buff[offset + i];
       signed_V = sample_V - MID_ADC_READING;
@@ -259,11 +262,13 @@ void process_frame (uint16_t offset)
           mains_frequency = 1.0 / (hz_diff * adc_conversion_time);
           have_hz = true;
         }
-        else {
-          __NOP();
-        }
       }
     }
+    /* // debug buffer
+    sprintf(log_buffer, "signed_v:%d\r\n", signed_V);
+    debug_printf(log_buffer);
+    log_buffer[0] = '\0';
+    */
 
     //----------------------------------------
     // Power
@@ -274,14 +279,14 @@ void process_frame (uint16_t offset)
       channel_t *channel = &channels[ch];
       //----------------------------------------
       // Voltage
-      sample_V = adc1_dma_buff[offset + i + ch];
+      sample_V = adc1_dma_buff[offset + i + ch]; // phase correction could happen here to have higher resolution.
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
       channel->sum_V_sq += signed_V * signed_V;
       //----------------------------------------
       // Current
-      sample_I = adc3_dma_buff[offset + i + ch + phase_corrections[ch]];
+      sample_I = adc3_dma_buff[offset + i + ch];
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
       signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
       channel->sum_I += signed_I;
@@ -293,19 +298,38 @@ void process_frame (uint16_t offset)
       channel->count++;
       
       // upwards-zero-crossing detection, whole waveforms.
-      channel->last_positive_V = channel->positive_V; // retrieve the previous value. 'cycles' count bug possibly to do with initialisation of this bool as false;
-      if (signed_V >= 5) { channel->positive_V = true; } // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
-      else if (signed_V <= -5) { channel->positive_V = false; } // hysteresis to mitigate noisey cycle counting.
+      channel->last_positive_V = channel->positive_V; // retrieve the previous value.
+      if (signed_V >= 0) { channel->positive_V = true; } // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
+      else { channel->positive_V = false; }
       //--------------------------------------------------
       //--------------------------------------------------
       if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.
-        //----------------------------------------
         channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
-        // there appears to be a bug in the cycle counting. more cycles counted than should be, 250 expected for a 5000millis interval, up to 260 output at readings_ready.
+        // debug cycle count 
+        /*
+        sprintf(log_buffer, "cycles%d:%ld\r\n", ch, channel->cycles);
+        debug_printf(log_buffer);
+        log_buffer[0] = '\0';
+        */
+        //----------------------------------------
+        // bool phase_corrector;
+        // bool phase_corrector_channel[CTn];
+        // int phase_corrections[CTn];
+        /*
+        if (phase_corrector_channel[ch]) {
+          
+          calcPower(ch);
+          if (powerFactor);
+          phase_corrector_channel[ch];
+        }
+        */
+
+        //----------------------------------------
+        
         if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not ready.
           channel_t *channel_ready = &channels_ready[ch];
           // copy accumulators for use in main loop.
-          memcpy ((void*)channel_ready, (void*)channel, sizeof(channel_t));
+          memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
           // reset accumulators to zero.
           memset((void*)channel, 0, sizeof(channel_t));
           // set channel_ready for the channel.
@@ -316,8 +340,9 @@ void process_frame (uint16_t offset)
             if (channel_rdy_bools[j]) chn_ready_count++;
           }
           if (chn_ready_count == CTn) { readings_ready = true; readings_requested = false; }    // if all the channels are ready
-          /* // test waveform sync. printed result should go from 1 to 9.
-          sprintf(log_buffer, "test1:%d\r\n", chn_ready_count);
+          // test waveform sync. printed result should go from 1 to 9.
+          /*
+          sprintf(log_buffer, "channelsRdy:%d\r\n", chn_ready_count);
           debug_printf(log_buffer);
           log_buffer[0] = '\0';
           */
@@ -327,10 +352,14 @@ void process_frame (uint16_t offset)
       //--------------------------------------------------
     }
   }
-  hz_begin = 0;
+
+  hz_begin = 0; 
   hz_end = 0;
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
-}
+} // end process_frame().
+
+
+
 
 /* USER CODE END 0 */
 
@@ -373,10 +402,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI3_Init();
   MX_TIM16_Init();
-  MX_TIM17_Init();
   MX_USART3_UART_Init();
   MX_I2C1_Init();
   MX_RTC_Init();
+  MX_ADC4_Init();
   /* USER CODE BEGIN 2 */
 
   debug_printf("\r\n\r\nstart, connect VT\r\n");
@@ -412,6 +441,8 @@ int main(void)
   //------------------------
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
+  HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
+  HAL_Delay(2);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs();
@@ -443,6 +474,11 @@ int main(void)
       previous_millis = current_millis - correction;
       readings_requested = true;
       //sprintf(log_buffer, "timecheck\r\n");
+      // if readings_ready is still true, we don't have a voltage waveform.
+      if (readings_ready)
+      {
+        debug_printf("No voltage waveform present\r\n");
+      }
     }
     
 
@@ -504,6 +540,7 @@ int main(void)
       if (!first_readings) { first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); // blink the led
+      // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
 
@@ -515,7 +552,7 @@ int main(void)
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
         if (mode == 1) {
-          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,Wh%d:%.3f,Clip%d:%d,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, Wh_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
+          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,Joules%d:%.3f,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         }
         //Vclipped = false;
@@ -531,13 +568,28 @@ int main(void)
       sprintf(string_buffer, "millis:%ld,", current_millis);
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
       // Pulsecount
-      sprintf(string_buffer, "PC:%ld", pulseCount);
-      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
-      // has the adc buffer overrun?
-      sprintf(string_buffer, ",buffOverrun:%d", overrun_adc_buffer);
-      overrun_adc_buffer = 0; // reset
+      sprintf(string_buffer, "PC:%ld,", pulseCount);
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
       
+      
+/*
+      // get an average of the OPAMP4 ADC4 buffer.
+      uint32_t ADC4_buff_accumulator = 0;
+      for (int i = 0; i < ADC_DMA_BUFFSIZE_PERCHANNEL; i++) {
+        //ADC4_buff_accumulator += adc4_dma_buff[i];
+        sprintf(log_buffer, "%d\r\n", adc4_dma_buff[i]);
+        debug_printf(log_buffer);
+      }
+      log_buffer[0] = '\0';
+      //double ADC4_buff_avg = ADC4_buff_accumulator / sizeof(adc4_dma_buff);
+      //sprintf(string_buffer, "ADC4_avg:%.2f,", ADC4_buff_avg);
+      //if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
+
+*/
+      // has the adc buffer overrun?
+      sprintf(string_buffer, "buffOverrun:%d", overrun_adc_buffer);
+      overrun_adc_buffer = 0; // reset
+      if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
 
       // close the string
       if (mode == 1) strcat(readings_rdy_buffer, "\r\n");
@@ -548,8 +600,7 @@ int main(void)
       {
         radioData.nodeId = nodeID;
         radioData.uptime = HAL_GetTick();
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1);
-        HAL_TIM_Base_Start_IT(&htim16); // LED blink
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
         RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
         //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
@@ -596,6 +647,7 @@ int main(void)
   /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
+
 }
 
 /**
@@ -647,14 +699,13 @@ void SystemClock_Config(void)
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
                               |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_I2C1
                               |RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_TIM16
-                              |RCC_PERIPHCLK_TIM17|RCC_PERIPHCLK_TIM8;
+                              |RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
   PeriphClkInit.Tim16ClockSelection = RCC_TIM16CLK_HCLK;
-  PeriphClkInit.Tim17ClockSelection = RCC_TIM17CLK_HCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {

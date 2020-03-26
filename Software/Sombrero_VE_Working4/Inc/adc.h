@@ -49,14 +49,16 @@
 
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
-#define CTn 9 // number of CT channels
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 800 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-uint16_t const adc_buff_size;
+#include <stdint.h>
+
+// total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
+#define ADC_DMA_BUFFSIZE_PERCHANNEL 900
+#define CTn 3 // number of CT channels
+
 uint16_t const adc_buff_half_size;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc1_half_conv_complete, adc1_full_conv_complete;
-uint16_t adc1_half_conv_overrun, adc1_full_conv_overrun;
+uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
 bool conv_hfcplt_flag;
 bool conv_cplt_flag;
 bool overrun_adc_buffer;
@@ -64,6 +66,7 @@ bool overrun_adc_buffer;
 
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc3;
+extern ADC_HandleTypeDef hadc4;
 
 /* USER CODE BEGIN Private defines */
 
@@ -73,6 +76,7 @@ extern void _Error_Handler(char *, int);
 
 void MX_ADC1_Init(void);
 void MX_ADC3_Init(void);
+void MX_ADC4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 void start_ADCs (void);

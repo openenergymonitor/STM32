@@ -59,7 +59,9 @@ void TIM1_UP_TIM16_IRQHandler(void);
 void USART1_IRQHandler(void);
 void USART2_IRQHandler(void);
 void ADC3_IRQHandler(void);
+void DMA2_Channel2_IRQHandler(void);
 void DMA2_Channel5_IRQHandler(void);
+void ADC4_IRQHandler(void);
 
 #ifdef __cplusplus
 }
