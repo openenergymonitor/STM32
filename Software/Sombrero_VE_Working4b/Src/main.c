@@ -231,7 +231,7 @@ int hunt_PF[CTn];            // which channel are we hunting max power factor on
 int phase_corrections[CTn];   // store of phase corrections per channel.
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
-
+bool pfhuntDone[CTn] = {false};
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
@@ -241,7 +241,7 @@ void process_frame (uint16_t offset)
 
   uint16_t sample_V, sample_I;
   int16_t signed_V, signed_I;
-  bool pfhuntDone[CTn] = {false}; // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
+   // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
   /*
   sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
   debug_printf(log_buffer);
@@ -304,23 +304,23 @@ void process_frame (uint16_t offset)
         */
         //----------------------------------------
         
-        if (hunt_PF[ch] == 0 || hunt_PF[ch] == 4 || pfhuntDone[ch]) {
-          goto pfSkip;
+        if (hunt_PF[ch] == 0 || hunt_PF[ch] == 4 || pfhuntDone[ch]) { 
+          goto pfSkip; // skip if channel done.
         }
         else if (hunt_PF[ch] == 1) {
           phase_corrections[ch]++; hunt_PF[ch] = 2; pfhuntDone[ch] = true;
         }
         else if (hunt_PF[ch] == 2) {
-          if (last_powerFactor > powerFactor_now) { hunt_PF[ch] = 3; phase_corrections[ch]--; }
+          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 3; phase_corrections[ch]--; }
           else phase_corrections[ch]++;
           pfhuntDone[ch] = true;
         }
         else if (hunt_PF[ch] == 3) {
-          if (last_powerFactor > powerFactor_now) { hunt_PF[ch] = 4; phase_corrections[ch]++; }
+          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 4; } //
           else phase_corrections[ch]--;
           pfhuntDone[ch] = true;
         }
-        // test phase corrections.
+        // print phase corrections.
         sprintf(log_buffer, "pfCorrection%d:%d\r\n", ch, phase_corrections[ch]);
         debug_printf(log_buffer);
         log_buffer[0] = '\0';
@@ -411,7 +411,7 @@ int main(void)
   
   debug_printf("\r\n\r\nstart, connect VT\r\n");
 
-  //hunt_PF[0] = true; // test powerfactor hunting.
+  
   
   // is the rPi Connected?
   if (HAL_GPIO_ReadPin(RPI_GPIO16_GPIO_Port, RPI_GPIO16_Pin) == 1 && HAL_GPIO_ReadPin(RPI_GPIO20_GPIO_Port, RPI_GPIO20_Pin) == 1)
@@ -461,8 +461,7 @@ int main(void)
   __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
 
-  //HAL_Delay(50);
-  //HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);
+  debug_printf("\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -515,13 +514,13 @@ int main(void)
       // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
-      
+      pfhuntDone[0] = false;
       for (int ch = 0; ch < CTn; ch++)
       {
         channel_t *chn = &channels_ready[ch];
 
 
-        last_powerFactor[ch] = powerFactor;
+        last_powerFactor[ch] = powerFactor_now[ch];
         calcPower(ch);
         powerFactor_now[ch] = powerFactor;
         
@@ -620,6 +619,7 @@ int main(void)
     }
     if (usart2_rx_flag)
     {
+      hunt_PF[0] = true; // test powerfactor hunting.
       usart2_rx_flag = 0;
       memcpy(rx_string, rx_buff, sizeof(rx_buff));
       memset(rx_buff, 0, sizeof(rx_buff));
@@ -628,7 +628,7 @@ int main(void)
       huart2.hdmarx->Instance->CCR |= DMA_CCR_EN;
       rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
       json_parser(rx_string); // the actual response is posted from json_parser() result;
-      
+      debug_printf("test\r\n");
       //(!strcmp(select, "boot_reason"))
       //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
       //rPi_printf(log_buffer);
