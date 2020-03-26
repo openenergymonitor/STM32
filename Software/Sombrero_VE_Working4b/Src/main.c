@@ -281,6 +281,7 @@ void process_frame (uint16_t offset)
       //--------------------------------------------------
       //--------------------------------------------------
       if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.
+        // if memset later on sets everything to false, doesn't one cycle too many get counted automatically on the next round?
         channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
         // debug cycle count 
         /*
@@ -303,12 +304,12 @@ void process_frame (uint16_t offset)
 
         //----------------------------------------
         
-        if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not ready.
+        if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
           channel_t *channel_ready = &channels_ready[ch];
           // copy accumulators for use in main loop.
           memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
           // reset accumulators to zero.
-          memset((void*)channel, 0, sizeof(channel_t));
+          memset((void*)channel, 0, sizeof(channel_t)); channel->last_positive_V = true; // set last value to true to avoid extra cycle count.
           // set channel_ready for the channel.
           channel_rdy_bools[ch] = true;
           // are all the channels ready?

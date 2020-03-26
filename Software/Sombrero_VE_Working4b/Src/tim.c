@@ -247,7 +247,7 @@ void pwm_tim8_ch2 (int pulse_width_usec) {
 
 void pulse_tim8_ch2 (int pulse_width_usec) {
   // does this pulse, or does this oscillate (PWM)?
-  HAL_TIM_OnePulse_Stop_IT(&htim8, TIM_CHANNEL_2);
+  HAL_TIM_OnePulse_Stop_IT(&htim8, TIM_CHANNEL_2); // stop it just in case.
   HAL_TIM_Base_Stop(&htim8); // stop it just in case.
   LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
   HAL_Delay(5);

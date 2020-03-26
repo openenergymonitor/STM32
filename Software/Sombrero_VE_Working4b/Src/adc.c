@@ -539,8 +539,8 @@ void start_ADCs (void)
   
   HAL_Delay(100); // this delay is important.
 
-  //pwm_tim8_ch2(100); // start the trigger.
-  pulse_tim8_ch2(100); // start the trigger.
+  pwm_tim8_ch2(100); // start the trigger.
+  //pulse_tim8_ch2(2); // start the trigger.
 }
 /* USER CODE END 1 */
 
