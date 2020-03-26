@@ -94,7 +94,7 @@ double Ws_accumulator[CTn];
 
 
 //------------------------
-// ISR accumulators
+// Channel Accumulators
 //------------------------
 typedef struct channel_
 {
@@ -220,18 +220,28 @@ void calcPower (int ch)
   Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
 }
 
+// Finite Impulse Response (FIR) filter-like Power Factor correction.
+// based on setting the voltage phase per individual CT channel.
+int hunt_PF[CTn];            // which channel are we hunting max power factor on?
+// 0 = no power factor hunting.
+// 1 = power factor hunt start.
+// 2 = power factor hunt to the right. (increase VT lead).
+// 3 = power factor hunt to the left. (increase VT lag).
+// ?? 4 = hunt complete.
+int phase_corrections[CTn];   // store of phase corrections per channel.
+double last_powerFactor[CTn]; // PF from previous readings.
+double powerFactor_now[CTn];  // PF from most recent readings.
 
-bool phase_corrector;
-bool phase_corrector_channel[CTn];
-int phase_corrections[CTn];
-double last_powerFactor[CTn];
+//------------------------------------------
+// Process Buffer into Accumulators.
+//------------------------------------------
 void process_frame (uint16_t offset)
 {
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
 
   uint16_t sample_V, sample_I;
   int16_t signed_V, signed_I;
-
+  bool pfhuntDone[CTn] = {false}; // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
   /*
   sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
   debug_printf(log_buffer);
@@ -256,7 +266,10 @@ void process_frame (uint16_t offset)
       channel_t *channel = &channels[ch];
       //----------------------------------------
       // Voltage
-      sample_V = adc1_dma_buff[offset + i + ch]; // phase correction could happen here to have higher resolution.
+      //sample_V = adc1_dma_buff[offset + i + ch];
+      sample_V = adc1_dma_buff[offset + i + ch + phase_corrections[ch]];  // phase correction could happen here to have higher resolution. 
+                                                                          // to shift voltage gives finer grained phase resolution in single-phase mode
+                                                                          // because the voltage channel is used by all CTs.
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
@@ -290,18 +303,30 @@ void process_frame (uint16_t offset)
         log_buffer[0] = '\0';
         */
         //----------------------------------------
-        // bool phase_corrector;
-        // bool phase_corrector_channel[CTn];
-        // int phase_corrections[CTn];
-        /*
-        if (phase_corrector_channel[ch]) {
-          
-          calcPower(ch);
-          if (powerFactor);
-          phase_corrector_channel[ch];
+        
+        if (hunt_PF[ch] == 0 || hunt_PF[ch] == 4 || pfhuntDone[ch]) {
+          goto pfSkip;
         }
-        */
-
+        else if (hunt_PF[ch] == 1) {
+          phase_corrections[ch]++; hunt_PF[ch] = 2; pfhuntDone[ch] = true;
+        }
+        else if (hunt_PF[ch] == 2) {
+          if (last_powerFactor > powerFactor_now) { hunt_PF[ch] = 3; phase_corrections[ch]--; }
+          else phase_corrections[ch]++;
+          pfhuntDone[ch] = true;
+        }
+        else if (hunt_PF[ch] == 3) {
+          if (last_powerFactor > powerFactor_now) { hunt_PF[ch] = 4; phase_corrections[ch]++; }
+          else phase_corrections[ch]--;
+          pfhuntDone[ch] = true;
+        }
+        // test phase corrections.
+        sprintf(log_buffer, "pfCorrection%d:%d\r\n", ch, phase_corrections[ch]);
+        debug_printf(log_buffer);
+        log_buffer[0] = '\0';
+        
+        pfSkip: // 
+        
         //----------------------------------------
         
         if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
@@ -309,7 +334,7 @@ void process_frame (uint16_t offset)
           // copy accumulators for use in main loop.
           memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
           // reset accumulators to zero.
-          memset((void*)channel, 0, sizeof(channel_t)); channel->last_positive_V = true; // set last value to true to avoid extra cycle count.
+          memset((void*)channel, 0, sizeof(channel_t)); channel->positive_V = true; // set last value to true to avoid extra cycle count.
           // set channel_ready for the channel.
           channel_rdy_bools[ch] = true;
           // are all the channels ready?
@@ -383,9 +408,11 @@ int main(void)
   MX_RTC_Init();
   MX_ADC4_Init();
   /* USER CODE BEGIN 2 */
-
+  
   debug_printf("\r\n\r\nstart, connect VT\r\n");
 
+  //hunt_PF[0] = true; // test powerfactor hunting.
+  
   // is the rPi Connected?
   if (HAL_GPIO_ReadPin(RPI_GPIO16_GPIO_Port, RPI_GPIO16_Pin) == 1 && HAL_GPIO_ReadPin(RPI_GPIO20_GPIO_Port, RPI_GPIO20_Pin) == 1)
   {
@@ -400,8 +427,9 @@ int main(void)
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
-    //debug_printf(log_buffer);
-    //RFM69_readAllRegs(); // debugging
+    debug_printf(log_buffer);
+    log_buffer[0] = '\0';
+    //RFM69_readAllRegs(); // debug output
   }
   else
   {
@@ -441,58 +469,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    //process_ds18b20s();
-
     current_millis = HAL_GetTick();
-    //------------------------
-    // Interval for posting primary data.
-    //------------------------
+
+    //process_ds18b20s();
+    
+    //---------------------------------------
+    // Interval for posting power readings.
+    //---------------------------------------
     if (current_millis - previous_millis >= posting_interval) {
       uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
-      readings_requested = true;
-      //sprintf(log_buffer, "timecheck\r\n");
-      // if readings_ready is still true, we don't have a voltage waveform.
-      if (readings_ready)
+      if (readings_requested)
       {
         debug_printf("No voltage waveform present\r\n");
       }
+      readings_requested = true;
     }
     
 
-    //------------------------
-    // USART RX check
-    //------------------------
-    if (usart1_rx_flag)
-    {
-      usart1_rx_flag = 0;
-      memcpy(rx_string, rx_buff, sizeof(rx_buff));
-      memset(rx_buff, 0, sizeof(rx_buff));
-      huart1.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
-      huart1.hdmarx->Instance->CNDTR = sizeof(rx_buff);
-      huart1.hdmarx->Instance->CCR |= DMA_CCR_EN;
-      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
-      json_parser(rx_string); // the actual response is posted from json_parser() result;
-      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
-    }
-    if (usart2_rx_flag)
-    {
-      usart2_rx_flag = 0;
-      memcpy(rx_string, rx_buff, sizeof(rx_buff));
-      memset(rx_buff, 0, sizeof(rx_buff));
-      huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
-      huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
-      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN;
-      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
-      json_parser(rx_string); // the actual response is posted from json_parser() result;
-      
-      //(!strcmp(select, "boot_reason"))
-      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
-      //rPi_printf(log_buffer);
-      //rPi_printf("baker_street:100:D:doodoodooo:80085\r\n");
-    }
-
-    
     //------------------------
     // ADC DMA buffer flags. Process Frames.
     //------------------------
@@ -526,7 +520,11 @@ int main(void)
       {
         channel_t *chn = &channels_ready[ch];
 
+
+        last_powerFactor[ch] = powerFactor;
         calcPower(ch);
+        powerFactor_now[ch] = powerFactor;
+        
 
         if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
           mains_frequency = 1.0/(((chn->count * CTn) / chn->cycles) * adc_conversion_time);
@@ -537,7 +535,6 @@ int main(void)
           sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,Joules%d:%.3f,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         }
-        //Vclipped = false;
       }
 
       // Main frequency estimate.
@@ -589,7 +586,7 @@ int main(void)
 
 
     //-------------------------------
-    // RFM69 receive
+    // RFM69 Rx
     //-------------------------------
     if (RFM69_ReadDIO0Pin()) {
       debug_printf("RFM69 DIO0 high.\r\n");
@@ -606,8 +603,41 @@ int main(void)
     }
 
 
+    //------------------------
+    // UART Rx check
+    //------------------------
+    if (usart1_rx_flag)
+    {
+      usart1_rx_flag = 0;
+      memcpy(rx_string, rx_buff, sizeof(rx_buff));
+      memset(rx_buff, 0, sizeof(rx_buff));
+      huart1.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
+      huart1.hdmarx->Instance->CNDTR = sizeof(rx_buff);
+      huart1.hdmarx->Instance->CCR |= DMA_CCR_EN;
+      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
+      json_parser(rx_string); // the actual response is posted from json_parser() result;
+      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
+    }
+    if (usart2_rx_flag)
+    {
+      usart2_rx_flag = 0;
+      memcpy(rx_string, rx_buff, sizeof(rx_buff));
+      memset(rx_buff, 0, sizeof(rx_buff));
+      huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
+      huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
+      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN;
+      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
+      json_parser(rx_string); // the actual response is posted from json_parser() result;
+      
+      //(!strcmp(select, "boot_reason"))
+      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
+      //rPi_printf(log_buffer);
+      //rPi_printf("baker_street:100:D:doodoodooo:80085\r\n");
+    }
+
+
     //-------------------------------
-    // Print anything in log_buffer to serial.
+    // Print char buffers to serial.
     //-------------------------------
     if (log_buffer[0] != '\0') { // null terminated strings!
       rPi_printf(log_buffer);
