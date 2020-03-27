@@ -529,18 +529,19 @@ void start_ADCs (void)
   // if they're already running.
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_ADC_Stop_DMA(&hadc3);
-  HAL_ADC_Stop_DMA(&hadc4);
+  //HAL_ADC_Stop_DMA(&hadc4);
   
-  HAL_Delay(2);
+  pulse_tim8_ch2(100);
+  
+  HAL_Delay(20);
   
   HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adc1_dma_buff, adc_buff_size);
   HAL_ADC_Start_DMA(&hadc3, (uint16_t*)adc3_dma_buff, adc_buff_size);
-  HAL_ADC_Start_DMA(&hadc4, (uint16_t*)adc4_dma_buff, ADC_DMA_BUFFSIZE_PERCHANNEL);
+  //HAL_ADC_Start_DMA(&hadc4, (uint16_t*)adc4_dma_buff, ADC_DMA_BUFFSIZE_PERCHANNEL);
   
-  HAL_Delay(50); // this delay is important.
+  HAL_Delay(100); // this delay is important.
 
-  pwm_tim8_ch2(1); // start the trigger.
-  //pulse_tim8_ch2(10); // start the trigger.
+  pulse_tim8_ch2(10); // start the trigger.
 }
 /* USER CODE END 1 */
 

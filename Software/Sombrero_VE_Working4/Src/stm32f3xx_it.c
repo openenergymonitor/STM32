@@ -50,6 +50,7 @@ extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc3;
 extern ADC_HandleTypeDef hadc4;
 extern RTC_HandleTypeDef hrtc;
+extern TIM_HandleTypeDef htim8;
 extern TIM_HandleTypeDef htim16;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
@@ -234,6 +235,34 @@ void USART2_IRQHandler(void)
       //debug_printf("int.\r\n");
     }
   /* USER CODE END USART2_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM8 update interrupt.
+*/
+void TIM8_UP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM8_UP_IRQn 0 */
+
+  /* USER CODE END TIM8_UP_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim8);
+  /* USER CODE BEGIN TIM8_UP_IRQn 1 */
+  debug_printf("TIM8_UP_IRQHandler\r\n");
+  /* USER CODE END TIM8_UP_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM8 trigger and commutation interrupt.
+*/
+void TIM8_TRG_COM_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM8_TRG_COM_IRQn 0 */
+
+  /* USER CODE END TIM8_TRG_COM_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim8);
+  /* USER CODE BEGIN TIM8_TRG_COM_IRQn 1 */
+  debug_printf("TIM8_TRG_COM_IRQHandler\r\n");
+  /* USER CODE END TIM8_TRG_COM_IRQn 1 */
 }
 
 /**

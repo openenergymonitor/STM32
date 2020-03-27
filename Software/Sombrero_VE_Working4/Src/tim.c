@@ -66,6 +66,11 @@ void MX_TIM8_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
+  if (HAL_TIM_OnePulse_Init(&htim8, TIM_OPMODE_SINGLE) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_OC2REF;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
@@ -138,6 +143,12 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
   /* USER CODE END TIM8_MspInit 0 */
     /* TIM8 clock enable */
     __HAL_RCC_TIM8_CLK_ENABLE();
+
+    /* TIM8 interrupt Init */
+    HAL_NVIC_SetPriority(TIM8_UP_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM8_UP_IRQn);
+    HAL_NVIC_SetPriority(TIM8_TRG_COM_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM8_TRG_COM_IRQn);
   /* USER CODE BEGIN TIM8_MspInit 1 */
 
   /* USER CODE END TIM8_MspInit 1 */
@@ -200,6 +211,10 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
   /* USER CODE END TIM8_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_TIM8_CLK_DISABLE();
+
+    /* TIM8 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(TIM8_UP_IRQn);
+    HAL_NVIC_DisableIRQ(TIM8_TRG_COM_IRQn);
   /* USER CODE BEGIN TIM8_MspDeInit 1 */
 
   /* USER CODE END TIM8_MspDeInit 1 */
@@ -223,28 +238,18 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
   /* USER CODE END TIM16_MspDeInit 1 */
   }
-}
+} 
 
 /* USER CODE BEGIN 1 */
-void pwm_tim8_ch2 (int pulse_width_usec) {
+void pulse_tim8_ch2 (int pulse_width_usec) {
   // does this pulse, or does this oscillate (PWM)?
   HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);         // In case it's running
   LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
-  //HAL_Delay(5);
-  //HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);
+  HAL_Delay(50);
+  HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);
 }
 
-void pulse_tim8_ch2 (int pulse_width_usec) {
-  // does this pulse, or does this oscillate (PWM)?
-  //HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);         // In case it's running
-  //LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
-  //HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
-
-  HAL_TIM_Base_Start_IT(&htim8);
-  //HAL_Delay(5);
-  //HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);
-}
 /* USER CODE END 1 */
 
 /**

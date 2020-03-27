@@ -52,8 +52,8 @@
 #include <stdint.h>
 
 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 900
-#define CTn 3 // number of CT channels
+#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
+#define CTn 9 // number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
 
 uint16_t const adc_buff_half_size;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
