@@ -122,8 +122,25 @@ bool channel_rdy_bools[CTn];
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
 //double VCAL = 266.1238757156; // note - single-phase proto board
 //double VCAL = 224.4135906687; // note - 3-phase proto board
-double VCAL = 236.660160908; // dan's 2nd hand ac-ac adaptor
+double VCAL = 236.660160908; // mascot ac-ac adaptor
 double ICAL = 90.9;
+
+
+//----------------
+// PHASE CALIBRATION
+//----------------
+// Finite Impulse Response (FIR) filter-like Power Factor correction.
+// based on setting the voltage phase per individual CT channel.
+int hunt_PF[CTn]; // which channel are we hunting max power factor on?
+// 0 = no power factor hunting.
+// 1 = power factor hunt start.
+// 2 = power factor hunt to the right. (increase VT lead).
+// 3 = power factor hunt to the left. (increase VT lag).
+// ?? 4 = hunt complete.
+int phase_corrections[CTn];   // store of phase corrections per channel.
+double last_powerFactor[CTn]; // PF from previous readings.
+double powerFactor_now[CTn];  // PF from most recent readings.
+bool pfhuntDone[CTn] = {false};
 
 
 //------------------------
@@ -201,8 +218,8 @@ void calcPower (int ch)
   double f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
   f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
-  if (f32sum_V_sq_avg < 0) f32sum_V_sq_avg = 0; // if offset removal cause a negative number
-  if (f32sum_I_sq_avg < 0) f32sum_I_sq_avg = 0; // make it 0 to avoid a nan at sqrt.
+  // assuming result of offset removal always positive.
+  // small chance a negative result would cause a nan at sqrt.
 
   Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
   Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
@@ -220,18 +237,7 @@ void calcPower (int ch)
   Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
 }
 
-// Finite Impulse Response (FIR) filter-like Power Factor correction.
-// based on setting the voltage phase per individual CT channel.
-int hunt_PF[CTn];            // which channel are we hunting max power factor on?
-// 0 = no power factor hunting.
-// 1 = power factor hunt start.
-// 2 = power factor hunt to the right. (increase VT lead).
-// 3 = power factor hunt to the left. (increase VT lag).
-// ?? 4 = hunt complete.
-int phase_corrections[CTn];   // store of phase corrections per channel.
-double last_powerFactor[CTn]; // PF from previous readings.
-double powerFactor_now[CTn];  // PF from most recent readings.
-bool pfhuntDone[CTn] = {false};
+
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
@@ -273,28 +279,28 @@ void process_frame (uint16_t offset)
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
-      channel->sum_V_sq += signed_V * signed_V;
+      channel->sum_V_sq += signed_V * signed_V; // for Vrms
       //----------------------------------------
       // Current
       sample_I = adc3_dma_buff[offset + i + ch];
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
       signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
-      channel->sum_I += signed_I;
-      channel->sum_I_sq += signed_I * signed_I;
+      channel->sum_I += signed_I; // 
+      channel->sum_I_sq += signed_I * signed_I; // for Irms
       //----------------------------------------
-      // Power
+      // Power, instantaneous.
       channel->sum_P += signed_V * signed_I;
       
-      channel->count++;
+      channel->count++; // number of adc samples.
       
-      // upwards-zero-crossing detection, whole waveforms.
+      //----------------------------------------
+      // Upwards-zero-crossing detection, whole AC cycles.
       channel->last_positive_V = channel->positive_V; // retrieve the previous value.
       if (signed_V >= 0) { channel->positive_V = true; } // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
       else { channel->positive_V = false; }
       //--------------------------------------------------
       //--------------------------------------------------
       if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.
-        // if memset later on sets everything to false, doesn't one cycle too many get counted automatically on the next round?
         channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
         // debug cycle count 
         /*
@@ -316,7 +322,7 @@ void process_frame (uint16_t offset)
           pfhuntDone[ch] = true;
         }
         else if (hunt_PF[ch] == 3) {
-          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 4; } //
+          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 4; phase_corrections[ch]++; } //
           else phase_corrections[ch]--;
           pfhuntDone[ch] = true;
         }
@@ -325,24 +331,26 @@ void process_frame (uint16_t offset)
         debug_printf(log_buffer);
         log_buffer[0] = '\0';
         
-        pfSkip: // 
+        pfSkip: // skip to here and continue.
         
         //----------------------------------------
-        
         if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
           channel_t *channel_ready = &channels_ready[ch];
           // copy accumulators for use in main loop.
           memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
           // reset accumulators to zero.
-          memset((void*)channel, 0, sizeof(channel_t)); channel->positive_V = true; // set last value to true to avoid extra cycle count.
-          // set channel_ready for the channel.
+          memset((void*)channel, 0, sizeof(channel_t));
+          // follow through the state of positive_v so no extra AC cycle is erroneously counted.
+          channel->positive_V = true;
+          // set 'channel ready' for this channel.
           channel_rdy_bools[ch] = true;
           // are all the channels ready?
           int chn_ready_count = 0;
           for (int j = 0; j < CTn; j++) {
             if (channel_rdy_bools[j]) chn_ready_count++;
           }
-          if (chn_ready_count == CTn) { readings_ready = true; readings_requested = false; }    // if all the channels are ready
+          if (chn_ready_count == CTn) { readings_ready = true; readings_requested = false; }
+          
           // test waveform sync. printed result should go from 1 to 9.
           /*
           sprintf(log_buffer, "channelsRdy:%d\r\n", chn_ready_count);
@@ -351,11 +359,10 @@ void process_frame (uint16_t offset)
           */
         }
       }
-      //--------------------------------------------------
-      //--------------------------------------------------
-    }
-  }
-
+      //-------------------------------------------------- 
+      //-------------------------------------------------- end zero-crossing.
+    } // end per channel routine
+  } // end buffer routine
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
 } // end process_frame().
 
