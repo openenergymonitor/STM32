@@ -47,7 +47,7 @@
 #include <stdbool.h>
 #include "tim.h"
 uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
-uint16_t const adc_buff_half_size = adc_buff_size / 2;
+uint16_t const adc_buff_half_size = (CTn * ADC_DMA_BUFFSIZE_PERCHANNEL) / 2;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
