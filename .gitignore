@@ -38,6 +38,10 @@ Emon3CT_CB/build/*
 !Emon3CT_CB/build/Emon3CT_CB.bin
 Emon3CT_CB/.pioenvs/*
 
+Emon3CT_VET/build/*
+!Emon3CT_VET/build/Emon3CT_VET.bin
+Emon3CT_VET/.pioenvs/*
+
 RFM69/build/*
 
 Emon3CT_RFM69/build/*
