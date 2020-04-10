@@ -310,12 +310,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 /* USER CODE BEGIN 1 */
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if (hadc==&hadc1) process_frame(0);
+  if (hadc==&hadc1) conv_hfcplt_flag = true;
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if (hadc==&hadc1) process_frame(3000);
+  if (hadc==&hadc1) conv_cplt_flag = true;
 }
 
 void start_ADCs (void) {

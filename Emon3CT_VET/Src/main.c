@@ -205,6 +205,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if (conv_hfcplt_flag) {
+      conv_hfcplt_flag = false;
+      process_frame(0);
+    }
+    
+    if (conv_cplt_flag)  {
+      conv_cplt_flag = false;
+      process_frame(3000);
+    }
+    
      if (readings_ready) {
        readings_ready = false;
 

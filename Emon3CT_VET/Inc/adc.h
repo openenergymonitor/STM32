@@ -51,6 +51,8 @@
 #define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
 volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
 volatile uint16_t adc3_dma_buff[ADC_DMA_BUFFSIZE];
+int8_t conv_hfcplt_flag;
+int8_t conv_cplt_flag;
 
 /* USER CODE END Includes */
 
