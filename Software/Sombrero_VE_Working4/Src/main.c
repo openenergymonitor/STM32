@@ -137,7 +137,7 @@ int hunt_PF[CTn]; // which channel are we hunting max power factor on?
 // 2 = power factor hunt to the right. (increase VT lead).
 // 3 = power factor hunt to the left. (increase VT lag).
 // ?? 4 = hunt complete.
-int phase_corrections[CTn];   // store of phase corrections per channel.
+int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
 bool pfhuntDone[CTn] = {false};
@@ -238,12 +238,38 @@ void calcPower (int ch)
 }
 
 
+
+uint16_t highest_phase_correction = 0;
+void set_highest_phase_correction(void) { // could be done after each correction routine instead.
+  highest_phase_correction = 0; // reset. 
+  for (int i = 0; i < sizeof(phase_corrections); i++) {
+    if (phase_corrections[i] > highest_phase_correction) highest_phase_correction = phase_corrections[i];
+  }
+}
+
+bool check_dma_index_for_phase_correction(uint16_t offset) {
+  uint16_t dma_counter_now = hdma_adc1.Instance->CNDTR;
+  //sprintf(log_buffer, "dma_counter_now:%d, offset:%d, highest_correction:%d\r\n", dma_counter_now, offset, highest_phase_correction);
+  //debug_printf(log_buffer); log_buffer[0] = 0;
+  if (offset == 0) {
+    if (adc_buff_half_size - dma_counter_now > highest_phase_correction) { return true; }
+    else { return false; }
+  }
+  else if (offset == adc_buff_half_size) {
+    if (adc_buff_size - dma_counter_now > highest_phase_correction) {return true; }
+    else { return false; }
+  }
+}
+
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
 void process_frame (uint16_t offset)
 {
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
+  
+  set_highest_phase_correction(); // could be called after a phase correction routine instead.
+  while (!check_dma_index_for_phase_correction(offset)) __NOP();
 
   uint16_t sample_V, sample_I;
   int16_t signed_V, signed_I;
@@ -538,7 +564,7 @@ int main(void)
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
         if (mode == 1) {
-          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,PF%d:%.3f,Joules%d:%.3f,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
+          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,AP%d:%.1f,RP%d:%.1f,PF%d:%.3f,Joules%d:%.3f,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         }
       }
@@ -573,8 +599,8 @@ int main(void)
       overrun_adc_buffer = 0; // reset
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
 
-      // close the string
-      if (mode == 1) strcat(readings_rdy_buffer, "\r\n");
+      // close the string and add some whitespace for clarity.
+      if (mode == 1) strcat(readings_rdy_buffer, "\r\n\r\n");
 
 
       // RFM69 send.
@@ -626,7 +652,7 @@ int main(void)
     }
     if (usart2_rx_flag)
     {
-      hunt_PF[0] = true; // test powerfactor hunting.
+      hunt_PF[0] = true; // test powerfactor hunting on CT1.
       usart2_rx_flag = 0;
       memcpy(rx_string, rx_buff, sizeof(rx_buff));
       memset(rx_buff, 0, sizeof(rx_buff));
