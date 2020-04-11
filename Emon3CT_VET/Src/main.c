@@ -77,11 +77,11 @@ typedef struct channel_ {
   uint64_t sum_I_sq;
   int64_t sum_V;
   int64_t sum_I;
-  uint64_t count;
+  uint32_t count;
 
-  uint8_t positive_V;
-  uint8_t last_positive_V;
-  uint8_t cycles;
+  uint16_t positive_V;
+  uint16_t last_positive_V;
+  uint32_t cycles;
 } channel_t;
 
 static channel_t channels[3];
@@ -100,7 +100,8 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void process_frame(uint16_t offset)
 {
-  int32_t sample_V, sample_I, signed_V, signed_I;
+  uint16_t sample_V, sample_I;
+  int16_t signed_V, signed_I;
 
 
   // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
@@ -221,32 +222,28 @@ int main(void)
        for (int n=0; n<3; n++) {
          channel_t* chn = &channels_copy[n];
 
-         double Vmean = chn->sum_V * (1.0 / chn->count);
-         double Imean = chn->sum_I * (1.0 / chn->count);
+         double Vmean = 1.0 * chn->sum_V / chn->count;
+         double Imean = 1.0 * chn->sum_I / chn->count;
+         
+         double f32sum_V_sq_avg = 1.0 * chn->sum_V_sq / chn->count;
+         f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
+                  
+         double f32sum_I_sq_avg = 1.0 * chn->sum_I_sq / chn->count;
+         f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
-         chn->sum_V_sq *= (1.0 / chn->count);
-         chn->sum_V_sq -= (Vmean*Vmean);
-         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
-
-         chn->sum_I_sq *= (1.0 / chn->count);
-         chn->sum_I_sq -= (Imean*Imean);
-         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
-
-         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
+         double Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
+         double Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
+  
+         double f32_sum_P_avg = 1.0 * chn->sum_P / chn->count;
+         double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
+         
          double realPower = V_RATIO * I_RATIO * mean_P;
 
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower;
-         /*
-         Vrms = 242;
-         Irms = 1;
-         realPower = 100;
-         apparentPower = 200;
-         powerFactor = 2;*/
 
          sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
          debug_printf(log_buffer);
-
        }
 
        sprintf(log_buffer,"\r\n");
