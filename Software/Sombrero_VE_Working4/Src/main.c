@@ -242,12 +242,13 @@ void calcPower (int ch)
 uint16_t highest_phase_correction = 0;
 void set_highest_phase_correction(void) { // could be done after each correction routine instead.
   highest_phase_correction = 0; // reset. 
-  for (int i = 0; i < sizeof(phase_corrections); i++) {
+  for (int i = 0; i < CTn; i++) {
     if (phase_corrections[i] > highest_phase_correction) highest_phase_correction = phase_corrections[i];
   }
 }
 
 bool check_dma_index_for_phase_correction(uint16_t offset) {
+  // HAL_DELAY(1); // test
   uint16_t dma_counter_now = hdma_adc1.Instance->CNDTR;
   //sprintf(log_buffer, "dma_counter_now:%d, offset:%d, highest_correction:%d\r\n", dma_counter_now, offset, highest_phase_correction);
   //debug_printf(log_buffer); log_buffer[0] = 0;
