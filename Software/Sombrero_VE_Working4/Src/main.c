@@ -182,6 +182,7 @@ uint32_t previous_millis;
 // MISC
 //--------
 uint32_t pulseCount = 0;
+extern char json_response[40];
 
 
 /* USER CODE END PV */
@@ -260,6 +261,7 @@ bool check_dma_index_for_phase_correction(uint16_t offset) {
     if (adc_buff_size - dma_counter_now > highest_phase_correction) {return true; }
     else { return false; }
   }
+  return false; // get rid of compiler warning.
 }
 
 //------------------------------------------
@@ -299,16 +301,32 @@ void process_frame (uint16_t offset)
       channel_t *channel = &channels[ch];
       //----------------------------------------
       // Voltage
-      //sample_V = adc1_dma_buff[offset + i + ch];
-      sample_V = adc1_dma_buff[offset + i + ch + phase_corrections[ch]];  // phase correction could happen here to have higher resolution. 
-                                                                          // to shift voltage gives finer grained phase resolution in single-phase mode
-                                                                          // because the voltage channel is used by all CTs.
+      //----------------------------------------
+      // phase correction could happen here to have higher resolution. 
+      // to shift voltage gives finer grained phase resolution in single-phase mode
+      // because the voltage channel is used by all CTs.
+      uint16_t sample_V_index = offset + i + ch + phase_corrections[ch];
+      // check for buffer overflow
+      if (sample_V_index > adc_buff_size-1) {
+        sample_V = adc1_dma_buff[sample_V_index - adc_buff_size]; 
+        debug_printf("overflow_correction+\r\n");
+      }
+      else if (sample_V_index < 0) {
+        sample_V = adc1_dma_buff[sample_V_index + adc_buff_size]; 
+        debug_printf("overflow_correction-\r\n");
+      }
+      else {
+        sample_V = adc1_dma_buff[sample_V_index]; 
+      }
+      
+
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
       channel->sum_V_sq += signed_V * signed_V; // for Vrms
       //----------------------------------------
       // Current
+      //----------------------------------------
       sample_I = adc3_dma_buff[offset + i + ch];
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
       signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
@@ -316,6 +334,7 @@ void process_frame (uint16_t offset)
       channel->sum_I_sq += signed_I * signed_I; // for Irms
       //----------------------------------------
       // Power, instantaneous.
+      //----------------------------------------
       channel->sum_P += signed_V * signed_I;
       
       channel->count++; // number of adc samples.
@@ -405,6 +424,7 @@ void process_frame (uint16_t offset)
   */
 int main(void)
 {
+  
   /* USER CODE BEGIN 1 */
   V_RATIO = VCAL * VOLTS_PER_DIV;
   I_RATIO = ICAL * VOLTS_PER_DIV;
@@ -646,27 +666,22 @@ int main(void)
       memset(rx_buff, 0, sizeof(rx_buff));
       huart1.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
       huart1.hdmarx->Instance->CNDTR = sizeof(rx_buff);
-      huart1.hdmarx->Instance->CCR |= DMA_CCR_EN;
-      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
-      json_parser(rx_string); // the actual response is posted from json_parser() result;
-      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
+      huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
+      json_parser(rx_string); // calling this loads json_response[] with a response.
+      sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     }
     if (usart2_rx_flag)
     {
-      hunt_PF[0] = true; // test powerfactor hunting on CT1.
+      //phase_corrections[0] = 13; // slap a value in there to test with.
+      //hunt_PF[0] = true; // test powerfactor hunting on CT1.
       usart2_rx_flag = 0;
       memcpy(rx_string, rx_buff, sizeof(rx_buff));
       memset(rx_buff, 0, sizeof(rx_buff));
       huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
       huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
-      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN;
-      rPi_printf("STM32:"); // respond to command with "STM32:" prefix.
-      json_parser(rx_string); // the actual response is posted from json_parser() result;
-      debug_printf("test\r\n");
-      //(!strcmp(select, "boot_reason"))
-      //sprintf(log_buffer, "uartRxDebug:%s\r\n", rx_string);
-      //rPi_printf(log_buffer);
-      //rPi_printf("baker_street:100:D:doodoodooo:80085\r\n");
+      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
+      json_parser(rx_string); // calling this loads json_response[] with a response.
+      sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     }
 
 

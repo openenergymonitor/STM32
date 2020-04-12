@@ -100,13 +100,13 @@ bool getset; // 0 = get, 1 = set.
 
 int boot_number;
 
-
+char json_response[40];
 void json_parser(char *string)
 {
   char *JSON_STRING = string;
   int r;
   int i;
-  // debug_printf("JSON parser test.\r\n");
+  // // debug_printf("JSON parser test.\r\n");
 
   jsmn_init(&p);
   r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), tk, JSON_TOKENS);
@@ -114,7 +114,7 @@ void json_parser(char *string)
   if (r < 0)
   {
     sprintf(log_buffer, "ERROR:JSON_PARSE %d\r\n", r);
-    debug_printf(log_buffer);
+    // debug_printf(log_buffer);
   }
 
   char select[20];
@@ -148,43 +148,44 @@ void json_parser(char *string)
   {
     if (!strcmp(select, "hello_STM32!"))
     {
-      debug_printf("hello_rPi!");
+      sprintf(json_response, "hello_rPi!");
+      //// debug_printf("hello_rPi!");
     }
     else if (!strcmp(select, "hw_version"))
     {
-      sprintf(log_buffer, "G:hw_version:%s", hwVersion);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:hw_version:%s", hwVersion);
+      //// debug_printf(log_buffer);
     }
     else if (!strcmp(select, "fw_version"))
     {
-      sprintf(log_buffer, "G:fw_version:%s", fwVersion);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:fw_version:%s", fwVersion);
+      //// debug_printf(log_buffer);
     }
     else if (!strcmp(select, "device_mode"))
     {
       if (device_mode == 0)
       {
-        debug_printf("G:device_mode:uninitialised");
+        sprintf(json_response, "G:device_mode:uninitialised");
       }
       else if (device_mode == 1)
       {
-        sprintf(log_buffer, "G:device_mode:%s", mode1);
-        debug_printf(log_buffer);
+        sprintf(json_response, "G:device_mode:%s", mode1);
+        // // debug_printf(log_buffer);
       }
       else if (device_mode == 2)
       {
-        sprintf(log_buffer, "G:device_mode:%s", mode2);
-        debug_printf(log_buffer);
+        sprintf(json_response, "G:device_mode:%s", mode2);
+        // // debug_printf(log_buffer);
       }
       else if (device_mode == 3)
       {
-        sprintf(log_buffer, "G:device_mode:%s", mode3);
-        debug_printf(log_buffer);
+        sprintf(json_response, "G:device_mode:%s", mode3);
+        // // debug_printf(log_buffer);
       }
       else if (device_mode == 4)
       {
-        sprintf(log_buffer, "G:device_mode:%s", mode4);
-        debug_printf(log_buffer);
+        sprintf(json_response, "G:device_mode:%s", mode4);
+        // // debug_printf(log_buffer);
       }
       else
         error_handler();
@@ -192,25 +193,25 @@ void json_parser(char *string)
     else if (!strcmp(select, "boot_reason"))
     {
       //sprintf(log_buffer, "boot_reason:%s", reset_cause_get_name(reset_cause));
-      sprintf(log_buffer, "G:boot_reason:test\r\n");
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:boot_reason:test\r\n");
+      // // debug_printf(log_buffer);
     }
     else if (!strcmp(select, "number_reboots"))
     {
-      sprintf(log_buffer, "G:number_reboots:%d", boot_number);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:number_reboots:%d", boot_number);
+      // // debug_printf(log_buffer);
     }
     else if (!strcmp(select, "uptime"))
     {
       //      sprintf(log_buffer, "G:uptime:%d", HAL_GetTick());
-      debug_printf(log_buffer);
-      debug_printf("uptime_test\r\n");
+      // debug_printf(log_buffer);
+      // debug_printf("uptime_test\r\n");
     }
     else if (!strcmp(select, "rtc_time"))
     {
       //sprintf(log_buffer, "rtc_time:%d", rtc_time_get());
       //printf(log_buffer);
-      debug_printf("G:rtc_time:123456789\r\n"); //return in millis?
+      // debug_printf("G:rtc_time:123456789\r\n"); //return in millis?
     }
     else if (!strcmp(select, "system"))
     {
@@ -237,7 +238,7 @@ void json_parser(char *string)
         }
         else
         {
-          debug_printf("unrecognised channel\r\n");
+          // debug_printf("unrecognised channel\r\n");
           error_handler();
         }
       }
@@ -256,7 +257,7 @@ void json_parser(char *string)
       }
       else
       {
-        debug_printf("unrecognised channel\r\n");
+        // debug_printf("unrecognised channel\r\n");
         error_handler();
       }
     }
@@ -293,30 +294,30 @@ void json_parser(char *string)
       if (!strcmp(select, mode1))
       {
         device_mode = 1;
-        sprintf(log_buffer, "S:device_mode:%s", mode1);
-        debug_printf(log_buffer);
+        sprintf(json_response, "S:device_mode:%s", mode1);
+        // debug_printf(json_response);
       }
       else if (!strcmp(select, mode2))
       {
         device_mode = 2;
-        sprintf(log_buffer, "S:device_mode:%s", mode2);
-        debug_printf(log_buffer);
+        sprintf(json_response, "S:device_mode:%s", mode2);
+        // debug_printf(json_response);
       }
       else if (!strcmp(select, mode3))
       {
         device_mode = 3;
-        sprintf(log_buffer, "S:device_mode:%s", mode3);
-        debug_printf(log_buffer);
+        sprintf(json_response, "S:device_mode:%s", mode3);
+        // debug_printf(json_response);
       }
       else if (!strcmp(select, mode4))
       {
         device_mode = 4;
-        sprintf(log_buffer, "S:device_mode:%s", mode4);
-        debug_printf(log_buffer);
+        sprintf(json_response, "S:device_mode:%s", mode4);
+        // debug_printf(json_response);
       }
       else
       {
-        debug_printf("mode_error\r\n");
+        // debug_printf("mode_error\r\n");
         error_handler();
       }
     }
@@ -396,7 +397,7 @@ void json_parser(char *string)
     }
   }
 
-  debug_printf("\r\n"); // ENDENDENDENDENDENDENDENDENDENDENDEND of the MAIN() //
+  // debug_printf("\r\n"); // ENDENDENDENDENDENDENDENDENDENDENDEND of the MAIN() //
 }
 
 /* reference ::::
@@ -420,33 +421,33 @@ void VTCommands(bool getset, int ch, char *command, char *property)
   { // GET COMMANDS
     if (!strcmp(command, "state"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, VTproperty->state);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, VTproperty->state);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "type"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, VTproperty->type);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, VTproperty->type);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "vcal"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, VTproperty->vcal);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, VTproperty->vcal);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "voltageRMS"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, VTproperty->voltageRMS);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, VTproperty->voltageRMS);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "max"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, VTproperty->max);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, VTproperty->max);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "min"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, VTproperty->min);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, VTproperty->min);
+      // debug_printf(json_response);
     }
   }
 
@@ -456,22 +457,22 @@ void VTCommands(bool getset, int ch, char *command, char *property)
     {
       int x = atoi(property);
       VTproperty->state = x;
-      sprintf(log_buffer, "S:%s:%d", command, VTproperty->state);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%d", command, VTproperty->state);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "type"))
     {
       int x = atoi(property);
       VTproperty->type = x;
-      sprintf(log_buffer, "S:%s:%d", command, VTproperty->type);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%d", command, VTproperty->type);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "vcal"))
     {
       float f = strtof(property, NULL);
       VTproperty->vcal = f;
-      sprintf(log_buffer, "S:%s:%.3f", command, VTproperty->vcal);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%.3f", command, VTproperty->vcal);
+      // debug_printf(json_response);
     }
   }
 }
@@ -505,58 +506,58 @@ void CTCommands(bool getset, int ch, char *command, char *property)
   { // GET COMMANDS
     if (!strcmp(command, "state"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, CTproperty->state);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, CTproperty->state);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "type"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, CTproperty->type);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, CTproperty->type);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "ical"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, CTproperty->ical);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, CTproperty->ical);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "currentRMS"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, CTproperty->currentRMS);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, CTproperty->currentRMS);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "max"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, CTproperty->max);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, CTproperty->max);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "min"))
     {
-      sprintf(log_buffer, "G:%s:%.3f", command, CTproperty->min);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.3f", command, CTproperty->min);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "burden"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, CTproperty->burden);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, CTproperty->burden);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "ratio"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, CTproperty->ratio);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, CTproperty->ratio);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "assignedVT"))
     {
-      sprintf(log_buffer, "G:%s:%d", command, CTproperty->assignedVT);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%d", command, CTproperty->assignedVT);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "watth"))
     {
-      sprintf(log_buffer, "G:%s:%.2f", command, CTproperty->watth);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.2f", command, CTproperty->watth);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "pfAVG"))
     {
-      sprintf(log_buffer, "G:%s:%.2f", command, CTproperty->pfAVG);
-      debug_printf(log_buffer);
+      sprintf(json_response, "G:%s:%.2f", command, CTproperty->pfAVG);
+      // debug_printf(json_response);
     }
   }
 
@@ -567,22 +568,22 @@ void CTCommands(bool getset, int ch, char *command, char *property)
 
       int x = atoi(property);
       CTproperty->state = x;
-      sprintf(log_buffer, "S:%s:%d", command, CTproperty->state);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%d", command, CTproperty->state);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "type"))
     {
       int x = atoi(property);
       CTproperty->type = x;
-      sprintf(log_buffer, "S:%s:%d", command, CTproperty->type);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%d", command, CTproperty->type);
+      // debug_printf(json_response);
     }
     if (!strcmp(command, "ical"))
     {
       float f = strtof(property, NULL);
       CTproperty->ical = f;
-      sprintf(log_buffer, "S:%s:%.3f", command, CTproperty->ical);
-      debug_printf(log_buffer);
+      sprintf(json_response, "S:%s:%.3f", command, CTproperty->ical);
+      // debug_printf(json_response);
     }
   }
 }
@@ -603,5 +604,6 @@ void IOCommands(bool getset, int ch, char *command, char *property)
 
 void error_handler(void)
 {
-  debug_printf("CMD_ERROR\r\n");
+  sprintf(json_response, "CMD_ERROR");
+  // debug_printf("CMD_ERROR\r\n");
 }
