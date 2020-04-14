@@ -47,14 +47,14 @@ Notes on hardware development and initial designs:
 
 Firmware examples included in this repository:
 
-- [1. Blink](Blink)
-- [2. ADC](ADC)
-- [3. DMA](DMA)
-- [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
-- [5. Emon1CT](Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
-- [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
-- [7. emonTxshield_dBC (v13)](emonTxshield_dBC): Latest mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
-- [8. RFM69](RFM69): RFM69 library and examples.
+- [1. Blink](Software/Blink)
+- [2. ADC](Software/ADC)
+- [3. DMA](Software/DMA)
+- [4. Emon](Software/Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
+- [5. Emon1CT](Software/Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
+- [6. Emon3CT](Software/Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
+- [7. emonTxshield_dBC (v13)](Software/emonTxshield_dBC): Latest mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
+- [8. RFM69](Software/RFM69): RFM69 library and examples.
 - [STM32 pi v0.7 firmware basics](docs/stm32-pi.md)
 
 
