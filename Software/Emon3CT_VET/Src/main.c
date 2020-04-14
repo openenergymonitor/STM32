@@ -70,6 +70,8 @@ int8_t readings_ready = false;
 double VCAL = 268.97;
 double ICAL = 90.91;
 
+uint16_t sample_I_history[3][5];
+
 // ISR accumulators
 typedef struct channel_ {
   int64_t sum_P;
@@ -86,6 +88,12 @@ typedef struct channel_ {
 
 static channel_t channels[3];
 static channel_t channels_copy[3];
+
+int8_t huntPF[3];
+int8_t phase_correction[3];
+double PF[3];
+double last_PF[3];
+int8_t phase_correction_direction[3];
 
 /* USER CODE END PV */
 
@@ -110,14 +118,24 @@ void process_frame(uint16_t offset)
     for (int n=0; n<3; n++) {
       channel_t* channel = &channels[n];
 
+      uint16_t index = offset+i+n+phase_correction[n];
+      // if (offset==0 && index>2999) index = 2999; 
+      if (index>5999) index -= 6000; 
+      if (index<0) index += 6000; 
       // ----------------------------------------
       // Voltage
-      sample_V = adc1_dma_buff[offset+i+n];
+      sample_V = adc1_dma_buff[index];
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
       channel->sum_V_sq += signed_V * signed_V;
       // ----------------------------------------
       // Current
+      // sample_I_history[n][3] = sample_I_history[n][2];
+      // sample_I_history[n][2] = sample_I_history[n][1];
+      // sample_I_history[n][1] = sample_I_history[n][0];
+      // sample_I_history[n][0] = adc3_dma_buff[offset+i+n];
+      // sample_I = sample_I_history[n][3];
+      
       sample_I = adc3_dma_buff[offset+i+n];
       signed_I = sample_I - MID_ADC_READING;
       channel->sum_I += signed_I;
@@ -135,7 +153,7 @@ void process_frame(uint16_t offset)
       if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
 
       // 125 cycles or 2.5 seconds
-      if (channel->cycles>=125) {
+      if (channel->cycles>=495) {
         channel->cycles = 0;
 
         channel_t* channel_copy = &channels_copy[n];
@@ -174,6 +192,18 @@ int main(void)
   /* USER CODE BEGIN Init */
   double V_RATIO = VCAL * (3.3 / 4096.0);
   double I_RATIO = ICAL * (3.3 / 4096.0);
+  
+  huntPF[0] = 0;
+  huntPF[1] = 1;
+  huntPF[2] = 0;
+   
+  phase_correction[0] = 9;
+  phase_correction[1] = 9;
+  phase_correction[2] = 9;
+  
+  phase_correction_direction[0] = 1;
+  phase_correction_direction[1] = 1;
+  phase_correction_direction[2] = 1;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -241,13 +271,35 @@ int main(void)
 
          double apparentPower = Vrms * Irms;
          double powerFactor = realPower / apparentPower;
+         
+         last_PF[n] = PF[n];
+         PF[n] = powerFactor;
+         
+         if (huntPF[n]) {
+             if (huntPF[n]==1) {
+                 phase_correction[n] += phase_correction_direction[n];
+                 huntPF[n] = 2;
+             } else if (huntPF[n]==2) {
+                 if (powerFactor<last_PF[n]) {
+                     if (phase_correction_direction[n]==1) phase_correction_direction[n] = -1; else phase_correction_direction[n] = 1;
+                 }
+                 phase_correction[n] += phase_correction_direction[n];
+             }
+             sprintf(log_buffer,"phase correction: %d\t%d\t%d\r\n", n, phase_correction[n], phase_correction_direction[n]);
+             debug_printf(log_buffer); 
+         }
 
-         sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
-         debug_printf(log_buffer);
+         if (n==1) {
+             sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.2f,RP%db:%.0f,AP%d:%.2f,PF%d:%.6f,C%d:%d\r\n",n,Vrms, n,Irms, n,realPower, n,realPower, n,apparentPower, n,powerFactor, n,chn->count);
+             debug_printf(log_buffer);         
+         }
+         
+         // sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.2f\t%.2f\t%.6f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
+         // debug_printf(log_buffer);
        }
 
-       sprintf(log_buffer,"\r\n");
-       debug_printf(log_buffer);
+       // sprintf(log_buffer,"\r\n");
+       // debug_printf(log_buffer);
      }
   /* USER CODE END WHILE */
 
