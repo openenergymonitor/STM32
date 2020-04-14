@@ -42,10 +42,29 @@ Emon3CT_VET/build/*
 !Emon3CT_VET/build/Emon3CT_VET.bin
 Emon3CT_VET/.pioenvs/*
 
-RFM69/build/*
-
 Emon3CT_RFM69/build/*
 
-temp/*
+RFM69/build/*
 
-test/*
+*.DS_Store
+*.code-workspace
+
+Software/Sombrero4_3CT_CB_Copy/build/*
+!Software/Sombrero4_3CT_CB_Copy/build/*.bin
+Software/emonTxshield_dBC/build/*
+Software/Sombrero1_UART/build/*
+docs/tests/*.odt
+*.s#*
+*.b#*
+Software/ADC_CB/build/*
+!Software/ADC_CB/build/*.bin
+Software/Emon3CT_CB/build/*
+!Software/Emon3CT_CB/build/*.bin
+Software/Sombrero_VE_Blink/build/*
+!Software/Sombrero_VE_Blink/build/*.bin
+Software/Sombrero_VE_Working1/build/*
+Software/Sombrero_VE_Working2/build/*
+Software/Sombrero_VE_Working3/build/*
+Software/Sombrero_VE_Working4/build/*
+Software/Sombrero_VE_Working4b/build/*
+Software/Sombrero_VE_Working5/build/*
