@@ -19,7 +19,7 @@ In adc.c the main addition is the callback function to mark half way through blo
 
 adc.c:
 
-View sources: [../DMA/Src/adc.c](../DMA/Src/adc.c) [../DMA/Src/adc.h](../DMA/Src/adc.h)
+View source: [../DMA/Src/adc.c](../DMA/Src/adc.c) [../DMA/Src/adc.h](../DMA/Src/adc.h)
 
     /* USER CODE BEGIN 1 */
     void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
@@ -45,11 +45,11 @@ View sources: [../DMA/Src/adc.c](../DMA/Src/adc.c) [../DMA/Src/adc.h](../DMA/Src
     }
     /* USER CODE END 1 */
 
-In main.c there are a few additions:
+In main.c there are a number of additions:
 
 View source: [../DMA/Src/main.c](../DMA/Src/main.c)
 
-A few variables:
+In the private variables user code section:
 
     /* USER CODE BEGIN PV */
     char log_buffer[100];

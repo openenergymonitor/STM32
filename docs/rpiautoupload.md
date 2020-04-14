@@ -63,6 +63,31 @@ Create script called *upload.sh* with the following content:
     echo 4 > /sys/class/gpio/unexport
     echo 17 > /sys/class/gpio/unexport
 
+Alternative method using gpio library:
+
+    #!/bin/bash
+
+    gpio -g mode 4 out
+    gpio -g write 4 1
+    echo "boot0 high"
+    sleep 0.2
+
+    gpio -g mode 17 out
+    gpio -g mode 17 in
+    echo "NRST"
+    sleep 0.2
+
+    stm32flash -w build/ADC.bin /dev/ttyAMA0 -b 115200
+
+    sleep 0.2
+
+    gpio -g write 4 0
+    echo "boot0 low"
+    sleep 0.2
+
+    gpio -g mode 17 out
+    gpio -g mode 17 in
+    echo "NRST"
 
 run with:
 
