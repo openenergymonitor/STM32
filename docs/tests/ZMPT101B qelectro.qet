@@ -1,0 +1,339 @@
+<project version="0.60" title="" folioSheetQuantity="0">
+    <properties/>
+    <newdiagrams>
+        <border displaycols="true" displayrows="true" rowsize="80" rows="8" cols="17" colsize="60"/>
+        <inset date="null" version="" auto_page_num="" title="" indexrev="" filename="" folio="%id/%total" displayAt="bottom" machine="" author="" locmach=""/>
+        <conductors tension-protocol="" horizrotatetext="0" type="multi" formula="" num="_" condsize="1" vertirotatetext="270" numsize="7" onetextperfolio="0" function="" displaytext="1"/>
+        <report label="%f-%l%c"/>
+        <xrefs>
+            <xref displayhas="cross" slave_label="(%f-%l%c)" type="coil" powerprefix="" delayprefix="" showpowerctc="false" switchprefix="" offset="0" master_label="%f-%l%c" snapto="label"/>
+            <xref displayhas="cross" slave_label="(%f-%l%c)" type="commutator" powerprefix="" delayprefix="" showpowerctc="false" switchprefix="" offset="0" master_label="%f-%l%c" snapto="label"/>
+            <xref displayhas="cross" slave_label="(%f-%l%c)" type="protection" powerprefix="" delayprefix="" showpowerctc="false" switchprefix="" offset="0" master_label="%f-%l%c" snapto="label"/>
+        </xrefs>
+        <conductors_autonums current_autonum="" freeze_new_conductors="false"/>
+        <folio_autonums/>
+        <element_autonums freeze_new_elements="false" current_autonum=""/>
+    </newdiagrams>
+    <diagram displayrows="true" auto_page_num="" height="660" freezeNewElement="false" freezeNewConductor="false" version="0.60 r5256" folio="%id/%total" locmach="" displaycols="true" rows="8" indexrev="" rowsize="80" date="null" title="" filename="" order="1" author="" displayAt="bottom" cols="17" machine="" colsize="60">
+        <defaultconductor tension-protocol="" horizrotatetext="0" type="multi" formula="" num="_" condsize="1" vertirotatetext="270" numsize="7" onetextperfolio="0" function="" displaytext="1"/>
+        <elements>
+            <element orientation="2" prefix="R" type="embed://import/10_electric/10_allpole/395_electronics&amp;semiconductors/01_resistors/resistance.elmt" y="260" uuid="{e4a546b8-b73f-4bb1-8463-2556ca6f2582}" x="620" freezeLabel="false">
+                <terminals>
+                    <terminal orientation="2" number="_" y="17" nameHidden="0" x="0" name="_" id="0"/>
+                    <terminal orientation="0" number="_" y="-17" nameHidden="0" x="0" name="_" id="1"/>
+                </terminals>
+                <inputs>
+                    <input userx="-2.49194" userrotation="180" y="0" x="6" text="Rb" usery="-0.804435"/>
+                </inputs>
+                <elementInformations>
+                    <elementInformation show="1" name="label">Rb</elementInformation>
+                </elementInformations>
+            </element>
+            <element orientation="0" prefix="" type="embed://import/10_electric/10_allpole/110_network_supplies/src_1pn.elmt" y="270" uuid="{76214726-68d7-48c8-a943-a9645d5f5f34}" x="460" freezeLabel="false">
+                <terminals>
+                    <terminal orientation="1" number="_" y="-10" nameHidden="0" x="6" name="_" id="2"/>
+                    <terminal orientation="1" number="_" y="10" nameHidden="0" x="6" name="_" id="3"/>
+                </terminals>
+                <inputs>
+                    <input y="-25.45" x="-5" text=""/>
+                    <input y="13" x="-12" text="N"/>
+                    <input y="13" x="-12" text="N"/>
+                    <input y="-7" x="-12" text="L"/>
+                    <input y="-7" x="-12" text="L"/>
+                </inputs>
+            </element>
+            <element orientation="1" prefix="R" type="embed://import/10_electric/10_allpole/395_electronics&amp;semiconductors/01_resistors/resistance.elmt" y="230" uuid="{2c319821-2149-4d46-8bfe-6aa8a979f59f}" x="510" freezeLabel="false">
+                <terminals>
+                    <terminal orientation="2" number="_" y="17" nameHidden="0" x="0" name="_" id="4"/>
+                    <terminal orientation="0" number="_" y="-17" nameHidden="0" x="0" name="_" id="5"/>
+                </terminals>
+                <inputs>
+                    <input userx="-9.84493" userrotation="270" y="0" x="6" text="R1" usery="8.22717"/>
+                </inputs>
+                <elementInformations>
+                    <elementInformation show="1" name="label">R1</elementInformation>
+                </elementInformations>
+            </element>
+            <element orientation="1" prefix="T" type="embed://import/10_electric/10_allpole/330_transformers&amp;power_supplies/10_transformers/transformator_1f_2.elmt" y="260" uuid="{38f339ba-78cb-4018-8387-89787f917715}" x="560" freezeLabel="false">
+                <terminals>
+                    <terminal orientation="0" number="_" y="-16" nameHidden="0" x="-10" name="_" id="6"/>
+                    <terminal orientation="0" number="_" y="-16" nameHidden="0" x="10" name="_" id="7"/>
+                    <terminal orientation="2" number="_" y="6" nameHidden="0" x="-10" name="_" id="8"/>
+                    <terminal orientation="2" number="_" y="6" nameHidden="0" x="10" name="_" id="9"/>
+                </terminals>
+                <inputs>
+                    <input userx="19.25" userrotation="-90" y="0" x="13" text="_" usery="6.25"/>
+                    <input userx="19.25" userrotation="-90" y="0" x="13" text="_" usery="6.25"/>
+                </inputs>
+            </element>
+        </elements>
+        <conductors>
+            <conductor condsize="1" freezeLabel="false" tension-protocol="" terminal1="2" num="" displaytext="1" y="0" vertirotatetext="270" usery="260" type="multi" x="0" numsize="7" onetextperfolio="0" formula="" userx="450" terminal2="4" horizrotatetext="0" function="">
+                <segment orientation="horizontal" length="9"/>
+                <segment orientation="horizontal" length="1"/>
+                <segment orientation="vertical" length="-30"/>
+                <segment orientation="horizontal" length="0"/>
+                <segment orientation="horizontal" length="9"/>
+                <sequentialNumbers/>
+            </conductor>
+            <conductor tension-protocol="" horizrotatetext="0" type="multi" terminal1="3" formula="" terminal2="9" num="" y="0" condsize="1" x="0" vertirotatetext="270" numsize="7" onetextperfolio="0" function="" freezeLabel="false" displaytext="1">
+                <segment orientation="horizontal" length="0"/>
+                <segment orientation="horizontal" length="10"/>
+                <segment orientation="vertical" length="10"/>
+                <segment orientation="horizontal" length="70"/>
+                <segment orientation="vertical" length="-20"/>
+                <segment orientation="horizontal" length="0"/>
+                <segment orientation="horizontal" length="0"/>
+                <sequentialNumbers/>
+            </conductor>
+            <conductor condsize="1" freezeLabel="false" tension-protocol="" terminal1="0" num="out" displaytext="1" y="0" vertirotatetext="270" usery="249.517" type="multi" x="0" numsize="7" onetextperfolio="0" formula="" userx="679.757" terminal2="6" horizrotatetext="0" function="">
+                <sequentialNumbers/>
+            </conductor>
+            <conductor tension-protocol="" horizrotatetext="0" type="multi" terminal1="5" formula="" terminal2="8" num="_" y="0" condsize="1" x="0" vertirotatetext="270" numsize="7" onetextperfolio="0" function="" freezeLabel="false" displaytext="0">
+                <segment orientation="horizontal" length="6"/>
+                <segment orientation="horizontal" length="2"/>
+                <segment orientation="vertical" length="20"/>
+                <segment orientation="horizontal" length="5"/>
+                <segment orientation="horizontal" length="6"/>
+                <sequentialNumbers/>
+            </conductor>
+            <conductor tension-protocol="" horizrotatetext="0" type="multi" terminal1="1" formula="" terminal2="7" num="_" y="0" condsize="1" x="0" vertirotatetext="270" numsize="7" onetextperfolio="0" function="" freezeLabel="false" displaytext="0">
+                <sequentialNumbers/>
+            </conductor>
+        </conductors>
+        <shapes>
+            <shape type="Line" x1="620" is_movable="1" x2="610" y2="230" closed="0" y1="230">
+                <pen style="DashLine" color="#000000" widthF="1"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape type="Line" x1="620" is_movable="1" x2="690" y2="290" closed="0" y1="290">
+                <pen style="SolidLine" color="#000000" widthF="1"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape type="Line" x1="620" is_movable="1" x2="690" y2="230" closed="0" y1="230">
+                <pen style="SolidLine" color="#000000" widthF="1"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+        </shapes>
+    </diagram>
+    <collection>
+        <category name="import">
+            <names>
+                <name lang="ru">Импортированные элементы</name>
+                <name lang="cs">Zavedené prvky</name>
+                <name lang="pt">elementos importados</name>
+                <name lang="pl">Elementy importowane</name>
+                <name lang="ca">Elements importats</name>
+                <name lang="ro">Elemente importate</name>
+                <name lang="es">Elementos importados</name>
+                <name lang="nl">Elementen geïmporteerd</name>
+                <name lang="de">Importierte elemente</name>
+                <name lang="fr">Éléments importés</name>
+                <name lang="en">Imported elements</name>
+                <name lang="it">Elementi importati</name>
+                <name lang="hr">Uvezeni elementi</name>
+                <name lang="el">Εισηγμένα στοιχεία</name>
+            </names>
+            <category name="10_electric">
+                <names>
+                    <name lang="ru">Электротехника</name>
+                    <name lang="da">Elektrisk</name>
+                    <name lang="cs">Elektrotechnika</name>
+                    <name lang="pl">Elektrotechnika</name>
+                    <name lang="nl">Elektrotechniek</name>
+                    <name lang="es">Eléctrica</name>
+                    <name lang="de">Elektrik</name>
+                    <name lang="en">Electric</name>
+                    <name lang="fr">Electrique</name>
+                    <name lang="it">Elettrica</name>
+                    <name lang="el">Ηλεκτρικά</name>
+                </names>
+                <category name="10_allpole">
+                    <names>
+                        <name lang="ru">Многополюсные</name>
+                        <name lang="da">Flere ledere</name>
+                        <name lang="cs">Vícežilový</name>
+                        <name lang="pl">Schematy wieloliniowe</name>
+                        <name lang="nl">Veel polig</name>
+                        <name lang="es">Multifilar</name>
+                        <name lang="de">Allpolig</name>
+                        <name lang="fr">Multifilaire</name>
+                        <name lang="en">All-pole</name>
+                        <name lang="it">Multifilare</name>
+                        <name lang="el">Πολυγραμμικό</name>
+                    </names>
+                    <category name="395_electronics&amp;semiconductors">
+                        <names>
+                            <name lang="ru">Электроника и полупроводники</name>
+                            <name lang="pl">Elektronika i półprzewodniki</name>
+                            <name lang="es">Electrónica y semiconductores</name>
+                            <name lang="nl">Electronica en halfgeleiders</name>
+                            <name lang="de">Elektronik und Halbleiter</name>
+                            <name lang="en">Electronics and semiconductors</name>
+                            <name lang="fr">Electronique et semi-conducteurs</name>
+                            <name lang="it">Elettronica e semiconduttori</name>
+                            <name lang="el">Ηλεκτρονικά και ημιαγωγοί</name>
+                        </names>
+                        <category name="01_resistors">
+                            <names>
+                                <name lang="ru">Резисторы</name>
+                                <name lang="cs">Odporník</name>
+                                <name lang="pt">Resistência</name>
+                                <name lang="pl">Rezystory</name>
+                                <name lang="ar">مُقاومة</name>
+                                <name lang="es">Resistencia</name>
+                                <name lang="nl">Weerstand</name>
+                                <name lang="de">Widerstände</name>
+                                <name lang="en">Resistors</name>
+                                <name lang="fr">Résistances</name>
+                                <name lang="it">Resistori</name>
+                                <name lang="el">Αντιστάσεις</name>
+                            </names>
+                            <element name="resistance.elmt">
+                                <definition orientation="dyyy" type="element" version="0.5" hotspot_y="29" width="20" hotspot_x="10" link_type="simple" height="60">
+                                    <uuid uuid="{af30335a-4d6f-4d8c-a3a5-60c5e1d43dc7}"/>
+                                    <names>
+                                        <name lang="el">Αντίσταση</name>
+                                        <name lang="fr">Résistance</name>
+                                        <name lang="de">Widerstand</name>
+                                        <name lang="cs">Odporník</name>
+                                        <name lang="ru">Резистор</name>
+                                        <name lang="es">Resistencia</name>
+                                        <name lang="ar">مُقاومة</name>
+                                        <name lang="it">Resistore</name>
+                                        <name lang="pl">Rezystor</name>
+                                        <name lang="en">Resistor</name>
+                                        <name lang="pt">Resistência</name>
+                                        <name lang="nl">Weerstand</name>
+                                    </names>
+                                    <informations>EN 60617: 04-01-01</informations>
+                                    <description>
+                                        <line end2="none" end1="none" x1="0" y2="-20" x2="0" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-10" antialias="false"/>
+                                        <line end2="none" end1="none" x1="0" y2="20" x2="0" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="10" antialias="false"/>
+                                        <line end2="none" end1="none" x1="4" y2="-10" x2="4" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="10" antialias="false"/>
+                                        <line end2="none" end1="none" x1="-4" y2="10" x2="4" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="10" antialias="false"/>
+                                        <line end2="none" end1="none" x1="4" y2="-10" x2="-4" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-10" antialias="false"/>
+                                        <line end2="none" end1="none" x1="-4" y2="10" x2="-4" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-10" antialias="false"/>
+                                        <input y="0" x="6" size="9" text="_" rotate="true" tagg="label"/>
+                                        <terminal orientation="s" y="21" x="0"/>
+                                        <terminal orientation="n" y="-21" x="0"/>
+                                    </description>
+                                </definition>
+                            </element>
+                        </category>
+                    </category>
+                    <category name="330_transformers&amp;power_supplies">
+                        <names>
+                            <name lang="ru">Трансформаторы и источники питания</name>
+                            <name lang="cs">Trasformátory a proudové zdroje</name>
+                            <name lang="pl">Transformatory i zasilacze</name>
+                            <name lang="es">Transformadores y fuentes de potencia</name>
+                            <name lang="nl">Transformatoren en Voedingen</name>
+                            <name lang="de">Transformatoren und Versorgungen</name>
+                            <name lang="en">Transformers and power supplies</name>
+                            <name lang="fr">Transformateurs et alimentations</name>
+                            <name lang="it">Trasformatori e alimentatori</name>
+                            <name lang="el">Μετασχηματιστές και παροχές ισχύος</name>
+                        </names>
+                        <category name="10_transformers">
+                            <names>
+                                <name lang="ru">Трансформаторы</name>
+                                <name lang="cs">Měniče</name>
+                                <name lang="pt">Transformadores</name>
+                                <name lang="pl">Transformatory</name>
+                                <name lang="ar">مُحوّلات</name>
+                                <name lang="es">Transformadores</name>
+                                <name lang="nl">Transformatoren</name>
+                                <name lang="de">Transformatoren</name>
+                                <name lang="en">Transformers</name>
+                                <name lang="fr">Transformateurs</name>
+                                <name lang="it">Trasformatori</name>
+                                <name lang="el">Μετασχηματιστές</name>
+                            </names>
+                            <element name="transformator_1f_2.elmt">
+                                <definition orientation="dyyy" type="element" width="40" version="0.3" hotspot_y="25" hotspot_x="16" ic="true" height="40">
+                                    <uuid uuid="{3E832052-F43D-49FA-8CD8-184D59B5F228}"/>
+                                    <names>
+                                        <name lang="el">Μετασχηματιστής δυο τυλιγμάτων</name>
+                                        <name lang="en">Two winding transformer</name>
+                                        <name lang="de">Transformator mit getrennten Wicklungen</name>
+                                        <name lang="it">Trasformatore</name>
+                                        <name lang="fr">Transformateur à deux enroulements</name>
+                                        <name lang="pl">Transformator</name>
+                                        <name lang="cs">Transformátor</name>
+                                        <name lang="nl">Transformator gescheiden</name>
+                                    </names>
+                                    <informations>Author: The QElectroTech team
+License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
+                                    <description>
+                                        <arc angle="-180" width="5" y="-2.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="-10" start="-180" height="5" antialias="true"/>
+                                        <line end1="none" end2="none" x1="10" y2="10" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="0" antialias="false"/>
+                                        <line end1="none" end2="none" x1="-10" y2="10" x2="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="0" antialias="false"/>
+                                        <line end1="none" end2="none" x1="10" y2="-10" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-20" antialias="false"/>
+                                        <line end1="none" end2="none" x1="-10" y2="-10" x2="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-20" antialias="false"/>
+                                        <arc angle="-180" width="5" y="-11.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="5" start="0" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-11.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="0" start="0" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-11.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="-5" start="0" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-11.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="-10" start="0" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-2.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="5" start="-180" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-2.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="0" start="-180" height="5" antialias="true"/>
+                                        <arc angle="-180" width="5" y="-2.5" style="line-style:normal;line-weight:normal;filling:none;color:black" x="-5" start="-180" height="5" antialias="true"/>
+                                        <text y="0" x="13" size="9" text="_" tagg="label"/>
+                                        <terminal orientation="n" number="" y="-20" x="-10" name=""/>
+                                        <terminal orientation="n" number="" y="-20" x="10" name=""/>
+                                        <terminal orientation="s" number="" y="10" x="-10" name=""/>
+                                        <terminal orientation="s" number="" y="10" x="10" name=""/>
+                                    </description>
+                                </definition>
+                            </element>
+                        </category>
+                    </category>
+                    <category name="110_network_supplies">
+                        <names>
+                            <name lang="ru">Подвод питания, сеть</name>
+                            <name lang="cs">Síťové zdroje</name>
+                            <name lang="pl">Sieć elektroenergetyczna</name>
+                            <name lang="nl">Netwerk voedingen</name>
+                            <name lang="es">Fuentes de red</name>
+                            <name lang="de">Netzquellen</name>
+                            <name lang="en">Network supplies</name>
+                            <name lang="fr">Sources réseau</name>
+                            <name lang="it">Alimentazione da rete</name>
+                            <name lang="el">Παροχές δικτύου</name>
+                        </names>
+                        <element name="src_1pn.elmt">
+                            <definition orientation="dyyy" type="element" width="30" version="0.5" hotspot_y="20" hotspot_x="15" link_type="simple" height="40">
+                                <uuid uuid="{457a0c01-871c-40fd-83d7-14033333fb95}"/>
+                                <names>
+                                    <name lang="pt">Fonte unipolar + neutro</name>
+                                    <name lang="es">Fuente unipolo + neutro</name>
+                                    <name lang="nl">Wisselspanning L + nul N</name>
+                                    <name lang="el">Μονοφασικό + Ουδέτερος</name>
+                                    <name lang="de">Wechselstrom L + N</name>
+                                    <name lang="cs">Jednopólový zdroj + nulový</name>
+                                    <name lang="pl">Linia jednofazowa (dwuprzewodowa)</name>
+                                    <name lang="it">Sorgente unipolare + neutro</name>
+                                    <name lang="ar">مصدر وحيد القطبية + محايد N</name>
+                                    <name lang="en">Single-pole source + neutral</name>
+                                    <name lang="fr">Source unipolaire + neutre</name>
+                                    <name lang="ru">Однополюсный + нейтраль</name>
+                                </names>
+                                <informations>Author: The QElectroTech team&#xd;
+License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
+                                <description>
+                                    <input y="-25.45" x="-5" size="9" rotate="true" text="_" tagg="label"/>
+                                    <line end2="none" end1="none" x1="0" x2="10" y2="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="-10" antialias="false"/>
+                                    <line end2="none" end1="none" x1="0" x2="10" y2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" length2="1.5" length1="1.5" y1="10" antialias="false"/>
+                                    <text y="13" x="-12" size="5" text="N"/>
+                                    <text y="-7" x="-12" size="5" text="L"/>
+                                    <terminal orientation="e" y="-10" x="10"/>
+                                    <terminal orientation="e" y="10" x="10"/>
+                                </description>
+                            </definition>
+                        </element>
+                    </category>
+                </category>
+            </category>
+        </category>
+    </collection>
+</project>
