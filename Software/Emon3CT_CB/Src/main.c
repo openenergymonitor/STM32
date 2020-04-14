@@ -47,60 +47,49 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include <string.h>
-//#include "ds18b20.h"
-#include <math.h>
-#include <stdbool.h>
+
+#include "ds18b20.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-extern bool adc_conv_halfcplt_flag;
-extern bool adc_conv_cplt_flag;
+
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
-uint32_t time2;
-uint32_t time1;
-uint32_t time_diff;
 
 // Serial output buffer
-char log_buffer[250];
+char log_buffer[150];
 
 // Flag
-bool readings_ready = false;
+int8_t readings_ready = false;
 
 // Calibration
-float VCAL = 268.97;
-float ICAL = 90.9;
-
-// Number of waveforms to count
-uint8_t waveforms = 250;
+double VCAL = 268.97;
+double ICAL = 90.9;
 
 // ISR accumulators
-typedef struct channel_
-{
+typedef struct channel_ {
   int64_t sum_P;
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
-  int32_t sum_V;
-  int32_t sum_I;
-  uint32_t count;
-  
-  uint32_t positive_V;
-  uint32_t last_positive_V;
-  uint32_t cycles;
+  int64_t sum_V;
+  int64_t sum_I;
+  uint64_t count;
+
+  uint8_t positive_V;
+  uint8_t last_positive_V;
+  uint8_t cycles;
 } channel_t;
 
-#define NUMBER_OF_CHANNELS 3
-static channel_t channels[NUMBER_OF_CHANNELS];
-static channel_t channels_copy[NUMBER_OF_CHANNELS];
+uint64_t pulseCount = 0;
 
-double Ws_acc[NUMBER_OF_CHANNELS] = {0}; // Watt second accumulator
+static channel_t channels[3];
+static channel_t channels_copy[3];
 
-uint32_t pulseCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,74 +101,58 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
 void process_frame(uint16_t offset)
 {
   int32_t sample_V, sample_I, signed_V, signed_I;
-
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-  for (int i = 0; i < 3000; i += NUMBER_OF_CHANNELS)
-  {
+  
+  
+  //HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+  for (int i=0; i<3000; i+=3) {
     // Cycle through channels
-    for (int n = 0; n < NUMBER_OF_CHANNELS; n++)
-    {
-      channel_t *channel = &channels[n];
-
+    for (int n=0; n<3; n++) {
+      channel_t* channel = &channels[n];
+      
       // ----------------------------------------
       // Voltage
-      sample_V = adc4_dma_buff[offset + i + n];
+      sample_V = adc4_dma_buff[offset+i+n];
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
       channel->sum_V_sq += signed_V * signed_V;
       // ----------------------------------------
       // Current
-      sample_I = adc1_dma_buff[offset + i + n];
+      sample_I = adc1_dma_buff[offset+i+n];
       signed_I = sample_I - MID_ADC_READING;
       channel->sum_I += signed_I;
       channel->sum_I_sq += signed_I * signed_I;
       // ----------------------------------------
       // Power
       channel->sum_P += signed_V * signed_I;
-      // ----------------------------------------
-      // Sample Count
-      channel->count++;
-      // ----------------------------------------
+      
+      channel->count ++;
+    
+    
       // Zero crossing detection
       channel->last_positive_V = channel->positive_V;
-      if (signed_V > 5)
-      {
-        channel->positive_V = true;
-      }
-      else if (signed_V < -5)
-      {
-        channel->positive_V = false;
-      }
+      if (signed_V > 0) channel->positive_V = true; else channel->positive_V = false;
+      if (!channel->last_positive_V && channel->positive_V) channel->cycles++;
       
-      if (!channel->last_positive_V && channel->positive_V)
-      {
-        channel->cycles++;
-      }
-
-      // ----------------------------------------
-      // Complete Waveform Cycles to count
-      if (channel->cycles == waveforms)
-      {
+      // 125 cycles or 2.5 seconds
+      if (channel->cycles>=125) {
         channel->cycles = 0;
-
-        channel_t *channel_copy = &channels_copy[n];
-        // Copy accumulators for use in main loop
-        memcpy((void *)channel_copy, (void *)channel, sizeof(channel_t));
+        
+        channel_t* channel_copy = &channels_copy[n];
+        // Copy accumulators for use in main loop 
+        memcpy ((void*)channel_copy, (void*)channel, sizeof(channel_t));
         // Reset accumulators to zero ready for next set of measurements
-        memset((void *)channel, 0, sizeof(channel_t));
-
-        if (n == NUMBER_OF_CHANNELS - 1)
-        {
+        memset((void*)channel, 0, sizeof(channel_t));
+        
+        if (n==2) {
           readings_ready = true;
         }
       }
     }
   }
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+  //HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
 }
 
 /* USER CODE END 0 */
@@ -192,7 +165,7 @@ void process_frame(uint16_t offset)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -201,8 +174,8 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  float V_RATIO = VCAL * (3.3 / 4096.0);
-  float I_RATIO = ICAL * (3.3 / 4096.0);
+  double V_RATIO = VCAL * (3.3 / 4096.0);
+  double I_RATIO = ICAL * (3.3 / 4096.0);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -225,82 +198,65 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  start_ADCs();
+  //sprintf(log_buffer,"init init_ds18b20s\r\n");
+  //debug_printf(log_buffer);
+  
+  init_ds18b20s();
 
+  //sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\tPulse\r\n");
+  //debug_printf(log_buffer);
+  
+  start_ADCs();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if (readings_ready)
-    {
-      readings_ready = false;
-      time2 = time1;
-      time1 = HAL_GetTick();
-      time_diff = time1 - time2;
-      for (int n = 0; n < NUMBER_OF_CHANNELS; n++)
-      {
-        channel_t *chn = &channels_copy[n];
+     if (readings_ready) {
+       readings_ready = false;
+       process_ds18b20s();
+       
+       for (int n=0; n<3; n++) {
+         channel_t* chn = &channels_copy[n];
+       
+         double Vmean = chn->sum_V * (1.0 / chn->count);
+         double Imean = chn->sum_I * (1.0 / chn->count);
+         
+         chn->sum_V_sq *= (1.0 / chn->count);
+         chn->sum_V_sq -= (Vmean*Vmean);
+         double Vrms = V_RATIO * sqrt((double)chn->sum_V_sq);
+         
+         chn->sum_I_sq *= (1.0 / chn->count);
+         chn->sum_I_sq -= (Imean*Imean);
+         double Irms = I_RATIO * sqrt((double)chn->sum_I_sq);
+         
+         double mean_P = (chn->sum_P * (1.0 / chn->count)) - (Vmean*Imean);
+         double realPower = V_RATIO * I_RATIO * mean_P;
+         
+         double apparentPower = Vrms * Irms;
+         double powerFactor = realPower / apparentPower; 
+       
+         sprintf(log_buffer,"V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,C%d:%lld,", n,Vrms,n,Irms,n,realPower,n,apparentPower,n,powerFactor,n,chn->count);
+         debug_printf(log_buffer);
+       
+       }
+       
+       //sprintf(log_buffer,"\r\n");
+       //debug_printf(log_buffer);
+       
+       sprintf(log_buffer,"PC:%d\r\n",pulseCount);
+       debug_printf(log_buffer);
+       
+     }
+  /* USER CODE END WHILE */
 
-        float Vmean = chn->sum_V / (float)chn->count;
-        float Imean = chn->sum_I / (float)chn->count;
+  /* USER CODE BEGIN 3 */
 
-        chn->sum_V_sq /= (float)chn->count;
-        chn->sum_V_sq -= (Vmean * Vmean); // offset subtraction
-
-        if (chn->sum_V_sq < 0) // if offset removal cause a negative number,
-          chn->sum_V_sq = 0;   // make it 0 to avoid a nan at sqrt.
-
-        float Vrms = V_RATIO * sqrtf((float)chn->sum_V_sq);
-
-        chn->sum_I_sq /= (float)chn->count;
-        chn->sum_I_sq -= (Imean * Imean);
-
-        if (chn->sum_I_sq < 0)
-          chn->sum_I_sq = 0;
-
-        float Irms = I_RATIO * sqrtf((float)chn->sum_I_sq);
-
-        float mean_P = (chn->sum_P / (float)chn->count) - (Vmean * Imean);
-        float realPower = V_RATIO * I_RATIO * mean_P;
-
-        float apparentPower = Vrms * Irms;
-
-        float powerFactor;
-        if (apparentPower != 0) // prevents 'inf' at division
-        {
-          powerFactor = realPower / apparentPower;
-        }
-        else
-          powerFactor = 0;
-
-        Ws_acc[n] += ((float)(time_diff / 1000.0)) * realPower; // Watt second accumulator.
-        float Wh_acc = Ws_acc[n] / 3600.0;                      // Wh_acc
-        float frequency = 250.0 / (float)(time_diff / 1000.0);    // Hz
-
-        int _n = n + 1; // for nicer serial print out
-        sprintf(log_buffer, "V%d:%.2f,I%d:%.3f,RP%d:%.1f,AP%d:%.1f,PF%d:%.3f,Wh%d:%.3f,Hz%d:%.2f,C%d:%ld", _n, Vrms, _n, Irms, _n, realPower, _n, apparentPower, _n, powerFactor, _n, Wh_acc, _n, frequency, _n, chn->count);
-        debug_printf(log_buffer);
-      }
-
-      debug_printf("\r\n");
-
-      /*
-      CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-      ITM->LAR = 0xC5ACCE55;
-      DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-      DWT->CYCCNT = 0;
-      uint32_t DWTcounter = DWT->CYCCNT;
-      sprintf(log_buffer, "here:%ld\r\n", DWTcounter);
-      debug_printf(log_buffer);
-      */
-    }
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
+
 }
 
 /**
@@ -314,7 +270,7 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
-  /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
@@ -328,9 +284,10 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -341,7 +298,8 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART3 | RCC_PERIPHCLK_TIM8;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART3
+                              |RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
@@ -350,11 +308,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  /**Configure the Systick interrupt time 
+    /**Configure the Systick interrupt time 
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
-  /**Configure the Systick 
+    /**Configure the Systick 
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -364,10 +322,10 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void onPulse()
-{
-  pulseCount++;
+void onPulse() {
+    pulseCount ++;
 }
+
 
 /* USER CODE END 4 */
 
@@ -381,13 +339,13 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while (1)
+  while(1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -395,8 +353,8 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{
+void assert_failed(uint8_t* file, uint32_t line)
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
