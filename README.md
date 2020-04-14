@@ -36,11 +36,23 @@ Notes on hardware development and initial designs:
 - [2. ST-LINK adapters](docs/st-link2.md)
 - [3. Serial/UART Upload](docs/uartupload.md)
 - [4. RaspberryPi UART Upload + autoreset](docs/rpiautoupload.md)
-- [Eagle design 01](Hardware/1)
+
+**STM32-pi_basic**
+
+- [Eagle design 01](Hardware/stm32-pi_basic/1)
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
-- [Eagle design 02](Hardware/2)
-- [Eagle design 03](Hardware/3)
+- [STM32-pi_basic eagle design 02](Hardware/stm32-pi_basic/2)
+- [STM32-pi_basic eagle design 03](Hardware/stm32-pi_basic/3)
+- [STM32-pi_basic eagle design 04](Hardware/stm32-pi_basic/4)
 - [Design Notes v4](docs/stm32notes.md)
+- [STM32-pi_basic eagle design 05](Hardware/stm32-pi_basic/5)
+
+**STM32-pi_full**
+
+- [Hardware/stm32-pi_full](Hardware/stm32-pi_full)
+
+**Misc**
+
 - [Flashing a new chip](docs/Blink-fresh-chip.md)
 
 ### Firmware Examples
