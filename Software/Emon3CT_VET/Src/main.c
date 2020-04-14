@@ -59,6 +59,7 @@
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
+#define MICROSPERSEC 1.0e6
 
 // Serial output buffer
 char log_buffer[100];
@@ -70,9 +71,17 @@ int8_t readings_ready = false;
 double VCAL = 268.97;
 double ICAL = 90.91;
 
+uint16_t ADCBits = 12;
+uint16_t ADC_Counts = 0;
+
+int16_t last_signed_V;
+int16_t last_sample_I[3];
+
 // ISR accumulators
 typedef struct channel_ {
   int64_t sum_P;
+  int64_t sum_PA;
+  int64_t sum_PB;
   uint64_t sum_V_sq;
   uint64_t sum_I_sq;
   int64_t sum_V;
@@ -100,7 +109,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void process_frame(uint16_t offset)
 {
-  uint16_t sample_V, sample_I;
+  int16_t sample_V, sample_I;
   int16_t signed_V, signed_I;
 
 
@@ -111,20 +120,27 @@ void process_frame(uint16_t offset)
       channel_t* channel = &channels[n];
 
       // ----------------------------------------
+      int32_t index = offset+i+n;
+
       // Voltage
-      sample_V = adc1_dma_buff[offset+i+n];
-      signed_V = sample_V - MID_ADC_READING;
-      channel->sum_V += signed_V;
-      channel->sum_V_sq += signed_V * signed_V;
+      last_signed_V = signed_V;
+      sample_V = adc1_dma_buff[index];
+      signed_V = sample_V - (ADC_Counts >> 1); // remove nominal offset (a small offset will remain)
+      channel->sum_V += (int64_t)signed_V;
+      channel->sum_V_sq += (int64_t)signed_V * signed_V;
       // ----------------------------------------
       // Current
-      sample_I = adc3_dma_buff[offset+i+n];
-      signed_I = sample_I - MID_ADC_READING;
-      channel->sum_I += signed_I;
-      channel->sum_I_sq += signed_I * signed_I;
+      sample_I = last_sample_I[n];
+      signed_I = sample_I - (ADC_Counts >> 1); // remove nominal offset (a small offset will remain)
+      channel->sum_I += (int64_t)signed_I;
+      channel->sum_I_sq += (int64_t)signed_I * signed_I;
+      last_sample_I[n] = adc3_dma_buff[offset+i+n];
       // ----------------------------------------
       // Power
-      channel->sum_P += signed_V * signed_I;
+      channel->sum_PA += (int64_t)signed_I * last_signed_V;         // cumulative power A
+      channel->sum_PB += (int64_t)signed_I * signed_V;              // cumulative power B
+      
+      channel->sum_P += (int64_t)signed_V * signed_I;
 
       channel->count ++;
 
@@ -174,6 +190,21 @@ int main(void)
   /* USER CODE BEGIN Init */
   double V_RATIO = VCAL * (3.3 / 4096.0);
   double I_RATIO = ICAL * (3.3 / 4096.0);
+  ADC_Counts = 1 << ADCBits;
+  
+  const double two_pi = 6.2831853;
+  int cycles_per_second = 50;
+  int ADCDuration = 33;
+  // double sampleRate = ADCDuration * two_pi * cycles_per_second / MICROSPERSEC; // in radians
+  double sampleRate = 0.010239071; // in radians
+  
+  double phaseCal_CT = 4.2;
+  // double phase_shift = (phaseCal_CT / 360.0 * (double)ADCDuration * cycles_per_second/MICROSPERSEC) * two_pi;                // Total phase shift in radians
+  double phase_shift = two_pi * (phaseCal_CT/360.0);
+  
+  double y = sin(phase_shift) / sin(sampleRate);        
+  double x = cos(phase_shift) - y * cos(sampleRate);
+  
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -233,13 +264,16 @@ int main(void)
 
          double Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
          double Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
+         
+         // Apply combined phase & timing correction
+         double sumRealPower = (chn->sum_PA * x + chn->sum_PB * y);
   
-         double f32_sum_P_avg = 1.0 * chn->sum_P / chn->count;
+         double f32_sum_P_avg = 1.0 * sumRealPower / chn->count;
          double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
          
-         double realPower = V_RATIO * I_RATIO * mean_P;
+         double realPower = (V_RATIO * I_RATIO * mean_P) + 0.5;
 
-         double apparentPower = Vrms * Irms;
+         double apparentPower = (Vrms * Irms) + 0.5;
          double powerFactor = realPower / apparentPower;
 
          sprintf(log_buffer,"CH:%d\t%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", n, Vrms, Irms, realPower, apparentPower, powerFactor, chn->count);
