@@ -50,7 +50,7 @@ uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = (CTn * ADC_DMA_BUFFSIZE_PERCHANNEL) / 2;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
+//uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -123,7 +123,7 @@ void MX_ADC3_Init(void)
   hadc3.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc3.Init.ContinuousConvMode = ENABLE;
   hadc3.Init.DiscontinuousConvMode = DISABLE;
-  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_FALLING;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc3.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
   hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc3.Init.NbrOfConversion = 9;
@@ -531,7 +531,7 @@ void start_ADCs (void)
   HAL_ADC_Stop_DMA(&hadc3);
   //HAL_ADC_Stop_DMA(&hadc4);
   
-  pulse_tim8_ch2(100);
+  pulse_tim8_ch2(10);
   
   HAL_Delay(20);
   
@@ -541,7 +541,7 @@ void start_ADCs (void)
   
   HAL_Delay(100); // this delay is important.
 
-  pulse_tim8_ch2(10); // start the trigger.
+  pulse_tim8_ch2(300); // trigger, usecs between rising and falling edges.
 }
 /* USER CODE END 1 */
 

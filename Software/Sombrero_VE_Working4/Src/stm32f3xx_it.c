@@ -210,7 +210,7 @@ void USART1_IRQHandler(void)
   if (!rx_enable1) { __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE); rx_enable1 ^= true; return; }
   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET)
     {
-      ;
+      __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE);
       usart1_rx_flag = 1;
       //debug_printf("int.\r\n");
     }
