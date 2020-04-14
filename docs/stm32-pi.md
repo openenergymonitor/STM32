@@ -2,7 +2,7 @@
 
 ### 1. Blink
 
-1\. Start STM32CubeMX
+1\. Start STM32CubeMX (v4.2.7)
 
 2\. Create new project
 
