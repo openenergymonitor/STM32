@@ -139,7 +139,7 @@ int hunt_PF[CTn] = {0}; // which channel are we hunting max power factor on?
 // 4 = hunt complete.
 int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
 uint8_t phHunt_direction_changes = 0; // we're aiming for phase_correction_iteration_target.
-uint8_t phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
+const int phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
 //bool pfhuntDone[CTn] = {0};
@@ -268,10 +268,26 @@ bool check_dma_index_for_phase_correction(uint16_t offset) {
   return false; // get rid of compiler warning.
 }
 
+int findmode(int a[],int n) {
+   int maxValue = 0, maxCount = 0, i, j;
+   for (i = 0; i < n; ++i) {
+      int count = 0;
+      for (j = 0; j < n; ++j) {
+         if (a[j] == a[i])
+         ++count;
+      }
+      if (count > maxCount) {
+         maxCount = count;
+         maxValue = a[i];
+      }
+   }
+   return maxValue;
+}
 
-
+int pf_median_array[5];
+int *pf_ptr = pf_median_array;
 void pfHunt(int ch) {
-  if (hunt_PF[ch] == 0 || hunt_PF[ch] == 4) { 
+  if (hunt_PF[ch] == 0) { 
     __NOP();
   }
   else if (hunt_PF[ch] == true) { // start hunting one direction
@@ -283,7 +299,7 @@ void pfHunt(int ch) {
   else if (hunt_PF[ch] == 2) { // continue this direction unless...
     sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';
     if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]++; // keep going forwards into the buffer
-    else { hunt_PF[ch]++; phHunt_direction_changes++; phase_corrections[ch]--; } // switch direction and start going backwards into the buffer
+    else { hunt_PF[ch]++; phHunt_direction_changes++; phase_corrections[ch]--; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and start going backwards into the buffer
     // print phase correction.
     sprintf(log_buffer, "PF++ | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
     //debug_printf(log_buffer); log_buffer[0] = '\0';
@@ -292,15 +308,22 @@ void pfHunt(int ch) {
   else if (hunt_PF[ch] == 3) { // hunt the other direction until...
     sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';    
     if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]--; // keep going backwards into the buffer
-    else { hunt_PF[ch]--; phHunt_direction_changes++; phase_corrections[ch]++; } // switch direction and go forwards again into the buffer
+    else { hunt_PF[ch]--; phHunt_direction_changes++; phase_corrections[ch]++; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and go forwards again into the buffer
     // print phase correction.
     sprintf(log_buffer, "PF-- | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
     //debug_printf(log_buffer); log_buffer[0] = '\0';
     if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
   }
-
-  if (hunt_PF[ch] == 4) {
-    sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))))
+  else if (hunt_PF[ch] == 4) {
+    for (int i = 0; i < phHunt_direction_change_target; i++) {
+      sprintf(log_buffer, "pf value was %d\r\n", pf_median_array[i]); debug_printf(log_buffer); 
+    }
+    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); 
+    log_buffer[0] = '\0';
+    
+    phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target);
+    sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
+    hunt_PF[ch] = 0;
   }
   set_highest_phase_correction(); // update the highest value.
 }
@@ -349,18 +372,10 @@ void process_frame (uint16_t offset)
       // because the voltage channel is used by all CTs.
       int16_t sample_V_index = offset + i + ch + phase_corrections[ch];
       // check for buffer overflow
-      if (sample_V_index >= adc_buff_size) {
-        sample_V = adc1_dma_buff[sample_V_index - adc_buff_size]; 
-        //debug_printf("overflow_correction+\r\n");
-      }
-      else if (sample_V_index < 0) {
-        sample_V = adc1_dma_buff[sample_V_index + adc_buff_size]; 
-        //debug_printf("overflow_correction-\r\n");
-      }
-      else { 
-        sample_V = adc1_dma_buff[sample_V_index]; 
-      }
-
+      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size; 
+      else if (sample_V_index < 0) sample_V_index += adc_buff_size; 
+      
+      sample_V = adc1_dma_buff[sample_V_index];
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
