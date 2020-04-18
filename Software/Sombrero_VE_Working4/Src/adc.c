@@ -46,6 +46,8 @@
 /* USER CODE BEGIN 0 */
 #include <stdbool.h>
 #include "tim.h"
+int usec_lag = 95; // for ADC sync start delay.
+
 uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = (CTn * ADC_DMA_BUFFSIZE_PERCHANNEL) / 2;
 uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
@@ -530,10 +532,11 @@ void start_ADCs (void)
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_ADC_Stop_DMA(&hadc3);
   //HAL_ADC_Stop_DMA(&hadc4);
-  int usecs_lag = 1;
-  pulse_tim8_ch2(usecs_lag);
 
   
+  pulse_tim8_ch2(usec_lag);
+
+
   HAL_Delay(20);
   
   HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adc1_dma_buff, adc_buff_size);
@@ -542,7 +545,7 @@ void start_ADCs (void)
   
   HAL_Delay(100); // this delay is important.
 
-  pulse_tim8_ch2(usecs_lag); // trigger, usecs between rising and falling edges.
+  pulse_tim8_ch2(usec_lag); // trigger, usecs between rising and falling edges.
 }
 /* USER CODE END 1 */
 

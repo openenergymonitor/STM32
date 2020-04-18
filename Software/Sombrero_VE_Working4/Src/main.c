@@ -335,10 +335,12 @@ void pfHunt(int ch) {
 bool hia = 0;
 void process_frame (uint16_t offset)
 {
+  /* debugging
   if (!hia) {
     debug_printf("Hello! First process_frame!\r\n");
     hia =1;
   }
+  */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
   
   //set_highest_phase_correction(); // could be called after a phase correction routine instead.
