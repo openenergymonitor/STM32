@@ -332,8 +332,13 @@ void pfHunt(int ch) {
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
+bool hia = 0;
 void process_frame (uint16_t offset)
 {
+  if (!hia) {
+    debug_printf("Hello! First process_frame!\r\n");
+    hia =1;
+  }
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
   
   //set_highest_phase_correction(); // could be called after a phase correction routine instead.
@@ -455,7 +460,6 @@ void process_frame (uint16_t offset)
   */
 int main(void)
 {
-  
   /* USER CODE BEGIN 1 */
   V_RATIO = VCAL * VOLTS_PER_DIV;
   I_RATIO = ICAL * VOLTS_PER_DIV;
@@ -614,7 +618,7 @@ int main(void)
         }
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
-        if (mode == 1) {
+        if (mode == 1 && ch == 0) {
           sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         }

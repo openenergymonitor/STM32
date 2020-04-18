@@ -74,7 +74,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_FALLING;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
@@ -123,7 +123,7 @@ void MX_ADC3_Init(void)
   hadc3.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc3.Init.ContinuousConvMode = ENABLE;
   hadc3.Init.DiscontinuousConvMode = DISABLE;
-  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_FALLING;
   hadc3.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
   hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc3.Init.NbrOfConversion = 9;
@@ -530,8 +530,9 @@ void start_ADCs (void)
   HAL_ADC_Stop_DMA(&hadc1);
   HAL_ADC_Stop_DMA(&hadc3);
   //HAL_ADC_Stop_DMA(&hadc4);
-  
-  pulse_tim8_ch2(10);
+  int usecs_lag = 1;
+  pulse_tim8_ch2(usecs_lag);
+
   
   HAL_Delay(20);
   
@@ -541,7 +542,7 @@ void start_ADCs (void)
   
   HAL_Delay(100); // this delay is important.
 
-  pulse_tim8_ch2(300); // trigger, usecs between rising and falling edges.
+  pulse_tim8_ch2(usecs_lag); // trigger, usecs between rising and falling edges.
 }
 /* USER CODE END 1 */
 
