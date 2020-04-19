@@ -64,6 +64,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
+
 //--------
 // MODES
 //--------
@@ -88,7 +89,7 @@ const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seco
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 //const double phase_resolution = (adc_conversion_time / (1.0/50.0)) * 360.0);
 double mains_frequency;
-double Ws_accumulator[CTn] = {0};
+static double Ws_accumulator[CTn] = {0};
 //bool Vclipped; // unlikely?
 //bool hunt_PF;
 
@@ -136,10 +137,11 @@ int hunt_PF[CTn] = {0}; // which channel are we hunting max power factor on?
 // 1 = power factor hunt start.
 // 2 = power factor hunt to the right. (increase VT lead).
 // 3 = power factor hunt to the left. (increase VT lag).
-// 4 = hunt complete.
-int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
+// 4 = hunt finishing.
+// 5 = hunt complete.
+static int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
 uint8_t phHunt_direction_changes = 0; // we're aiming for phase_correction_iteration_target.
-const int phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
+static const int phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
 //bool pfhuntDone[CTn] = {0};
@@ -158,12 +160,12 @@ char readings_rdy_buffer[1000];
 // RADIO
 //--------
 bool radio_send = 0; // set to 1 to send test data with RFM69.
-uint16_t networkID = 210; // a.k.a. Network Group
-uint8_t nodeID = 10; // this node's ID (address).
-uint16_t freqBand = 433; // MHz
-uint8_t toAddress = 1; // destination address.
+static uint16_t networkID = 210; // a.k.a. Network Group
+static uint8_t nodeID = 10; // this node's ID (address).
+static uint16_t freqBand = 433; // MHz
+static uint8_t toAddress = 1; // destination address.
 bool requestACK = false; // untested.
-char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
+static char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
 //char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
 typedef struct { 
   uint32_t nodeId; 
@@ -183,7 +185,7 @@ uint32_t previous_millis;
 //--------
 // MISC
 //--------
-uint32_t pulseCount = 0;
+static uint32_t pulseCount = 0;
 extern char json_response[40];
 
 
@@ -199,15 +201,91 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+
+
+//------------------------
+// EEPROM Emulation
+//------------------------
+// Credit to Viktor Vano for the Flash read/write code
+// https://github.com/viktorvano/STM32F3Discovery_internal_FLASH  
+
+#define FLASH_STORAGE 0x08030000 // Maximum value for STM32F303xE is defined at line 111 of stm32f3xx_hal_flash_ex.h (0x0807FFFFU)
+#define page_size 0x800
+
+void save_to_flash(uint8_t *data)
+{
+	volatile uint32_t data_to_FLASH[(strlen((char*)data)/4)	+ (int)((strlen((char*)data) % 4) != 0)];
+	memset((uint8_t*)data_to_FLASH, 0, strlen((char*)data_to_FLASH));
+	strcpy((char*)data_to_FLASH, (char*)data);
+
+	volatile uint32_t data_length = (strlen((char*)data_to_FLASH) / 4)
+									+ (int)((strlen((char*)data_to_FLASH) % 4) != 0);
+	volatile uint16_t pages = (strlen((char*)data)/page_size)
+									+ (int)((strlen((char*)data)%page_size) != 0);
+	  /* Unlock the Flash to enable the flash control register access *************/
+	  HAL_FLASH_Unlock();
+
+	  /* Allow Access to option bytes sector */
+	  HAL_FLASH_OB_Unlock();
+
+	  /* Fill EraseInit structure*/
+	  FLASH_EraseInitTypeDef EraseInitStruct;
+	  EraseInitStruct.TypeErase = FLASH_TYPEERASE_PAGES;
+	  EraseInitStruct.PageAddress = FLASH_STORAGE;
+	  EraseInitStruct.NbPages = pages;
+	  uint32_t PageError;
+
+	  volatile uint32_t write_cnt=0, index=0;
+
+	  volatile HAL_StatusTypeDef status;
+	  status = HAL_FLASHEx_Erase(&EraseInitStruct, &PageError);
+	  while(index < data_length)
+	  {
+		  if (status == HAL_OK)
+		  {
+			  status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, FLASH_STORAGE+write_cnt, data_to_FLASH[index]);
+			  if(status == HAL_OK)
+			  {
+				  write_cnt += 4;
+				  index++;
+			  }
+		  }
+	  }
+
+	  HAL_FLASH_OB_Lock();
+	  HAL_FLASH_Lock();
+}
+
+void read_flash(uint8_t* data)
+{
+	volatile uint32_t read_data;
+	volatile uint32_t read_cnt=0;
+	do
+	{
+		read_data = *(uint32_t*)(FLASH_STORAGE + read_cnt);
+		if(read_data != 0xFFFFFFFF)
+		{
+			data[read_cnt] = (uint8_t)read_data;
+			data[read_cnt + 1] = (uint8_t)(read_data >> 8);
+			data[read_cnt + 2] = (uint8_t)(read_data >> 16);
+			data[read_cnt + 3] = (uint8_t)(read_data >> 24);
+			read_cnt += 4;
+		}
+	}while(read_data != 0xFFFFFFFF);
+}
+
+
+
+//------------------------------------------
+// Calculate Power Data for one Channel
+//------------------------------------------
 double Vrms;
 double Irms;
 double realPower;
 double apparentPower;
 double powerFactor;
 
-//------------------------------------------
-// Calculate Power Data for one Channel
-//------------------------------------------
 void calcPower (int ch)
 {
   channel_t *chn = &channels_ready[ch];
@@ -241,9 +319,9 @@ void calcPower (int ch)
 }
 
 
-
-
-
+//------------------------------------------
+// FIR-type filter for phase correction.
+//------------------------------------------
 uint16_t highest_phase_correction = 0;
 void set_highest_phase_correction(void) { // could be done after each correction routine instead.
   highest_phase_correction = 0; // reset. 
@@ -268,7 +346,7 @@ bool check_dma_index_for_phase_correction(uint16_t offset) {
   return false; // get rid of compiler warning.
 }
 
-int findmode(int a[],int n) {
+int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examples/mode_program_in_c.htm
    int maxValue = 0, maxCount = 0, i, j;
    for (i = 0; i < n; ++i) {
       int count = 0;
@@ -281,6 +359,7 @@ int findmode(int a[],int n) {
          maxValue = a[i];
       }
    }
+   if (maxCount < 3) debug_printf("No confident value found.\r\n");
    return maxValue;
 }
 
@@ -315,15 +394,15 @@ void pfHunt(int ch) {
     if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
   }
   else if (hunt_PF[ch] == 4) {
-    for (int i = 0; i < phHunt_direction_change_target; i++) {
-      sprintf(log_buffer, "pf value was %d\r\n", pf_median_array[i]); debug_printf(log_buffer); 
-    }
-    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); 
-    log_buffer[0] = '\0';
+    // finish up...
+    for (int i = 0; i < phHunt_direction_change_target; i++) { sprintf(log_buffer, "pf_median_array[%d] value was %d\r\n", i, pf_median_array[i]); debug_printf(log_buffer); }
+    
+    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); log_buffer[0] = '\0';
     
     phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target);
+    
     sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
-    hunt_PF[ch] = 0;
+    hunt_PF[ch] = 5;
   }
   set_highest_phase_correction(); // update the highest value.
 }
@@ -332,7 +411,7 @@ void pfHunt(int ch) {
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
-bool hia = 0;
+//bool hia = 0;
 void process_frame (uint16_t offset)
 {
   /* debugging
@@ -502,8 +581,32 @@ int main(void)
   
   debug_printf("\r\n\r\nstart, connect VT\r\n");
 
+
+  //------------------------
+  // EEPROM Emulation test
+  //------------------------
+  char write_data_pgm[50];
+  strcpy(write_data_pgm, "Hellow from Flash Memory!\r\n");
+  save_to_flash((uint8_t*) write_data_pgm);
+  char read_data_pgm[50];
+  read_flash((uint8_t*)read_data_pgm);
+  debug_printf(read_data_pgm); // print result
   
-  
+  float write_float_pgm = 123.321f;
+  float *pointer_write_float = &write_float_pgm;
+  save_to_flash((uint8_t*)pointer_write_float);
+  float read_float_pgm = 0.0;
+  float *pointer_read_float = &read_float_pgm;
+  read_flash((uint8_t*)pointer_read_float);
+  //char log_buffer[20];
+  sprintf(log_buffer, "Float value also read from flash memory! %.3f\r\n", read_float_pgm);
+  debug_printf(log_buffer); log_buffer[0] = 0; // print result
+
+  int test_array_mode[5] = {2,1,3,4,5};
+  sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
+  debug_printf(log_buffer); log_buffer[0] = 0; // print result
+  // seems findmode() will return the first value of the array if no mode value is found.
+
   // is the rPi Connected?
   if (HAL_GPIO_ReadPin(RPI_GPIO16_GPIO_Port, RPI_GPIO16_Pin) == 1 && HAL_GPIO_ReadPin(RPI_GPIO20_GPIO_Port, RPI_GPIO20_Pin) == 1)
   {
@@ -567,12 +670,11 @@ int main(void)
     // Interval for posting power readings.
     //---------------------------------------
     if (current_millis - previous_millis >= posting_interval) {
+     
       uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
-      if (readings_requested)
-      {
-        debug_printf("No voltage waveform present\r\n");
-      }
+     
+      if (readings_requested) debug_printf("No voltage waveform present\r\n");
       readings_requested = true;
     }
     
@@ -601,6 +703,8 @@ int main(void)
       readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.      
       if (!first_readings) { first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
+      
+
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); // blink the led
       // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
