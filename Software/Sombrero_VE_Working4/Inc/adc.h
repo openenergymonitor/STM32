@@ -53,13 +53,13 @@
 
 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
 #define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
-#define CTn 9 // number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
+#define CTn 9 // !!! number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
 
-uint16_t const adc_buff_size;
-uint16_t const adc_buff_half_size;
-uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
+extern uint16_t const adc_buff_size;
+extern uint16_t const adc_buff_half_size;
+extern uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+extern uint16_t adc3_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+//uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
 bool conv_hfcplt_flag;
 bool conv_cplt_flag;
 bool overrun_adc_buffer;

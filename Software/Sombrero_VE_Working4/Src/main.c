@@ -64,6 +64,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
+
 //--------
 // MODES
 //--------
@@ -83,12 +84,12 @@ bool readings_requested = false;
 bool first_readings = false;
 double V_RATIO;
 double I_RATIO;
-extern uint16_t const adc_buff_half_size;
+//uint16_t const adc_buff_half_size;
 const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 //const double phase_resolution = (adc_conversion_time / (1.0/50.0)) * 360.0);
 double mains_frequency;
-double Ws_accumulator[CTn];
+static double Ws_accumulator[CTn] = {0};
 //bool Vclipped; // unlikely?
 //bool hunt_PF;
 
@@ -111,9 +112,9 @@ typedef struct channel_
   uint32_t Iclipped;
 } channel_t; // data struct per CT channel, stm32 only does 32-bit struct items, anything else gets padded out to 32-bit automatically by
 
-static channel_t channels[CTn];
-static channel_t channels_ready[CTn];
-bool channel_rdy_bools[CTn];
+static channel_t channels[CTn] = {0};
+static channel_t channels_ready[CTn] = {0};
+bool channel_rdy_bools[CTn] = {0};
 
 
 //----------------
@@ -131,16 +132,19 @@ double ICAL = 90.9;
 //----------------
 // Finite Impulse Response (FIR) filter-like Power Factor correction.
 // based on setting the voltage phase per individual CT channel.
-int hunt_PF[CTn]; // which channel are we hunting max power factor on?
+int hunt_PF[CTn] = {0}; // which channel are we hunting max power factor on?
 // 0 = no power factor hunting.
 // 1 = power factor hunt start.
 // 2 = power factor hunt to the right. (increase VT lead).
 // 3 = power factor hunt to the left. (increase VT lag).
-// ?? 4 = hunt complete.
-int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
+// 4 = hunt finishing.
+// 5 = hunt complete.
+static int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
+uint8_t phHunt_direction_changes = 0; // we're aiming for phase_correction_iteration_target.
+static const int phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
-bool pfhuntDone[CTn] = {false};
+//bool pfhuntDone[CTn] = {0};
 
 
 //------------------------
@@ -156,12 +160,12 @@ char readings_rdy_buffer[1000];
 // RADIO
 //--------
 bool radio_send = 0; // set to 1 to send test data with RFM69.
-uint16_t networkID = 210; // a.k.a. Network Group
-uint8_t nodeID = 10; // this node's ID (address).
-uint16_t freqBand = 433; // MHz
-uint8_t toAddress = 1; // destination address.
+static uint16_t networkID = 210; // a.k.a. Network Group
+static uint8_t nodeID = 10; // this node's ID (address).
+static uint16_t freqBand = 433; // MHz
+static uint8_t toAddress = 1; // destination address.
 bool requestACK = false; // untested.
-char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
+static char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
 //char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
 typedef struct { 
   uint32_t nodeId; 
@@ -181,7 +185,7 @@ uint32_t previous_millis;
 //--------
 // MISC
 //--------
-uint32_t pulseCount = 0;
+static uint32_t pulseCount = 0;
 extern char json_response[40];
 
 
@@ -197,26 +201,102 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+
+
+//------------------------
+// EEPROM Emulation
+//------------------------
+// Credit to Viktor Vano for the Flash read/write code
+// https://github.com/viktorvano/STM32F3Discovery_internal_FLASH  
+
+#define FLASH_STORAGE 0x08030000 // Maximum value for STM32F303xE is defined at line 111 of stm32f3xx_hal_flash_ex.h (0x0807FFFFU)
+#define page_size 0x800
+
+void save_to_flash(uint8_t *data)
+{
+	volatile uint32_t data_to_FLASH[(strlen((char*)data)/4)	+ (int)((strlen((char*)data) % 4) != 0)];
+	memset((uint8_t*)data_to_FLASH, 0, strlen((char*)data_to_FLASH));
+	strcpy((char*)data_to_FLASH, (char*)data);
+
+	volatile uint32_t data_length = (strlen((char*)data_to_FLASH) / 4)
+									+ (int)((strlen((char*)data_to_FLASH) % 4) != 0);
+	volatile uint16_t pages = (strlen((char*)data)/page_size)
+									+ (int)((strlen((char*)data)%page_size) != 0);
+	  /* Unlock the Flash to enable the flash control register access *************/
+	  HAL_FLASH_Unlock();
+
+	  /* Allow Access to option bytes sector */
+	  HAL_FLASH_OB_Unlock();
+
+	  /* Fill EraseInit structure*/
+	  FLASH_EraseInitTypeDef EraseInitStruct;
+	  EraseInitStruct.TypeErase = FLASH_TYPEERASE_PAGES;
+	  EraseInitStruct.PageAddress = FLASH_STORAGE;
+	  EraseInitStruct.NbPages = pages;
+	  uint32_t PageError;
+
+	  volatile uint32_t write_cnt=0, index=0;
+
+	  volatile HAL_StatusTypeDef status;
+	  status = HAL_FLASHEx_Erase(&EraseInitStruct, &PageError);
+	  while(index < data_length)
+	  {
+		  if (status == HAL_OK)
+		  {
+			  status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, FLASH_STORAGE+write_cnt, data_to_FLASH[index]);
+			  if(status == HAL_OK)
+			  {
+				  write_cnt += 4;
+				  index++;
+			  }
+		  }
+	  }
+
+	  HAL_FLASH_OB_Lock();
+	  HAL_FLASH_Lock();
+}
+
+void read_flash(uint8_t* data)
+{
+	volatile uint32_t read_data;
+	volatile uint32_t read_cnt=0;
+	do
+	{
+		read_data = *(uint32_t*)(FLASH_STORAGE + read_cnt);
+		if(read_data != 0xFFFFFFFF)
+		{
+			data[read_cnt] = (uint8_t)read_data;
+			data[read_cnt + 1] = (uint8_t)(read_data >> 8);
+			data[read_cnt + 2] = (uint8_t)(read_data >> 16);
+			data[read_cnt + 3] = (uint8_t)(read_data >> 24);
+			read_cnt += 4;
+		}
+	}while(read_data != 0xFFFFFFFF);
+}
+
+
+
+//------------------------------------------
+// Calculate Power Data for one Channel
+//------------------------------------------
 double Vrms;
 double Irms;
 double realPower;
 double apparentPower;
 double powerFactor;
 
-//------------------------------------------
-// Calculate Power Data for one Channel
-//------------------------------------------
 void calcPower (int ch)
 {
   channel_t *chn = &channels_ready[ch];
 
-  double Vmean = (float)chn->sum_V / (float)chn->count;
-  double Imean = (float)chn->sum_I / (float)chn->count;
+  double Vmean = (double)chn->sum_V / (double)chn->count;
+  double Imean = (double)chn->sum_I / (double)chn->count;
 
-  double f32sum_V_sq_avg = (float)chn->sum_V_sq / (float)chn->count;
+  double f32sum_V_sq_avg = (double)chn->sum_V_sq / (double)chn->count;
   f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
 
-  double f32sum_I_sq_avg = (float)chn->sum_I_sq / (float)chn->count;
+  double f32sum_I_sq_avg = (double)chn->sum_I_sq / (double)chn->count;
   f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
   // assuming result of offset removal always positive.
@@ -225,7 +305,7 @@ void calcPower (int ch)
   Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
   Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
 
-  double f32_sum_P_avg = (float)chn->sum_P / (float)chn->count;
+  double f32_sum_P_avg = (double)chn->sum_P / (double)chn->count;
   double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
   
   realPower = V_RATIO * I_RATIO * mean_P;
@@ -239,7 +319,9 @@ void calcPower (int ch)
 }
 
 
-
+//------------------------------------------
+// FIR-type filter for phase correction.
+//------------------------------------------
 uint16_t highest_phase_correction = 0;
 void set_highest_phase_correction(void) { // could be done after each correction routine instead.
   highest_phase_correction = 0; // reset. 
@@ -264,18 +346,87 @@ bool check_dma_index_for_phase_correction(uint16_t offset) {
   return false; // get rid of compiler warning.
 }
 
+int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examples/mode_program_in_c.htm
+   int maxValue = 0, maxCount = 0, i, j;
+   for (i = 0; i < n; ++i) {
+      int count = 0;
+      for (j = 0; j < n; ++j) {
+         if (a[j] == a[i])
+         ++count;
+      }
+      if (count > maxCount) {
+         maxCount = count;
+         maxValue = a[i];
+      }
+   }
+   if (maxCount < 3) debug_printf("No confident value found.\r\n");
+   return maxValue;
+}
+
+int pf_median_array[5];
+int *pf_ptr = pf_median_array;
+void pfHunt(int ch) {
+  if (hunt_PF[ch] == 0) { 
+    __NOP();
+  }
+  else if (hunt_PF[ch] == true) { // start hunting one direction
+    phase_corrections[ch]++; hunt_PF[ch]++;
+    // print phase correction.
+    sprintf(log_buffer, "PFstart++ | Setting phase_corrections[%d] to %d\r\n", ch, phase_corrections[ch]);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+  }
+  else if (hunt_PF[ch] == 2) { // continue this direction unless...
+    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]++; // keep going forwards into the buffer
+    else { hunt_PF[ch]++; phHunt_direction_changes++; phase_corrections[ch]--; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and start going backwards into the buffer
+    // print phase correction.
+    sprintf(log_buffer, "PF++ | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
+  }
+  else if (hunt_PF[ch] == 3) { // hunt the other direction until...
+    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';    
+    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]--; // keep going backwards into the buffer
+    else { hunt_PF[ch]--; phHunt_direction_changes++; phase_corrections[ch]++; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and go forwards again into the buffer
+    // print phase correction.
+    sprintf(log_buffer, "PF-- | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
+  }
+  else if (hunt_PF[ch] == 4) {
+    // finish up...
+    for (int i = 0; i < phHunt_direction_change_target; i++) { sprintf(log_buffer, "pf_median_array[%d] value was %d\r\n", i, pf_median_array[i]); debug_printf(log_buffer); }
+    
+    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); log_buffer[0] = '\0';
+    
+    phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target);
+    
+    sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
+    hunt_PF[ch] = 5;
+  }
+  set_highest_phase_correction(); // update the highest value.
+}
+
+
 //------------------------------------------
 // Process Buffer into Accumulators.
 //------------------------------------------
+//bool hia = 0;
 void process_frame (uint16_t offset)
 {
+  /* debugging
+  if (!hia) {
+    debug_printf("Hello! First process_frame!\r\n");
+    hia =1;
+  }
+  */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
   
-  set_highest_phase_correction(); // could be called after a phase correction routine instead.
+  //set_highest_phase_correction(); // could be called after a phase correction routine instead.
   while (!check_dma_index_for_phase_correction(offset)) __NOP();
 
-  uint16_t sample_V, sample_I;
-  int16_t signed_V, signed_I;
+  int16_t sample_V, sample_I, signed_V, signed_I;
+  
    // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
   /*
   sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
@@ -305,21 +456,12 @@ void process_frame (uint16_t offset)
       // phase correction could happen here to have higher resolution. 
       // to shift voltage gives finer grained phase resolution in single-phase mode
       // because the voltage channel is used by all CTs.
-      uint16_t sample_V_index = offset + i + ch + phase_corrections[ch];
+      int16_t sample_V_index = offset + i + ch + phase_corrections[ch];
       // check for buffer overflow
-      if (sample_V_index > adc_buff_size-1) {
-        sample_V = adc1_dma_buff[sample_V_index - adc_buff_size]; 
-        debug_printf("overflow_correction+\r\n");
-      }
-      else if (sample_V_index < 0) {
-        sample_V = adc1_dma_buff[sample_V_index + adc_buff_size]; 
-        debug_printf("overflow_correction-\r\n");
-      }
-      else {
-        sample_V = adc1_dma_buff[sample_V_index]; 
-      }
+      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size; 
+      else if (sample_V_index < 0) sample_V_index += adc_buff_size; 
       
-
+      sample_V = adc1_dma_buff[sample_V_index];
       //if (sample_V == 4095) Vclipped = true; // unlikely
       signed_V = sample_V - MID_ADC_READING;
       channel->sum_V += signed_V;
@@ -354,31 +496,6 @@ void process_frame (uint16_t offset)
         debug_printf(log_buffer);
         log_buffer[0] = '\0';
         */
-        //----------------------------------------
-        
-        if (hunt_PF[ch] == 0 || hunt_PF[ch] == 4 || pfhuntDone[ch]) { 
-          goto pfSkip; // skip if channel done.
-        }
-        else if (hunt_PF[ch] == 1) {
-          phase_corrections[ch]++; hunt_PF[ch] = 2; pfhuntDone[ch] = true;
-        }
-        else if (hunt_PF[ch] == 2) {
-          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 3; phase_corrections[ch]--; }
-          else phase_corrections[ch]++;
-          pfhuntDone[ch] = true;
-        }
-        else if (hunt_PF[ch] == 3) {
-          if (last_powerFactor[ch] > powerFactor_now[ch]) { hunt_PF[ch] = 4; phase_corrections[ch]++; } //
-          else phase_corrections[ch]--;
-          pfhuntDone[ch] = true;
-        }
-        // print phase corrections.
-        sprintf(log_buffer, "pfCorrection%d:%d\r\n", ch, phase_corrections[ch]);
-        debug_printf(log_buffer);
-        log_buffer[0] = '\0';
-        
-        pfSkip: // skip to here and continue.
-        
         //----------------------------------------
         if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
           channel_t *channel_ready = &channels_ready[ch];
@@ -424,7 +541,6 @@ void process_frame (uint16_t offset)
   */
 int main(void)
 {
-  
   /* USER CODE BEGIN 1 */
   V_RATIO = VCAL * VOLTS_PER_DIV;
   I_RATIO = ICAL * VOLTS_PER_DIV;
@@ -465,8 +581,32 @@ int main(void)
   
   debug_printf("\r\n\r\nstart, connect VT\r\n");
 
+
+  //------------------------
+  // EEPROM Emulation test
+  //------------------------
+  char write_data_pgm[50];
+  strcpy(write_data_pgm, "Hellow from Flash Memory!\r\n");
+  save_to_flash((uint8_t*) write_data_pgm);
+  char read_data_pgm[50];
+  read_flash((uint8_t*)read_data_pgm);
+  debug_printf(read_data_pgm); // print result
   
-  
+  float write_float_pgm = 123.321f;
+  float *pointer_write_float = &write_float_pgm;
+  save_to_flash((uint8_t*)pointer_write_float);
+  float read_float_pgm = 0.0;
+  float *pointer_read_float = &read_float_pgm;
+  read_flash((uint8_t*)pointer_read_float);
+  //char log_buffer[20];
+  sprintf(log_buffer, "Float value also read from flash memory! %.3f\r\n", read_float_pgm);
+  debug_printf(log_buffer); log_buffer[0] = 0; // print result
+
+  int test_array_mode[5] = {2,1,3,4,5};
+  sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
+  debug_printf(log_buffer); log_buffer[0] = 0; // print result
+  // seems findmode() will return the first value of the array if no mode value is found.
+
   // is the rPi Connected?
   if (HAL_GPIO_ReadPin(RPI_GPIO16_GPIO_Port, RPI_GPIO16_Pin) == 1 && HAL_GPIO_ReadPin(RPI_GPIO20_GPIO_Port, RPI_GPIO20_Pin) == 1)
   {
@@ -499,7 +639,7 @@ int main(void)
   //------------------------
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
-  HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
+  //HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
   HAL_Delay(2);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
@@ -524,18 +664,17 @@ int main(void)
   {
     current_millis = HAL_GetTick();
 
-    //process_ds18b20s();
+    // process_ds18b20s();
     
     //---------------------------------------
     // Interval for posting power readings.
     //---------------------------------------
     if (current_millis - previous_millis >= posting_interval) {
+     
       uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
-      if (readings_requested)
-      {
-        debug_printf("No voltage waveform present\r\n");
-      }
+     
+      if (readings_requested) debug_printf("No voltage waveform present\r\n");
       readings_requested = true;
     }
     
@@ -564,28 +703,29 @@ int main(void)
       readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.      
       if (!first_readings) { first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
+      
+
       HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); // blink the led
       // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
-      pfhuntDone[0] = false;
+      //pfhuntDone[0] = false;
       for (int ch = 0; ch < CTn; ch++)
       {
         channel_t *chn = &channels_ready[ch];
 
-
         last_powerFactor[ch] = powerFactor_now[ch];
         calcPower(ch);
         powerFactor_now[ch] = powerFactor;
-        
+        pfHunt(ch);
 
         if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
           mains_frequency = 1.0/(((chn->count * CTn) / chn->cycles) * adc_conversion_time);
         }
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
-        if (mode == 1) {
-          sprintf(string_buffer, "V%d:%.2f,I%d:%.3f,AP%d:%.1f,RP%d:%.1f,PF%d:%.3f,Joules%d:%.3f,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
+        if (mode == 1 && ch == 0) {
+          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         }
       }
@@ -672,8 +812,10 @@ int main(void)
     }
     if (usart2_rx_flag)
     {
-      //phase_corrections[0] = 13; // slap a value in there to test with.
-      //hunt_PF[0] = true; // test powerfactor hunting on CT1.
+      //-----
+        //phase_corrections[0] = 13; // slap a value in there to test with.
+        hunt_PF[0] = true; // test powerfactor hunting on CT1.
+      //-----
       usart2_rx_flag = 0;
       memcpy(rx_string, rx_buff, sizeof(rx_buff));
       memset(rx_buff, 0, sizeof(rx_buff));

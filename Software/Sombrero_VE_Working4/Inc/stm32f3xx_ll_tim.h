@@ -43,7 +43,8 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx.h"
-
+#include "stm32f303xe.h"
+//#define TIM8
 /** @addtogroup STM32F3xx_LL_Driver
   * @{
   */

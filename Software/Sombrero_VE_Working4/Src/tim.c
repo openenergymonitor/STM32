@@ -242,12 +242,11 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
 /* USER CODE BEGIN 1 */
 void pulse_tim8_ch2 (int pulse_width_usec) {
-  // does this pulse, or does this oscillate (PWM)?
+  
   HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);         // In case it's running
   LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
-  HAL_Delay(50);
-  HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);
+  // https://community.openenergymonitor.org/t/stm32-development/6815/53
 }
 
 /* USER CODE END 1 */
