@@ -101,4 +101,3 @@ Install platformio http://docs.platformio.org/en/latest/installation.html#local-
 
     cd STM32Dev/Blink
     pio run -t upload
-

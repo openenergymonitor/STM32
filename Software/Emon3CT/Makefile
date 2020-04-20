@@ -97,7 +97,7 @@ PERIFLIB_SOURCES =
 #######################################
 # binaries
 #######################################
-BINPATH = /usr/local/gcc-arm-none-eabi-9-2019-q4-major/bin
+#BINPATH = /usr/bin
 PREFIX = arm-none-eabi-
 CC = $(BINPATH)/$(PREFIX)gcc
 AS = $(BINPATH)/$(PREFIX)gcc -x assembler-with-cpp

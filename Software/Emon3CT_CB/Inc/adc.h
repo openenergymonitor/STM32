@@ -48,7 +48,6 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
 #define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
 volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
 volatile uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE];
@@ -68,8 +67,7 @@ void MX_ADC1_Init(void);
 void MX_ADC4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
-void process_frame(uint16_t offset);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

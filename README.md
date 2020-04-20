@@ -36,26 +36,53 @@ Notes on hardware development and initial designs:
 - [2. ST-LINK adapters](docs/st-link2.md)
 - [3. Serial/UART Upload](docs/uartupload.md)
 - [4. RaspberryPi UART Upload + autoreset](docs/rpiautoupload.md)
-- [Eagle design 01](Hardware/1)
+
+**STM32-pi_basic**
+
+- [Eagle design 01](Hardware/stm32-pi_basic/1)
 - [Prototype 1, breadboard, voltage follower & anti-alias](docs/prototype1.md)
-- [Eagle design 02](Hardware/2)
-- [Eagle design 03](Hardware/3)
+- [STM32-pi_basic eagle design 02](Hardware/stm32-pi_basic/2)
+- [STM32-pi_basic eagle design 03](Hardware/stm32-pi_basic/3)
+- [STM32-pi_basic eagle design 04](Hardware/stm32-pi_basic/4)
 - [Design Notes v4](docs/stm32notes.md)
+- [STM32-pi_basic eagle design 05](Hardware/stm32-pi_basic/5)
+
+**STM32-pi_full**
+
+- [Hardware/stm32-pi_full](Hardware/stm32-pi_full)
+
+**Misc**
+
 - [Flashing a new chip](docs/Blink-fresh-chip.md)
 
 ### Firmware Examples
 
 Firmware examples included in this repository:
 
-- [1. Blink](Blink)
-- [2. ADC](ADC)
-- [3. DMA](DMA)
-- [4. Emon](Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
-- [5. Emon1CT](Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
-- [6. Emon3CT](Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
-- [7. emonTxshield_dBC (v13)](emonTxshield_dBC): Latest mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
-- [8. RFM69](RFM69): RFM69 library and examples.
+- [1. Blink](Software/Blink)
+- [2. ADC](Software/ADC)
+- [3. DMA](Software/DMA)
+- [4. Emon](Software/Emon): EmonTxShield Voltage and CT1 current measurement, single ADC example.
+- [5. Emon1CT](Software/Emon1CT): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example.
+- [6. Emon1CT_ds18b20](Software/Emon1CT_ds18b20): EmonTxShield Voltage (ADC1) and CT3 current measurement (ADC2) example with DS18B20 temperature measurement.
+- [7. Emon3CT](Software/Emon3CT): EmonTxShield Voltage (ADC1) and 3x CT inputs on ADC2.
+- [8. Emon3CT_CB](Software/Emon3CT_CB): Firmware for [Hardware/stm32-pi_basic/5](Hardware/stm32-pi_basic/5)
+- [9. Emon3CT_CB_v2](Software/Emon3CT_CB_v2): Firmware for [Hardware/stm32-pi_basic/5](Hardware/stm32-pi_basic/5) v2.
+- [10. Emon3CT_RFM69](Software/Emon3CT_RFM69): EmonTxShield Voltage (ADC1), 3x CT inputs on ADC2 and RFM69 support.
+- [11. Emon3CT_VET](Software/Emon3CT_VET): Basic firmware for [Hardware/stm32-pi_full](Hardware/stm32-pi_full) v2 by Trystan Lea.
+- [12. emonTxshield_dBC (v13)](Software/emonTxshield_dBC): Mutli-channel energy monitor example firmware thanks to @dBC see [https://community.openenergymonitor.org/t/stm32-development/6815/232](https://community.openenergymonitor.org/t/stm32-development/6815/232)
+- [13. RFM69](Software/RFM69): RFM69 library and examples.
+- [14. MBUS](Software/MBUS): Example of reading data from an MBUS meter using Serial and DMA's.
 
+**STM32 Pi Full**
+
+- [STM32 pi v0.7 firmware basics](docs/stm32-pi.md)
+- [Sombrero_VB_Blink](Software/Sombrero_VB_Blink)
+- [Sombrero_VE_ADC-test](Software/Sombrero_VE_ADC-test)
+- [Sombrero_VE_Blink](Software/Sombrero_VE_Blink)
+- [Sombrero_VE_Working3](Software/Sombrero_VE_Working3)
+- [Sombrero_VE_Working4](Software/Sombrero_VE_Working4)
+- [Sombrero_VE_Working5](Sombrero_VE_Working5)
 
 ### Other:
 

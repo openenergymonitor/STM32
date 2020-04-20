@@ -44,14 +44,11 @@
 #include "dma.h"
 
 /* USER CODE BEGIN 0 */
-#include "tim.h"
-//#include <stdbool.h>
-//#define true 1
-//#define false 0
+#define true 1
+#define false 0
 volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
 volatile uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE];
-//bool adc_conv_halfcplt_flag = 0;
-//bool adc_conv_cplt_flag = 0;
+
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -68,7 +65,7 @@ void MX_ADC1_Init(void)
     /**Common config 
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -134,7 +131,7 @@ void MX_ADC4_Init(void)
     /**Common config 
     */
   hadc4.Instance = ADC4;
-  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc4.Init.Resolution = ADC_RESOLUTION_12B;
   hadc4.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc4.Init.ContinuousConvMode = ENABLE;
@@ -297,14 +294,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 /* USER CODE BEGIN 1 */
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if(hadc == &hadc1) process_frame(0);
-  //if(hadc == &hadc1) adc_conv_halfcplt_flag = true;
+  if (hadc==&hadc1) process_frame(0);
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
- if(hadc == &hadc1) process_frame(3000);
- // if(hadc == &hadc1) adc_conv_cplt_flag = true;
+  if (hadc==&hadc1) process_frame(3000);
 }
 
 void start_ADCs (void) {
