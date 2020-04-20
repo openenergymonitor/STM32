@@ -49,11 +49,20 @@
 
 /* USER CODE BEGIN Includes */
 
+void RTC_CalendarShow(uint8_t *showtime, uint8_t *showdate);
+time_t RTC_CalendarShowUnix(void);
+void RTC_CalendarConfig(RTC_DateTypeDef sdatestructure,RTC_TimeTypeDef stimestructure);
 /* USER CODE END Includes */
 
 extern RTC_HandleTypeDef hrtc;
 
 /* USER CODE BEGIN Private defines */
+extern RTC_TimeTypeDef sTime;
+extern RTC_DateTypeDef sDate;
+extern uint8_t aShowTime[50];
+extern uint8_t aShowDate[50];
+
+
 
 /* USER CODE END Private defines */
 

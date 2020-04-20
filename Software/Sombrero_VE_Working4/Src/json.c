@@ -1,10 +1,11 @@
 #include "jsmn.h"
 #include "usart.h"
+#include "rtc.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
+#include <time.h>
 /*
 static const char *JSON_STRING =
     "{\"user\": \"johndoe\", \"admin\": false, \"uid\": 1000,\n  "
@@ -14,7 +15,7 @@ static const char *JSON_STRING =
 //static const char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
 //char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
 
-extern char log_buffer[];
+//extern char log_buffer[];
 
 typedef struct VTproperties_
 {
@@ -60,20 +61,25 @@ typedef struct IOproperties_
   bool value;
 } IOproperties_t;
 
+static unsigned int uint2bcd(unsigned int ival) // https://www.microchip.com/forums/m271601.aspx
+ {
+ 	return ((ival / 10) << 4) | (ival % 10);
+ }
+
 #define VTn 3
 #define CTn 9
 #define IOn 5 // number of IO in hardware.
 
 static VTproperties_t VTproperties[VTn];
 static CTproperties_t CTproperties[CTn];
-static IOproperties_t IOproperties[IOn];
+//static IOproperties_t IOproperties[IOn];
 
 void VTCommands(bool getset, int ch, char *command, char *property);
 void CTCommands(bool getset, int ch, char *command, char *property);
 void IOCommands(bool getset, int ch, char *command, char *property);
 void error_handler(void);
 
-static int jsoneq(const char *json, jsmntok_t *tok, const char *s)
+/*static int jsoneq(const char *json, jsmntok_t *tok, const char *s)
 {
   if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
       strncmp(json + tok->start, s, tok->end - tok->start) == 0)
@@ -82,6 +88,7 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s)
   }
   return -1;
 }
+*/
 
 jsmn_parser p;
 #define JSON_TOKENS 128
@@ -114,7 +121,7 @@ void json_parser(char *string)
   if (r < 0)
   {
     sprintf(log_buffer, "ERROR:JSON_PARSE %d\r\n", r);
-    // debug_printf(log_buffer);
+    debug_printf(log_buffer);
   }
 
   char select[20];
@@ -127,13 +134,15 @@ void json_parser(char *string)
   sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
   if (!strcmp(select, "G"))
   {
+    //debug_printf("testing-get");
     getset = 0;
-    //printf("It's a GET\r\n");
+    
   }
   else if (!strcmp(select, "S"))
   {
+    //debug_printf("testing-set");
     getset = 1;
-    //printf("It's a SET\r\n");
+    
   }
 
   //----------------------------------------------------
@@ -207,9 +216,11 @@ void json_parser(char *string)
       // debug_printf(log_buffer);
       // debug_printf("uptime_test\r\n");
     }
-    else if (!strcmp(select, "rtc_time"))
+    else if (!strcmp(select, "RTC"))
     {
-      //sprintf(log_buffer, "rtc_time:%d", rtc_time_get());
+      
+
+      sprintf(json_response, "G:RTC:%lld", RTC_CalendarShowUnix());
       //printf(log_buffer);
       // debug_printf("G:rtc_time:123456789\r\n"); //return in millis?
     }
@@ -321,10 +332,34 @@ void json_parser(char *string)
         error_handler();
       }
     }
-    else if (!strcmp(select, "rtc_time"))
+    else if (!strcmp(select, "RTC"))
     {
-      // function required to set RTC time.
-      // read documentation on RTC usage on the STM32
+      i = 3;
+      sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
+      //debug_printf("test§");
+      time_t timehere = atoi(select); // convert input string to unix time integer.
+      struct tm *ptm = localtime(&timehere); // create a 'tm struct' from the integer, breaking time into day, month, year etc..
+
+      //sprintf(log_buffer, "The time from the unix epoch string is: %02d:%02d:%02d\n", ptm->tm_hour, ptm->tm_min, ptm->tm_sec); debug_printf(log_buffer);
+
+      // stm32 date & time structs, see stm32f3xx_hal_rtc.h
+      RTC_DateTypeDef sdatestructure;
+      RTC_TimeTypeDef stimestructure;
+      sdatestructure.Year = uint2bcd(ptm->tm_year-100);
+      sdatestructure.Month = uint2bcd(ptm->tm_mon+1);
+      sdatestructure.Date = uint2bcd(ptm->tm_mday);
+      sdatestructure.WeekDay = uint2bcd(ptm->tm_wday);
+      stimestructure.Hours = uint2bcd(ptm->tm_hour);
+      stimestructure.Minutes = uint2bcd(ptm->tm_min);
+      stimestructure.Seconds = uint2bcd(ptm->tm_sec);
+      stimestructure.TimeFormat = RTC_HOURFORMAT12_AM;
+      stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+      stimestructure.StoreOperation = RTC_STOREOPERATION_RESET;
+
+      RTC_CalendarConfig(sdatestructure, stimestructure); // send the structs to the RTC config function, setting the RTC time, which will hold for as long as the device is powered.
+
+      sprintf(json_response, "S:RTC:%lld", timehere); // load the response to send back, confirming signal received.
+      return;
     }
     else if (!strcmp(select, "CT"))
     {
@@ -591,7 +626,7 @@ void CTCommands(bool getset, int ch, char *command, char *property)
 void IOCommands(bool getset, int ch, char *command, char *property)
 {
 
-  IOproperties_t *IOproperty = &IOproperties[ch];
+//  IOproperties_t *IOproperty = &IOproperties[ch];
 
   if (getset == 0)
   { // GET COMMANDS

@@ -50,6 +50,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include <time.h>
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
@@ -64,7 +65,6 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-
 //--------
 // MODES
 //--------
@@ -72,7 +72,6 @@
 // 1 = rPi
 // 2 = ESP32
 int mode = 1; // initialised as rPi mode for testing.
-
 
 //------------------------------------------------
 // timing, ADCs, power and frequency variables
@@ -156,9 +155,9 @@ char string_buffer[200];
 char readings_rdy_buffer[1000];
 
 
-//--------
+//----------------
 // RADIO
-//--------
+//----------------
 bool radio_send = 0; // set to 1 to send test data with RFM69.
 static uint16_t networkID = 210; // a.k.a. Network Group
 static uint8_t nodeID = 10; // this node's ID (address).
@@ -167,7 +166,7 @@ static uint8_t toAddress = 1; // destination address.
 bool requestACK = false; // untested.
 static char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
 //char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
-typedef struct { 
+typedef struct {
   uint32_t nodeId; 
   uint32_t uptime;
   //double temperature;   // other data
@@ -182,9 +181,9 @@ uint32_t current_millis;
 uint32_t previous_millis;
 
 
-//--------
+//----------------
 // MISC
-//--------
+//----------------
 static uint32_t pulseCount = 0;
 extern char json_response[40];
 
@@ -196,7 +195,6 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
 
 /* USER CODE END PFP */
 
@@ -363,7 +361,7 @@ int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examp
    return maxValue;
 }
 
-int pf_median_array[5];
+int pf_median_array[5]; // stores the phase_corrections value at the point of switching direction.
 int *pf_ptr = pf_median_array;
 void pfHunt(int ch) {
   if (hunt_PF[ch] == 0) { 
@@ -399,7 +397,7 @@ void pfHunt(int ch) {
     
     sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); log_buffer[0] = '\0';
     
-    phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target);
+    phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target); // the result is set in phase_corrections[] for this channel now.
     
     sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
     hunt_PF[ch] = 5;
@@ -580,11 +578,19 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   debug_printf("\r\n\r\nstart, connect VT\r\n");
-
+  
+  // RTC backup register test, 16 x 32-bit addresses available.
+  // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
+  // uint32_t bkp_write = 123456789;
+  // HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, bkp_write);
+  // uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
+  // sprintf(log_buffer, "bkp_:%ld\r\n", bkp_);
+  // works!
 
   //------------------------
   // EEPROM Emulation test
   //------------------------
+  /*
   char write_data_pgm[50];
   strcpy(write_data_pgm, "Hellow from Flash Memory!\r\n");
   save_to_flash((uint8_t*) write_data_pgm);
@@ -601,10 +607,11 @@ int main(void)
   //char log_buffer[20];
   sprintf(log_buffer, "Float value also read from flash memory! %.3f\r\n", read_float_pgm);
   debug_printf(log_buffer); log_buffer[0] = 0; // print result
+  */
 
-  int test_array_mode[5] = {2,1,3,4,5};
-  sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
-  debug_printf(log_buffer); log_buffer[0] = 0; // print result
+  //int test_array_mode[5] = {2,1,3,4,5};
+  //sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
+  //debug_printf(log_buffer); log_buffer[0] = 0; // print result
   // seems findmode() will return the first value of the array if no mode value is found.
 
   // is the rPi Connected?
@@ -655,6 +662,9 @@ int main(void)
   __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
 
+  // usart1_rx_flag = 1; testing
+
+
   debug_printf("\r\n");
   /* USER CODE END 2 */
 
@@ -673,15 +683,20 @@ int main(void)
      
       uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
-     
+
+      RTC_CalendarShow(aShowTime, aShowDate);
+      debug_printf((char*)aShowDate); debug_printf("\r\n");
+      debug_printf((char*)aShowTime); debug_printf("\r\n");
+
+
       if (readings_requested) debug_printf("No voltage waveform present\r\n");
       readings_requested = true;
     }
     
 
-    //------------------------
+    //------------------------------------------------
     // ADC DMA buffer flags. Process Frames.
-    //------------------------
+    //------------------------------------------------
     if (conv_hfcplt_flag)
     {
       conv_hfcplt_flag = false;
@@ -807,6 +822,7 @@ int main(void)
       huart1.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
       huart1.hdmarx->Instance->CNDTR = sizeof(rx_buff);
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
+      //json_parser("{G:RTC}"); // calling this loads json_response[] with a response.
       json_parser(rx_string); // calling this loads json_response[] with a response.
       sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     }
@@ -930,6 +946,8 @@ void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
     pulseCount++;
   }
 }
+
+
 /* USER CODE END 4 */
 
 /**

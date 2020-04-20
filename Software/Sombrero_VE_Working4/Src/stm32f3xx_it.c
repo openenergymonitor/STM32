@@ -49,7 +49,6 @@ extern DMA_HandleTypeDef hdma_adc4;
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc3;
 extern ADC_HandleTypeDef hadc4;
-extern RTC_HandleTypeDef hrtc;
 extern TIM_HandleTypeDef htim8;
 extern TIM_HandleTypeDef htim16;
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -83,20 +82,6 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
-
-/**
-* @brief This function handles RTC tamper and timestamp interrupts through EXTI line 19.
-*/
-void TAMP_STAMP_IRQHandler(void)
-{
-  /* USER CODE BEGIN TAMP_STAMP_IRQn 0 */
-
-  /* USER CODE END TAMP_STAMP_IRQn 0 */
-  HAL_RTCEx_TamperTimeStampIRQHandler(&hrtc);
-  /* USER CODE BEGIN TAMP_STAMP_IRQn 1 */
-
-  /* USER CODE END TAMP_STAMP_IRQn 1 */
-}
 
 /**
 * @brief This function handles DMA1 channel1 global interrupt.
