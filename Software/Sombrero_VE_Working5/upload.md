@@ -1,0 +1,1 @@
+make && stm32flash -w ./build/Sombrero_VE_Working5.bin -b 115200 /dev/tty.SLAB_USBtoUART && pio device monitor -b 460800 --rts 0

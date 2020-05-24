@@ -39,8 +39,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "rtc.h"
-//#include <time.h>
-	
+
 /* USER CODE BEGIN 0 */
 #include <time.h>
 /* USER CODE END 0 */
@@ -50,9 +49,8 @@ RTC_HandleTypeDef hrtc;
 /* RTC init function */
 void MX_RTC_Init(void)
 {
-  RTC_TimeTypeDef sTime;
-RTC_DateTypeDef sDate;
-      /**Initialize RTC Only 
+
+    /**Initialize RTC Only 
     */
   hrtc.Instance = RTC;
   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -62,28 +60,6 @@ RTC_DateTypeDef sDate;
   hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Initialize RTC and set the Time and Date 
-    */
-  sTime.Hours = 0x18;
-  sTime.Minutes = 0x55;
-  sTime.Seconds = 0x30;
-  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-  sDate.Month = RTC_MONTH_APRIL;
-  sDate.Date = 0x20;
-  sDate.Year = 0x20;
-
-  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
