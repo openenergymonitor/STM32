@@ -21497,7 +21497,7 @@ Source: &lt;a href="http://uk.rs-online.com/web/p/products/1712778P"&gt; Datashe
 <part name="SV2" library="con-lstb-db" deviceset="MA06-1" device=""/>
 <part name="R13" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="R20" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>
-<part name="R21" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
+<part name="R21" library="resistor" deviceset="R-EU_" device="R0603" value="2k"/>
 <part name="C21" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="47uF"/>
 <part name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF"/>
 <part name="C30" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF"/>

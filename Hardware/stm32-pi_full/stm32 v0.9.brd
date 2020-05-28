@@ -5898,7 +5898,7 @@ MICRO_SD</text>
 <attribute name="NAME" x="14.008" y="58.683" size="1.27" layer="25" rot="R90"/>
 <attribute name="VALUE" x="11.495" y="57.635" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="R21" library="resistor" package="R0603" value="0R" x="76.883209375" y="56.964225" smashed="yes">
+<element name="R21" library="resistor" package="R0603" value="2k" x="76.883209375" y="56.964225" smashed="yes">
 <attribute name="NAME" x="78.810725" y="59.036134375" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="76.248209375" y="55.059225" size="1.27" layer="27"/>
 </element>
