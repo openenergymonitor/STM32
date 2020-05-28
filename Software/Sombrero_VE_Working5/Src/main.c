@@ -73,6 +73,7 @@
 // 2 = ESP32
 int mode = 1; // initialised as rPi mode for testing.
 
+
 //------------------------------------------------
 // timing, ADCs, power and frequency variables
 //------------------------------------------------
@@ -584,6 +585,22 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   HAL_Delay(10);
+
+  //------------------------
+  // UART DMA RX BEGIN
+  //------------------------
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+  HAL_UART_Receive_DMA(&huart1, rx_buff, sizeof(rx_buff));
+  __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
+  HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
+
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_TC); // necessary only to know if we're good to fire another Tx soon after a HAL_UART_Transmit_IT()
+  __HAL_UART_ENABLE_IT(&huart2, UART_IT_TC);
+  
+  // usart1_rx_flag = 1; // debugging
+
+
+  HAL_Delay(10);
   debug_printf("\r\n\r\nstart, connect VT\r\n");
   
   // RTC backup register test, 16 x 32-bit addresses available.
@@ -665,15 +682,6 @@ int main(void)
 
   //init_ds18b20s();
 
-  //------------------------
-  // UART DMA RX BEGIN
-  //------------------------
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
-  HAL_UART_Receive_DMA(&huart1, rx_buff, sizeof(rx_buff));
-  __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
-  HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
-
-  // usart1_rx_flag = 1; testing
 
 
   debug_printf("\r\n");

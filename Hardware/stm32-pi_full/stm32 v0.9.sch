@@ -21499,11 +21499,11 @@ Source: &lt;a href="http://uk.rs-online.com/web/p/products/1712778P"&gt; Datashe
 <part name="R20" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="R21" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="C21" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="47uF"/>
-<part name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="4.7nF"/>
-<part name="C30" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="4.7nF"/>
+<part name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF"/>
+<part name="C30" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF"/>
 <part name="SUPPLY11" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="C31" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="2.2uF"/>
-<part name="C32" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="2.2uF"/>
+<part name="C31" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10pF"/>
+<part name="C32" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10pF"/>
 <part name="SUPPLY27" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="JP1" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_3_1-NC_TRACE" device="_NO-SILK" package3d_urn="urn:adsk.eagle:package:39287/1"/>
 <part name="S1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="31-XX" device="" package3d_urn="urn:adsk.eagle:package:27487/1"/>
@@ -21649,6 +21649,7 @@ Source: &lt;a href="http://uk.rs-online.com/web/p/products/1712778P"&gt; Datashe
 <part name="R30" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="R31" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="R32" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
+<part name="R33" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="0R"/>
 </parts>
 <sheets>
 <sheet>
@@ -21997,7 +21998,6 @@ pullups</text>
 </instance>
 <instance part="LSE" gate="G$1" x="53.34" y="15.24" smashed="yes" rot="R270">
 <attribute name="NAME" x="55.626" y="14.732" size="1.27" layer="95"/>
-<attribute name="VALUE" x="48.006" y="17.018" size="1.27" layer="96"/>
 </instance>
 <instance part="SUPPLY19" gate="GND" x="132.207" y="-206.629" smashed="yes">
 <attribute name="VALUE" x="130.302" y="-209.804" size="1.778" layer="96"/>
@@ -22461,13 +22461,13 @@ pullups</text>
 <attribute name="VALUE" x="-1.905" y="88.265" size="1.778" layer="96"/>
 </instance>
 <instance part="C31" gate="G$1" x="50.8" y="19.05" smashed="yes" rot="R270">
-<attribute name="NAME" x="46.101" y="25.146" size="1.778" layer="95" rot="R270"/>
+<attribute name="NAME" x="48.514" y="21.463" size="1.778" layer="95" rot="R180"/>
 </instance>
 <instance part="C32" gate="G$1" x="50.8" y="11.43" smashed="yes" rot="R270">
-<attribute name="NAME" x="46.101" y="9.906" size="1.778" layer="95" rot="R270"/>
+<attribute name="NAME" x="48.514" y="10.795" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="SUPPLY27" gate="GND" x="40.64" y="12.7" smashed="yes">
-<attribute name="VALUE" x="38.735" y="9.525" size="1.778" layer="96"/>
+<instance part="SUPPLY27" gate="GND" x="36.83" y="12.7" smashed="yes">
+<attribute name="VALUE" x="34.925" y="9.525" size="1.778" layer="96"/>
 </instance>
 <instance part="JP1" gate="G$1" x="177.8" y="71.628" smashed="yes" rot="R90"/>
 <instance part="S1" gate="1" x="-35.56" y="33.02" smashed="yes">
@@ -22808,6 +22808,10 @@ pullups</text>
 </instance>
 <instance part="R32" gate="G$1" x="241.3" y="261.62" smashed="yes">
 <attribute name="NAME" x="237.49" y="263.1186" size="1.778" layer="95"/>
+</instance>
+<instance part="R33" gate="G$1" x="58.42" y="21.59" smashed="yes">
+<attribute name="NAME" x="56.642" y="23.3426" size="1.778" layer="95"/>
+<attribute name="VALUE" x="57.15" y="18.034" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -23379,7 +23383,7 @@ pullups</text>
 <pinref part="C31" gate="G$1" pin="2"/>
 <wire x1="45.72" y1="15.24" x2="45.72" y2="19.05" width="0.1524" layer="91"/>
 <junction x="45.72" y="15.24"/>
-<wire x1="45.72" y1="15.24" x2="40.64" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="15.24" x2="36.83" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="SUPPLY27" gate="GND" pin="GND"/>
 </segment>
 <segment>
@@ -24654,21 +24658,19 @@ pullups</text>
 </net>
 <net name="PC14" class="0">
 <segment>
-<wire x1="53.34" y1="20.32" x2="63.5" y2="20.32" width="0.1524" layer="91"/>
-<pinref part="STM32F303VE" gate="G$1" pin="PC14/OSC32_IN"/>
-<label x="53.34" y="20.32" size="1.778" layer="95"/>
 <pinref part="LSE" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="20.32" x2="53.34" y2="19.05" width="0.1524" layer="91"/>
 <pinref part="C31" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="19.05" x2="53.34" y2="17.78" width="0.1524" layer="91"/>
 <junction x="53.34" y="19.05"/>
+<pinref part="R33" gate="G$1" pin="1"/>
+<wire x1="53.34" y1="21.59" x2="53.34" y2="19.05" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PC15" class="0">
 <segment>
 <wire x1="53.34" y1="10.16" x2="63.5" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="STM32F303VE" gate="G$1" pin="PC15/OSC32_OUT"/>
-<label x="53.34" y="10.16" size="1.778" layer="95"/>
 <pinref part="LSE" gate="G$1" pin="2"/>
 <wire x1="53.34" y1="10.16" x2="53.34" y2="11.43" width="0.1524" layer="91"/>
 <pinref part="C32" gate="G$1" pin="1"/>
@@ -26273,6 +26275,13 @@ pullups</text>
 <wire x1="22.86" y1="-101.6" x2="22.86" y2="-99.06" width="0.1524" layer="91"/>
 <junction x="22.86" y="-101.6"/>
 <pinref part="R29" gate="G$1" pin="1"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="STM32F303VE" gate="G$1" pin="PC14/OSC32_IN"/>
+<pinref part="R33" gate="G$1" pin="2"/>
+<wire x1="63.5" y1="20.32" x2="63.5" y2="21.59" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

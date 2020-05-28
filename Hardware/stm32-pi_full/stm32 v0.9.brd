@@ -5908,25 +5908,25 @@ MICRO_SD</text>
 <attribute name="SPICEPREFIX" value="C" x="119.7" y="37.6" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="120.97" y="40.14" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="4.7nF" x="87.0936875" y="57.0890375" smashed="yes">
+<element name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF" x="87.0936875" y="57.0890375" smashed="yes">
 <attribute name="NAME" x="88.71165625" y="58.977115625" size="1.27" layer="25" rot="R270"/>
 <attribute name="POPULARITY" value="73" x="87.0936875" y="57.0890375" size="1.778" layer="27" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="87.0936875" y="57.0890375" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="86.4586875" y="55.1840375" size="1.27" layer="27"/>
 </element>
-<element name="C30" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="4.7nF" x="87.10355" y="54.8606875" smashed="yes">
+<element name="C30" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="15pF" x="87.10355" y="54.8606875" smashed="yes">
 <attribute name="NAME" x="85.607396875" y="52.7083" size="1.27" layer="25"/>
 <attribute name="POPULARITY" value="73" x="87.10355" y="54.8606875" size="1.778" layer="27" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="87.10355" y="54.8606875" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="86.46855" y="52.9556875" size="1.27" layer="27"/>
 </element>
-<element name="C31" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="2.2uF" x="83.002" y="45.078" smashed="yes">
+<element name="C31" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10pF" x="83.002" y="45.078" smashed="yes">
 <attribute name="NAME" x="78.045440625" y="43.81645" size="1.27" layer="25"/>
 <attribute name="POPULARITY" value="88" x="83.002" y="45.078" size="1.778" layer="27" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="83.002" y="45.078" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="81.732" y="42.538" size="1.27" layer="27"/>
 </element>
-<element name="C32" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="2.2uF" x="83" y="52.5" smashed="yes">
+<element name="C32" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10pF" x="83" y="52.5" smashed="yes">
 <attribute name="NAME" x="77.667828125" y="51.983675" size="1.27" layer="25"/>
 <attribute name="POPULARITY" value="88" x="83" y="52.5" size="1.778" layer="27" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="83" y="52.5" size="1.778" layer="27" display="off"/>
@@ -6315,6 +6315,12 @@ MICRO_SD</text>
 <element name="R32" library="resistor" package="R0603" value="0R" x="-26.562559375" y="-35.788090625" smashed="yes">
 <attribute name="NAME" x="-27.197559375" y="-35.153090625" size="1.27" layer="25"/>
 <attribute name="VALUE" x="-27.197559375" y="-37.693090625" size="1.27" layer="27"/>
+</element>
+<element name="R33" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="0R" x="-26.62351875" y="-40.529509375" smashed="yes">
+<attribute name="NAME" x="-27.25851875" y="-39.894509375" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="70" x="-26.62351875" y="-40.529509375" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-26.62351875" y="-40.529509375" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-27.25851875" y="-42.434509375" size="1.27" layer="27"/>
 </element>
 </elements>
 <signals>
@@ -8426,14 +8432,14 @@ MICRO_SD</text>
 <via x="21.43125" y="62.865" extent="1-16" drill="0.5"/>
 </signal>
 <signal name="PC14">
-<contactref element="STM32F303VE" pad="8"/>
 <contactref element="LSE" pad="P$1"/>
-<wire x1="73.75" y1="53.9" x2="74.9036375" y2="53.9" width="0.2032" layer="1"/>
 <wire x1="80.226" y1="48.5776375" x2="80.226" y2="47.438" width="0.2032" layer="1"/>
 <wire x1="74.9036375" y1="53.9" x2="80.226" y2="48.5776375" width="0.2032" layer="1"/>
 <contactref element="C31" pad="1"/>
 <wire x1="80.226" y1="47.438" x2="81.67440625" y2="45.98959375" width="0.254" layer="1"/>
 <wire x1="81.67440625" y1="45.98959375" x2="82.052" y2="45.078" width="0.254" layer="1" curve="-45"/>
+<contactref element="R33" pad="1"/>
+<wire x1="-27.47351875" y1="-40.529509375" x2="82.052" y2="45.078" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="PC15">
 <contactref element="STM32F303VE" pad="9"/>
@@ -10867,6 +10873,11 @@ MICRO_SD</text>
 <wire x1="36.98875" y1="30.32125" x2="37.12113125" y2="30.245784375" width="0.1778" layer="1"/>
 <wire x1="35.8775" y1="29.05125" x2="35.883" y2="28.829" width="0.1778" layer="16"/>
 <via x="35.8775" y="30.48" extent="1-16" drill="0.5"/>
+</signal>
+<signal name="N$1">
+<contactref element="STM32F303VE" pad="8"/>
+<contactref element="R33" pad="2"/>
+<wire x1="-25.77351875" y1="-40.529509375" x2="73.75" y2="53.9" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>

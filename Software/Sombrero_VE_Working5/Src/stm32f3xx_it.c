@@ -49,7 +49,6 @@ extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
 extern TIM_HandleTypeDef htim16;
 extern DMA_HandleTypeDef hdma_usart1_rx;
-extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -92,20 +91,6 @@ void DMA1_Channel1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
 
   /* USER CODE END DMA1_Channel1_IRQn 1 */
-}
-
-/**
-* @brief This function handles DMA1 channel4 global interrupt.
-*/
-void DMA1_Channel4_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel4_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart1_tx);
-  /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel4_IRQn 1 */
 }
 
 /**
@@ -181,8 +166,22 @@ void USART1_IRQHandler(void)
     {
       __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE);
       usart1_rx_flag = 1;
-      //debug_printf("int.\r\n");
+      //debug_printf("rxflag isr\r\n");
     }
+  
+   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TXE) == SET)
+  {
+  //  debug_printf("UART_FLAG_TXE done!\r\n");
+    __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_TXE);
+  }
+  
+  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TC) == SET)
+  {
+  //  debug_printf("UART_FLAG_TC done!\r\n");
+    __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_TC);
+  }
+  
+  //log_buffer2[0] = '\0';
   /* USER CODE END USART1_IRQn 1 */
 }
 
@@ -203,6 +202,8 @@ void USART2_IRQHandler(void)
       usart2_rx_flag = 1;
       //debug_printf("int.\r\n");
     }
+
+  
   /* USER CODE END USART2_IRQn 1 */
 }
 
