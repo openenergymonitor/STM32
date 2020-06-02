@@ -53,20 +53,10 @@
 #define SPI4_CS_SDCARD_GPIO_Port GPIOE
 #define SPI4_CS_RFM69_Pin GPIO_PIN_4
 #define SPI4_CS_RFM69_GPIO_Port GPIOE
-#define VMOS1_Pin GPIO_PIN_0
-#define VMOS1_GPIO_Port GPIOC
-#define VMOS2_Pin GPIO_PIN_1
-#define VMOS2_GPIO_Port GPIOC
-#define VMOS3_Pin GPIO_PIN_2
-#define VMOS3_GPIO_Port GPIOC
 #define CT1_Pin GPIO_PIN_3
 #define CT1_GPIO_Port GPIOC
-#define VSIG3_Pin GPIO_PIN_2
-#define VSIG3_GPIO_Port GPIOF
 #define VSIG1_Pin GPIO_PIN_0
 #define VSIG1_GPIO_Port GPIOA
-#define VSIG2_Pin GPIO_PIN_1
-#define VSIG2_GPIO_Port GPIOA
 #define CT2_Pin GPIO_PIN_4
 #define CT2_GPIO_Port GPIOA
 #define CT3_Pin GPIO_PIN_5
@@ -81,28 +71,12 @@
 #define CT7_GPIO_Port GPIOC
 #define CT8_Pin GPIO_PIN_2
 #define CT8_GPIO_Port GPIOB
-#define MOS1_Pin GPIO_PIN_7
-#define MOS1_GPIO_Port GPIOE
-#define MOS2_Pin GPIO_PIN_8
-#define MOS2_GPIO_Port GPIOE
-#define MOS3_Pin GPIO_PIN_9
-#define MOS3_GPIO_Port GPIOE
-#define MOS4_Pin GPIO_PIN_10
-#define MOS4_GPIO_Port GPIOE
-#define MOS5_Pin GPIO_PIN_11
-#define MOS5_GPIO_Port GPIOE
-#define MOS6_Pin GPIO_PIN_12
-#define MOS6_GPIO_Port GPIOE
-#define MOS7_Pin GPIO_PIN_13
-#define MOS7_GPIO_Port GPIOE
-#define MOS8_Pin GPIO_PIN_14
-#define MOS8_GPIO_Port GPIOE
-#define MOS9_Pin GPIO_PIN_15
-#define MOS9_GPIO_Port GPIOE
 #define CT9_Pin GPIO_PIN_11
 #define CT9_GPIO_Port GPIOB
 #define BUTTON1_Pin GPIO_PIN_14
 #define BUTTON1_GPIO_Port GPIOB
+#define ADC4_5_RJ45_1_Pin GPIO_PIN_15
+#define ADC4_5_RJ45_1_GPIO_Port GPIOB
 #define LED1_Pin GPIO_PIN_8
 #define LED1_GPIO_Port GPIOD
 #define LED2_Pin GPIO_PIN_9
@@ -156,7 +130,9 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+//#include "adc.h"
 int mode;
+//int hunt_PF[CTn];
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

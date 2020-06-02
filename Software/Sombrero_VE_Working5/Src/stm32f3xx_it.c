@@ -182,6 +182,7 @@ void USART1_IRQHandler(void)
   }
   
   //log_buffer2[0] = '\0';
+
   /* USER CODE END USART1_IRQn 1 */
 }
 

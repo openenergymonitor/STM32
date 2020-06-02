@@ -1,5 +1,6 @@
 #include "jsmn.h"
 #include "usart.h"
+#include "adc.h"
 //#include "rtc.h"
 #include <string.h>
 #include <stdio.h>
@@ -15,6 +16,7 @@ static const char *JSON_STRING =
 //static const char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
 //char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
 
+extern hunt_PF[CTn];
 //extern char log_buffer[];
 
 typedef struct VTproperties_
@@ -360,6 +362,14 @@ void json_parser(char *string)
 
       sprintf(json_response, "S:RTC:%lld", timehere); // load the response to send back, confirming signal received.
       return;
+    }
+    else if (!strcmp(select, "HuntPF"))
+    {
+      i = 3;
+      sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
+      int x = atoi(select);
+      hunt_PF[x] = true;
+      sprintf(json_response, "HuntPF:%i", x);
     }
     else if (!strcmp(select, "CT"))
     {

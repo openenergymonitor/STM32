@@ -64,6 +64,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+bool ledBlink = false; // enable or disable LED blinking.
 
 //--------
 // MODES
@@ -85,13 +86,31 @@ bool first_readings = false;
 double V_RATIO;
 double I_RATIO;
 //uint16_t const adc_buff_half_size;
-const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
+const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
+//const double adc_conversion_time = (74.0*(1.0/(72000000.0/4))); // seems to be the fastest we can sample.
+//const double adc_conversion_time = (32.0*(1.0/(72000000.0/4))); // this speed causes buffer overruns.
+
 //const double phase_resolution = (adc_conversion_time / (1.0/50.0)) * 360.0);
 double mains_frequency;
 static double Ws_accumulator[CTn] = {0};
 //bool Vclipped; // unlikely?
 //bool hunt_PF;
+
+
+//----------------------------
+// CT Settings : Common
+//----------------------------
+
+
+//----------------------------
+// CT Settings : Per Channel
+//----------------------------
+
+
+//----------------------------
+// VT Settings : Common
+//----------------------------
 
 
 //------------------------
@@ -121,14 +140,15 @@ bool channel_rdy_bools[CTn] = {0};
 // CALIBRATION
 //----------------
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
-double VCAL = 268.97*0.9940357853; // default ideal power UK, adjusted
+double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
 //double VCAL = 271.748953974895; // calc'd by DB, 20.5.2020
-
+//0.9947958367
 //double VCAL = 266.1238757156; // note - single-phase proto board
 //double VCAL = 224.4135906687; // note - 3-phase proto board
 //double VCAL = 236.660160908; // mascot ac-ac adaptor
-double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
-
+//double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
+double ICAL = (100/0.05)/50.6; // dan's custom test board.
+//double ICAL = (100/0.05)/1.0; // dan's custom test board.
 
 
 //----------------
@@ -423,7 +443,7 @@ void process_frame (uint16_t offset)
     hia =1;
   }
   */
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); // blink the led
+  if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); }// blink the led
   
   //set_highest_phase_correction(); // could be called after a phase correction routine instead.
   while (!check_dma_index_for_phase_correction(offset)) __NOP();
@@ -529,7 +549,8 @@ void process_frame (uint16_t offset)
       //-------------------------------------------------- end zero-crossing.
     } // end per channel routine
   } // end buffer routine
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
+  if(ledBlink) {HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);}
+  
 } // end process_frame().
 
 
@@ -739,7 +760,7 @@ int main(void)
       
       
 
-      HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); // blink the led
+      if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); } // blink the led
       // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
@@ -804,12 +825,12 @@ int main(void)
       {
         radioData.nodeId = nodeID;
         radioData.uptime = HAL_GetTick();
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
+        if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
         RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
         //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
 
-      HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);
+      if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);}
     } EndJump: // end main readings_ready function.
 
 
@@ -850,7 +871,7 @@ int main(void)
     {
       //-----
         //phase_corrections[0] = 13; // slap a value in there to test with.
-        hunt_PF[0] = true; // test powerfactor hunting on CT1.
+        //hunt_PF[0] = true; // test powerfactor hunting on CT1.
       //-----
       usart2_rx_flag = 0;
       memcpy(rx_string, rx_buff, sizeof(rx_buff));

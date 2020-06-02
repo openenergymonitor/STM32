@@ -241,19 +241,12 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     }
   
     /**ADC1 GPIO Configuration    
-    PF2     ------> ADC1_IN10
-    PA0     ------> ADC1_IN1
-    PA1     ------> ADC1_IN2 
+    PA0     ------> ADC1_IN1 
     */
-    GPIO_InitStruct.Pin = VSIG3_Pin;
+    GPIO_InitStruct.Pin = VSIG1_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(VSIG3_GPIO_Port, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = VSIG1_Pin|VSIG2_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(VSIG1_GPIO_Port, &GPIO_InitStruct);
 
     /* ADC1 DMA Init */
     /* ADC1 Init */
@@ -357,13 +350,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     }
   
     /**ADC1 GPIO Configuration    
-    PF2     ------> ADC1_IN10
-    PA0     ------> ADC1_IN1
-    PA1     ------> ADC1_IN2 
+    PA0     ------> ADC1_IN1 
     */
-    HAL_GPIO_DeInit(VSIG3_GPIO_Port, VSIG3_Pin);
-
-    HAL_GPIO_DeInit(GPIOA, VSIG1_Pin|VSIG2_Pin);
+    HAL_GPIO_DeInit(VSIG1_GPIO_Port, VSIG1_Pin);
 
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
