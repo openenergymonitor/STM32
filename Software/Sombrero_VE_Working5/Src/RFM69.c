@@ -341,6 +341,7 @@ void RFM69_interruptHandler() {
 
   if (_mode == RF69_MODE_RX && (RFM69_readReg(REG_IRQFLAGS2) & RF_IRQFLAGS2_PAYLOADREADY))
   {
+    debug_printf("RFM69_interruptHandler\r\n");
     uint8_t CTLbyte;
     //rssi = RFM69_readRSSI();
     RFM69_setMode(RF69_MODE_STANDBY);

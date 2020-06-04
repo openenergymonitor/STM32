@@ -140,20 +140,22 @@ bool channel_rdy_bools[CTn] = {0};
 // CALIBRATION
 //----------------
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
-double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-//double VCAL = 271.748953974895; // calc'd by DB, 20.5.2020
-//0.9947958367
-//double VCAL = 266.1238757156; // note - single-phase proto board
-//double VCAL = 224.4135906687; // note - 3-phase proto board
-//double VCAL = 236.660160908; // mascot ac-ac adaptor
-//double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
-double ICAL = (100/0.05)/50.6; // dan's custom test board.
-//double ICAL = (100/0.05)/1.0; // dan's custom test board.
 
+const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
+//const double VCAL = 271.748953974895; // calc'd by DB, 20.5.2020
+//const double VCAL = 266.1238757156; // note - single-phase proto board
+//const double VCAL = 224.4135906687; // note - 3-phase proto board
+//const double VCAL = 236.660160908; // mascot ac-ac adaptor
 
-//----------------
+//const double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
+//const double ICAL = (100/0.05)/50.6; // dan's custom test board.
+//const double ICAL = (100/0.05)/456.3; // dan's custom test board.
+const double ICAL = (100/0.05)/1.0; // dan's custom test board.
+//const double ICAL = (100/0.05)/(22.0/1000.0);
+
+//--------------------
 // PHASE CALIBRATION
-//----------------
+//--------------------
 // Finite Impulse Response (FIR) filter-like Power Factor correction.
 // based on setting the voltage phase per individual CT channel.
 int hunt_PF[CTn] = {0}; // which channel are we hunting max power factor on?
@@ -183,7 +185,8 @@ char readings_rdy_buffer[1000];
 //----------------
 // RADIO
 //----------------
-bool radio_send = 0; // set to 1 to send test data with RFM69.
+bool radioSend = 0; // set to 1 to send test data with RFM69.
+bool radioReceive = false;
 static uint16_t networkID = 210; // a.k.a. Network Group
 static uint8_t nodeID = 10; // this node's ID (address).
 static uint16_t freqBand = 433; // MHz
@@ -199,9 +202,9 @@ typedef struct {
 Payload radioData;
 
 
-//----------------
+//--------------------
 // Time variables
-//----------------
+//--------------------
 uint32_t current_millis;
 uint32_t previous_millis;
 
@@ -596,12 +599,12 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM16_Init();
   MX_ADC2_Init();
-  MX_SPI1_Init();
+  //MX_SPI1_Init();
   MX_SPI4_Init();
-  MX_UART4_Init();
-  MX_USART3_UART_Init();
-  MX_I2C3_Init();
-  MX_UART5_Init();
+  //MX_UART4_Init();
+  //MX_USART3_UART_Init();
+  //MX_I2C3_Init();
+  //MX_UART5_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   
@@ -671,25 +674,28 @@ int main(void)
   //------------------------
   // RADIO begin
   //------------------------
-  if (radio_send) {
-    RFM69_RST();
-    HAL_Delay(10);
-    if (RFM69_initialize(freqBand, nodeID, networkID))
-    {
-      sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
-      debug_printf(log_buffer);
-      log_buffer[0] = '\0';
-      //RFM69_readAllRegs(); // debug output
-    }
-    else
-    {
-      debug_printf("RFM69 not connected.\r\n");
-    }
-    if (encryptkey[0] != '\0') // if we have a encryption key, radio encryption will be set.
-    {
-      RFM69_encrypt(encryptkey);
-    }
+  
+  RFM69_RST();
+  HAL_Delay(10);
+  if (RFM69_initialize(freqBand, nodeID, networkID))
+  {
+    sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
+    debug_printf(log_buffer);
+    log_buffer[0] = '\0';
+    //RFM69_readAllRegs(); // debug output
   }
+  else
+  {
+    debug_printf("RFM69 not connected.\r\n");
+  }
+  if (encryptkey[0] != '\0') // if we have a encryption key, radio encryption will be set.
+  {
+    RFM69_encrypt(encryptkey);
+  }
+  HAL_SPI_MspDeInit(&hspi4);
+  debug_printf("SPI4 DeInit'd.\r\n");
+  
+
   //------------------------
   // ADC BEGIN
   //------------------------
@@ -821,7 +827,7 @@ int main(void)
 
 
       // RFM69 send.
-      if (radio_send) // sending data, test data only.
+      if (radioSend) // sending data, test data only.
       {
         radioData.nodeId = nodeID;
         radioData.uptime = HAL_GetTick();
@@ -837,18 +843,24 @@ int main(void)
     //-------------------------------
     // RFM69 Rx
     //-------------------------------
-    if (RFM69_ReadDIO0Pin()) {
-      debug_printf("RFM69 DIO0 high.\r\n");
-      RFM69_interruptHandler();
-    }
-    if (RFM69_receiveDone()) {
-      HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); // LED blink
-      HAL_TIM_Base_Start_IT(&htim16); // LED blink, interrupt based.
-      // debug output below.
-      debug_printf("RFM69 payload received.\r\n");
-      PrintRawBytes();
-      PrintStruct();
-      PrintByteByByte();
+    if(radioReceive) {
+      if (RFM69_ReadDIO0Pin()) {
+        
+        debug_printf("RFM69 DIO0 high.\r\n");
+        RFM69_interruptHandler();
+
+        
+      }
+      if (RFM69_receiveDone()) { // this maybe shouldn't be nested in the previous if(). If Rx doesn't work, could be the problem.
+          HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); // LED blink
+          HAL_TIM_Base_Start_IT(&htim16); // LED blink, interrupt based.
+          // debug output below.
+          debug_printf("RFM69 payload received.\r\n");
+          PrintRawBytes();
+          PrintStruct();
+          PrintByteByByte();
+        }
+
     }
 
 
