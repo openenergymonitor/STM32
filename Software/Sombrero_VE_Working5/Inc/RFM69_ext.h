@@ -44,5 +44,6 @@ uint8_t SPI_transfer8(uint8_t);     // function to transfer 1byte on SPI with re
 bool Timeout_IsTimeout1(void);      // function for timeout handling, checks if previously set timeout expired
 void Timeout_SetTimeout1(uint32_t); // function for timeout handling, sets a timeout, parameter is in milliseconds (ms)
 
+extern int16_t rssi;
 
 #endif

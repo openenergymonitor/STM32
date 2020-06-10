@@ -31,6 +31,9 @@
 // **********************************************************************************
 // RFM69/SX1231 Internal registers addresses
 //**************************************************
+#ifndef RFM69_REGISTERS_H
+#define RFM69_REGISTERS_H
+
 #define REG_FIFO          0x00
 #define REG_OPMODE        0x01
 #define REG_DATAMODUL     0x02
@@ -1107,3 +1110,5 @@
 #define RF_DAGC_NORMAL              0x00  // Reset value
 #define RF_DAGC_IMPROVED_LOWBETA1   0x20
 #define RF_DAGC_IMPROVED_LOWBETA0   0x30  // Recommended default
+
+#endif

@@ -16878,7 +16878,7 @@ Epson Toyocom FCC-255</description>
 <wire x1="85" y1="3.005" x2="82" y2="0.005" width="0.127" layer="52" curve="-90"/>
 <wire x1="82" y1="0.005" x2="3" y2="0.005" width="0.127" layer="52"/>
 <wire x1="3" y1="0.005" x2="0" y2="3.005" width="0.127" layer="52" curve="-90"/>
-<hole x="61.5" y="52.505" drill="2.75"/>
+<hole x="61.5" y="52.505" drill="3"/>
 <circle x="61.5" y="52.505" radius="3" width="0.127" layer="52"/>
 <wire x1="50" y1="56.005" x2="50.5" y2="56.005" width="0.127" layer="52"/>
 <wire x1="56.5" y1="56.005" x2="57" y2="56.005" width="0.127" layer="52"/>

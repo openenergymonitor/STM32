@@ -54,7 +54,10 @@
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "jsmn.h"
+#include "reset.h"
+//#include "json.h"
 #include "RFM69.h"
 #include "RFM69_ext.h"
 //#include "ds18b20.h"
@@ -64,14 +67,22 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+// test variables
+bool testing = true; // generic testing variable for if() statements.
+bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
 bool ledBlink = false; // enable or disable LED blinking.
+// test variables
 
-//--------
+char hwVersion[] = "Sombrero_v0.8";
+char fwVersion[] = "v0";
+
+//-------------
 // MODES
-//--------
+//-------------
 // 0 = Standalone
 // 1 = rPi
 // 2 = ESP32
+// 3 = testing
 int mode = 1; // initialised as rPi mode for testing.
 
 
@@ -85,17 +96,12 @@ bool readings_requested = false;
 bool first_readings = false;
 double V_RATIO;
 double I_RATIO;
-//uint16_t const adc_buff_half_size;
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 //const double adc_conversion_time = (74.0*(1.0/(72000000.0/4))); // seems to be the fastest we can sample.
 //const double adc_conversion_time = (32.0*(1.0/(72000000.0/4))); // this speed causes buffer overruns.
-
-//const double phase_resolution = (adc_conversion_time / (1.0/50.0)) * 360.0);
 double mains_frequency;
 static double Ws_accumulator[CTn] = {0};
-//bool Vclipped; // unlikely?
-//bool hunt_PF;
 
 
 //----------------------------
@@ -123,12 +129,11 @@ typedef struct channel_
   uint64_t sum_I_sq;
   int64_t sum_V;
   int64_t sum_I;
+  bool Iclipped; 
   uint32_t count;
   uint32_t cycles;
-  uint32_t phase_shift;
-  uint32_t positive_V;
-  uint32_t last_positive_V;
-  uint32_t Iclipped;
+  bool positive_V;
+  bool last_positive_V;
 } channel_t; // data struct per CT channel, stm32 only does 32-bit struct items, anything else gets padded out to 32-bit automatically by
 
 static channel_t channels[CTn] = {0};
@@ -142,35 +147,138 @@ bool channel_rdy_bools[CTn] = {0};
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
 
 const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-//const double VCAL = 271.748953974895; // calc'd by DB, 20.5.2020
-//const double VCAL = 266.1238757156; // note - single-phase proto board
-//const double VCAL = 224.4135906687; // note - 3-phase proto board
-//const double VCAL = 236.660160908; // mascot ac-ac adaptor
+//const double VCAL = 271.748953974895; // measured by DB, 20.5.2020
 
 //const double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
+const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
 //const double ICAL = (100/0.05)/50.6; // dan's custom test board.
 //const double ICAL = (100/0.05)/456.3; // dan's custom test board.
-const double ICAL = (100/0.05)/1.0; // dan's custom test board.
+//const double ICAL = (100/0.05)/1.0; // dan's custom test board.
 //const double ICAL = (100/0.05)/(22.0/1000.0);
+//const double ICAL = (100.0/0.05)*22.0; // V=I*R. Convert to raw mV signal for testing.
 
 //--------------------
 // PHASE CALIBRATION
 //--------------------
 // Finite Impulse Response (FIR) filter-like Power Factor correction.
-// based on setting the voltage phase per individual CT channel.
-int hunt_PF[CTn] = {0}; // which channel are we hunting max power factor on?
-// 0 = no power factor hunting.
-// 1 = power factor hunt start.
-// 2 = power factor hunt to the right. (increase VT lead).
-// 3 = power factor hunt to the left. (increase VT lag).
-// 4 = hunt finishing.
+// This phase correction can be applied to individual CTs.
+// This phase-correction works by selecting the relevant sample from the ADC DMA buffer.
+// For example ADC1 has buffer 1, ADC2 has buffer 2. The VT is on buffer 1, the CT is on buffer 2.
+// We can choose to pair the relevant sample from buffers one and two, to adjust for time differences (phase shift).
+// Each sample is separated at a single conversion time, 10.7usecs, for example, or tripple that for 3-phase.
+int hunt_PF[CTn] = {0}; // this is a per-channel state trigger. The array number is the CT channel.
+// when above array value {0} equals:
+// 0 = no power factor hunting, default at program start.
+// 1 = power factor hunt start. This can be triggered from a serial command.
+// 2 = power factor hunt to the right. (increase VT lead, automatic).
+// 3 = power factor hunt to the left. (increase VT lag, automatic).
+// 4 = hunt finishing, finding mode average (automatic).
 // 5 = hunt complete.
+
+// This store the actual value of buffer indexes to shift by, for each channel.
 static int16_t phase_corrections[CTn] = {0};   // store of phase corrections per channel.
+
+// Below are misc variables to make PF hunting work.
 uint8_t phHunt_direction_changes = 0; // we're aiming for phase_correction_iteration_target.
 static const int phHunt_direction_change_target = 5; // how many times will the phase hunt change direction?
 double last_powerFactor[CTn]; // PF from previous readings.
 double powerFactor_now[CTn];  // PF from most recent readings.
-//bool pfhuntDone[CTn] = {0};
+
+//------------------------------------------
+// FIR-type filter for phase correction.
+//------------------------------------------
+uint16_t highest_phase_correction = 0;
+void set_highest_phase_correction(void) { // could be done after each correction routine instead.
+  highest_phase_correction = 0; // reset. 
+  for (int i = 0; i < CTn; i++) {
+    if (phase_corrections[i] > highest_phase_correction) highest_phase_correction = phase_corrections[i];
+  }
+}
+
+bool check_dma_index_for_phase_correction(uint16_t offset) {
+  // HAL_DELAY(1); // test
+  uint16_t dma_counter_now = hdma_adc1.Instance->CNDTR;
+  //sprintf(log_buffer, "dma_counter_now:%d, offset:%d, highest_correction:%d\r\n", dma_counter_now, offset, highest_phase_correction);
+  //debug_printf(log_buffer); log_buffer[0] = 0;
+  if (offset == 0) {
+    if (adc_buff_half_size - dma_counter_now > highest_phase_correction) { return true; }
+    else { return false; }
+  }
+  else if (offset == adc_buff_half_size) {
+    if (adc_buff_size - dma_counter_now > highest_phase_correction) {return true; }
+    else { return false; }
+  }
+  return false; // get rid of compiler warning.
+}
+bool modeFail;
+int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examples/mode_program_in_c.htm
+   modeFail = false;
+   int maxValue = 0, maxCount = 0, i, j;
+   for (i = 0; i < n; ++i) {
+      int count = 0;
+      for (j = 0; j < n; ++j) {
+         if (a[j] == a[i])
+         ++count;
+      }
+      if (count > maxCount) {
+         maxCount = count;
+         maxValue = a[i];
+      }
+   }
+   if (maxCount < 3) debug_printf("No confident value found.\r\n"); modeFail = true;
+   return maxValue;
+}
+
+int pf_mode_array[5]; // stores the phase_corrections value at the point of switching direction.
+int *pf_ptr = pf_mode_array;
+int phase_corrections_store_previous_value;
+void pfHunt(int ch) {
+  if (hunt_PF[ch] == 0 || hunt_PF[ch] == 5) { 
+    __NOP();
+  }
+  else if (hunt_PF[ch] == 1) { // start hunting one direction
+    phase_corrections_store_previous_value = phase_corrections[ch];
+    phase_corrections[ch]++; hunt_PF[ch]++;
+    // print phase correction.
+    sprintf(log_buffer, "PFstart++ | CT Channel Number = [number+1].\r\nSetting phase_corrections[%d] to %d\r\n", ch, phase_corrections[ch]);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+  }
+  else if (hunt_PF[ch] == 2) { // continue this direction unless...
+    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]++; // keep going forwards into the buffer
+    else { hunt_PF[ch]++; phHunt_direction_changes++; phase_corrections[ch]--; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and start going backwards into the buffer
+    // print phase correction.
+    sprintf(log_buffer, "PF++ | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
+  }
+  else if (hunt_PF[ch] == 3) { // hunt the other direction until...
+    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';    
+    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]--; // keep going backwards into the buffer
+    else { hunt_PF[ch]--; phHunt_direction_changes++; phase_corrections[ch]++; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and go forwards again into the buffer
+    // print phase correction.
+    sprintf(log_buffer, "PF-- | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
+    //debug_printf(log_buffer); log_buffer[0] = '\0';
+    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
+  }
+  else if (hunt_PF[ch] == 4) {
+    // finish up...
+    for (int i = 0; i < phHunt_direction_change_target; i++) { sprintf(log_buffer, "pf_mode_array[%d] value was %d\r\n", i, pf_mode_array[i]); debug_printf(log_buffer); }
+    
+    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_mode_array, phHunt_direction_change_target)); debug_printf(log_buffer); log_buffer[0] = '\0';
+    
+    phase_corrections[ch] = findmode(pf_mode_array, phHunt_direction_change_target); // the result is set in phase_corrections[] for this channel now.
+    if (modeFail) {
+      sprintf(log_buffer, "huntPF fail setting phase_corrections[%d] to previous value of %d.\r\n", phase_corrections[ch], phase_corrections_store_previous_value); 
+      phase_corrections[ch] = phase_corrections_store_previous_value;
+    }
+    else {
+      sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
+      set_highest_phase_correction(); // update the highest value for 'value ready' buffer checking.
+    }
+    hunt_PF[ch] = 5;
+  }
+}
 
 
 //------------------------
@@ -185,7 +293,7 @@ char readings_rdy_buffer[1000];
 //----------------
 // RADIO
 //----------------
-bool radioSend = 0; // set to 1 to send test data with RFM69.
+bool radioSend = false; // set to 1 to send test data with RFM69.
 bool radioReceive = false;
 static uint16_t networkID = 210; // a.k.a. Network Group
 static uint8_t nodeID = 10; // this node's ID (address).
@@ -214,7 +322,7 @@ uint32_t previous_millis;
 //----------------
 static uint32_t pulseCount = 0;
 extern char json_response[40];
-
+extern int boot_number;
 
 /* USER CODE END PV */
 
@@ -298,9 +406,16 @@ void read_flash(uint8_t* data)
 			data[read_cnt + 3] = (uint8_t)(read_data >> 24);
 			read_cnt += 4;
 		}
-	}while(read_data != 0xFFFFFFFF);
+	} while(read_data != 0xFFFFFFFF);
 }
 
+typedef struct {
+  int reset_counter; 
+  //uint32_t uptime;
+  //double temperature;   // other data
+} FlashStruct; 
+
+FlashStruct flash_struct;
 
 
 //------------------------------------------
@@ -345,99 +460,12 @@ void calcPower (int ch)
 }
 
 
-//------------------------------------------
-// FIR-type filter for phase correction.
-//------------------------------------------
-uint16_t highest_phase_correction = 0;
-void set_highest_phase_correction(void) { // could be done after each correction routine instead.
-  highest_phase_correction = 0; // reset. 
-  for (int i = 0; i < CTn; i++) {
-    if (phase_corrections[i] > highest_phase_correction) highest_phase_correction = phase_corrections[i];
-  }
-}
 
-bool check_dma_index_for_phase_correction(uint16_t offset) {
-  // HAL_DELAY(1); // test
-  uint16_t dma_counter_now = hdma_adc1.Instance->CNDTR;
-  //sprintf(log_buffer, "dma_counter_now:%d, offset:%d, highest_correction:%d\r\n", dma_counter_now, offset, highest_phase_correction);
-  //debug_printf(log_buffer); log_buffer[0] = 0;
-  if (offset == 0) {
-    if (adc_buff_half_size - dma_counter_now > highest_phase_correction) { return true; }
-    else { return false; }
-  }
-  else if (offset == adc_buff_half_size) {
-    if (adc_buff_size - dma_counter_now > highest_phase_correction) {return true; }
-    else { return false; }
-  }
-  return false; // get rid of compiler warning.
-}
-
-int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examples/mode_program_in_c.htm
-   int maxValue = 0, maxCount = 0, i, j;
-   for (i = 0; i < n; ++i) {
-      int count = 0;
-      for (j = 0; j < n; ++j) {
-         if (a[j] == a[i])
-         ++count;
-      }
-      if (count > maxCount) {
-         maxCount = count;
-         maxValue = a[i];
-      }
-   }
-   if (maxCount < 3) debug_printf("No confident value found.\r\n");
-   return maxValue;
-}
-
-int pf_median_array[5]; // stores the phase_corrections value at the point of switching direction.
-int *pf_ptr = pf_median_array;
-void pfHunt(int ch) {
-  if (hunt_PF[ch] == 0) { 
-    __NOP();
-  }
-  else if (hunt_PF[ch] == true) { // start hunting one direction
-    phase_corrections[ch]++; hunt_PF[ch]++;
-    // print phase correction.
-    sprintf(log_buffer, "PFstart++ | Setting phase_corrections[%d] to %d\r\n", ch, phase_corrections[ch]);
-    //debug_printf(log_buffer); log_buffer[0] = '\0';
-  }
-  else if (hunt_PF[ch] == 2) { // continue this direction unless...
-    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';
-    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]++; // keep going forwards into the buffer
-    else { hunt_PF[ch]++; phHunt_direction_changes++; phase_corrections[ch]--; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and start going backwards into the buffer
-    // print phase correction.
-    sprintf(log_buffer, "PF++ | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
-    //debug_printf(log_buffer); log_buffer[0] = '\0';
-    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
-  }
-  else if (hunt_PF[ch] == 3) { // hunt the other direction until...
-    sprintf(log_buffer, "PF_now:%.6lf | last_PF:%.6lf | phase_corrections[%d] was at %d, equal to %.2lf degrees phase shift.\r\n", powerFactor_now[ch], last_powerFactor[ch], ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency)))); debug_printf(log_buffer); log_buffer[0] = '\0';    
-    if (powerFactor_now[ch] > last_powerFactor[ch]) phase_corrections[ch]--; // keep going backwards into the buffer
-    else { hunt_PF[ch]--; phHunt_direction_changes++; phase_corrections[ch]++; *pf_ptr = phase_corrections[ch]; pf_ptr++; } // switch direction and go forwards again into the buffer
-    // print phase correction.
-    sprintf(log_buffer, "PF-- | Setting phase_corrections[%d] to %d. Switched direction %d times.\r\n", ch, phase_corrections[ch], phHunt_direction_changes);
-    //debug_printf(log_buffer); log_buffer[0] = '\0';
-    if (phHunt_direction_changes == phHunt_direction_change_target) hunt_PF[ch] = 4;
-  }
-  else if (hunt_PF[ch] == 4) {
-    // finish up...
-    for (int i = 0; i < phHunt_direction_change_target; i++) { sprintf(log_buffer, "pf_median_array[%d] value was %d\r\n", i, pf_median_array[i]); debug_printf(log_buffer); }
-    
-    sprintf(log_buffer, "mode:%d\r\n", findmode(pf_median_array, phHunt_direction_change_target)); debug_printf(log_buffer); log_buffer[0] = '\0';
-    
-    phase_corrections[ch] = findmode(pf_median_array, phHunt_direction_change_target); // the result is set in phase_corrections[] for this channel now.
-    
-    sprintf(log_buffer, "Maximum PF found! phase_correction[%d] is at %d, equal to %.2lf degrees phase shift.\r\n", ch, phase_corrections[ch], (360.0*((adc_conversion_time*phase_corrections[ch])/(1/mains_frequency))));
-    hunt_PF[ch] = 5;
-  }
-  set_highest_phase_correction(); // update the highest value.
-}
 
 
 //------------------------------------------
-// Process Buffer into Accumulators.
+// Process Half-Buffer into Accumulators.
 //------------------------------------------
-//bool hia = 0;
 void process_frame (uint16_t offset)
 {
   /* debugging
@@ -514,13 +542,12 @@ void process_frame (uint16_t offset)
       else { channel->positive_V = false; }
       //--------------------------------------------------
       //--------------------------------------------------
-      if (!channel->last_positive_V && channel->positive_V) { // looking out for a upwards-zero crossing.
+      if (dontGiveAMonkeys || (!channel->last_positive_V && channel->positive_V)) { // looking out for a upwards-zero crossing.
         channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
         // debug cycle count 
         /*
         sprintf(log_buffer, "cycles%d:%ld\r\n", ch, channel->cycles);
-        debug_printf(log_buffer);
-        log_buffer[0] = '\0';
+        debug_printf(log_buffer); log_buffer[0] = '\0';
         */
         //----------------------------------------
         if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
@@ -543,8 +570,7 @@ void process_frame (uint16_t offset)
           // test waveform sync. printed result should go from 1 to 9.
           /*
           sprintf(log_buffer, "channelsRdy:%d\r\n", chn_ready_count);
-          debug_printf(log_buffer);
-          log_buffer[0] = '\0';
+          debug_printf(log_buffer); log_buffer[0] = '\0';
           */
         }
       }
@@ -552,7 +578,7 @@ void process_frame (uint16_t offset)
       //-------------------------------------------------- end zero-crossing.
     } // end per channel routine
   } // end buffer routine
-  if(ledBlink) {HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);}
+  if(ledBlink) { HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);}
   
 } // end process_frame().
 
@@ -571,6 +597,10 @@ int main(void)
   /* USER CODE BEGIN 1 */
   V_RATIO = VCAL * VOLTS_PER_DIV;
   I_RATIO = ICAL * VOLTS_PER_DIV;
+  
+  //FlashStruct *flashpt = &flash_struct;
+  //union Un flashUn; 
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -579,7 +609,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -593,48 +623,88 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART2_UART_Init();
-  MX_OPAMP4_Init();
   MX_TIM8_Init();
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   MX_TIM16_Init();
   MX_ADC2_Init();
-  //MX_SPI1_Init();
+  MX_SPI1_Init();
   MX_SPI4_Init();
-  //MX_UART4_Init();
-  //MX_USART3_UART_Init();
-  //MX_I2C3_Init();
-  //MX_UART5_Init();
+  MX_UART4_Init();
+  MX_USART3_UART_Init();
+  MX_I2C3_Init();
+  MX_UART5_Init();
   MX_RTC_Init();
+  MX_ADC3_Init();
+  MX_OPAMP4_Init();
   /* USER CODE BEGIN 2 */
-  
-  HAL_Delay(10);
+
+  debug_printf("\r\n\r\nStart, connect VT.\r\n");
 
   //------------------------
-  // UART DMA RX BEGIN
+  // UART DMA RX ENABLE
   //------------------------
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart1, rx_buff, sizeof(rx_buff));
   __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
-
+  //------------------------------
+  // UART Non-blocking TX ENABLE
+  //------------------------------
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_TC); // necessary only to know if we're good to fire another Tx soon after a HAL_UART_Transmit_IT()
-  __HAL_UART_ENABLE_IT(&huart2, UART_IT_TC);
-  
-  // usart1_rx_flag = 1; // debugging
+  __HAL_UART_ENABLE_IT(&huart2, UART_IT_TC);  
+          // usart1_rx_flag = 1; // debugging
 
 
-  HAL_Delay(10);
-  debug_printf("\r\n\r\nstart, connect VT\r\n");
-  
+  //-------------------------------------------------
+  // Analog Input RNG for Radio Start Delay
+  //-------------------------------------------------
+  if (radioSend) {  
+    int RadDelayCount = 0;
+    int RadioDelay;
+    while(RadDelayCount < 3) {
+      static int reading;
+      static int previousRadDelay;
+      previousRadDelay = reading;
+      
+      // ADC read start
+      HAL_ADC_Start(&hadc3);
+      while (HAL_ADC_PollForConversion(&hadc3, 1000) != HAL_OK) {__NOP();}
+      reading = HAL_ADC_GetValue(&hadc3);
+      HAL_ADC_Stop(&hadc3);
+      // ADC read end.
+      
+      RadioDelay = abs((reading - previousRadDelay + 400) * 10); // scale the 'noise'.
+      HAL_Delay(100);
+      RadDelayCount++;
+    }
+    sprintf(log_buffer, "RadioDelay:%d\r\n", RadioDelay);
+    debug_printf(log_buffer); 
+    HAL_Delay (RadioDelay);
+
+    log_buffer[0] = '\0'; // clear buffer.
+  } // end RadioDelay.
+
+
+  //------------------------
+  // RTC Backup Registers
+  //------------------------
   // RTC backup register test, 16 x 32-bit addresses available.
   // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
-  // uint32_t bkp_write = 123456789;
-  // HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, bkp_write);
-  // uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
-  // sprintf(log_buffer, "bkp_:%ld\r\n", bkp_);
+  //uint32_t bkp_write = 123456789;
+  uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
+  sprintf(log_buffer, "Number of boots:%ld\r\n", bkp_);
+  debug_printf(log_buffer); log_buffer[0] = 0;
+  boot_number = bkp_;
+  HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, bkp_+1);
   // works!
-
+  
+  // RESET CAUSE
+  reset_cause_store = reset_cause_get();
+  sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
+  debug_printf(log_buffer); log_buffer[0] = 0;
+  
+  
   //------------------------
   // EEPROM Emulation test
   //------------------------
@@ -657,26 +727,31 @@ int main(void)
   debug_printf(log_buffer); log_buffer[0] = 0; // print result
   */
 
-  //int test_array_mode[5] = {2,1,3,4,5};
-  //sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
-  //debug_printf(log_buffer); log_buffer[0] = 0; // print result
+  // int test_array_mode[5] = {2,1,3,4,5};
+  // sprintf(log_buffer, "test mode-finding: %d\r\n", findmode(test_array_mode, 5));
+  // debug_printf(log_buffer); log_buffer[0] = 0; // print result
   // seems findmode() will return the first value of the array if no mode value is found.
 
+
+  //------------------------
   // is the rPi Connected?
+  //------------------------
   if (HAL_GPIO_ReadPin(rPi_PWR_GPIO_Port, rPi_PWR_Pin) == 1)
   {
     debug_printf("rPi connected!\r\n");
     mode = 1;
   }
   else {
-    debug_printf("rPi not Connected.\r\n");
+    debug_printf("rPi not connected.\r\n");
+    // mode = 0;
   }
+
+
   //------------------------
-  // RADIO begin
+  // RADIO Init
   //------------------------
-  
   RFM69_RST();
-  HAL_Delay(10);
+  HAL_Delay(20);
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
@@ -684,34 +759,38 @@ int main(void)
     log_buffer[0] = '\0';
     //RFM69_readAllRegs(); // debug output
   }
-  else
-  {
-    debug_printf("RFM69 not connected.\r\n");
-  }
-  if (encryptkey[0] != '\0') // if we have a encryption key, radio encryption will be set.
-  {
-    RFM69_encrypt(encryptkey);
-  }
-  HAL_SPI_MspDeInit(&hspi4);
-  debug_printf("SPI4 DeInit'd.\r\n");
+  else debug_printf("RFM69 not connected.\r\n");
   
+  // if we have a encryption key, radio encryption will be set.
+  if (encryptkey[0]) RFM69_encrypt(encryptkey);
+
+  if (radioReceive || radioSend) {
+    __NOP();
+  }
+  else {
+    HAL_SPI_MspDeInit(&hspi4); // disable SPI4, for testing.
+    debug_printf("SPI4 DeInit'd.\r\n");
+  }
+  //else {
+  //RFM69_interruptHandler();
+  //RFM69_receiveDone();
+  //}
+
 
   //------------------------
-  // ADC BEGIN
+  // ADC & OPAMP Start
   //------------------------
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
-  //HAL_ADCEx_Calibration_Start(&hadc4, ADC_SINGLE_ENDED);
   HAL_Delay(2);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs();
 
-  //init_ds18b20s();
-
-
+  //init_ds18b20s(); // temperature sensor
 
   debug_printf("\r\n");
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -734,8 +813,9 @@ int main(void)
       //debug_printf((char*)aShowDate); debug_printf("\r\n");
       //debug_printf((char*)aShowTime); debug_printf("\r\n");
 
-
-      if (readings_requested) debug_printf("No voltage waveform present\r\n");
+      if (readings_requested) debug_printf("No voltage waveform present.\r\n");
+      //if (testing) goto debugIrms;
+      // implement default Vrms value setting and automatic calc of Irms and approximated Power value.
       readings_requested = true;
     }
     
@@ -761,17 +841,14 @@ int main(void)
     //------------------------------------------------
     if (readings_ready)
     {
-      readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.      
+      readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
       if (!first_readings) { first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
-      
-
       if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); } // blink the led
-      // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); // LED blink
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
-      sprintf(readings_rdy_buffer, ""); // initital write to buffer.
-      //pfhuntDone[0] = false;
+      readings_rdy_buffer[0] = '\0'; // initital write to buffer.
+
       for (int ch = 0; ch < CTn; ch++)
       {
         channel_t *chn = &channels_ready[ch];
@@ -786,12 +863,12 @@ int main(void)
         }
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
-        //if (mode == 1 && ch == 0) { // single channel debug output
-          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%ld,cycles%d:%ld,samples%d:%ld,\r\n", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
+        if (ch == 8) { // single channel debug output.
+          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%ld,samples%d:%ld,\r\n", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
-        //}
+        } // single channel debug output.
       }
-
+/*
       // Main frequency estimate.
       sprintf(string_buffer, "Hz_estimate:%.1f,", mains_frequency);
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
@@ -801,7 +878,7 @@ int main(void)
       // Pulsecount
       sprintf(string_buffer, "PC:%ld,", pulseCount);
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
-      
+      */
       
       /*
       // get an average of the OPAMP4 ADC4 buffer.
@@ -816,14 +893,15 @@ int main(void)
       sprintf(string_buffer, "ADC4_avg:%.2f,", ADC4_buff_avg);
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
       */
-
+/*
       // has the adc buffer overrun?
       sprintf(string_buffer, "buffOverrun:%d", overrun_adc_buffer);
       overrun_adc_buffer = 0; // reset
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
 
+*/
       // close the string and add some whitespace for clarity.
-      if (mode == 1) strcat(readings_rdy_buffer, "\r\n\r\n");
+      //if (mode == 1) strcat(readings_rdy_buffer, "\r\n\r\n");
 
 
       // RFM69 send.
@@ -840,28 +918,50 @@ int main(void)
     } EndJump: // end main readings_ready function.
 
 
+
     //-------------------------------
     // RFM69 Rx
     //-------------------------------
+    // This needs checking, does a flag need generating from a DIO0 read = true?
+    // Would a flat reduce the SPI business.?
     if(radioReceive) {
       if (RFM69_ReadDIO0Pin()) {
-        
         debug_printf("RFM69 DIO0 high.\r\n");
-        RFM69_interruptHandler();
-
-        
-      }
-      if (RFM69_receiveDone()) { // this maybe shouldn't be nested in the previous if(). If Rx doesn't work, could be the problem.
+        //RFM69_interruptHandler();
+        if (RFM69_receiveDone()) { // this maybe shouldn't be nested in the previous if(). If Rx doesn't work, could be the problem.
           HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); // LED blink
           HAL_TIM_Base_Start_IT(&htim16); // LED blink, interrupt based.
           // debug output below.
           debug_printf("RFM69 payload received.\r\n");
           PrintRawBytes();
-          PrintStruct();
-          PrintByteByByte();
-        }
+          //PrintStruct();
+          //PrintByteByByte();
+          //RFM69_interruptHandler();
+          sprintf(log_buffer, "RSSI:%d\r\n", rssi);
+          debug_printf(log_buffer);
 
-    }
+          RFM69_receiveBegin();
+          //RFM69_receiveDone(); // seems to be required.
+          log_buffer[0] = '\0';
+        }
+      }
+    } // end radioReceive
+
+
+    
+    /*  // below for testing radio Noise
+    if (radioSend) // sending data, test data only.
+      {
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); // LED blink
+        HAL_TIM_Base_Start_IT(&htim16); // LED blink, interrupt based.
+        radioData.nodeId = nodeID;
+        radioData.uptime = HAL_GetTick();
+        if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
+        RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
+        //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
+      }
+    */
+
 
 
     //------------------------
@@ -968,12 +1068,13 @@ void SystemClock_Config(void)
                               |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_UART4
                               |RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_I2C3
                               |RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_TIM16
-                              |RCC_PERIPHCLK_TIM8;
+                              |RCC_PERIPHCLK_TIM8|RCC_PERIPHCLK_ADC34;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
   PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_SYSCLK;
   PeriphClkInit.Uart5ClockSelection = RCC_UART5CLKSOURCE_SYSCLK;
+  PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_SYSCLK;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
   PeriphClkInit.Tim16ClockSelection = RCC_TIM16CLK_HCLK;
@@ -998,7 +1099,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
   if (GPIO_Pin == PULSE1_Pin) {
-    debug_printf("pulse!\r\n");
+    debug_printf("Pulse Detected.\r\n");
     pulseCount++;
   }
 }

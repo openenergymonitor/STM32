@@ -6,14 +6,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-bool GO_AHEAD_READ_RFM69;
+bool GO_AHEAD_READ_RFM69 = true;
 bool rststate;
 //char log_buffer[30];
 
 
 void RFM69_RST(void) {
   HAL_GPIO_WritePin(RFM_RST_GPIO_Port, RFM_RST_Pin, 1);
-  HAL_Delay(1);
+  HAL_Delay(5);
   HAL_GPIO_WritePin(RFM_RST_GPIO_Port, RFM_RST_Pin, 0);
   HAL_Delay(10);
 }

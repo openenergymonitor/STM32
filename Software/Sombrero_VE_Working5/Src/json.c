@@ -1,165 +1,141 @@
 #include "jsmn.h"
+#include "json.h"
 #include "usart.h"
 #include "adc.h"
-//#include "rtc.h"
+#include "rtc.h"
+#include "reset.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
-/*
-static const char *JSON_STRING =
-    "{\"user\": \"johndoe\", \"admin\": false, \"uid\": 1000,\n  "
-    "\"groups\": [\"users\", \"wheel\", \"audio\", \"video\"]}";
-*/
 
-//static const char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
-//char *JSON_STRING = "{S:CT:2:state:1}"; // testing loveliness
-
-extern hunt_PF[CTn];
-//extern char log_buffer[];
-
-typedef struct VTproperties_
-{
-  float vcal;
-  bool state;
-  int type;
-  int assignedCT; // CT1, CT2 etc.
-  //float instant_voltage;
-  //int raw[];
-  float voltageRMS;
-  float max;
-  float min;
-} VTproperties_t;
-
-typedef struct CTproperties_
-{
-  float ical;
-  bool state;
-  int type;
-  int burden;
-  int ratio;
-  int assignedVT; // VT1, VT2 etc.
-  //float instant_voltage;
-  //int raw[];
-  float currentRMS;
-  float ApparentPower;
-  float RealPower;
-  float max;
-  float min;
-  double watth;
-  float pfInsta;
-  float pfAVG;
-} CTproperties_t;
-
-typedef struct IOproperties_
-{
-  int pin_physical;
-  char pin_register;
-  int pin_number;
-  bool init;      // pin initialisation; 0 for input, 1 for output.
-  int type;       // GPIO | LED | BUTTON
-  bool interrupt; // If pin is input, treat as interrupt true/false.
-  bool value;
-} IOproperties_t;
-
-static unsigned int uint2bcd(unsigned int ival) // https://www.microchip.com/forums/m271601.aspx
- {
- 	return ((ival / 10) << 4) | (ival % 10);
- }
+const char crm_version[] = "v1"; // version tracking for cmd/response system.
+//static const char *JSON_STRING = "{S:CT:2:state:1}"; // testing 
+//static const char *JSON_STRING = "{G:boot_reason}"; // testing 
 
 #define VTn 3
-#define CTn 9
-#define IOn 5 // number of IO in hardware.
-
+#define IOn 5 // number of IO in hardware?
 static VTproperties_t VTproperties[VTn];
 static CTproperties_t CTproperties[CTn];
 //static IOproperties_t IOproperties[IOn];
 
-void VTCommands(bool getset, int ch, char *command, char *property);
-void CTCommands(bool getset, int ch, char *command, char *property);
-void IOCommands(bool getset, int ch, char *command, char *property);
-void error_handler(void);
-
-/*static int jsoneq(const char *json, jsmntok_t *tok, const char *s)
-{
-  if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
-      strncmp(json + tok->start, s, tok->end - tok->start) == 0)
-  {
-    return 0;
-  }
-  return -1;
-}
-*/
-
+// JSMN Parser Variables
 jsmn_parser p;
 #define JSON_TOKENS 128
 jsmntok_t tk[JSON_TOKENS]; /* We expect no more than 128 JSON tokens */
-#define LOG_BUFFER_SIZE 20
-char hwVersion[] = "alpha_0";
-char fwVersion[] = "sombrero_0.1";
-
-int device_mode = 4;
-char mode1[] = "rPi";
-char mode2[] = "ESP32";
-char mode3[] = "standalone";
-char mode4[] = "testing";
-
-bool getset; // 0 = get, 1 = set.
-
-int boot_number;
-
 char json_response[40];
+
+//------------------------------------
+// COMMAND/RESPONSE MODEL
+//------------------------------------
+/* The json_parser() function takes a char array typically received over UART,
+* parses it for json-like elements, and finds a suitable response.
+*
+* Sequentially:::
+*
+* 0. Send command string to stm32, for example "{G:hello_STM32}" (excluding quotations).
+*
+* 1. A pointer to a char array is passed to json_parser().
+*
+* 2. JSMN api detects the JSON elements, and assignes a token to the JSON element.
+*   - this means the first element is token 1, the second token 2, and so on.
+*   - these token numbers represent 'levels' in the hierarchy of the command/response scheme.
+*  
+* 3. Level by level, the JSON element is compared for a suitable next step, resulting in one of two things:
+*   3a, finding a known command, and therefore a known response.
+*   3b, not finding a knows response, in which case a standard error is returned.
+*
+* 4. The resulting response string is loaded into the json_response[] char array.
+*
+* 5. The sender receives a response string prefixed by "{STM32:" (excl. quotations), 
+*    for example "{STM32:hello_rPi}".
+*
+//-----------------------------
+// ALL COMMANDS LISTED BELOW
+//-----------------------------
+// SUMMARY:
+***LEVEL ONE (token index = 1)***
+G = GET (retrieve a value from the stm32).
+S = SET (set a value in the stm32).
+
+***LEVEL TWO (token index = 2)***
+// specifics
+***LEVEL THREE (token index = 3)***
+// specifics
+***LEVEL FOUR (token index = 4)***
+// specifics
+
+
+      // COMMAND LIST BEGIN // 
+Command                       Response Example(s)
+G:hello_STM32                 :hello_rPi
+G:hw_version                  :v0.8
+G:fw_version                  :v1.3
+G:device_mode                 :standalone 
+-                             :rPi
+-                             :ESP32
+-                             :dev
+G:boot_reason                 : [reseponses listed reset.h in reset_cause_get_name()]
+G:boots                       : [ToDo]
+G:uptime                      :1234 [millis since start]
+
+
+reset_cause_t reset_cause = reset_cause_get();
+printf("The system reset cause is \"%s\"\n", reset_cause_get_name(reset_cause));
+
+
+
+S:device_mode:0               :standalone
+S:device_mode:1               :rPi
+S:device_mode:2               :ESP32
+S:device_mode:3               :dev
+                              
+
+*/
+
+// ----------------------
+// BGIN json_parser()
+// ----------------------
+
+
 void json_parser(char *string)
 {
   char *JSON_STRING = string;
   int r;
   int i;
-  // // debug_printf("JSON parser test.\r\n");
 
   jsmn_init(&p);
   r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), tk, JSON_TOKENS);
 
   if (r < 0)
   {
-    sprintf(log_buffer, "ERROR:JSON_PARSE %d\r\n", r);
+    sprintf(log_buffer, "ERROR:json parse error.%d\r\n", r);
     debug_printf(log_buffer);
   }
 
   char select[20];
+
   //----------------------------------------------------
   // LEVEL ONE
   //----------------------------------------------------
-
-  //
   i = 1; // i = 1 for the first JSON object.
   sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
+  
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //    LEVEL TWO : GET Commands
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //----------------------------------------------------
   if (!strcmp(select, "G"))
   {
-    //debug_printf("testing-get");
-    getset = 0;
-    
-  }
-  else if (!strcmp(select, "S"))
-  {
-    //debug_printf("testing-set");
-    getset = 1;
-    
-  }
-
-  //----------------------------------------------------
-  // LEVEL TWO
-  //----------------------------------------------------
-  i = 2;
-  sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
-  //--------------------------
-  // GET Commands
-  //--------------------------
-  if (getset == 0)
-  {
-    if (!strcmp(select, "hello_STM32!"))
+    i = 2;
+    sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
+    if (!strcmp(select, "hello_STM32"))
     {
-      sprintf(json_response, "hello_rPi!");
+      sprintf(json_response, "hello_rPi");
       //// debug_printf("hello_rPi!");
     }
     else if (!strcmp(select, "hw_version"))
@@ -174,55 +150,46 @@ void json_parser(char *string)
     }
     else if (!strcmp(select, "device_mode"))
     {
-      if (device_mode == 0)
+     if (mode == 0)
       {
-        sprintf(json_response, "G:device_mode:uninitialised");
+        sprintf(json_response, "G:device_mode:%s", mode0);
+        // // debug_printf(log_buffer);
       }
-      else if (device_mode == 1)
+      else if (mode == 1)
       {
         sprintf(json_response, "G:device_mode:%s", mode1);
         // // debug_printf(log_buffer);
       }
-      else if (device_mode == 2)
+      else if (mode == 2)
       {
         sprintf(json_response, "G:device_mode:%s", mode2);
         // // debug_printf(log_buffer);
       }
-      else if (device_mode == 3)
+      else if (mode == 3)
       {
         sprintf(json_response, "G:device_mode:%s", mode3);
         // // debug_printf(log_buffer);
       }
-      else if (device_mode == 4)
-      {
-        sprintf(json_response, "G:device_mode:%s", mode4);
-        // // debug_printf(log_buffer);
+      else {
+        error_handler(); return;
       }
-      else
-        error_handler();
     }
     else if (!strcmp(select, "boot_reason"))
     {
-      //sprintf(log_buffer, "boot_reason:%s", reset_cause_get_name(reset_cause));
-      sprintf(json_response, "G:boot_reason:test\r\n");
-      // // debug_printf(log_buffer);
+      sprintf(json_response, "boot_reason:%s", reset_cause_get_name(reset_cause_store));
+      // debug_printf(json_response);
     }
-    else if (!strcmp(select, "number_reboots"))
+    else if (!strcmp(select, "boots"))
     {
-      sprintf(json_response, "G:number_reboots:%d", boot_number);
-      // // debug_printf(log_buffer);
+      sprintf(json_response, "boots:%d", boot_number);
     }
     else if (!strcmp(select, "uptime"))
     {
-      //      sprintf(log_buffer, "G:uptime:%d", HAL_GetTick());
-      // debug_printf(log_buffer);
-      // debug_printf("uptime_test\r\n");
+      sprintf(json_response, "uptime:%ld", HAL_GetTick());
     }
     else if (!strcmp(select, "RTC"))
     {
-      
-
-      sprintf(json_response, "G:RTC:%d", RTC_CalendarShowUnix());
+      sprintf(json_response, "RTC:%lld", RTC_CalendarShowUnix());
       //printf(log_buffer);
       // debug_printf("G:rtc_time:123456789\r\n"); //return in millis?
     }
@@ -233,7 +200,7 @@ void json_parser(char *string)
       //printf_rpi(log_buffer);
       //return 1;
     }
-    else if (!strcmp(select, "VT"))
+    else if (!strcmp(select, "VT")) // return the VT config.
     {
       i = 3;
       sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
@@ -252,11 +219,11 @@ void json_parser(char *string)
         else
         {
           // debug_printf("unrecognised channel\r\n");
-          error_handler();
+          error_handler(); return;
         }
       }
     }
-    else if (!strcmp(select, "CT"))
+    else if (!strcmp(select, "CT")) // return the CT channel config.
     {
 
       i = 3;
@@ -271,7 +238,7 @@ void json_parser(char *string)
       else
       {
         // debug_printf("unrecognised channel\r\n");
-        error_handler();
+        error_handler(); return;
       }
     }
     else if (!strcmp(select, "I/O")) // GPIO Get request handler.
@@ -291,47 +258,53 @@ void json_parser(char *string)
     }
     else
     {
-      error_handler();
+      error_handler(); return;
     }
     //return 0;
   }
-  //--------------------------
-  // SET Commands
-  //--------------------------
-  else
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //    LEVEL TWO : SET Commands
+  //----------------------------------------------------
+  //----------------------------------------------------
+  //----------------------------------------------------
+  else if (!strcmp(select, "S"))
   {
+    i = 2;
+    sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
     if (!strcmp(select, "device_mode"))
     {
       i = 3;
       sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
       if (!strcmp(select, mode1))
       {
-        device_mode = 1;
-        sprintf(json_response, "S:device_mode:%s", mode1);
+        mode = 0;
+        sprintf(json_response, "S:device_mode:%s", mode0);
         // debug_printf(json_response);
       }
       else if (!strcmp(select, mode2))
       {
-        device_mode = 2;
+        mode = 1;
+        sprintf(json_response, "S:device_mode:%s", mode1);
+        // debug_printf(json_response);
+      }
+      else if (!strcmp(select, mode3))
+      {
+        mode = 2;
         sprintf(json_response, "S:device_mode:%s", mode2);
         // debug_printf(json_response);
       }
       else if (!strcmp(select, mode3))
       {
-        device_mode = 3;
+        mode = 3;
         sprintf(json_response, "S:device_mode:%s", mode3);
-        // debug_printf(json_response);
-      }
-      else if (!strcmp(select, mode4))
-      {
-        device_mode = 4;
-        sprintf(json_response, "S:device_mode:%s", mode4);
         // debug_printf(json_response);
       }
       else
       {
         // debug_printf("mode_error\r\n");
-        error_handler();
+        error_handler(); return;
       }
     }
     else if (!strcmp(select, "RTC"))
@@ -363,13 +336,14 @@ void json_parser(char *string)
       sprintf(json_response, "S:RTC:%lld", timehere); // load the response to send back, confirming signal received.
       return;
     }
-    else if (!strcmp(select, "HuntPF"))
+    else if (!strcmp(select, "huntPF"))
     {
-      i = 3;
+      i++; // shift up the JSON token index.
       sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
-      int x = atoi(select);
-      hunt_PF[x] = true;
-      sprintf(json_response, "HuntPF:%i", x);
+      int x = atoi(select) - 1;
+      if (x >= CTn) {error_handler(); return; }
+      hunt_PF[x] = 1;
+      sprintf(json_response, "huntPF:%i", x);
     }
     else if (!strcmp(select, "CT"))
     {
@@ -394,7 +368,7 @@ void json_parser(char *string)
       }
       else
       {
-        error_handler();
+        error_handler(); return;
       }
     }
     else if (!strcmp(select, "VT"))
@@ -424,7 +398,7 @@ void json_parser(char *string)
         }
         else
         {
-          error_handler();
+          error_handler(); return;
         }
       }
     }
@@ -438,25 +412,25 @@ void json_parser(char *string)
     }
     else
     {
-      error_handler();
+      error_handler(); return;
     }
   }
-
+  else {
+    error_handler(); return;
+  }
   // debug_printf("\r\n"); // ENDENDENDENDENDENDENDENDENDENDENDEND of the MAIN() //
-}
+} 
+// ----------------------
+// END json_parser()
+// ----------------------
 
-/* reference ::::
-typedef struct VTproperties_
-{
-  bool state;
-  int type;
-  float vcal;
-  int assignedCT; // CT1, CT2 etc.
-  float voltageRMS;
-  float max;
-  float min;
-} VTproperties_t;
-*/
+
+
+
+
+// ----------------------
+// CMD/RESPONSE Helpers
+// ----------------------
 
 void VTCommands(bool getset, int ch, char *command, char *property)
 {
@@ -650,5 +624,4 @@ void IOCommands(bool getset, int ch, char *command, char *property)
 void error_handler(void)
 {
   sprintf(json_response, "CMD_ERROR");
-  // debug_printf("CMD_ERROR\r\n");
 }

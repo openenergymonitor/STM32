@@ -341,7 +341,7 @@ void RFM69_interruptHandler() {
 
   if (_mode == RF69_MODE_RX && (RFM69_readReg(REG_IRQFLAGS2) & RF_IRQFLAGS2_PAYLOADREADY))
   {
-    debug_printf("RFM69_interruptHandler\r\n");
+    debug_printf("RFM69 interrupt handler.\r\n");
     uint8_t CTLbyte;
     //rssi = RFM69_readRSSI();
     RFM69_setMode(RF69_MODE_STANDBY);
@@ -401,7 +401,7 @@ void RFM69_receiveBegin()
 // checks if a packet was received and/or puts transceiver in receive (ie RX or listen) mode
 bool RFM69_receiveDone()
 {
-//ATOMIC_BLOCK(ATOMIC_FORCEON)
+  //ATOMIC_BLOCK(ATOMIC_FORCEON)
   //noInterrupts(); // re-enabled in RFM69_unselect() via setMode() or via RFM69_receiveBegin()
   RFM69_interruptHandler();
   if (_mode == RF69_MODE_RX && payloadLen > 0)

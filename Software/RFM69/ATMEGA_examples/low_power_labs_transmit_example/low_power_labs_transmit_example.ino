@@ -4,6 +4,7 @@
 int TRANSMITPERIOD = 2345; //transmit a packet to gateway so often (in ms)
 byte sendSize=0;
 boolean requestACK = false;
+int destNode = 10;
 
 typedef struct {
   int nodeId; //store this nodeId
@@ -16,7 +17,7 @@ RFM69 radio;
 
 void setup() {
   Serial.begin(115200);
-  radio.initialize(RF69_433MHZ,20,100); 
+  radio.initialize(RF69_433MHZ,20,210); 
   // radio.readAllRegs(); 
 }
 
@@ -33,7 +34,7 @@ void loop() {
     Serial.print("Sending struct (");
     Serial.print(sizeof(theData));
     Serial.print(" bytes) ");
-    radio.send(1, (const void*)(&theData), sizeof(theData),false);
+    radio.send(destNode, (const void*)(&theData), sizeof(theData),false);
     Serial.print(theData.uptime);
     Serial.println();
     lastPeriod=currPeriod;
