@@ -59,24 +59,28 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-float val = 1.2;
-uint32_t var;
+// float val = 1.2;
+// uint32_t var;
 
 // Hz = trigger_frequency / array_size
+// adjust   htim2.Init.Period value – line 58 of tim.c – to change freq.
 
 #define SINE_ARRAY_SIZE 300
+#define AMPLITUDE 4094 // 4094 seems the 12-bit max without SetValue error.
 
 uint32_t sine_val1[SINE_ARRAY_SIZE];
 uint32_t sine_val2[SINE_ARRAY_SIZE];
 uint32_t sine_val3[SINE_ARRAY_SIZE];
-
 uint32_t third_sin = SINE_ARRAY_SIZE/3;
+
 
 void calcsin(uint32_t sine_val[], int phase_number) {
   for (int i = 0; i < SINE_ARRAY_SIZE; i++) {
-      sine_val[i] = ((sin((i+(third_sin*(phase_number-1)))*2*PI/SINE_ARRAY_SIZE) + 1)*(4096/2));
-      // sprintf(log_buffer, "phase %d val = %ld\r\n", phase_number, sine_val[i]);
-      // debug_printf(log_buffer);
+      sine_val[i] = ((sin((i+(third_sin*(phase_number-1)))*2*PI/SINE_ARRAY_SIZE) + 1)*(AMPLITUDE/2));
+      // sine_val[i] = ((sin(i*2*PI/(double)SINE_ARRAY_SIZE) + 1.0)*(4096/2));
+      		//sine_val[i] = ((sin(i*2*PI/100) + 1)*(4096/2));
+       sprintf(log_buffer, "phase %d val = %ld\r\n", phase_number, sine_val[i]);
+       debug_printf(log_buffer);
   }
 }
 
@@ -131,15 +135,13 @@ int main(void)
   MX_TIM2_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_Delay(2000); // time to get debugger active.
 
-  // HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
-
-
+  //HAL_Delay(1000); // time to get debugger active.
 
   calcsin(sine_val1, 1);
   calcsin(sine_val2, 2);
   calcsin(sine_val3, 3);
+  HAL_TIM_Base_Start(&htim2);
 
   HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, sine_val1, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
   HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_2, sine_val2, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
@@ -147,7 +149,7 @@ int main(void)
 
   HAL_Delay(100);
 
-  HAL_TIM_Base_Start(&htim2);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
 
   /* USER CODE END 2 */
 
@@ -156,15 +158,15 @@ int main(void)
   while (1)
   {
 
-    /*
+    
     // var = val*(4096)/3.3;
     // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, var);
     // val += 0.5;
     // HAL_Delay(2000);
     // if (val>3) val=0.2;
-*/
-    HAL_Delay(1000);
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+
+    // HAL_Delay(1000);
+    // HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

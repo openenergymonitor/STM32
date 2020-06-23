@@ -69,7 +69,7 @@ void MX_DAC1_Init(void)
     /**DAC channel OUT1 config 
     */
   sConfig.DAC_Trigger = DAC_TRIGGER_T2_TRGO;
-  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_DISABLE;
   if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -138,7 +138,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* dacHandle)
     hdma_dac1_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_dac1_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_dac1_ch1.Init.Mode = DMA_CIRCULAR;
-    hdma_dac1_ch1.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_dac1_ch1.Init.Priority = DMA_PRIORITY_HIGH;
     if (HAL_DMA_Init(&hdma_dac1_ch1) != HAL_OK)
     {
       _Error_Handler(__FILE__, __LINE__);
@@ -156,7 +156,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* dacHandle)
     hdma_dac1_ch2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_dac1_ch2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_dac1_ch2.Init.Mode = DMA_CIRCULAR;
-    hdma_dac1_ch2.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_dac1_ch2.Init.Priority = DMA_PRIORITY_HIGH;
     if (HAL_DMA_Init(&hdma_dac1_ch2) != HAL_OK)
     {
       _Error_Handler(__FILE__, __LINE__);
@@ -195,7 +195,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* dacHandle)
     hdma_dac2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_dac2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_dac2_ch1.Init.Mode = DMA_CIRCULAR;
-    hdma_dac2_ch1.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_dac2_ch1.Init.Priority = DMA_PRIORITY_HIGH;
     if (HAL_DMA_Init(&hdma_dac2_ch1) != HAL_OK)
     {
       _Error_Handler(__FILE__, __LINE__);
