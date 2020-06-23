@@ -68,8 +68,8 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 // test variables
-bool testing = true; // generic testing variable for if() statements.
-bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
+bool testing = true; // for testing
+bool dontGiveAMonkeys = true; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
 bool ledBlink = false; // enable or disable LED blinking.
 // test variables
 
@@ -146,16 +146,17 @@ bool channel_rdy_bools[CTn] = {0};
 //----------------
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
 
-const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-//const double VCAL = 271.748953974895; // measured by DB, 20.5.2020
+//const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
+const double VCAL = 268.97;
+//const double VCAL = 278.853288075457; // measured by DB for the Mascot adaptor.
 
-//const double ICAL = (100/0.05)/22.0; // f(rated input, rated output, burden value)
-const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
+//const double ICAL = (100/0.05)/22.0; // (CT rated input ÷ rated output) ÷ burden value.
+//const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
 //const double ICAL = (100/0.05)/50.6; // dan's custom test board.
 //const double ICAL = (100/0.05)/456.3; // dan's custom test board.
 //const double ICAL = (100/0.05)/1.0; // dan's custom test board.
 //const double ICAL = (100/0.05)/(22.0/1000.0);
-//const double ICAL = (100.0/0.05)*22.0; // V=I*R. Convert to raw mV signal for testing.
+const double ICAL = (100.0/0.05)*22.0; // V=I*R. Convert to raw mV signal for testing.
 
 //--------------------
 // PHASE CALIBRATION
@@ -225,7 +226,7 @@ int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examp
          maxValue = a[i];
       }
    }
-   if (maxCount < 3) debug_printf("No confident value found.\r\n"); modeFail = true;
+   if (maxCount < 3) {debug_printf("No confident value found.\r\n"); modeFail = true; }
    return maxValue;
 }
 
@@ -863,10 +864,10 @@ int main(void)
         }
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
-        if (ch == 8) { // single channel debug output.
+        //if (_ch == 1) { // single channel debug output.
           sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%ld,samples%d:%ld,\r\n", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
-        } // single channel debug output.
+        //} // single channel debug output.
       }
 /*
       // Main frequency estimate.
@@ -895,13 +896,13 @@ int main(void)
       */
 /*
       // has the adc buffer overrun?
-      sprintf(string_buffer, "buffOverrun:%d", overrun_adc_buffer);
-      overrun_adc_buffer = 0; // reset
+      sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
+      adc_buffer_overflow = 0; // reset
       if (mode == 1) strcat(readings_rdy_buffer, string_buffer);
 
 */
       // close the string and add some whitespace for clarity.
-      //if (mode == 1) strcat(readings_rdy_buffer, "\r\n\r\n");
+      if (mode == 1) strcat(readings_rdy_buffer, "\r\n");
 
 
       // RFM69 send.

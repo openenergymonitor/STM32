@@ -517,7 +517,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
   if (hadc==&hadc1) {
-    if (conv_hfcplt_flag) overrun_adc_buffer = true; // has the buffer overrun?
+    if (conv_hfcplt_flag) adc_buffer_overflow = true; // has the buffer overrun?
     conv_hfcplt_flag = 1;
     
     //process_frame(0);
@@ -527,7 +527,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
   if (hadc==&hadc1) {
-    if (conv_cplt_flag) overrun_adc_buffer = true; // has the buffer overrun?
+    if (conv_cplt_flag) adc_buffer_overflow = true; // has the buffer overrun?
     conv_cplt_flag = 1;
   }
 }

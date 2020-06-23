@@ -1,0 +1,1 @@
+3-phase generation on pins PA4, PA5, and PA6.
