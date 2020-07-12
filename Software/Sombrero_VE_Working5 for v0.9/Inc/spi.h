@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : USART.h
+  * File Name          : SPI.h
   * Description        : This file provides code for the configuration
-  *                      of the USART instances.
+  *                      of the SPI instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -37,8 +37,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __usart_H
-#define __usart_H
+#ifndef __spi_H
+#define __spi_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -48,19 +48,11 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#define COMMAND_BUFFER_SIZE 150
-uint8_t rx_buff[COMMAND_BUFFER_SIZE];
-bool usart1_rx_flag;
-bool usart2_rx_flag;
-char log_buffer[500];
+
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart4;
-extern UART_HandleTypeDef huart5;
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart2;
-extern UART_HandleTypeDef huart3;
+extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi4;
 
 /* USER CODE BEGIN Private defines */
 
@@ -68,22 +60,17 @@ extern UART_HandleTypeDef huart3;
 
 extern void _Error_Handler(char *, int);
 
-void MX_UART4_Init(void);
-void MX_UART5_Init(void);
-void MX_USART1_UART_Init(void);
-void MX_USART2_UART_Init(void);
-void MX_USART3_UART_Init(void);
+void MX_SPI1_Init(void);
+void MX_SPI4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void debug_printf (char* p);
-void rPi_printf (char* p);
+uint8_t SPI_transfer8 (uint8_t tx_byte);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /*__ usart_H */
+#endif /*__ spi_H */
 
 /**
   * @}

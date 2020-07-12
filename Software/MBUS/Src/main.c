@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2020 STMicroelectronics
+  * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -39,52 +39,24 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
-#include "dac.h"
 #include "dma.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#define MBUS_MAX_LEN 100
 
-// see application note AN3126
-// tutorial credit https://controllerstech.com/dac-in-stm32/
-
-#include "math.h"
-
-#define PI 3.1415926536
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-// float val = 1.2;
-// uint32_t var;
-
-// Hz = trigger_frequency / array_size
-// adjust   htim2.Init.Period value – line 58 of tim.c – to change freq.
-
-#define SINE_ARRAY_SIZE 300
-#define AMPLITUDE 4000 // 4096 caused glitchy waveforms.
-
-uint32_t sine_val1[SINE_ARRAY_SIZE];
-uint32_t sine_val2[SINE_ARRAY_SIZE];
-uint32_t sine_val3[SINE_ARRAY_SIZE];
-uint32_t shift_sine = SINE_ARRAY_SIZE/30;
-
-void calcsin(uint32_t sine_val[], int phase_number) {
-  for (int i = 0; i < SINE_ARRAY_SIZE; i++) {
-      sine_val[i] = ((sin((i+(shift_sine*(phase_number-1)))*2*PI/SINE_ARRAY_SIZE) + 1)*(AMPLITUDE/2));
-      // sine_val[i] = ((sin(i*2*PI/(double)SINE_ARRAY_SIZE) + 1.0)*(4096/2));
-      // sine_val[i] = ((sin(i*2*PI/100) + 1)*(4096/2));
-      sprintf(log_buffer, "phase %d val = %ld\r\n", phase_number, sine_val[i]);
-      debug_printf(log_buffer);
-  }
-}
-
-
-
+char log_buffer[500];
+uint8_t serial_ready_1 = 1;
+uint8_t serial_available_1 = 0;
+uint8_t serial_ready_2 = 1;
+uint8_t serial_available_2 = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,6 +68,26 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+uint8_t tx_buff_1[10];
+uint8_t rx_buff_1[MBUS_MAX_LEN];
+uint8_t rx_buff_2[10];
+
+void mbus_short_frame(uint8_t address, uint8_t C_field) {
+
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  HAL_Delay(200);
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  HAL_Delay(200);
+
+  tx_buff_1[0] = 0x10;
+  tx_buff_1[1] = C_field;
+  tx_buff_1[2] = address;
+  tx_buff_1[3] = tx_buff_1[1]+tx_buff_1[2];
+  tx_buff_1[4] = 0x16;
+  tx_buff_1[5] = '\0';
+  
+  HAL_UART_Transmit_DMA(&huart1,(uint8_t*)tx_buff_1,6);
+}
 
 /* USER CODE END 0 */
 
@@ -129,28 +121,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_DAC2_Init();
-  MX_DAC1_Init();
-  MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_Delay(1000); // time to get debugger active.
-
-  calcsin(sine_val1, 1);
-  calcsin(sine_val2, 2);
-  calcsin(sine_val3, 3);
   
-
-  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, sine_val1, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
-  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_2, sine_val2, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
-  HAL_DAC_Start_DMA(&hdac2, DAC_CHANNEL_1, sine_val3, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
-
-  HAL_Delay(100);
-
-  HAL_TIM_Base_Start(&htim2);
+  HAL_UART_Receive_DMA(&huart1,rx_buff_1,MBUS_MAX_LEN);
+  HAL_UART_Receive_DMA(&huart2,rx_buff_2,10);
   
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+  // Send initial MBUS request
+  HAL_Delay(1000);
+  mbus_short_frame(92,0x5b);
 
   /* USER CODE END 2 */
 
@@ -158,22 +138,52 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // something to check the device is running.
-    static int counter;
-    sprintf(log_buffer, "%d\r\n", counter);
-    debug_printf(log_buffer);
-    HAL_Delay(1000);
-    counter++;
+    // -------------------------------------------------------------------------
+    // 1) Read in DEBUG uart
+    // -------------------------------------------------------------------------
+    if (serial_available_2) {
+        serial_available_2 = 0;
+        
+        if (serial_ready_2) {
+            serial_ready_2 = 0;
+            
+            // echo content back
+            HAL_UART_Transmit_DMA(&huart2,(uint8_t*)rx_buff_2,strlen(rx_buff_2));
+            // Send MBUS request
+            mbus_short_frame(92,0x5b);
+        }
+        // Start listening again on uart2
+        HAL_UART_Receive_DMA(&huart2,rx_buff_2,10);
+    }
 
-    
-    // var = val*(4096)/3.3;
-    // HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, var);
-    // val += 0.5;
-    // HAL_Delay(2000);
-    // if (val>3) val=0.2;
-
-    // HAL_Delay(1000);
-    // HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+    // -------------------------------------------------------------------------
+    // 1) Read in MBUS uart
+    // -------------------------------------------------------------------------
+    if (serial_available_1) {
+        serial_available_1 = 0;
+        
+        // LED indicator to show mbus data available
+        int i;
+        for (i=0; i<10; i++) {
+            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+            HAL_Delay(50);
+        }
+        
+        // Send MBUS reply to DEBUG UART
+        if (serial_ready_2) {
+            serial_ready_2 = 0;
+            
+            int i;
+            for (i=0; i<76; i++) {
+              sprintf(log_buffer,"%i %i \r\n",i,rx_buff_1[i]);
+              HAL_UART_Transmit(&huart2, (uint8_t*)log_buffer, strlen(log_buffer), 1000);
+            }
+        }
+        // Start listening again on uart1
+        HAL_UART_Receive_DMA(&huart1,rx_buff_1,MBUS_MAX_LEN);
+    }
+      
+    HAL_Delay(200);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -192,15 +202,14 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -210,12 +219,20 @@ void SystemClock_Config(void)
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -233,6 +250,17 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+    if (huart==&huart1) serial_available_1 = 1;
+    if (huart==&huart2) serial_available_2 = 1;
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
+    if (huart==&huart1) serial_ready_1 = 1;
+    if (huart==&huart2) serial_ready_2 = 1;
+}
+
 
 /* USER CODE END 4 */
 
