@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2020 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -60,10 +60,9 @@ extern TIM_HandleTypeDef htim8;
 extern void _Error_Handler(char *, int);
 
 void MX_TIM8_Init(void);
-                    
+                        
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                
-
+                    
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

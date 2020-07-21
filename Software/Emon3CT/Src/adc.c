@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2020 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -268,11 +268,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
-    /* Be sure that all peripheral instances that share the same clock need to be disabled */
-    /**  HAL_RCC_ADC12_CLK_ENABLED--;
-    *  if(HAL_RCC_ADC12_CLK_ENABLED==0){
-    *    __HAL_RCC_ADC12_CLK_DISABLE();
-    **/
+    HAL_RCC_ADC12_CLK_ENABLED--;
+    if(HAL_RCC_ADC12_CLK_ENABLED==0){
+      __HAL_RCC_ADC12_CLK_DISABLE();
+    }
   
     /**ADC1 GPIO Configuration    
     PA0     ------> ADC1_IN1 
@@ -291,11 +290,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   /* USER CODE END ADC2_MspDeInit 0 */
     /* Peripheral clock disable */
-    /* Be sure that all peripheral instances that share the same clock need to be disabled */
-    /**  HAL_RCC_ADC12_CLK_ENABLED--;
-    *  if(HAL_RCC_ADC12_CLK_ENABLED==0){
-    *    __HAL_RCC_ADC12_CLK_DISABLE();
-    **/
+    HAL_RCC_ADC12_CLK_ENABLED--;
+    if(HAL_RCC_ADC12_CLK_ENABLED==0){
+      __HAL_RCC_ADC12_CLK_DISABLE();
+    }
   
     /**ADC2 GPIO Configuration    
     PC0     ------> ADC2_IN6
