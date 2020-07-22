@@ -134,7 +134,7 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
-extern int _mode;
+//extern int _mode;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

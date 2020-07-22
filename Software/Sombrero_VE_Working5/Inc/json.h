@@ -70,12 +70,7 @@ void json_parser(char *string);
 extern char hwVersion[];
 extern char fwVersion[];
 
-//extern int mode;
-
-const char mode_0[] = "standalone";
-const char mode_1[] = "rPi";
-const char mode_2[] = "ESP32";
-const char mode_3[] = "dev";
+extern int _mode;
 
 bool getset; // 0 = get, 1 = set.
 

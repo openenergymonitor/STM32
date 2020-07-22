@@ -825,7 +825,7 @@ int main(void)
   HAL_Delay(2);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
-  start_ADCs(usec_lag);
+  //start_ADCs(usec_lag);
 
   //init_ds18b20s(); // temperature sensor
 

@@ -103,6 +103,11 @@ S:huntPF:1-9                  :PF hunting (Method2) for CT channels 1 to 9.
 
 void json_parser(char *string)
 {
+  static const char mode_0_string[] = "standalone";
+  static const char mode_1_string[] = "rPi";
+  static const char mode_2_string[] = "ESP32";
+  static const char mode_3_string[] = "dev";
+
   char *JSON_STRING = string;
   int r;
   int i;
@@ -154,22 +159,22 @@ void json_parser(char *string)
     {
      if (_mode == 0)
       {
-        sprintf(json_response, "G:device_mode:%s", mode_0);
+        sprintf(json_response, "G:device_mode:%s", mode_0_string);
         // // debug_printf(log_buffer);
       }
       else if (_mode == 1)
       {
-        sprintf(json_response, "G:device_mode:%s", mode_1);
+        sprintf(json_response, "G:device_mode:%s", mode_1_string);
         // // debug_printf(log_buffer);
       }
       else if (_mode == 2)
       {
-        sprintf(json_response, "G:device_mode:%s", mode_2);
+        sprintf(json_response, "G:device_mode:%s", mode_2_string);
         // // debug_printf(log_buffer);
       }
       else if (_mode == 3)
       {
-        sprintf(json_response, "G:device_mode:%s", mode_3);
+        sprintf(json_response, "G:device_mode:%s", mode_3_string);
         // // debug_printf(log_buffer);
       }
       else {
@@ -279,28 +284,28 @@ void json_parser(char *string)
     {
       i = 3;
       sprintf(select, "%.*s", tk[i].end - tk[i].start, JSON_STRING + tk[i].start);
-      if (!strcmp(select, mode_1))
+      if (!strcmp(select, mode_1_string))
       {
         _mode = 0;
-        sprintf(json_response, "S:device_mode:%s", mode_0);
+        sprintf(json_response, "S:device_mode:%s", mode_0_string);
         // debug_printf(json_response);
       }
-      else if (!strcmp(select, mode_2))
+      else if (!strcmp(select, mode_2_string))
       {
         _mode = 1;
-        sprintf(json_response, "S:device_mode:%s", mode_1);
+        sprintf(json_response, "S:device_mode:%s", mode_1_string);
         // debug_printf(json_response);
       }
-      else if (!strcmp(select, mode_3))
+      else if (!strcmp(select, mode_3_string))
       {
         _mode = 2;
-        sprintf(json_response, "S:device_mode:%s", mode_2);
+        sprintf(json_response, "S:device_mode:%s", mode_2_string);
         // debug_printf(json_response);
       }
-      else if (!strcmp(select, mode_3))
+      else if (!strcmp(select, mode_3_string))
       {
         _mode = 3;
-        sprintf(json_response, "S:device_mode:%s", mode_3);
+        sprintf(json_response, "S:device_mode:%s", mode_3_string);
         // debug_printf(json_response);
       }
       else
