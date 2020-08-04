@@ -132,6 +132,7 @@
                     },
                     "filename_format": "%PREFIX/profile.gbr",
                     "layers": [
+                        46
                     ],
                     "milling": true,
                     "polarity": "positive",
@@ -272,28 +273,6 @@
                     "name": "Silkscreen Bottom",
                     "polarity": "positive",
                     "type": "gerber_layer"
-                },
-                {
-                    "advanced_options": {
-                        "mirror": false,
-                        "offset_x": 0,
-                        "offset_y": 0,
-                        "rotate": false,
-                        "upside_down": false
-                    },
-                    "board_outline": false,
-                    "config": {
-                        "file_function": "Profile",
-                        "plating": "plated"
-                    },
-                    "filename_format": "%PREFIX/%FF.gbr",
-                    "layers": [
-                        46
-                    ],
-                    "milling": false,
-                    "name": "Milling",
-                    "polarity": "positive",
-                    "type": "gerber_layer"
                 }
             ],
             "version": "RS274X"
@@ -324,14 +303,6 @@
             "filename_prefix": "CAMOutputs/Assembly",
             "output_type": "assembly",
             "outputs": [
-                {
-                    "filename_format": "%ASSEMBLYPREFIX/%N",
-                    "list_attribute": true,
-                    "list_type": "values",
-                    "name": "Bill of Material",
-                    "output_format": "txt",
-                    "type": "bom"
-                },
                 {
                     "filename_format": "%ASSEMBLYPREFIX/PnP_%N_%BOARDSIDE",
                     "name": "Pick and Place",

@@ -68,9 +68,9 @@
 #define SINE_ARRAY_SIZE 300
 #define AMPLITUDE 4000 // 4096 caused glitchy waveforms.
 
-uint32_t sine_val1[SINE_ARRAY_SIZE];
-uint32_t sine_val2[SINE_ARRAY_SIZE];
-uint32_t sine_val3[SINE_ARRAY_SIZE];
+uint32_t sine_vals1[SINE_ARRAY_SIZE];
+uint32_t sine_vals2[SINE_ARRAY_SIZE];
+uint32_t sine_vals3[SINE_ARRAY_SIZE];
 uint32_t shift_sine = SINE_ARRAY_SIZE/30;
 
 void calcsin(uint32_t sine_val[], int phase_number) {
@@ -137,14 +137,14 @@ int main(void)
 
   HAL_Delay(1000); // time to get debugger active.
 
-  calcsin(sine_val1, 1);
-  calcsin(sine_val2, 2);
-  calcsin(sine_val3, 3);
+  calcsin(sine_vals1, 1);
+  calcsin(sine_vals2, 2);
+  calcsin(sine_vals3, 3);
   
 
-  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, sine_val1, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
-  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_2, sine_val2, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
-  HAL_DAC_Start_DMA(&hdac2, DAC_CHANNEL_1, sine_val3, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
+  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, sine_vals1, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
+  HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_2, sine_vals2, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
+  HAL_DAC_Start_DMA(&hdac2, DAC_CHANNEL_1, sine_vals3, SINE_ARRAY_SIZE, DAC_ALIGN_12B_R);
 
   HAL_Delay(100);
 

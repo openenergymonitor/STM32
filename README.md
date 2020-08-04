@@ -80,11 +80,10 @@ Firmware examples included in this repository:
 - [Sombrero_VB_Blink](Software/Sombrero_VB_Blink)
 - [Sombrero_VE_ADC-test](Software/Sombrero_VE_ADC-test)
 - [Sombrero_VE_Blink](Software/Sombrero_VE_Blink)
-- [Sombrero_VE_Working3](Software/Sombrero_VE_Working3)
-- [Sombrero_VE_Working4](Software/Sombrero_VE_Working4)
 - [Sombrero_VE_Working5](Sombrero_VE_Working5)
 
 ### Other:
 
 - [STM32F103 BluePill Blink](docs/bluepill.md)
 - [CAD files from ST](docs/cad-files.md)
+- [CAD file of the enclosure](https://a360.co/3kcYF79)
