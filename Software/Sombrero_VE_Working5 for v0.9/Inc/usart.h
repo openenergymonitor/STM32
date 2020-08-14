@@ -82,7 +82,6 @@ void rPi_printf (char* p);
 #ifdef __cplusplus
 }
 #endif
-
 #endif /*__ usart_H */
 
 /**

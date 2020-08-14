@@ -40,6 +40,7 @@
 #include "main.h"
 #include "stm32f3xx_hal.h"
 #include "adc.h"
+#include "can.h"
 #include "dma.h"
 #include "i2c.h"
 #include "opamp.h"
@@ -47,6 +48,7 @@
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
+#include "usb.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -662,7 +664,6 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   MX_TIM16_Init();
-  MX_ADC2_Init();
   MX_SPI1_Init();
   MX_SPI4_Init();
   MX_UART4_Init();
@@ -672,6 +673,10 @@ int main(void)
   MX_RTC_Init();
   MX_ADC3_Init();
   MX_OPAMP4_Init();
+  MX_ADC4_Init();
+  MX_USB_PCD_Init();
+  MX_CAN_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -823,6 +828,7 @@ int main(void)
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
   HAL_Delay(2);
+  HAL_OPAMP_SelfCalibrate(&hopamp4);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs(usec_lag);
@@ -1091,11 +1097,12 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-                              |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_UART4
-                              |RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_I2C3
-                              |RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_TIM16
-                              |RCC_PERIPHCLK_TIM8|RCC_PERIPHCLK_ADC34;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
+                              |RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USART3
+                              |RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_UART5
+                              |RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_RTC
+                              |RCC_PERIPHCLK_TIM16|RCC_PERIPHCLK_TIM8
+                              |RCC_PERIPHCLK_ADC34;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
@@ -1104,6 +1111,7 @@ void SystemClock_Config(void)
   PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
   PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_SYSCLK;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   PeriphClkInit.Tim16ClockSelection = RCC_TIM16CLK_HCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)

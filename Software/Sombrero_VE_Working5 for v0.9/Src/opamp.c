@@ -53,8 +53,9 @@ void MX_OPAMP4_Init(void)
 {
 
   hopamp4.Instance = OPAMP4;
-  hopamp4.Init.Mode = OPAMP_FOLLOWER_MODE;
+  hopamp4.Init.Mode = OPAMP_STANDALONE_MODE;
   hopamp4.Init.NonInvertingInput = OPAMP_NONINVERTINGINPUT_IO1;
+  hopamp4.Init.InvertingInput = OPAMP_INVERTINGINPUT_IO1;
   hopamp4.Init.TimerControlledMuxmode = OPAMP_TIMERCONTROLLEDMUXMODE_DISABLE;
   hopamp4.Init.UserTrimming = OPAMP_TRIMMING_FACTORY;
   if (HAL_OPAMP_Init(&hopamp4) != HAL_OK)
@@ -76,6 +77,7 @@ void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef* opampHandle)
   
     /**OPAMP4 GPIO Configuration    
     PB12     ------> OPAMP4_VOUT
+    PD8     ------> OPAMP4_VINM
     PD11     ------> OPAMP4_VINP 
     */
     GPIO_InitStruct.Pin = GPIO_PIN_12;
@@ -83,7 +85,7 @@ void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef* opampHandle)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_11;
+    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
@@ -105,11 +107,12 @@ void HAL_OPAMP_MspDeInit(OPAMP_HandleTypeDef* opampHandle)
   
     /**OPAMP4 GPIO Configuration    
     PB12     ------> OPAMP4_VOUT
+    PD8     ------> OPAMP4_VINM
     PD11     ------> OPAMP4_VINP 
     */
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
 
-    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11);
+    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_8|GPIO_PIN_11);
 
   /* USER CODE BEGIN OPAMP4_MspDeInit 1 */
 

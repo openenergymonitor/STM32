@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : USB.c
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of the USB instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,64 +36,71 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "main.h"
+#include "usb.h"
 
-/* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#include <stdint.h>
+/* USER CODE BEGIN 0 */
 
-// total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
-#define CTn 9 // !!! number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
+/* USER CODE END 0 */
 
-extern uint16_t const adc_buff_size;
-extern uint16_t const adc_buff_half_size;
-extern uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-extern uint16_t adc2_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-//uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool adc_buffer_overflow;
+PCD_HandleTypeDef hpcd_USB_FS;
 
-extern int32_t usec_lag;
+/* USB init function */
 
-extern DMA_HandleTypeDef hdma_adc1;
-/* USER CODE END Includes */
+void MX_USB_PCD_Init(void)
+{
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc2;
-extern ADC_HandleTypeDef hadc3;
-extern ADC_HandleTypeDef hadc4;
+  hpcd_USB_FS.Instance = USB;
+  hpcd_USB_FS.Init.dev_endpoints = 8;
+  hpcd_USB_FS.Init.speed = PCD_SPEED_FULL;
+  hpcd_USB_FS.Init.ep0_mps = DEP0CTL_MPS_64;
+  hpcd_USB_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+  hpcd_USB_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_FS.Init.lpm_enable = DISABLE;
+  hpcd_USB_FS.Init.battery_charging_enable = DISABLE;
+  if (HAL_PCD_Init(&hpcd_USB_FS) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
-extern void _Error_Handler(char *, int);
-
-void MX_ADC1_Init(void);
-void MX_ADC2_Init(void);
-void MX_ADC3_Init(void);
-void MX_ADC4_Init(void);
-
-/* USER CODE BEGIN Prototypes */
-void start_ADCs (int32_t usec_lag);
-void process_frame(uint16_t offset);
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ adc_H */
+
+void HAL_PCD_MspInit(PCD_HandleTypeDef* pcdHandle)
+{
+
+  if(pcdHandle->Instance==USB)
+  {
+  /* USER CODE BEGIN USB_MspInit 0 */
+
+  /* USER CODE END USB_MspInit 0 */
+    /* USB clock enable */
+    __HAL_RCC_USB_CLK_ENABLE();
+  /* USER CODE BEGIN USB_MspInit 1 */
+
+  /* USER CODE END USB_MspInit 1 */
+  }
+}
+
+void HAL_PCD_MspDeInit(PCD_HandleTypeDef* pcdHandle)
+{
+
+  if(pcdHandle->Instance==USB)
+  {
+  /* USER CODE BEGIN USB_MspDeInit 0 */
+
+  /* USER CODE END USB_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_USB_CLK_DISABLE();
+  /* USER CODE BEGIN USB_MspDeInit 1 */
+
+  /* USER CODE END USB_MspDeInit 1 */
+  }
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

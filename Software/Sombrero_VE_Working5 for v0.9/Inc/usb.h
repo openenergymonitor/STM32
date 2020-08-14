@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : ADC.h
+  * File Name          : USB.h
   * Description        : This file provides code for the configuration
-  *                      of the ADC instances.
+  *                      of the USB instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -37,8 +37,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __adc_H
-#define __adc_H
+#ifndef __usb_H
+#define __usb_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -48,31 +48,10 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include <stdbool.h>
-#include <stdint.h>
 
-// total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
-#define CTn 9 // !!! number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
-
-extern uint16_t const adc_buff_size;
-extern uint16_t const adc_buff_half_size;
-extern uint16_t adc1_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-extern uint16_t adc2_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-//uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
-bool conv_hfcplt_flag;
-bool conv_cplt_flag;
-bool adc_buffer_overflow;
-
-extern int32_t usec_lag;
-
-extern DMA_HandleTypeDef hdma_adc1;
 /* USER CODE END Includes */
 
-extern ADC_HandleTypeDef hadc1;
-extern ADC_HandleTypeDef hadc2;
-extern ADC_HandleTypeDef hadc3;
-extern ADC_HandleTypeDef hadc4;
+extern PCD_HandleTypeDef hpcd_USB_FS;
 
 /* USER CODE BEGIN Private defines */
 
@@ -80,20 +59,16 @@ extern ADC_HandleTypeDef hadc4;
 
 extern void _Error_Handler(char *, int);
 
-void MX_ADC1_Init(void);
-void MX_ADC2_Init(void);
-void MX_ADC3_Init(void);
-void MX_ADC4_Init(void);
+void MX_USB_PCD_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void start_ADCs (int32_t usec_lag);
-void process_frame(uint16_t offset);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ adc_H */
+#endif /*__ usb_H */
 
 /**
   * @}
