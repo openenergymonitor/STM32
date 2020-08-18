@@ -70,7 +70,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 // test variables
-bool testing = true; // for testing
+bool testing = false; // for testing
 bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
 bool ledBlink = true; // enable or disable LED blinking.
 
@@ -156,20 +156,21 @@ bool channel_rdy_bools[CTn] = {0};
 //--------------------------------
 const double VOLTS_PER_DIV = (3.3 / 4096.0);
 //const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-const double VCAL = 268.97;
-//const double VCAL = 278.853288075457; // measured by DB for the Mascot adaptor.
+// const double VCAL = 268.97;
+const double VCAL = 229.7252669065; // measured by DB for testing.
 
 
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
-//const double ICAL = (100/0.05)/22.0; // (CT rated input ÷ rated output) ÷ burden value.
+//const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
+const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
 //const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
 //const double ICAL = (100/0.05)/50.6; // dan's custom test board.
 //const double ICAL = (100/0.05)/456.3; // dan's custom test board.
 //const double ICAL = (100/0.05)/1.0; // dan's custom test board.
 //const double ICAL = (100/0.05)/(22.0/1000.0);
-const double ICAL = (100.0/0.05)*22.0; // V=I*R. Convert to raw mV signal for testing.
+//const double ICAL = (100.0/0.05)*11.0; // V=I*R. Convert to raw mV signal for testing.
 
 
 //--------------------------
@@ -190,7 +191,7 @@ int hunt_PF[CTn] = {0}; // this is a per-channel state trigger. The array index 
 // 4 = hunt finishing, finding mode average (automatic).
 // 5 = hunt complete.
 
-// This store the actual value of buffer indexes to shift by, for each channel.
+// This stores the value of buffer indexes to shift by, for each channel.
 int phase_corrections[CTn] = {0};   // store of phase corrections per channel.
 
 // Below are misc variables to make PF hunting work.
@@ -256,9 +257,9 @@ void SystemClock_Config(void);
 
 
 //------------------------------------------
-// FIR-type filter for phase correction.
+// FIR-like filter for phase correction.
 //------------------------------------------
-void set_highest_phase_correction(void) { // could be done after each correction routine instead.
+void set_highest_phase_correction(void) { // could be done after each correction routine.
   highest_phase_correction = 0; // reset. 
   for (int i = 0; i < CTn; i++) {
     if (phase_corrections[i] > highest_phase_correction) highest_phase_correction = phase_corrections[i];
@@ -275,24 +276,36 @@ bool check_dma_index_for_phase_correction(uint16_t offset) {
   //sprintf(log_buffer, "dma_counter_now:%d, offset:%d, highest_correction:%d\r\n", dma_counter_now, offset, highest_phase_correction);
   //debug_printf(log_buffer); log_buffer[0] = 0;
   if (offset == 0) {
-    if (adc_buff_half_size - dma_counter_now > highest_phase_correction) { return true; }
-    else { return false; }
+    if (adc_buff_half_size - dma_counter_now > highest_phase_correction)
+    { 
+      return true; 
+    }
+    else 
+    { 
+      return false; 
+    }
   }
   else if (offset == adc_buff_half_size) {
-    if (adc_buff_size - dma_counter_now > highest_phase_correction) {return true; }
-    else { return false; }
+    if (adc_buff_size - dma_counter_now > highest_phase_correction) 
+    {
+      return true; 
+    }
+    else 
+    { 
+      return false; 
+    }
   }
-  return false; // get rid of compiler warning.
+  return false;
 }
 
 
 //--------------------------------------------------------
 // Mathematical function to find the mode of an array
 //--------------------------------------------------------
-bool modeFail;
+bool modeSearchFailed;
 
 int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examples/mode_program_in_c.htm
-   modeFail = false;
+   modeSearchFailed = false;
    int maxValue = 0, maxCount = 0, i, j;
    for (i = 0; i < n; ++i) {
       int count = 0;
@@ -305,7 +318,7 @@ int findmode(int a[],int n) { // https://www.tutorialspoint.com/learn_c_by_examp
          maxValue = a[i];
       }
    }
-   if (maxCount < 3) {debug_printf("No confident value found.\r\n"); modeFail = true; }
+   if (maxCount < 3) {debug_printf("No confident value found.\r\n"); modeSearchFailed = true; }
    return maxValue;
 }
 
@@ -354,7 +367,7 @@ void pfHunt(int ch) {
     debug_printf(log_buffer); log_buffer[0] = '\0';
 
     phase_corrections[ch] = findmode(pf_mode_array, phHunt_direction_change_target); // the result is set in phase_corrections[] for this channel now.
-    if (modeFail) {
+    if (modeSearchFailed) {
       sprintf(log_buffer, "huntPF FAILED – phase_corrections[] for CT%d set to original value %d.\r\n", ch+1, phase_corrections_store_previous_value); 
       phase_corrections[ch] = phase_corrections_store_previous_value;
     }
@@ -372,6 +385,171 @@ void pfHunt(int ch) {
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+
+//------------------------------------------
+// Calculate Power Data for one Channel
+//------------------------------------------
+double Vrms;
+double Irms;
+double realPower;
+double apparentPower;
+double powerFactor;
+
+void calcPower (int ch)
+{
+  channel_t *chn = &channels_ready[ch];
+
+  double Vmean = (double)chn->sum_V / (double)chn->count;
+  double Imean = (double)chn->sum_I / (double)chn->count;
+
+  double f32sum_V_sq_avg = (double)chn->sum_V_sq / (double)chn->count;
+  f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
+
+  double f32sum_I_sq_avg = (double)chn->sum_I_sq / (double)chn->count;
+  f32sum_I_sq_avg -= (Imean * Imean); // offset removal
+
+  // assuming result of offset removal always positive.
+  // small chance a negative result would cause a nan at sqrt.
+
+  Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
+  Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
+
+  double f32_sum_P_avg = (double)chn->sum_P / (double)chn->count;
+  double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
+  
+  realPower = V_RATIO * I_RATIO * mean_P;
+  apparentPower = Vrms * Irms;
+
+  // calculate PF, is it necessary to prevent dividing by zero error?
+  if (apparentPower != 0) { powerFactor = realPower / apparentPower; }
+  else powerFactor = 0;
+
+  Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
+}
+
+
+
+
+
+//------------------------------------------
+// Process Half-Buffer into Accumulators.
+//------------------------------------------
+void process_frame (uint16_t offset)
+{
+  /* debugging
+  if (!hia) {
+    debug_printf("Hello! First process_frame!\r\n");
+    hia =1;
+  }
+  */
+  if(ledBlink){HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); }// blink the led
+  
+  //set_highest_phase_correction(); // could be called after a phase correction routine instead.
+  while (!check_dma_index_for_phase_correction(offset)) __NOP();
+
+  int16_t sample_V, sample_I, signed_V, signed_I;
+  
+   // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
+  /*
+  sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
+  debug_printf(log_buffer);
+  log_buffer[0] = '\0';
+  */
+
+  for (uint16_t i = 0; i < adc_buff_half_size; i += CTn) // CTn = CT channel quanity.
+  {
+    
+    /* // debug buffer
+    sprintf(log_buffer, "signed_v:%d\r\n", signed_V);
+    debug_printf(log_buffer);
+    log_buffer[0] = '\0';
+    */
+
+    //----------------------------------------
+    // Power
+    //----------------------------------------
+    // Cycle through channels, accumulating
+    for (int ch = 0; ch < CTn; ch++)
+    {
+      channel_t *channel = &channels[ch];
+      //----------------------------------------
+      // Voltage
+      //----------------------------------------
+      // phase correction could happen here to have higher resolution. 
+      // to shift voltage gives finer grained phase resolution in single-phase mode
+      // because the voltage channel is used by all CTs.
+      int16_t sample_V_index = offset + i + ch + phase_corrections[ch];
+      // check for buffer overflow
+      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size; 
+      else if (sample_V_index < 0) sample_V_index += adc_buff_size; 
+      
+      sample_V = adc1_dma_buff[sample_V_index];
+      //if (sample_V == 4095) Vclipped = true; // unlikely
+      signed_V = sample_V - MID_ADC_READING;
+      channel->sum_V += signed_V;
+      channel->sum_V_sq += signed_V * signed_V; // for Vrms
+      //----------------------------------------
+      // Current
+      //----------------------------------------
+      sample_I = adc3_dma_buff[offset + i + ch];
+      if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
+      signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
+      channel->sum_I += signed_I; // 
+      channel->sum_I_sq += signed_I * signed_I; // for Irms
+      //----------------------------------------
+      // Power, instantaneous.
+      //----------------------------------------
+      channel->sum_P += signed_V * signed_I;
+      
+      channel->count++; // number of adc samples.
+      
+      //----------------------------------------
+      // Upwards-zero-crossing detection, whole AC cycles.
+      channel->last_positive_V = channel->positive_V; // retrieve the previous value.
+      if (signed_V >= 0) { channel->positive_V = true; } // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
+      else { channel->positive_V = false; }
+      //--------------------------------------------------
+      //--------------------------------------------------
+      if (dontGiveAMonkeys || (!channel->last_positive_V && channel->positive_V)) { // looking out for a upwards-zero crossing.
+        channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
+        // debug cycle count 
+        /*
+        sprintf(log_buffer, "cycles%d:%ld\r\n", ch, channel->cycles);
+        debug_printf(log_buffer); log_buffer[0] = '\0';
+        */
+        //----------------------------------------
+        if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
+          channel_t *channel_ready = &channels_ready[ch];
+          // copy accumulators for use in main loop.
+          memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
+          // reset accumulators to zero.
+          memset((void*)channel, 0, sizeof(channel_t));
+          // follow through the state of positive_v so no extra AC cycle is erroneously counted.
+          channel->positive_V = true;
+          // set 'channel ready' for this channel.
+          channel_rdy_bools[ch] = true;
+          // are all the channels ready?
+          int chn_ready_count = 0;
+          for (int j = 0; j < CTn; j++) {
+            if (channel_rdy_bools[j]) chn_ready_count++;
+          }
+          if (chn_ready_count == CTn) { readings_ready = true; readings_requested = false; }
+          
+          // test waveform sync. printed result should go from 1 to 9.
+          /*
+          sprintf(log_buffer, "channelsRdy:%d\r\n", chn_ready_count);
+          debug_printf(log_buffer); log_buffer[0] = '\0';
+          */
+        }
+      }
+      //-------------------------------------------------- 
+      //-------------------------------------------------- end zero-crossing.
+    } // end per channel routine
+  } // end buffer routine
+  if(ledBlink) { HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);}
+  
+} // end process_frame().
 
 
 
@@ -453,173 +631,6 @@ typedef struct {
 } FlashStruct; 
 
 FlashStruct flash_struct;
-
-
-//------------------------------------------
-// Calculate Power Data for one Channel
-//------------------------------------------
-double Vrms;
-double Irms;
-double realPower;
-double apparentPower;
-double powerFactor;
-
-void calcPower (int ch)
-{
-  channel_t *chn = &channels_ready[ch];
-
-  double Vmean = (double)chn->sum_V / (double)chn->count;
-  double Imean = (double)chn->sum_I / (double)chn->count;
-
-  double f32sum_V_sq_avg = (double)chn->sum_V_sq / (double)chn->count;
-  f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
-
-  double f32sum_I_sq_avg = (double)chn->sum_I_sq / (double)chn->count;
-  f32sum_I_sq_avg -= (Imean * Imean); // offset removal
-
-  // assuming result of offset removal always positive.
-  // small chance a negative result would cause a nan at sqrt.
-
-  Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
-  Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
-
-  double f32_sum_P_avg = (double)chn->sum_P / (double)chn->count;
-  double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
-  
-  realPower = V_RATIO * I_RATIO * mean_P;
-  apparentPower = Vrms * Irms;
-
-  // calculate PF, is it necessary to prevent dividing by zero error?
-  if (apparentPower != 0) { powerFactor = realPower / apparentPower; }
-  else powerFactor = 0;
-
-  Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
-}
-
-
-
-
-
-//------------------------------------------
-// Process Half-Buffer into Accumulators.
-//------------------------------------------
-void process_frame (uint16_t offset)
-{
-  /* debugging
-  if (!hia) {
-    debug_printf("Hello! First process_frame!\r\n");
-    hia =1;
-  }
-  */
-  if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET); }// blink the led
-  
-  //set_highest_phase_correction(); // could be called after a phase correction routine instead.
-  while (!check_dma_index_for_phase_correction(offset)) __NOP();
-
-  int16_t sample_V, sample_I, signed_V, signed_I;
-  
-   // to hunt one adc_buffer_index per readings_ready, because it's only in readings_ready where PF is calc'd.
-  /*
-  sprintf(log_buffer, "adc_buff_half_size:%d\r\n", adc_buff_half_size);
-  debug_printf(log_buffer);
-  log_buffer[0] = '\0';
-  */
-
-  for (uint16_t i = 0; i < adc_buff_half_size; i += CTn) // CTn = CT channel quanity.
-  {
-    
-    /* // debug buffer
-    sprintf(log_buffer, "signed_v:%d\r\n", signed_V);
-    debug_printf(log_buffer);
-    log_buffer[0] = '\0';
-    */
-
-    //----------------------------------------
-    // Power
-    //----------------------------------------
-    // Cycle through channels, accumulating
-    for (int ch = 0; ch < CTn; ch++)
-    {
-      channel_t *channel = &channels[ch];
-      //----------------------------------------
-      // Voltage
-      //----------------------------------------
-      // phase correction could happen here to have higher resolution. 
-      // to shift voltage gives finer grained phase resolution in single-phase mode
-      // because the voltage channel is used by all CTs.
-      int16_t sample_V_index = offset + i + ch + phase_corrections[ch];
-      // check for buffer overflow
-      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size; 
-      else if (sample_V_index < 0) sample_V_index += adc_buff_size; 
-      
-      sample_V = adc1_dma_buff[sample_V_index];
-      //if (sample_V == 4095) Vclipped = true; // unlikely
-      signed_V = sample_V - MID_ADC_READING;
-      channel->sum_V += signed_V;
-      channel->sum_V_sq += signed_V * signed_V; // for Vrms
-      //----------------------------------------
-      // Current
-      //----------------------------------------
-      sample_I = adc2_dma_buff[offset + i + ch];
-      if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
-      signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
-      channel->sum_I += signed_I; // 
-      channel->sum_I_sq += signed_I * signed_I; // for Irms
-      //----------------------------------------
-      // Power, instantaneous.
-      //----------------------------------------
-      channel->sum_P += signed_V * signed_I;
-      
-      channel->count++; // number of adc samples.
-      
-      //----------------------------------------
-      // Upwards-zero-crossing detection, whole AC cycles.
-      channel->last_positive_V = channel->positive_V; // retrieve the previous value.
-      if (signed_V >= 0) { channel->positive_V = true; } // changed > to >= . not important as MID_ADC_READING 2048 not accurate anyway.
-      else { channel->positive_V = false; }
-      //--------------------------------------------------
-      //--------------------------------------------------
-      if (dontGiveAMonkeys || (!channel->last_positive_V && channel->positive_V)) { // looking out for a upwards-zero crossing.
-        channel->cycles++; // rather than count cycles for readings_ready, better to have the main loop ask for them.
-        // debug cycle count 
-        /*
-        sprintf(log_buffer, "cycles%d:%ld\r\n", ch, channel->cycles);
-        debug_printf(log_buffer); log_buffer[0] = '\0';
-        */
-        //----------------------------------------
-        if (readings_requested && !channel_rdy_bools[ch]) { // if readings are needed by the main loop and channel is not copied/ready.
-          channel_t *channel_ready = &channels_ready[ch];
-          // copy accumulators for use in main loop.
-          memcpy((void*)channel_ready, (void*)channel, sizeof(channel_t));
-          // reset accumulators to zero.
-          memset((void*)channel, 0, sizeof(channel_t));
-          // follow through the state of positive_v so no extra AC cycle is erroneously counted.
-          channel->positive_V = true;
-          // set 'channel ready' for this channel.
-          channel_rdy_bools[ch] = true;
-          // are all the channels ready?
-          int chn_ready_count = 0;
-          for (int j = 0; j < CTn; j++) {
-            if (channel_rdy_bools[j]) chn_ready_count++;
-          }
-          if (chn_ready_count == CTn) { readings_ready = true; readings_requested = false; }
-          
-          // test waveform sync. printed result should go from 1 to 9.
-          /*
-          sprintf(log_buffer, "channelsRdy:%d\r\n", chn_ready_count);
-          debug_printf(log_buffer); log_buffer[0] = '\0';
-          */
-        }
-      }
-      //-------------------------------------------------- 
-      //-------------------------------------------------- end zero-crossing.
-    } // end per channel routine
-  } // end buffer routine
-  if(ledBlink) { HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);}
-  
-} // end process_frame().
-
-
 
 
 /* USER CODE END 0 */
@@ -826,9 +837,9 @@ int main(void)
   // ADC & OPAMP Start
   //------------------------
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
-  HAL_ADCEx_Calibration_Start(&hadc2, ADC_SINGLE_ENDED);
+  HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
   HAL_Delay(2);
-  HAL_OPAMP_SelfCalibrate(&hopamp4);
+  //HAL_OPAMP_SelfCalibrate(&hopamp4);
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs(usec_lag);
@@ -850,8 +861,8 @@ int main(void)
     //---------------------------------------
     // Interval for posting power readings.
     //---------------------------------------
-    if (current_millis - previous_millis >= posting_interval) {
-     
+    if (current_millis - previous_millis >= posting_interval) 
+    {
       uint32_t correction = current_millis - previous_millis - posting_interval;
       previous_millis = current_millis - correction;
 
@@ -861,7 +872,7 @@ int main(void)
 
       if (readings_requested) debug_printf("No voltage waveform present.\r\n");
       //if (testing) goto debugIrms;
-      // implement default Vrms value setting and automatic calc of Irms and approximated Power value.
+      // implement default Vrms value setting and automatic calc of Irms and approximated Power value?
       readings_requested = true;
     }
     
@@ -883,18 +894,19 @@ int main(void)
 
 
     //------------------------------------------------
-    // Check to post primary data.
+    // To post primary data.
     //------------------------------------------------
     if (readings_ready)
     {
       readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
       if (!first_readings) { first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
-      if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_SET); } // blink the led
+      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
       
       sprintf(readings_rdy_buffer, "STM:1.0,"); // initital write to buffer.
       readings_rdy_buffer[0] = '\0'; // initital write to buffer.
 
+      // CALCULATE POWER
       for (int ch = 0; ch < CTn; ch++)
       {
         channel_t *chn = &channels_ready[ch];
@@ -909,7 +921,7 @@ int main(void)
         }
 
         int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
-        if (_ch == 3) { // single channel debug output.
+        if (_ch == 1) { // single channel debug output.
           sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%ld,samples%d:%ld,\r\n", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
           strcat(readings_rdy_buffer, string_buffer);
         } // single channel debug output.
@@ -947,8 +959,11 @@ int main(void)
         //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
 
-      if(ledBlink){HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, GPIO_PIN_RESET);}
+      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);}
     } EndJump: // end main readings_ready function.
+    // end main readings_ready function.
+    // end main readings_ready function.
+    // end main readings_ready function.
 
 
 
