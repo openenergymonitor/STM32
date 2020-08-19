@@ -37,8 +37,8 @@
 
 /* USER CODE BEGIN 0 */
 #include "usart.h"
-bool rx_enable1 = 0;
-bool rx_enable2 = 0;
+bool rx1_enable = 0;
+bool rx2_enable = 0;
 
 /* USER CODE END 0 */
 
@@ -52,8 +52,8 @@ extern ADC_HandleTypeDef hadc3;
 extern TIM_HandleTypeDef htim16;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
+extern DMA_HandleTypeDef hdma_usart2_tx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
-extern DMA_HandleTypeDef hdma_usart3_tx;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
@@ -99,20 +99,6 @@ void DMA1_Channel1_IRQHandler(void)
 }
 
 /**
-* @brief This function handles DMA1 channel2 global interrupt.
-*/
-void DMA1_Channel2_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel2_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart3_tx);
-  /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel2_IRQn 1 */
-}
-
-/**
 * @brief This function handles DMA1 channel3 global interrupt.
 */
 void DMA1_Channel3_IRQHandler(void)
@@ -155,6 +141,20 @@ void DMA1_Channel6_IRQHandler(void)
 }
 
 /**
+* @brief This function handles DMA1 channel7 global interrupt.
+*/
+void DMA1_Channel7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel7_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_tx);
+  /* USER CODE BEGIN DMA1_Channel7_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel7_IRQn 1 */
+}
+
+/**
 * @brief This function handles ADC1 and ADC2 interrupts.
 */
 void ADC1_2_IRQHandler(void)
@@ -194,28 +194,14 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-  if (!rx_enable1) { __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE); rx_enable1 ^= true; return; } //  ^= flips the bool.
+  if (!rx1_enable) { __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE); rx1_enable ^= true; return; } //  ^= flips the bool.
   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) == SET)
     {
       __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE);
       usart1_rx_flag = 1;
-      //debug_printf("rxflag isr\r\n");
+      //debug_printf("rxflag1 ISR\r\n");
     }
   
-   if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TXE) == SET)
-  {
-  //  debug_printf("UART_FLAG_TXE done!\r\n");
-    __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_TXE);
-  }
-  
-  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TC) == SET)
-  {
-  //  debug_printf("UART_FLAG_TC done!\r\n");
-    __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_TC);
-    
-  }
-  
-  //log_buffer2[0] = '\0';
 
   /* USER CODE END USART1_IRQn 1 */
 }
@@ -230,26 +216,13 @@ void USART2_IRQHandler(void)
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
-  if (!rx_enable2) { __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);  rx_enable2 ^= true; return; }
+  if (!rx2_enable) { __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);  rx2_enable ^= true; return; }
   if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE) == SET)
     {
       __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_IDLE);
       usart2_rx_flag = 1;
-      //debug_printf("int.\r\n");
+      debug_printf("rxflag2 ISR\r\n");
     }
-
-  if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_TXE) == SET)
-  {
-  //  debug_printf("UART_FLAG_TXE done!\r\n");
-    __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_TXE);
-  }
-  
-  if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_TC) == SET)
-  {
-  //  debug_printf("UART_FLAG_TC done!\r\n");
-    __HAL_UART_CLEAR_FLAG(&huart2, UART_FLAG_TC);
-    
-  }
   
   /* USER CODE END USART2_IRQn 1 */
 }

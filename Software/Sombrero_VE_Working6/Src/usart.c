@@ -46,8 +46,9 @@
 /* USER CODE BEGIN 0 */
 #include <string.h>
 char log_buffer[500];
-bool usart1_rx_flag = 0;
-bool usart2_rx_flag = 0;
+bool usart1_rx_flag = false;
+bool usart2_rx_flag = false;
+bool usart2_tx_ready = true; // init as ready.
 
 /* USER CODE END 0 */
 
@@ -58,8 +59,8 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart2_rx;
+DMA_HandleTypeDef hdma_usart2_tx;
 DMA_HandleTypeDef hdma_usart3_rx;
-DMA_HandleTypeDef hdma_usart3_tx;
 
 /* UART4 init function */
 void MX_UART4_Init(void)
@@ -302,6 +303,22 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 
     __HAL_LINKDMA(uartHandle,hdmarx,hdma_usart2_rx);
 
+    /* USART2_TX Init */
+    hdma_usart2_tx.Instance = DMA1_Channel7;
+    hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_usart2_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_usart2_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_usart2_tx.Init.Mode = DMA_NORMAL;
+    hdma_usart2_tx.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_usart2_tx) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
+
+    __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart2_tx);
+
     /* USART2 interrupt Init */
     HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(USART2_IRQn);
@@ -344,22 +361,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     }
 
     __HAL_LINKDMA(uartHandle,hdmarx,hdma_usart3_rx);
-
-    /* USART3_TX Init */
-    hdma_usart3_tx.Instance = DMA1_Channel2;
-    hdma_usart3_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
-    hdma_usart3_tx.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_usart3_tx.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_usart3_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-    hdma_usart3_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-    hdma_usart3_tx.Init.Mode = DMA_NORMAL;
-    hdma_usart3_tx.Init.Priority = DMA_PRIORITY_LOW;
-    if (HAL_DMA_Init(&hdma_usart3_tx) != HAL_OK)
-    {
-      _Error_Handler(__FILE__, __LINE__);
-    }
-
-    __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart3_tx);
 
     /* USART3 interrupt Init */
     HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
@@ -449,6 +450,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
     /* USART2 DMA DeInit */
     HAL_DMA_DeInit(uartHandle->hdmarx);
+    HAL_DMA_DeInit(uartHandle->hdmatx);
 
     /* USART2 interrupt Deinit */
     HAL_NVIC_DisableIRQ(USART2_IRQn);
@@ -472,7 +474,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
     /* USART3 DMA DeInit */
     HAL_DMA_DeInit(uartHandle->hdmarx);
-    HAL_DMA_DeInit(uartHandle->hdmatx);
 
     /* USART3 interrupt Deinit */
     HAL_NVIC_DisableIRQ(USART3_IRQn);
@@ -483,23 +484,40 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-void debug_printf (char* p) {
+void debug_printf (char* data) {
    
-  HAL_UART_Transmit(&huart1, (uint8_t*)p, strlen(p), 1000);
-  HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 1000);
+  //HAL_UART_Transmit(&huart1, (uint8_t*)p, strlen(p), 1000); // old tx function
+  // note to developer: the following line will be found before many sprintf() calls so as to avoid 
+  // overwriting the buffer in non-blocking itx mode.
+  // "while (!usart2_tx_ready) { __NOP(); }"
+  // as you can see, there's a manual flag "usart2_tx_ready" being used to avoid clashes 
+  // between quick successive uart transmissions. A ring buffer would be better.
+  
+  while (!usart2_tx_ready) {
+    __NOP();
+  }
+
+  usart2_tx_ready = false; // block future Tx until cleared by interrupt callback.
+  
+  if (_mode == 1) { // Tx to rPi
+    HAL_UART_Transmit_IT(&huart1, data, strlen(data));  
+  }
+  
+  // always debug output.
+  HAL_UART_Transmit_IT(&huart2, data, strlen(data));
 
 }
 
-void rPi_printf (char* p) {
+void rPi_printf (char* data) {
   //debug_printf("rPiPrintf\r\n");
   //HAL_UART_Transmit(&huart1, (uint8_t*)p, strlen(p), 1000);
   //HAL_UART_Transmit(&huart2, (uint8_t*)p, strlen(p), 1000);
   
 
   // this IT method is confirmed working. If any ordinary UART_Transmit are fired off too soon after it 
-  // the later transmit attempt fails unless..
-  HAL_UART_Transmit_IT(&huart1, (uint8_t*)p, strlen(p)); 
-  HAL_UART_Transmit_IT(&huart2, (uint8_t*)p, strlen(p));
+  // // the later transmit attempt fails unless..
+  // HAL_UART_Transmit_IT(&huart1, (uint8_t*)data, strlen(data)); 
+  // HAL_UART_Transmit_IT(&huart2, (uint8_t*)data, strlen(data));
 
   // the below waits until a transmission has finished before firing another Tx down the UART.
   /*

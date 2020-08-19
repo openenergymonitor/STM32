@@ -53,7 +53,8 @@
 uint8_t rx_buff[COMMAND_BUFFER_SIZE];
 bool usart1_rx_flag;
 bool usart2_rx_flag;
-char log_buffer[500];
+bool usart2_tx_ready;
+char log_buffer[1000];
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart4;

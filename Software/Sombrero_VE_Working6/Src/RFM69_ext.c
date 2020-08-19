@@ -67,6 +67,7 @@ bool Timeout_IsTimeout1(void)      // function for timeout handling, checks if p
 {
   if(HAL_GetTick() >= thistimeout1)
     {
+      while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
       sprintf(log_buffer,"TimeOut1!\r\n");
       debug_printf(log_buffer);
       return true;
