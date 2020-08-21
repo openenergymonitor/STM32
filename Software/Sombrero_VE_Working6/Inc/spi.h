@@ -64,7 +64,7 @@ void MX_SPI1_Init(void);
 void MX_SPI4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-uint8_t SPI_transfer8 (uint8_t tx_byte);
+uint8_t SPI_transfer8_RFM (uint8_t tx_byte);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

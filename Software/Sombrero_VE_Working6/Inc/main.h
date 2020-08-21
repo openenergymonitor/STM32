@@ -49,8 +49,8 @@
 
 /* Private define ------------------------------------------------------------*/
 
-#define SPI4_CS_RFM69_Pin GPIO_PIN_3
-#define SPI4_CS_RFM69_GPIO_Port GPIOE
+#define SPI4_CS_RFM_Pin GPIO_PIN_3
+#define SPI4_CS_RFM_GPIO_Port GPIOE
 #define SINGLEPHASE_Pin GPIO_PIN_0
 #define SINGLEPHASE_GPIO_Port GPIOA
 #define THREEPHASE1_Pin GPIO_PIN_5

@@ -32,8 +32,8 @@
 #include <RFM69registers.h>
 #include <RFM69_ext.h>
 #include "usart.h"
+#include "spi.h"
 
-//extern char log_buffer[];
 uint8_t data[RF69_MAX_DATA_LEN]; // recv/xmit buf, including header & crc bytes
 #define RFM69_DATA(x) data[x] // function to grab specific bytes from data[]
 uint8_t datalen;
@@ -318,14 +318,14 @@ static void RFM69_sendFrame(uint8_t toAddress, const void* buffer, uint8_t buffe
 
   // write to FIFO
   RFM69_select();
-  SPI_transfer8(REG_FIFO | 0x80);
-  SPI_transfer8(bufferSize + 3);
-  SPI_transfer8(toAddress);
-  SPI_transfer8(_address);
-  SPI_transfer8(CTLbyte);
+  SPI_transfer8_RFM(REG_FIFO | 0x80);
+  SPI_transfer8_RFM(bufferSize + 3);
+  SPI_transfer8_RFM(toAddress);
+  SPI_transfer8_RFM(_address);
+  SPI_transfer8_RFM(CTLbyte);
 
   for (uint8_t i = 0; i < bufferSize; i++)
-    SPI_transfer8(((uint8_t*) buffer)[i]);
+    SPI_transfer8_RFM(((uint8_t*) buffer)[i]);
   RFM69_unselect();
 
   // no need to wait for transmit mode to be ready since its handled by the radio
@@ -346,10 +346,10 @@ void RFM69_interruptHandler() {
     //rssi = RFM69_readRSSI();
     RFM69_setMode(RF69_MODE_STANDBY);
     RFM69_select();
-    SPI_transfer8(REG_FIFO & 0x7F);
-    payloadLen = SPI_transfer8(0);
+    SPI_transfer8_RFM(REG_FIFO & 0x7F);
+    payloadLen = SPI_transfer8_RFM(0);
     payloadLen = payloadLen > 66 ? 66 : payloadLen; // precaution
-    targetID = SPI_transfer8(0);
+    targetID = SPI_transfer8_RFM(0);
     if(!(_promiscuousMode || targetID == _address || targetID == RF69_BROADCAST_ADDR) // match this node's address, or broadcast address or anything in promiscuous mode
        || payloadLen < 3) // address situation could receive packets that are malformed and don't fit this libraries extra fields
     {
@@ -360,8 +360,8 @@ void RFM69_interruptHandler() {
     }
 
     datalen = payloadLen - 3;
-    senderID = SPI_transfer8(0);
-    CTLbyte = SPI_transfer8(0);
+    senderID = SPI_transfer8_RFM(0);
+    CTLbyte = SPI_transfer8_RFM(0);
 
     ACK_RECEIVED = CTLbyte & RFM69_CTL_SENDACK; // extract ACK-received flag
     ACK_Requested = CTLbyte & RFM69_CTL_REQACK; // extract ACK-requested flag
@@ -370,7 +370,7 @@ void RFM69_interruptHandler() {
 
     for (uint8_t i = 0; i < datalen; i++)
     {
-      data[i] = SPI_transfer8(0);
+      data[i] = SPI_transfer8_RFM(0);
     }
     if (datalen < RF69_MAX_DATA_LEN) data[datalen] = 0; // add null at end of string
     RFM69_unselect();
@@ -427,9 +427,9 @@ void RFM69_encrypt(const char* key)
   if (key != 0)
   {
     RFM69_select();
-    SPI_transfer8(REG_AESKEY1 | 0x80);
+    SPI_transfer8_RFM(REG_AESKEY1 | 0x80);
     for (uint8_t i = 0; i < 16; i++)
-      SPI_transfer8(key[i]);
+      SPI_transfer8_RFM(key[i]);
     RFM69_unselect();
   }
   RFM69_writeReg(REG_PACKETCONFIG2, (RFM69_readReg(REG_PACKETCONFIG2) & 0xFE) | (key ? 1 : 0));
@@ -515,10 +515,10 @@ void RFM69_readAllRegs() {
   debug_printf("Address | HEX\r\n");
   for (regAddr = 1; regAddr <= 0x4F; regAddr++) {
     RFM69_select();
-    SPI_transfer8(regAddr & 0x7F); // send address + r/w bit
-    regVal = SPI_transfer8(0);
+    SPI_transfer8_RFM(regAddr & 0x7F); // send address + r/w bit
+    regVal = SPI_transfer8_RFM(0);
     RFM69_unselect();
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer,"%02X|%02X : ", regAddr, regVal);
     debug_printf(log_buffer);
 
@@ -564,7 +564,7 @@ void RFM69_readAllRegs() {
         debug_printf("100 -> Receiver Mode (RX)\r\n");
       } else {
         // debug_printf( capVal, BIN );
-        while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+        while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
         sprintf(log_buffer,"%02X -> RESERVED\n", capVal );
         debug_printf(log_buffer);
       }
@@ -798,8 +798,8 @@ void RFM69_rcCalibration()
 uint8_t RFM69_readReg(uint8_t addr)
 {
   RFM69_select();
-  SPI_transfer8(addr & 0x7F);
-  uint8_t regval = SPI_transfer8(0);
+  SPI_transfer8_RFM(addr & 0x7F);
+  uint8_t regval = SPI_transfer8_RFM(0);
   RFM69_unselect();
   return regval;
 }
@@ -807,8 +807,8 @@ uint8_t RFM69_readReg(uint8_t addr)
 void RFM69_writeReg(uint8_t addr, uint8_t value)
 {
   RFM69_select();
-  SPI_transfer8(addr | 0x80);
-  SPI_transfer8(value);
+  SPI_transfer8_RFM(addr | 0x80);
+  SPI_transfer8_RFM(value);
   RFM69_unselect();
 }
 
@@ -842,10 +842,10 @@ void PrintStruct(void) {
     }
   else {
     theData = *(dataSTR *)data;
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, " nodeId=%ld\r\n", theData.nodeId);
     debug_printf(log_buffer);
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, " uptime=%ld\r\n", theData.uptime);
     debug_printf(log_buffer);
     //sprintf(log_buffer, " size of the struct=%d\r\n", sizeof(PayloadSTR));
@@ -861,10 +861,10 @@ uint32_t seconddata = 0;
 void PrintByteByByte(void) {
   firstdata = RFM69_DATA(0) + (RFM69_DATA(1) << 8);
   seconddata = RFM69_DATA(2) + (RFM69_DATA(3) << 8) + (RFM69_DATA(4) << 16) + (RFM69_DATA(5) << 24);
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   sprintf(log_buffer, "first_data: %d\r\n", firstdata);
   debug_printf(log_buffer);
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   sprintf(log_buffer, "second_data: %ld\r\n", seconddata);
   debug_printf(log_buffer);
 }
@@ -873,7 +873,7 @@ void PrintByteByByte(void) {
 // printing the raw bytes as received.
 void PrintRawBytes(void) {
   for (int i = 0; i < datalen; i++) {
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, "Byte%d Value: %d\r\n", i, RFM69_DATA(i));
     debug_printf(log_buffer);
   }

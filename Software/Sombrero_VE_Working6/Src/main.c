@@ -40,7 +40,6 @@
 #include "main.h"
 #include "stm32f3xx_hal.h"
 #include "adc.h"
-#include "can.h"
 #include "dma.h"
 #include "i2c.h"
 #include "opamp.h"
@@ -154,17 +153,18 @@ bool channel_rdy_bools[CTn] = {0};
 //--------------------------------
 // VOLTAGE CALIBRATION
 //--------------------------------
-const double VOLTS_PER_DIV = (2.048 / 4096.0);
+const double VOLTS_PER_DIV = (3.3 / 4096.0);
 //const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-// const double VCAL = 268.97;
-//const double VCAL = 229.7252669065; // measured by DB for testing.
-const double VCAL = 287.5;
+//const double VCAL = 268.97;
+const double VCAL = 229.7252669065; // measured by DB for testing.
+//const double VCAL = 287.5;
 
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
 //const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
-const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
+//const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
+const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
 //const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
 //const double ICAL = (100/0.05)/50.6; // dan's custom test board.
 //const double ICAL = (100/0.05)/456.3; // dan's custom test board.
@@ -329,7 +329,7 @@ int pf_mode_array[5]; // stores the phase_corrections value at the point of swit
 int *pf_ptr = pf_mode_array;
 int phase_corrections_store_previous_value;
 void pfHunt(int ch) {
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   if (hunt_PF[ch] == 0 || hunt_PF[ch] == 5) { 
     return;
   }
@@ -426,6 +426,10 @@ void calcPower (int ch)
   if (apparentPower != 0) { powerFactor = realPower / apparentPower; }
   else powerFactor = 0;
 
+  // if (realPower < 1.0) {
+  //   realPower = 0.0;
+  // }
+
   Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
 }
 
@@ -494,6 +498,14 @@ void process_frame (uint16_t offset)
       // Current
       //----------------------------------------
       sample_I = adc3_dma_buff[offset + i + ch];
+       // debug the buffer 
+       /*
+      if (ch == 0) {
+        char valuebuff[10];
+        sprintf(valuebuff, "%d\r\n", sample_I);
+        debug_printf(valuebuff);
+      }
+      */
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
       signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
       channel->sum_I += signed_I; // 
@@ -648,7 +660,7 @@ int main(void)
   I_RATIO = ICAL * VOLTS_PER_DIV;
   
   int _posting_interval = posting_interval;
-  posting_interval = 200; // speed up first discarded reading.
+  posting_interval = 1000; // speed up first discarded reading.
 
 
   //FlashStruct *flashpt = &flash_struct;
@@ -675,7 +687,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART2_UART_Init();
   MX_TIM8_Init();
   MX_ADC1_Init();
   MX_USART1_UART_Init();
@@ -691,19 +702,18 @@ int main(void)
   MX_OPAMP4_Init();
   MX_ADC4_Init();
   MX_USB_PCD_Init();
-  MX_CAN_Init();
   MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
 
-
+  HAL_Delay(1200); // time necessary to catch first serial output on firmware launch after flash.
 
   //------------------------
   // UART DMA RX ENABLE
   //------------------------
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
   HAL_UART_Receive_DMA(&huart1, rx_buff, sizeof(rx_buff));
-  __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
-  HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
+  // __HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
+  // HAL_UART_Receive_DMA(&huart2, rx_buff, sizeof(rx_buff));
   //------------------------------
   // UART Non-blocking TX ENABLE
   //------------------------------
@@ -740,7 +750,7 @@ int main(void)
       HAL_Delay(100);
       RadDelayCount++;
     }
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, "RadioDelay:%d\r\n", RadioDelay);
     debug_printf(log_buffer); 
     HAL_Delay(RadioDelay);
@@ -755,7 +765,7 @@ int main(void)
   // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
   //uint32_t bkp_write = 123456789;
   uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   sprintf(log_buffer, "Number of boots:%ld\r\n", bkp_);
   debug_printf(log_buffer);
   boot_number = bkp_;
@@ -764,7 +774,7 @@ int main(void)
   
   // RESET CAUSE
   reset_cause_store = reset_cause_get();
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
   debug_printf(log_buffer);
   
@@ -818,7 +828,7 @@ int main(void)
   HAL_Delay(20);
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
     debug_printf(log_buffer);
     //RFM69_readAllRegs(); // debug output
@@ -911,8 +921,8 @@ int main(void)
       
       if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
       
-      while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
-      sprintf(log_buffer, "STM:1.0\r\n"); // initital write to buffer.
+      while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+      sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
       //log_buffer[0] = '\0'; // initital write to buffer.
 
       // CALCULATE POWER
@@ -937,7 +947,7 @@ int main(void)
       }
 
       // Main frequency estimate.
-      sprintf(string_buffer, "Hz_estimate:%.1f,", mains_frequency);
+      sprintf(string_buffer, "Hz:%.1f,", mains_frequency);
       strcat(log_buffer, string_buffer);
       
       // Millis
@@ -954,7 +964,7 @@ int main(void)
       strcat(log_buffer, string_buffer);
 
       // close the string and add some whitespace for clarity.
-      strcat(log_buffer, "\r\n");
+      strcat(log_buffer, "}\r\n");
       debug_printf(log_buffer);
 
       // RFM69 send.
@@ -964,6 +974,7 @@ int main(void)
         radioData.uptime = HAL_GetTick();
         if(ledBlink){HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
         RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
+        debug_printf("radio Tx\r\n");
         //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
 
@@ -993,7 +1004,7 @@ int main(void)
           //PrintStruct();
           //PrintByteByByte();
           //RFM69_interruptHandler();
-          while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+          while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
           sprintf(log_buffer, "RSSI:%d\r\n", rssi);
           debug_printf(log_buffer);
 
@@ -1033,27 +1044,27 @@ int main(void)
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
       //json_parser("{G:RTC}"); // calling this loads json_response[] with a response.
       json_parser(rx_string); // calling this loads json_response[] with a response.
-      while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+      while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
       sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
       debug_printf(log_buffer);
     }
-    if (usart2_rx_flag)
-    {
-      //-----
-        //phase_corrections[0] = 13; // slap a value in there to test with.
-        //hunt_PF[0] = true; // test powerfactor hunting on CT1.
-      //-----
-      usart2_rx_flag = 0;
-      memcpy(rx_string, rx_buff, sizeof(rx_buff));
-      memset(rx_buff, 0, sizeof(rx_buff));
-      huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
-      huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
-      huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
-      json_parser(rx_string); // calling this loads json_response[] with a response.
-      while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
-      sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
-      debug_printf(log_buffer);
-    }
+    // if (usart2_rx_flag)
+    // {
+    //   //-----
+    //     //phase_corrections[0] = 13; // slap a value in there to test with.
+    //     //hunt_PF[0] = true; // test powerfactor hunting on CT1.
+    //   //-----
+    //   usart2_rx_flag = 0;
+    //   memcpy(rx_string, rx_buff, sizeof(rx_buff));
+    //   memset(rx_buff, 0, sizeof(rx_buff));
+    //   huart2.hdmarx->Instance->CCR &= ~DMA_CCR_EN;
+    //   huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
+    //   huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
+    //   json_parser(rx_string); // calling this loads json_response[] with a response.
+    //   while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    //   sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
+    //   debug_printf(log_buffer);
+    // }
 
 
     //-------------------------------
@@ -1125,12 +1136,11 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
-                              |RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USART3
-                              |RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_UART5
-                              |RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_RTC
-                              |RCC_PERIPHCLK_TIM16|RCC_PERIPHCLK_TIM8;
+                              |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_UART4
+                              |RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_I2C3
+                              |RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_TIM16
+                              |RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_SYSCLK;
-  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
   PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_SYSCLK;
   PeriphClkInit.Uart5ClockSelection = RCC_UART5CLKSOURCE_SYSCLK;
@@ -1165,9 +1175,9 @@ void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-  if (huart == &huart2) {
+  if (huart == &huart1) {
     // HAL_UART_Transmit(&huart2, "test\r\n", 7, 1000);
-    usart2_tx_ready = true;
+    usart_tx_ready = true;
   }
   
 }
@@ -1186,7 +1196,7 @@ void _Error_Handler(char *file, int line)
   /* User can add his own implementation to report the HAL error return state */
   while (1)
   {
-    while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
     sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
     debug_printf(log_buffer);
   }

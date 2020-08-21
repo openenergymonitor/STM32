@@ -4,7 +4,7 @@
         "name": "Daniel Bates"
     },
     "description": {
-        "EN": "EAGLE default 4 layer CAM job - with plated milling"
+        "EN": ""
     },
     "output_type": "zip",
     "outputs": [
@@ -132,7 +132,6 @@
                     },
                     "filename_format": "%PREFIX/profile.gbr",
                     "layers": [
-                        46
                     ],
                     "milling": true,
                     "polarity": "positive",
@@ -273,6 +272,31 @@
                     "name": "Silkscreen Bottom",
                     "polarity": "positive",
                     "type": "gerber_layer"
+                },
+                {
+                    "advanced_options": {
+                        "mirror": false,
+                        "offset_x": 0,
+                        "offset_y": 0,
+                        "rotate": false,
+                        "upside_down": false
+                    },
+                    "board_outline": true,
+                    "config": {
+                        "drill_label": "route",
+                        "drill_type": "PTH",
+                        "file_function": "Plated",
+                        "i": 1,
+                        "j": 16
+                    },
+                    "filename_format": "%PREFIX/%FF.gbr",
+                    "layers": [
+                        46
+                    ],
+                    "milling": false,
+                    "name": "Milling",
+                    "polarity": "positive",
+                    "type": "gerber_layer"
                 }
             ],
             "version": "RS274X"
@@ -318,7 +342,7 @@
             ]
         }
     ],
-    "timestamp": "2020-07-04T16:04:12",
+    "timestamp": "2020-08-21T14:04:58",
     "type": "EAGLE CAM job",
     "units": "metric",
     "version": "9.2.0"

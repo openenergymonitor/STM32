@@ -48,9 +48,9 @@
 #include <stdlib.h>
 #include "tim.h"
 #include "usart.h"
-//int32_t usec_lag = 95;  // how many microseconds to pull the voltage channel back by.
+int32_t usec_lag = 95;  // how many microseconds to pull the voltage channel back by.
                     // this is a single value for phase correction for both voltage and current ADCs, effecting all CT and VT channels.
-int32_t usec_lag = 0;
+//int32_t usec_lag = 0;
 
 uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = (CTn * ADC_DMA_BUFFSIZE_PERCHANNEL) / 2;
@@ -330,7 +330,7 @@ void MX_ADC4_Init(void)
   sConfig.Channel = ADC_CHANNEL_11;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_4CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc4, &sConfig) != HAL_OK)
@@ -694,7 +694,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 void start_ADCs (int32_t usec_lag) {
 
-  while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
   snprintf(log_buffer, sizeof(log_buffer),
 	   "ADC DMA buffs: %d bytes\n", sizeof(adc1_dma_buff));
   debug_printf(log_buffer);

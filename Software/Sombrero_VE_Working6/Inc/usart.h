@@ -49,18 +49,21 @@
 
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#define LOG_BUFFER_SIZE 1000
 #define COMMAND_BUFFER_SIZE 150
+
+char log_buffer[LOG_BUFFER_SIZE];
 uint8_t rx_buff[COMMAND_BUFFER_SIZE];
+
 bool usart1_rx_flag;
 bool usart2_rx_flag;
-bool usart2_tx_ready;
-char log_buffer[1000];
+bool usart_tx_ready;
+
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
@@ -72,7 +75,6 @@ extern void _Error_Handler(char *, int);
 void MX_UART4_Init(void);
 void MX_UART5_Init(void);
 void MX_USART1_UART_Init(void);
-void MX_USART2_UART_Init(void);
 void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */

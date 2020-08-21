@@ -31,9 +31,9 @@ GO_AHEAD_READ_RFM69 = 1;
 return true;
 }
 
-void RFM69_SetCSPin(bool SetCSValue)          // function to control the GPIO tied to RFM69 chip select (parameter HIGH or LOW)
+void RFM69_SetCSPin(bool value)          // function to control the GPIO tied to RFM69 chip select (parameter HIGH or LOW)
 {
-HAL_GPIO_WritePin(SPI4_CS_RFM69_GPIO_Port, SPI4_CS_RFM69_Pin, SetCSValue); //GPIOA, GPIO_PIN_5 is LED on Nucleao, for testing only.
+HAL_GPIO_WritePin(SPI4_CS_RFM_GPIO_Port, SPI4_CS_RFM_Pin, value); //GPIOA, GPIO_PIN_5 is LED on Nucleao, for testing only.
 }
 
 bool RFM69_ReadDIO0Pin(void)       // function to read GPIO connected to RFM69 DIO0 (RFM69 interrupt signalling)
@@ -67,7 +67,7 @@ bool Timeout_IsTimeout1(void)      // function for timeout handling, checks if p
 {
   if(HAL_GetTick() >= thistimeout1)
     {
-      while (!usart2_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+      while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
       sprintf(log_buffer,"TimeOut1!\r\n");
       debug_printf(log_buffer);
       return true;
