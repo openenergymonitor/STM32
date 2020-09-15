@@ -153,11 +153,9 @@ bool channel_rdy_bools[CTn] = {0};
 //--------------------------------
 // VOLTAGE CALIBRATION
 //--------------------------------
-const double VOLTS_PER_DIV = (3.3 / 4096.0);
-//const double VCAL = 268.97*0.9940357853*0.9947958367; // default ideal power UK, adjusted
-//const double VCAL = 268.97;
-const double VCAL = 229.7252669065; // measured by DB for testing.
-//const double VCAL = 287.5;
+const double VOLTS_PER_DIV = (2.048 / 4096.0);
+//const double VCAL = 268.97; // default ideal power UK
+const double VCAL = 493.502184547; // measured by DB for testing.
 
 //--------------------------------
 // AMPERAGE CALIBRATION
@@ -916,6 +914,24 @@ int main(void)
     //------------------------------------------------
     if (readings_ready)
     {
+      /**************
+      // buffer test, print all values.
+      while(1)
+      {
+        HAL_ADC_Stop_DMA(&hadc1);
+        HAL_ADC_Stop_DMA(&hadc3);
+        for  (int i = 0; i < adc_buff_size; i++)
+        {
+          while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+          sprintf(log_buffer, "Vbuff%d:%d,Ibuff%d:%d\r\n", i, adc1_dma_buff[i], i, adc3_dma_buff[i]); // initital write to buffer.
+          debug_printf(log_buffer);
+        }
+        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+        while(1);
+      }
+      // end buffer test
+      **************/
+
       readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
       if (!first_readings) { posting_interval = _posting_interval; first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
@@ -923,7 +939,6 @@ int main(void)
       
       while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
       sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
-      //log_buffer[0] = '\0'; // initital write to buffer.
 
       // CALCULATE POWER
       for (int ch = 0; ch < CTn; ch++)

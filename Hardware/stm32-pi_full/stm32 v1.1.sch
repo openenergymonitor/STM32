@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -18860,7 +18860,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 </part>
 <part name="RJ1" library="95501-6889 rj45 smt" deviceset="95501-6889" device="" value="95501-6889"/>
 <part name="STM32F303VE" library="stm32f303" deviceset="STM32F303XB" device="" value="STM32F303VE"/>
-<part name="R43" library="resistor" deviceset="R-EU_" device="R0603" value="100k"/>
+<part name="R43" library="resistor" deviceset="R-EU_" device="R0603" value="220k"/>
 <part name="CV2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10nF 5%"/>
 <part name="CV1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10nF 5%"/>
 <part name="R53" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>

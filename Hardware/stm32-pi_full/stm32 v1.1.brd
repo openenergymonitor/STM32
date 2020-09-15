@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -5057,7 +5057,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <attribute name="MPN" value="STM32F303VET6" x="66" y="56.4" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="68.65254375" y="50.731890625" size="1.27" layer="26" ratio="10" rot="SMR0"/>
 </element>
-<element name="R43" library="resistor" package="R0603" value="100k" x="113.824821875" y="52.784403125" smashed="yes" rot="R270">
+<element name="R43" library="resistor" package="R0603" value="220k" x="113.824821875" y="52.784403125" smashed="yes" rot="R270">
 <attribute name="NAME" x="114.688153125" y="54.37728125" size="1.016" layer="25" ratio="11" rot="R270"/>
 <attribute name="VALUE" x="111.792821875" y="53.673403125" size="1.27" layer="27" rot="R270"/>
 </element>
