@@ -332,6 +332,14 @@
                     "name": "Pick and Place",
                     "output_format": "txt",
                     "type": "pick_and_place"
+                },
+                {
+                    "filename_format": "%ASSEMBLYPREFIX/BOM_%N",
+                    "list_attribute": true,
+                    "list_type": "parts",
+                    "name": "Bill of Material",
+                    "output_format": "csv",
+                    "type": "bom"
                 }
             ]
         },

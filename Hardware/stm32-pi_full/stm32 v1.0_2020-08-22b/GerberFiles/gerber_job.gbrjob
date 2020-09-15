@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-08-22T10:39:19Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.6.2"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.606,
+        "LayerNumber": 4,
+        "Name": {
+            "ProjectId": "stm32 v1.0"
+        },
+        "Owner": "Daniel Bates <dgbates2@gmail.com>",
+        "Size": {
+            "X": 131.4,
+            "Y": 105.8
+        }
+    }
+}

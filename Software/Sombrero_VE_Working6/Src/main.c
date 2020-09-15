@@ -857,7 +857,7 @@ int main(void)
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
   HAL_Delay(2);
-  HAL_OPAMP_SelfCalibrate(&hopamp4);
+  // HAL_OPAMP_SelfCalibrate(&hopamp4); 
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs(usec_lag);
