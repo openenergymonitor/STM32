@@ -518,7 +518,7 @@ void RFM69_readAllRegs() {
     SPI_transfer8_RFM(regAddr & 0x7F); // send address + r/w bit
     regVal = SPI_transfer8_RFM(0);
     RFM69_unselect();
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer,"%02X|%02X : ", regAddr, regVal);
     debug_printf(log_buffer);
 
@@ -564,7 +564,7 @@ void RFM69_readAllRegs() {
         debug_printf("100 -> Receiver Mode (RX)\r\n");
       } else {
         // debug_printf( capVal, BIN );
-        while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+        while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
         sprintf(log_buffer,"%02X -> RESERVED\n", capVal );
         debug_printf(log_buffer);
       }
@@ -842,10 +842,10 @@ void PrintStruct(void) {
     }
   else {
     theData = *(dataSTR *)data;
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, " nodeId=%ld\r\n", theData.nodeId);
     debug_printf(log_buffer);
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, " uptime=%ld\r\n", theData.uptime);
     debug_printf(log_buffer);
     //sprintf(log_buffer, " size of the struct=%d\r\n", sizeof(PayloadSTR));
@@ -861,10 +861,10 @@ uint32_t seconddata = 0;
 void PrintByteByByte(void) {
   firstdata = RFM69_DATA(0) + (RFM69_DATA(1) << 8);
   seconddata = RFM69_DATA(2) + (RFM69_DATA(3) << 8) + (RFM69_DATA(4) << 16) + (RFM69_DATA(5) << 24);
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   sprintf(log_buffer, "first_data: %d\r\n", firstdata);
   debug_printf(log_buffer);
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   sprintf(log_buffer, "second_data: %ld\r\n", seconddata);
   debug_printf(log_buffer);
 }
@@ -873,7 +873,7 @@ void PrintByteByByte(void) {
 // printing the raw bytes as received.
 void PrintRawBytes(void) {
   for (int i = 0; i < datalen; i++) {
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, "Byte%d Value: %d\r\n", i, RFM69_DATA(i));
     debug_printf(log_buffer);
   }

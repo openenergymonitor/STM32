@@ -255,7 +255,7 @@ void MX_ADC3_Init(void)
     */
   sConfig.Channel = ADC_CHANNEL_2;
   sConfig.Rank = ADC_REGULAR_RANK_5;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -694,7 +694,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 void start_ADCs (int32_t usec_lag) {
 
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   snprintf(log_buffer, sizeof(log_buffer),
 	   "ADC DMA buffs: %d bytes\n", sizeof(adc1_dma_buff));
   debug_printf(log_buffer);

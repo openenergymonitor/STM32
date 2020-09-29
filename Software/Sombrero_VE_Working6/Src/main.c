@@ -160,16 +160,16 @@ const double VCAL = 493.502184547; // measured by DB for testing.
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
-//const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
-//const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
-const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
-//const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
-//const double ICAL = (100/0.05)/50.6; // dan's custom test board.
-//const double ICAL = (100/0.05)/456.3; // dan's custom test board.
-//const double ICAL = (100/0.05)/1.0; // dan's custom test board.
-//const double ICAL = (100/0.05)/(22.0/1000.0);
+// const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
+// const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
+// const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
+// const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
+// const double ICAL = (100/0.05)/50.6; // dan's custom test board.
+// const double ICAL = (100/0.05)/456.3; // dan's custom test board.
+// const double ICAL = (100/0.05)/1.0; // dan's custom test board.
+// const double ICAL = (100/0.05)/(22.0/1000.0);
 // const double ICAL = (100.0/0.05)*11.0; // V=I*R. Convert to raw mV signal for testing.
-
+const double ICAL = 88.8832;
 
 //--------------------------
 // PHASE CALIBRATION
@@ -327,7 +327,7 @@ int pf_mode_array[5]; // stores the phase_corrections value at the point of swit
 int *pf_ptr = pf_mode_array;
 int phase_corrections_store_previous_value;
 void pfHunt(int ch) {
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   if (hunt_PF[ch] == 0 || hunt_PF[ch] == 5) { 
     return;
   }
@@ -440,13 +440,14 @@ void calcPower (int ch)
 //------------------------------------------
 void process_frame (uint16_t offset)
 {
-  /* debugging
+  /********** 
+  // debugging
   if (!hia) {
     debug_printf("Hello! First process_frame!\r\n");
-    hia =1;
+    hia = 1;
   }
-  */
-  if(ledBlink){HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); }// blink the led
+  **********/
+  if(ledBlink){HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); } // blink the led
   
   //set_highest_phase_correction(); // could be called after a phase correction routine instead.
   while (!check_dma_index_for_phase_correction(offset)) __NOP();
@@ -484,8 +485,8 @@ void process_frame (uint16_t offset)
       // because the voltage channel is used by all CTs.
       int16_t sample_V_index = offset + i + ch + phase_corrections[ch];
       // check for buffer overflow
-      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size; 
-      else if (sample_V_index < 0) sample_V_index += adc_buff_size; 
+      if (sample_V_index >= adc_buff_size) sample_V_index -= adc_buff_size;
+      else if (sample_V_index < 0) sample_V_index += adc_buff_size;
       
       sample_V = adc1_dma_buff[sample_V_index];
       //if (sample_V == 4095) Vclipped = true; // unlikely
@@ -748,7 +749,7 @@ int main(void)
       HAL_Delay(100);
       RadDelayCount++;
     }
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, "RadioDelay:%d\r\n", RadioDelay);
     debug_printf(log_buffer); 
     HAL_Delay(RadioDelay);
@@ -763,7 +764,7 @@ int main(void)
   // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
   //uint32_t bkp_write = 123456789;
   uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   sprintf(log_buffer, "Number of boots:%ld\r\n", bkp_);
   debug_printf(log_buffer);
   boot_number = bkp_;
@@ -772,7 +773,7 @@ int main(void)
   
   // RESET CAUSE
   reset_cause_store = reset_cause_get();
-  while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
   sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
   debug_printf(log_buffer);
   
@@ -826,7 +827,7 @@ int main(void)
   HAL_Delay(20);
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
     debug_printf(log_buffer);
     //RFM69_readAllRegs(); // debug output
@@ -916,14 +917,26 @@ int main(void)
     {
       /**************
       // buffer test, print all values.
+      char currentSampleString[200] = {0};
+      char voltageSampleString[200] = {0};
+      char itoabuff[10];
+     
       while(1)
       {
         HAL_ADC_Stop_DMA(&hadc1);
         HAL_ADC_Stop_DMA(&hadc3);
-        for  (int i = 0; i < adc_buff_size; i++)
+        for  (int i = 0; i < adc_buff_size; i+=CTn)
         {
-          while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
-          sprintf(log_buffer, "Vbuff%d:%d,Ibuff%d:%d\r\n", i, adc1_dma_buff[i], i, adc3_dma_buff[i]); // initital write to buffer.
+          for (int ch = 0; ch < CTn; ch++) {
+            int sampleI = adc3_dma_buff[i + ch];
+            int sampleV = adc1_dma_buff[i + ch];
+            itoa(sampleI, itoabuff, 10);
+            strcat(currentSampleString, itoabuff);
+            itoa(sampleV, itoabuff, 10);
+            strcat(voltageSampleString, itoabuff);
+          }
+          while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+          sprintf(log_buffer, "%s,%s\r\n", currentSampleString, voltageSampleString);
           debug_printf(log_buffer);
         }
         HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
@@ -937,7 +950,7 @@ int main(void)
       
       if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
       
-      while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+      while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
       sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
 
       // CALCULATE POWER
@@ -1019,7 +1032,7 @@ int main(void)
           //PrintStruct();
           //PrintByteByByte();
           //RFM69_interruptHandler();
-          while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+          while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
           sprintf(log_buffer, "RSSI:%d\r\n", rssi);
           debug_printf(log_buffer);
 
@@ -1059,7 +1072,7 @@ int main(void)
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
       //json_parser("{G:RTC}"); // calling this loads json_response[] with a response.
       json_parser(rx_string); // calling this loads json_response[] with a response.
-      while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+      while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
       sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
       debug_printf(log_buffer);
     }
@@ -1076,7 +1089,7 @@ int main(void)
     //   huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
     //   huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
     //   json_parser(rx_string); // calling this loads json_response[] with a response.
-    //   while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    //   while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     //   sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     //   debug_printf(log_buffer);
     // }
@@ -1211,7 +1224,7 @@ void _Error_Handler(char *file, int line)
   /* User can add his own implementation to report the HAL error return state */
   while (1)
   {
-    while (!usart_tx_ready) {__NOP();} // force wait whil usart Tx finishes.
+    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
     sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
     debug_printf(log_buffer);
   }
