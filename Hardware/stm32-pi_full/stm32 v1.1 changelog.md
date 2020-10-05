@@ -13,3 +13,4 @@ v1.0 & v1.1 changes
 - rPi connections normally closed.
 - 3-phase lmv824 op-amps typology implemented.
 - ref19x for VREF now 2.048V and supplied by analog 3v3 instead of 5v.
+- lmv824 3-phase feedback resistors changed to 330R.
