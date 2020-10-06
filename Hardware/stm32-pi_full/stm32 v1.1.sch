@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -18856,7 +18856,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <attribute name="MPN" value="SJ-3523-SMT"/>
 </part>
 <part name="VT1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="2.1MMJACK" device="SMT" package3d_urn="urn:adsk.eagle:package:6240730/1" value="ADC-028-2-T">
-<attribute name="MPN" value="ADC-028-1-T"/>
+<attribute name="MPN" value="FC68148S"/>
 </part>
 <part name="RJ1" library="95501-6889 rj45 smt" deviceset="95501-6889" device="" value="95501-6889"/>
 <part name="STM32F303VE" library="stm32f303" deviceset="STM32F303XB" device="" value="STM32F303VE"/>
@@ -23984,11 +23984,9 @@ protection</text>
 </sheet>
 </sheets>
 <errors>
-<approved hash="105,1,193.04,217.17,N$4,,,,,"/>
-<approved hash="108,1,193.04,-236.22,N$4,,,,,"/>
 <approved hash="108,1,193.04,-68.58,N$4,,,,,"/>
-<approved hash="108,1,193.04,228.6,N$4,,,,,"/>
 <approved hash="108,1,193.04,205.74,N$4,,,,,"/>
+<approved hash="108,1,193.04,-236.22,N$4,,,,,"/>
 <approved hash="108,1,193.04,144.78,N$4,,,,,"/>
 </errors>
 </schematic>
