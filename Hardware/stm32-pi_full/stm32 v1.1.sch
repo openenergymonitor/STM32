@@ -19017,7 +19017,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="C33" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="22uF"/>
 <part name="SJ14" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NC_TRACE" device="_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1"/>
 <part name="REF19X" library="LT1461AIS8" deviceset="LT1461AIS8-3.3#PBF" device="" value="REF191ESZ">
-<attribute name="MPN" value="REF191ESZ"/>
+<attribute name="MPN" value="REF191GSZ"/>
 </part>
 <part name="C23" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="1uF"/>
 <part name="U$7" library="MOLEX 47219-2001" deviceset="47219-2001_MICROSD" device=""/>

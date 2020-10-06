@@ -5652,7 +5652,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <attribute name="HEIGHT" value="1.752mm" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MANUFACTURER_NAME" value="Linear Technology" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MANUFACTURER_PART_NUMBER" value="LT1461AIS8-3.3#PBF" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MPN" value="REF191ESZ" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MPN" value="REF191GSZ" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="88.277753125" y="61.413075" size="1.143" layer="25" ratio="12" rot="SR180" align="center"/>
 <attribute name="RS_PART_NUMBER" value="7618279P" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="http://uk.rs-online.com/web/p/products/7618279P" x="86.71514375" y="64.7793375" size="1.778" layer="27" rot="R180" display="off"/>
