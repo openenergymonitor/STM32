@@ -96,6 +96,7 @@ int _mode = 0; // init mode
 //------------------------------------------------
 double V_SCALE;
 double I_SCALE;
+uint32_t readings_interval = 500; // millis to read waveform at.
 uint32_t posting_interval = 5000; // millis to post data at.
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
@@ -139,7 +140,7 @@ typedef struct channel_
   int64_t sum_V;
   int64_t sum_I;
   bool Iclipped; 
-  uint32_t count;
+  uint32_t samplecount;
   uint32_t cycles;
   bool positive_V;
   bool last_positive_V;
@@ -148,6 +149,24 @@ typedef struct channel_
 static channel_t channels[CTn] = {0};
 static channel_t channels_ready[CTn] = {0};
 bool channel_rdy_bools[CTn] = {0};
+
+//------------------------
+// Channel Results
+//------------------------
+typedef struct channel_results_
+{
+  double Vrms;
+  double Irms;
+  double ApparentPower;
+  double RealPower;
+  double PowerFactor;
+  bool Clipped;
+  int Mains_AC_Cycles; // counting complete waveforms
+  long SampleCount;
+  int Count;
+} channel_results_t;
+
+channel_results_t channel_results[CTn] = {0}; //  init the channel results.
 
 
 //--------------------------------
@@ -237,7 +256,8 @@ Payload radioData;
 // Time variables
 //--------------------
 uint32_t current_millis;
-uint32_t previous_millis;
+uint32_t previous_millis_fine;
+uint32_t previous_millis_course;
 
 
 //----------------
@@ -331,7 +351,7 @@ int pf_mode_array[5]; // stores the phase_corrections value at the point of swit
 int *pf_ptr = pf_mode_array;
 int phase_corrections_store_previous_value;
 void pfHunt(int ch) {
-  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
   if (hunt_PF[ch] == 0 || hunt_PF[ch] == 5) { 
     return;
   }
@@ -403,13 +423,13 @@ void calcPower (int ch)
 {
   channel_t *chn = &channels_ready[ch];
 
-  double Vmean = (double)chn->sum_V / (double)chn->count;
-  double Imean = (double)chn->sum_I / (double)chn->count;
+  double Vmean = (double)chn->sum_V / (double)chn->samplecount;
+  double Imean = (double)chn->sum_I / (double)chn->samplecount;
 
-  double f32sum_V_sq_avg = (double)chn->sum_V_sq / (double)chn->count;
+  double f32sum_V_sq_avg = (double)chn->sum_V_sq / (double)chn->samplecount;
   f32sum_V_sq_avg -= (Vmean * Vmean); // offset removal
 
-  double f32sum_I_sq_avg = (double)chn->sum_I_sq / (double)chn->count;
+  double f32sum_I_sq_avg = (double)chn->sum_I_sq / (double)chn->samplecount;
   f32sum_I_sq_avg -= (Imean * Imean); // offset removal
 
   // assuming result of offset removal always positive.
@@ -418,7 +438,7 @@ void calcPower (int ch)
   Vrms = V_SCALE * sqrt(f32sum_V_sq_avg);
   Irms = I_SCALE * sqrt(f32sum_I_sq_avg);
 
-  double f32_sum_P_avg = (double)chn->sum_P / (double)chn->count;
+  double f32_sum_P_avg = (double)chn->sum_P / (double)chn->samplecount;
   double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
   
   realPower = V_SCALE * I_SCALE * mean_P;
@@ -505,7 +525,7 @@ void process_frame (uint16_t offset)
        
       // if (ch == 4) {
       //   char valuebuff[10];
-      //   while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+      //   while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
       //   sprintf(valuebuff, "%d\r\n", sample_I);
       //   debug_printf(valuebuff);
       // }
@@ -519,7 +539,7 @@ void process_frame (uint16_t offset)
       //----------------------------------------
       channel->sum_P += signed_V * signed_I;
       
-      channel->count++; // number of adc samples.
+      channel->samplecount++; // number of adc samples.
       
       //----------------------------------------
       // Upwards-zero-crossing detection, whole AC cycles.
@@ -665,8 +685,8 @@ int main(void)
   V_SCALE = VCAL * VOLTS_PER_DIV;
   I_SCALE = ICAL * VOLTS_PER_DIV;
   
-  int _posting_interval = posting_interval;
-  posting_interval = 1000; // speed up first discarded reading.
+  int _posting_interval = posting_interval; // temporarily store the usable posting period.
+  posting_interval = 200; // speed up first discarded reading.
 
 
   //FlashStruct *flashpt = &flash_struct;
@@ -747,7 +767,7 @@ int main(void)
       
       // ADC read start
       HAL_ADC_Start(&hadc4);
-      while (HAL_ADC_PollForConversion(&hadc4, 1000) != HAL_OK) {__NOP();}
+      while (HAL_ADC_PollForConversion(&hadc4, 1000) != HAL_OK) __NOP();
       reading = HAL_ADC_GetValue(&hadc4);
       HAL_ADC_Stop(&hadc4);
       // ADC read end.
@@ -756,7 +776,7 @@ int main(void)
       HAL_Delay(100);
       RadDelayCount++;
     }
-    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
     sprintf(log_buffer, "RadioDelay:%d\r\n", RadioDelay);
     debug_printf(log_buffer); 
     HAL_Delay(RadioDelay);
@@ -771,7 +791,7 @@ int main(void)
   // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
   //uint32_t bkp_write = 123456789;
   uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
-  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
   sprintf(log_buffer, "Number of boots:%ld\r\n", bkp_);
   debug_printf(log_buffer);
   boot_number = bkp_;
@@ -780,7 +800,7 @@ int main(void)
   
   // RESET CAUSE
   reset_cause_store = reset_cause_get();
-  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
   sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
   debug_printf(log_buffer);
   
@@ -834,7 +854,7 @@ int main(void)
   HAL_Delay(20);
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
-    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
     debug_printf(log_buffer);
     //RFM69_readAllRegs(); // debug output
@@ -863,7 +883,7 @@ int main(void)
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADCEx_Calibration_Start(&hadc3, ADC_SINGLE_ENDED);
   HAL_Delay(2);
-  // HAL_OPAMP_SelfCalibrate(&hopamp4); 
+  HAL_OPAMP_SelfCalibrate(&hopamp4); 
   HAL_OPAMP_Start(&hopamp4);
   HAL_Delay(2);
   start_ADCs(usec_lag);
@@ -882,13 +902,13 @@ int main(void)
 
     // process_ds18b20s();
     
-    //---------------------------------------
-    // Interval for posting power readings.
-    //---------------------------------------
-    if (current_millis - previous_millis >= posting_interval) 
+    //------------------------------------------
+    // Interval for accumulating power readings.
+    //------------------------------------------
+    if (current_millis - previous_millis_fine >= readings_interval) 
     {
-      uint32_t correction = current_millis - previous_millis - posting_interval;
-      previous_millis = current_millis - correction;
+      uint16_t correction = current_millis - previous_millis_fine - posting_interval;
+      previous_millis_fine = current_millis - correction;
 
       //RTC_CalendarShow(aShowTime, aShowDate);
       //debug_printf((char*)aShowDate); debug_printf("\r\n");
@@ -917,6 +937,7 @@ int main(void)
     // HAL_Delay(200); // ADC buffer overrun flag test.
 
 
+    
     //------------------------------------------------
     // To post primary data.
     //------------------------------------------------
@@ -934,16 +955,8 @@ int main(void)
         HAL_ADC_Stop_DMA(&hadc3);
         for  (int i = 0; i < adc_buff_size; i+=CTn)
         {
-          for (int ch = 0; ch < CTn; ch++) {
-            int sampleI = adc3_dma_buff[i + ch];
-            int sampleV = adc1_dma_buff[i + ch];
-            itoa(sampleI, itoabuff, 10);
-            strcat(currentSampleString, itoabuff);
-            itoa(sampleV, itoabuff, 10);
-            strcat(voltageSampleString, itoabuff);
-          }
-          while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
-          sprintf(log_buffer, "%s,%s\r\n", currentSampleString, voltageSampleString);
+          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          sprintf(log_buffer, "%d\r\n", adc3_dma_buff[i];
           debug_printf(log_buffer);
         }
         HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
@@ -955,31 +968,62 @@ int main(void)
       readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
       if (!first_readings) { posting_interval = _posting_interval; first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
       
-      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
-      
-      while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+      while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
       sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
 
       // CALCULATE POWER
       for (int ch = 0; ch < CTn; ch++)
       {
         channel_t *chn = &channels_ready[ch];
+        channel_results_t *chn_result = &channel_results[ch];
 
         last_powerFactor[ch] = powerFactor_now[ch];
         calcPower(ch);
         powerFactor_now[ch] = powerFactor;
         pfHunt(ch);
 
+        if (chn->Iclipped) chn_result->Clipped = true;
+
         if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
-          mains_frequency = 1.0/(((chn->count * CTn) / chn->cycles) * adc_conversion_time);
+          mains_frequency = 1.0/(((chn->samplecount * CTn) / chn->cycles) * adc_conversion_time);
         }
 
-        int _ch = ch + 1; // nicer looking channel numbers. 1 starts at 1 instead of 0.
+        chn_result->Vrms += Vrms;
+        chn_result->Irms += Irms;
+        chn_result->ApparentPower += apparentPower;
+        chn_result->RealPower += realPower;
+        chn_result->PowerFactor += powerFactor;
+        chn_result->Mains_AC_Cycles += chn->cycles;
+        chn_result->SampleCount += chn->samplecount;
+        chn_result->Count++;
+      }
+    }
+
+    if (current_millis - previous_millis_course >= posting_interval) { // now to take the channel results, average them and post them.
+
+      uint16_t correction = current_millis - previous_millis_fine - posting_interval;
+      previous_millis_fine = current_millis - correction;
+
+      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
+      
+      
+
+      for (int ch = 0; ch < CTn; ch++) {
+        channel_results_t *chn_result = &channel_results[ch];
+
+        chn_result->Vrms /= chn_result->Count;
+        chn_result->Irms /= chn_result->Count;
+        chn_result->ApparentPower /= chn_result->Count;
+        chn_result->RealPower /= chn_result->Count;
+        chn_result->PowerFactor /= chn_result->Count;
+
+        int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
         //if (_ch == 1) { // single channel debug output.
-          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%ld,samples%d:%ld,\r\n", _ch, Vrms, _ch, Irms, _ch, apparentPower, _ch, realPower, _ch, powerFactor, _ch, Ws_accumulator[ch], _ch, chn->Iclipped, _ch, chn->cycles, _ch, chn->count);
-          strcat(log_buffer, string_buffer);
+        sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount);
+        strcat(log_buffer, string_buffer);
         //} // single channel debug output.
       }
+      
 
       // Main frequency estimate.
       sprintf(string_buffer, "Hz:%.1f,", mains_frequency);
@@ -1007,12 +1051,19 @@ int main(void)
       {
         radioData.nodeId = nodeID;
         radioData.uptime = HAL_GetTick();
-        if(ledBlink){HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
+        if(ledBlink) { HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
         RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
+        while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
         debug_printf("radio Tx\r\n");
         //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
       }
 
+      // reset accumulators.
+      for (int ch = 0; ch < CTn; ch++) {
+              channel_results_t *chn_result = &channel_results[ch];
+              memset((void*)chn_result, 0, sizeof(channel_results_t));
+      }
+      
       if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);}
     } EndJump: // end main readings_ready function.
     // end main readings_ready function.
@@ -1025,7 +1076,6 @@ int main(void)
     // RFM69 Rx
     //-------------------------------
     // This needs checking, does a flag need generating from a DIO0 read = true?
-    // Would a flat reduce the SPI business.?
     if(radioReceiver) {
       if (RFM69_ReadDIO0Pin()) {
         debug_printf("RFM69 DIO0 high.\r\n");
@@ -1039,7 +1089,7 @@ int main(void)
           //PrintStruct();
           //PrintByteByByte();
           //RFM69_interruptHandler();
-          while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
           sprintf(log_buffer, "RSSI:%d\r\n", rssi);
           debug_printf(log_buffer);
 
@@ -1079,7 +1129,7 @@ int main(void)
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
       //json_parser("{G:RTC}"); // calling this loads json_response[] with a response.
       json_parser(rx_string); // calling this loads json_response[] with a response.
-      while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+      while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
       sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
       debug_printf(log_buffer);
     }
@@ -1096,7 +1146,7 @@ int main(void)
     //   huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
     //   huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
     //   json_parser(rx_string); // calling this loads json_response[] with a response.
-    //   while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+    //   while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
     //   sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     //   debug_printf(log_buffer);
     // }
@@ -1231,7 +1281,7 @@ void _Error_Handler(char *file, int line)
   /* User can add his own implementation to report the HAL error return state */
   while (1)
   {
-    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
     sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
     debug_printf(log_buffer);
   }
