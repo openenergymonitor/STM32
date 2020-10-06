@@ -71,7 +71,7 @@
 // test variables
 bool testing = false; // for testing
 bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
-bool ledBlink = true; // enable or disable LED blinking.
+bool ledBlink = false; // enable or disable LED blinking.
 
 // version information
 char hwVersion[] = "Sombrero_v0.8";
@@ -94,8 +94,8 @@ int _mode = 0; // init mode
 //------------------------------------------------
 // timing, ADCs, power and frequency variables
 //------------------------------------------------
-double V_RATIO;
-double I_RATIO;
+double V_SCALE;
+double I_SCALE;
 uint32_t posting_interval = 5000; // millis to post data at.
 //const double adc_conversion_time = (614.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
 const double adc_conversion_time = (194.0*(1.0/(72000000.0/4))); // time in seconds for an ADC conversion, for estimating mains AC frequency.
@@ -169,7 +169,11 @@ const double VCAL = 493.502184547; // measured by DB for testing.
 // const double ICAL = (100/0.05)/1.0; // dan's custom test board.
 // const double ICAL = (100/0.05)/(22.0/1000.0);
 // const double ICAL = (100.0/0.05)*11.0; // V=I*R. Convert to raw mV signal for testing.
-const double ICAL = 88.8832;
+// const double ICAL = 88.8832;
+// const double ICAL = (100/0.05)/150.0; // dan's custom test board.
+// const double ICAL = 25.0/0.333; // 25Amp voltage output CT (Current rating divided by output voltage)
+const double ICAL = 200.0/0.333; // 200Amp voltage output CT (Current rating divided by output voltage)
+
 
 //--------------------------
 // PHASE CALIBRATION
@@ -411,13 +415,13 @@ void calcPower (int ch)
   // assuming result of offset removal always positive.
   // small chance a negative result would cause a nan at sqrt.
 
-  Vrms = V_RATIO * sqrt(f32sum_V_sq_avg);
-  Irms = I_RATIO * sqrt(f32sum_I_sq_avg);
+  Vrms = V_SCALE * sqrt(f32sum_V_sq_avg);
+  Irms = I_SCALE * sqrt(f32sum_I_sq_avg);
 
   double f32_sum_P_avg = (double)chn->sum_P / (double)chn->count;
   double mean_P = f32_sum_P_avg - (Vmean * Imean); // offset removal
   
-  realPower = V_RATIO * I_RATIO * mean_P;
+  realPower = V_SCALE * I_SCALE * mean_P;
   apparentPower = Vrms * Irms;
 
   // calculate PF, is it necessary to prevent dividing by zero error?
@@ -498,13 +502,14 @@ void process_frame (uint16_t offset)
       //----------------------------------------
       sample_I = adc3_dma_buff[offset + i + ch];
        // debug the buffer 
-       /*
-      if (ch == 0) {
-        char valuebuff[10];
-        sprintf(valuebuff, "%d\r\n", sample_I);
-        debug_printf(valuebuff);
-      }
-      */
+       
+      // if (ch == 4) {
+      //   char valuebuff[10];
+      //   while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+      //   sprintf(valuebuff, "%d\r\n", sample_I);
+      //   debug_printf(valuebuff);
+      // }
+      
       if (sample_I == 4095) channel->Iclipped = true; // much more likely, useful safety information.
       signed_I = sample_I - MID_ADC_READING; // mid-rail removal possible through ADC4, option for future perhaps.
       channel->sum_I += signed_I; // 
@@ -561,8 +566,10 @@ void process_frame (uint16_t offset)
   } // end buffer routine
   if(ledBlink) { HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);}
   
+  // while(1) {
+  //   __NOP();
+  // }
 } // end process_frame().
-
 
 
 //------------------------
@@ -655,8 +662,8 @@ FlashStruct flash_struct;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  V_RATIO = VCAL * VOLTS_PER_DIV;
-  I_RATIO = ICAL * VOLTS_PER_DIV;
+  V_SCALE = VCAL * VOLTS_PER_DIV;
+  I_SCALE = ICAL * VOLTS_PER_DIV;
   
   int _posting_interval = posting_interval;
   posting_interval = 1000; // speed up first discarded reading.
