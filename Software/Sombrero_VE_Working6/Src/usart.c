@@ -389,10 +389,9 @@ void debug_printf (char* data) {
     __NOP();
   }
 
-  usart_tx_ready = false; // block future Tx until cleared by interrupt callback.
+  usart_tx_ready = false; // block future Tx until cleared by interrupt callback, found in main.c 'void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)' 
   HAL_UART_Transmit_IT(&huart1, (uint8_t*)data, strlen(data));  
   //HAL_UART_Transmit_IT(&huart2, (uint8_t*)data, strlen(data));   // to be removed on HW v1.0 onwards.
-
 }
 
 void rPi_printf (char* data) {

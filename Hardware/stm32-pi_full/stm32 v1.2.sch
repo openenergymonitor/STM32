@@ -19233,6 +19233,7 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <part name="C54" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="47uF"/>
 <part name="C55" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="47uF"/>
 <part name="TP12" library="SparkFun-Connectors" deviceset="TEST-POINT" device="3"/>
+<part name="IC1" library="analog-devices" library_urn="urn:adsk.eagle:library:102" deviceset="AD8519" device="KS" package3d_urn="urn:adsk.eagle:package:3966/1" value=""/>
 </parts>
 <sheets>
 <sheet>
@@ -20542,6 +20543,10 @@ protection</text>
 </instance>
 <instance part="TP12" gate="G$1" x="-0.254" y="71.12" smashed="yes" rot="R90">
 <attribute name="NAME" x="-2.794" y="68.58" size="1.778" layer="95" font="vector" rot="R90"/>
+</instance>
+<instance part="IC1" gate="P" x="271.78" y="152.4" smashed="yes">
+<attribute name="NAME" x="279.4" y="154.94" size="1.778" layer="95"/>
+<attribute name="VALUE" x="279.4" y="148.59" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>

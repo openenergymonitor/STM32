@@ -71,7 +71,7 @@
 // test variables
 bool testing = false; // for testing
 bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms, AP, RP etc.
-bool ledBlink = false; // enable or disable LED blinking.
+bool ledBlink = true; // enable or disable LED blinking.
 
 // version information
 char hwVersion[] = "Sombrero_v0.8";
@@ -112,7 +112,7 @@ double Ws_accumulator[CTn] = {0}; // energy accumulator per CT channel.
 bool readings_ready = false;
 bool readings_requested = false;
 bool first_readings = false;
-
+bool no_volts_flag = false;
 
 //----------------------------
 // CT Settings : Common
@@ -174,14 +174,14 @@ channel_results_t channel_results[CTn] = {0}; //  init the channel results.
 //--------------------------------
 const double VOLTS_PER_DIV = (2.048 / 4096.0);
 //const double VCAL = 268.97; // default ideal power UK
-const double VCAL = 493.502184547; // measured by DB for testing.
-
+// const double VCAL = 493.502184547; // measured by DB for testing.
+const double VCAL = 240;
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
 // const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
 // const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
-// const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
+const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
 // const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
 // const double ICAL = (100/0.05)/50.6; // dan's custom test board.
 // const double ICAL = (100/0.05)/456.3; // dan's custom test board.
@@ -191,7 +191,7 @@ const double VCAL = 493.502184547; // measured by DB for testing.
 // const double ICAL = 88.8832;
 // const double ICAL = (100/0.05)/150.0; // dan's custom test board.
 // const double ICAL = 25.0/0.333; // 25Amp voltage output CT (Current rating divided by output voltage)
-const double ICAL = 200.0/0.333; // 200Amp voltage output CT (Current rating divided by output voltage)
+// const double ICAL = 200.0/0.333; // 200Amp voltage output CT (Current rating divided by output voltage)
 
 
 //--------------------------
@@ -263,7 +263,8 @@ uint32_t previous_millis_course;
 //----------------
 // MISC
 //----------------
-static uint32_t pulseCount = 0;
+static uint32_t pulseCount1 = 0;
+static uint32_t pulseCount2 = 0;
 extern char json_response[40];
 extern int boot_number;
 
@@ -452,7 +453,7 @@ void calcPower (int ch)
   //   realPower = 0.0;
   // }
 
-  Ws_accumulator[ch] += (realPower * (posting_interval / 1000.0));
+  Ws_accumulator[ch] += (realPower * (readings_interval / 1000.0));
 }
 
 
@@ -685,8 +686,8 @@ int main(void)
   V_SCALE = VCAL * VOLTS_PER_DIV;
   I_SCALE = ICAL * VOLTS_PER_DIV;
   
-  int _posting_interval = posting_interval; // temporarily store the usable posting period.
-  posting_interval = 200; // speed up first discarded reading.
+  int _readings_interval = readings_interval; // temporarily store the usable posting period.
+  readings_interval = 100; // speed up first discarded reading.
 
 
   //FlashStruct *flashpt = &flash_struct;
@@ -892,6 +893,11 @@ int main(void)
 
   debug_printf("\r\n");
   
+  // sensible start times..
+  current_millis = HAL_GetTick();
+  previous_millis_course = current_millis;
+  previous_millis_fine = current_millis;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -907,17 +913,17 @@ int main(void)
     //------------------------------------------
     if (current_millis - previous_millis_fine >= readings_interval) 
     {
-      uint16_t correction = current_millis - previous_millis_fine - posting_interval;
+      uint16_t correction = current_millis - previous_millis_fine - readings_interval;
       previous_millis_fine = current_millis - correction;
 
+      if (readings_requested) no_volts_flag = true;
+
+      readings_requested = true;
+
+      // RTC debug
       //RTC_CalendarShow(aShowTime, aShowDate);
       //debug_printf((char*)aShowDate); debug_printf("\r\n");
       //debug_printf((char*)aShowTime); debug_printf("\r\n");
-
-      if (readings_requested) debug_printf("No voltage waveform present.\r\n");
-      //if (testing) goto debugIrms;
-      // implement default Vrms value setting and automatic calc of Irms and approximated Power value?
-      readings_requested = true;
     }
     
 
@@ -943,132 +949,138 @@ int main(void)
     //------------------------------------------------
     if (readings_ready)
     {
-      /**************
-      // buffer test, print all values.
-      char currentSampleString[200] = {0};
-      char voltageSampleString[200] = {0};
-      char itoabuff[10];
-     
-      while(1)
-      {
-        HAL_ADC_Stop_DMA(&hadc1);
-        HAL_ADC_Stop_DMA(&hadc3);
-        for  (int i = 0; i < adc_buff_size; i+=CTn)
-        {
+        readings_ready = false;
+        memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
+
+        if (!first_readings) { 
+          readings_interval = _readings_interval;
+          first_readings = true; 
+          previous_millis_course = current_millis;
+          
           while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
-          sprintf(log_buffer, "%d\r\n", adc3_dma_buff[i];
+          sprintf(log_buffer, "Start Sampling Millis: %ld\r\n", current_millis); // initital write to buffer.
           debug_printf(log_buffer);
+          
+          goto EndJump;
+        } // discard the first set as beginning of 1st waveform not tracked.
+        
+        while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+        sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
+
+        // CALCULATE POWER
+        for (int ch = 0; ch < CTn; ch++)
+        {
+          channel_t *chn = &channels_ready[ch];
+          channel_results_t *chn_result = &channel_results[ch];
+
+          last_powerFactor[ch] = powerFactor_now[ch];
+          calcPower(ch);
+          powerFactor_now[ch] = powerFactor;
+          pfHunt(ch);
+
+          if (chn->Iclipped) { chn_result->Clipped = true; chn->Iclipped = false; }
+
+          if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
+            mains_frequency = 1.0/(((chn->samplecount * CTn) / chn->cycles) * adc_conversion_time);
+          }
+
+          chn_result->Vrms += Vrms;
+          chn_result->Irms += Irms;
+          chn_result->ApparentPower += apparentPower;
+          chn_result->RealPower += realPower;
+          chn_result->PowerFactor += powerFactor;
+          chn_result->Mains_AC_Cycles += chn->cycles;
+          chn_result->SampleCount += chn->samplecount;
+          chn_result->Count++;
         }
-        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-        while(1);
-      }
-      // end buffer test
-      **************/
-
-      readings_ready = false; memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
-      if (!first_readings) { posting_interval = _posting_interval; first_readings = true; goto EndJump; } // discard the first set as beginning of 1st waveform not tracked.
-      
-      while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
-      sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
-
-      // CALCULATE POWER
-      for (int ch = 0; ch < CTn; ch++)
-      {
-        channel_t *chn = &channels_ready[ch];
-        channel_results_t *chn_result = &channel_results[ch];
-
-        last_powerFactor[ch] = powerFactor_now[ch];
-        calcPower(ch);
-        powerFactor_now[ch] = powerFactor;
-        pfHunt(ch);
-
-        if (chn->Iclipped) chn_result->Clipped = true;
-
-        if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
-          mains_frequency = 1.0/(((chn->samplecount * CTn) / chn->cycles) * adc_conversion_time);
-        }
-
-        chn_result->Vrms += Vrms;
-        chn_result->Irms += Irms;
-        chn_result->ApparentPower += apparentPower;
-        chn_result->RealPower += realPower;
-        chn_result->PowerFactor += powerFactor;
-        chn_result->Mains_AC_Cycles += chn->cycles;
-        chn_result->SampleCount += chn->samplecount;
-        chn_result->Count++;
-      }
     }
 
+    // -----------------
+    // POSTING SECTION
+    // -----------------
+    current_millis = HAL_GetTick();
     if (current_millis - previous_millis_course >= posting_interval) { // now to take the channel results, average them and post them.
+        uint16_t correction = current_millis - previous_millis_course - posting_interval;
+        previous_millis_course = current_millis - correction;
 
-      uint16_t correction = current_millis - previous_millis_fine - posting_interval;
-      previous_millis_fine = current_millis - correction;
+        
+        if(ledBlink) { HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
+        
+        if (no_volts_flag) {
+          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          sprintf(log_buffer, "No voltage waveform present.\r\n"); // initital write to buffer.
+          debug_printf(log_buffer);
+          no_volts_flag = false; // reset.
+          goto SkipPost;
+        }
 
-      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
-      
-      
+        for (int ch = 0; ch < CTn; ch++) {
+          channel_results_t *chn_result = &channel_results[ch];
 
-      for (int ch = 0; ch < CTn; ch++) {
-        channel_results_t *chn_result = &channel_results[ch];
+          chn_result->Vrms /= chn_result->Count;
+          chn_result->Irms /= chn_result->Count;
+          chn_result->ApparentPower /= chn_result->Count;
+          chn_result->RealPower /= chn_result->Count;
+          chn_result->PowerFactor /= chn_result->Count;
 
-        chn_result->Vrms /= chn_result->Count;
-        chn_result->Irms /= chn_result->Count;
-        chn_result->ApparentPower /= chn_result->Count;
-        chn_result->RealPower /= chn_result->Count;
-        chn_result->PowerFactor /= chn_result->Count;
+          int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
+          //if (_ch == 1) { // single channel debug output.
+          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount);
+          strcat(log_buffer, string_buffer);
+          //} // single channel debug output
+          chn_result->Clipped = false;
+        }
+        
 
-        int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
-        //if (_ch == 1) { // single channel debug output.
-        sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount);
+        // Main frequency estimate.
+        sprintf(string_buffer, "Hz:%.1f,", mains_frequency);
         strcat(log_buffer, string_buffer);
-        //} // single channel debug output.
-      }
-      
+        
+        // Millis
+        sprintf(string_buffer, "millis:%ld,", current_millis);
+        strcat(log_buffer, string_buffer);
+        
+        // Pulsecounters
+        sprintf(string_buffer, "PC1:%ld,", pulseCount1);
+        strcat(log_buffer, string_buffer);
+        sprintf(string_buffer, "PC2:%ld,", pulseCount2);
+        strcat(log_buffer, string_buffer);
 
-      // Main frequency estimate.
-      sprintf(string_buffer, "Hz:%.1f,", mains_frequency);
-      strcat(log_buffer, string_buffer);
-      
-      // Millis
-      sprintf(string_buffer, "millis:%ld,", current_millis);
-      strcat(log_buffer, string_buffer);
-      
-      // Pulsecount
-      sprintf(string_buffer, "PC:%ld,", pulseCount);
-      strcat(log_buffer, string_buffer);
-      
-      // has the adc buffer overrun?
-      sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
-      adc_buffer_overflow = 0; // reset
-      strcat(log_buffer, string_buffer);
+        // has the adc buffer overrun?
+        sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
+        adc_buffer_overflow = 0; // reset
+        strcat(log_buffer, string_buffer);
 
-      // close the string and add some whitespace for clarity.
-      strcat(log_buffer, "}\r\n");
-      debug_printf(log_buffer);
+        // close the string and add some whitespace for clarity.
+        strcat(log_buffer, "}\r\n");
+        debug_printf(log_buffer);
 
-      // RFM69 send.
-      if (radioSender) // sending data, test data only.
-      {
-        radioData.nodeId = nodeID;
-        radioData.uptime = HAL_GetTick();
-        if(ledBlink) { HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
-        RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
-        while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
-        debug_printf("radio Tx\r\n");
-        //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
-      }
+        // RFM69 send.
+        if (radioSender) // sending data, test data only.
+        {
+          radioData.nodeId = nodeID;
+          radioData.uptime = HAL_GetTick();
+          if(ledBlink) { HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
+          RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
+          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          debug_printf("radio Tx\r\n");
+          //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
+        }
 
-      // reset accumulators.
-      for (int ch = 0; ch < CTn; ch++) {
-              channel_results_t *chn_result = &channel_results[ch];
-              memset((void*)chn_result, 0, sizeof(channel_results_t));
-      }
-      
-      if(ledBlink){HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);}
+        SkipPost:
+        // reset accumulators.
+        for (int ch = 0; ch < CTn; ch++) {
+                channel_results_t *chn_result = &channel_results[ch];
+                memset((void*)chn_result, 0, sizeof(channel_results_t));
+        }
+        
+        
+        if(ledBlink) {HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); }
+
     } EndJump: // end main readings_ready function.
-    // end main readings_ready function.
-    // end main readings_ready function.
-    // end main readings_ready function.
+    // end main readings_ready functions.
+    // end main readings_ready functions.
+    // end main readings_ready functions.
 
 
 
@@ -1254,8 +1266,12 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
   if (GPIO_Pin == PULSE1_Pin) {
-    debug_printf("Pulse Detected.\r\n");
-    pulseCount++;
+    debug_printf("Pulse Ch1 Detected.\r\n");
+    pulseCount1++;
+  }
+  if (GPIO_Pin == PULSE2_Pin) {
+    debug_printf("Pulse Ch2 Detected.\r\n");
+    pulseCount2++;
   }
 }
 
@@ -1264,7 +1280,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
     // HAL_UART_Transmit(&huart2, "test\r\n", 7, 1000);
     usart_tx_ready = true;
   }
-  
 }
 
 /* USER CODE END 4 */

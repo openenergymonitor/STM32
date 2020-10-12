@@ -202,7 +202,7 @@
 <text x="114.963" y="29.05" size="1.016" layer="26" font="vector" ratio="20" rot="MR0">OpenEnergyMonitor</text>
 <text x="114.963" y="30.3" size="1.016" layer="26" font="vector" ratio="20" rot="MR0">Development Board</text>
 <text x="114.963" y="31.55" size="1.4224" layer="26" font="vector" ratio="20" rot="MR0">emonSTM32</text>
-<text x="114.881" y="27.409603125" size="1.016" layer="26" font="vector" ratio="20" rot="MR0">v1.0</text>
+<text x="114.881" y="27.409603125" size="1.016" layer="26" font="vector" ratio="20" rot="MR0">v1.1</text>
 <text x="97.91875" y="78.90644375" size="1.016" layer="21" font="vector" ratio="15" rot="SR0" align="bottom-center">Designed in </text>
 <text x="98.0209125" y="73.66226875" size="1.016" layer="21" font="vector" ratio="15" rot="SR0" align="bottom-center">North Wales </text>
 <text x="97.57866875" y="72.16445" size="1.016" layer="21" font="vector" ratio="15" rot="SR0" align="bottom-center">Made in UK</text>
@@ -2777,7 +2777,7 @@
 <text x="51.35315" y="21.368528125" size="1.016" layer="25" font="vector" ratio="20">OpenEnergyMonitor</text>
 <text x="51.35315" y="22.618528125" size="1.016" layer="25" font="vector" ratio="20">Development Board</text>
 <text x="51.35315" y="23.868528125" size="1.4224" layer="25" font="vector" ratio="20">emonSTM32</text>
-<text x="51.43515" y="19.837603125" size="1.016" layer="25" font="vector" ratio="20">v1.0</text>
+<text x="51.43515" y="19.837603125" size="1.016" layer="25" font="vector" ratio="20">v1.1</text>
 <hole x="14.3" y="79.2" drill="3.18"/>
 <circle x="14.3" y="79.2" radius="3.5" width="0.1" layer="21"/>
 <text x="19.52678125" y="50.00084375" size="1.4" layer="25">GND</text>
@@ -6341,6 +6341,15 @@ Source: http://www.analog.com/static/imported-files/data_sheets/AD8519_8529.pdf<
 <attribute name="VALUE" x="81.01025" y="39.832790625" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="TP12" library="SparkFun-Connectors" package="PAD.03X.03" value="TEST-POINT3" x="80.217515625" y="39.5264625" smashed="yes"/>
+<element name="IC1" library="analog-devices" library_urn="urn:adsk.eagle:library:102" package="SC70-5" package3d_urn="urn:adsk.eagle:package:3966/1" value="" x="-7.30681875" y="-42.983403125" smashed="yes">
+<attribute name="MF" value="" x="-7.30681875" y="-42.983403125" size="1.778" layer="27" display="off"/>
+<attribute name="MPN" value="" x="-7.30681875" y="-42.983403125" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-8.70381875" y="-41.459403125" size="1.27" layer="25"/>
+<attribute name="OC_FARNELL" value="unknown" x="-7.30681875" y="-42.983403125" size="1.778" layer="27" display="off"/>
+<attribute name="OC_NEWARK" value="unknown" x="-7.30681875" y="-42.983403125" size="1.778" layer="27" display="off"/>
+<attribute name="POPULARITY" value="0" x="-7.30681875" y="-42.983403125" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-8.95781875" y="-45.777403125" size="1.27" layer="27"/>
+</element>
 </elements>
 <signals>
 <signal name="DGND" class="2">
