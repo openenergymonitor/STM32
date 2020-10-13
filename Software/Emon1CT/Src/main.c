@@ -58,6 +58,8 @@
 #define true 1
 #define false 0
 #define MID_ADC_READING 2048
+#define POSITIVE 1
+#define NEGATIVE 0
 
 // Serial output buffer
 char log_buffer[100];
@@ -85,9 +87,12 @@ int64_t sum_V_copy;
 int64_t sum_I_copy;
 uint64_t count_copy;
 
-uint8_t positive_V = 0;
-uint8_t last_positive_V = 0;
 uint8_t cycles = 0;
+
+uint8_t polarity_count = 0;
+uint8_t polarityUnconfirmed = 0;
+uint8_t polarityConfirmed = 0;
+uint8_t polarityConfirmedOfLastSampleV = 0;
 
 /* USER CODE END PV */
 
@@ -124,10 +129,30 @@ void process_frame(uint16_t offset)
     
     count ++;
     
-    // Zero crossing detection
-    last_positive_V = positive_V;
-    if (signed_V > 0) positive_V = true; else positive_V = false;
-    if (!last_positive_V && positive_V) cycles++;
+    // -----------------------------------------------
+    // Zero crossing detection from Robert Wall
+    // -----------------------------------------------
+    polarityConfirmedOfLastSampleV = polarityConfirmed;
+    
+    if (signed_V > 0) {
+        polarityUnconfirmed = POSITIVE;
+    } else {
+        polarityUnconfirmed = NEGATIVE;
+    }
+    
+    if (polarityUnconfirmed != polarityConfirmedOfLastSampleV) { 
+        polarity_count++; 
+    } else {
+        polarity_count = 0; 
+    }
+
+    if (polarity_count >= 3) {
+        polarity_count = 0;
+        polarityConfirmed = polarityUnconfirmed;
+    }
+    
+    if (polarityConfirmed == POSITIVE && polarityConfirmedOfLastSampleV != POSITIVE) cycles++;
+    // -----------------------------------------------
     
     // 125 cycles or 2.5 seconds
     if (cycles>=125) {
@@ -195,7 +220,7 @@ int main(void)
 
   HAL_OPAMP_Start(&hopamp2);
 
-  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tCount\r\n");
+  sprintf(log_buffer,"Vrms\tIrms\tRP\tAP\tPF\tPFA\tCount\r\n");
   debug_printf(log_buffer);
   
   start_ADCs();
@@ -225,8 +250,9 @@ int main(void)
        
        double apparentPower = Vrms * Irms;
        double powerFactor = realPower / apparentPower; 
+       double powerFactorDegrees = 360*(acos(powerFactor)/(2*3.14159265));
      
-       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%d\r\n", Vrms, Irms, realPower, apparentPower, powerFactor, count_copy);
+       sprintf(log_buffer,"%.2f\t%.3f\t%.1f\t%.1f\t%.3f\t%.3f\t%Ld\r\n", Vrms, Irms, realPower, apparentPower, powerFactor,powerFactorDegrees,count_copy);
        debug_printf(log_buffer);
      }
   /* USER CODE END WHILE */
