@@ -692,7 +692,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 void start_ADCs (int32_t usec_lag) {
 
-  while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+  while (!usart_tx_ready); // force wait while usart Tx finishes.
   snprintf(log_buffer, sizeof(log_buffer),
 	   "ADC DMA buffs: %d bytes\n", sizeof(adc1_dma_buff));
   debug_printf(log_buffer);

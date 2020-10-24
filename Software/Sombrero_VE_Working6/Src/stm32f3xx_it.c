@@ -182,7 +182,6 @@ void USART1_IRQHandler(void)
     {
       __HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_IDLE);
       usart1_rx_flag = 1;
-      //debug_printf("rxflag1 ISR\r\n");
     }
   
 
@@ -212,6 +211,7 @@ void EXTI15_10_IRQHandler(void)
 
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */

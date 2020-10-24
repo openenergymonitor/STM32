@@ -381,13 +381,11 @@ void debug_printf (char* data) {
   //HAL_UART_Transmit(&huart1, (uint8_t*)p, strlen(p), 1000); // old tx function
   // note to developer: the following line will be found before many sprintf() calls so as to avoid 
   // overwriting the buffer in non-blocking itx mode.
-  // "while (!usart_tx_ready) { __NOP(); }"
+  // "while (!usart_tx_ready);"
   // as you can see, there's a manual flag "usart_tx_ready" being used to avoid clashes 
   // between quick successive uart transmissions. A ring buffer would be better.
   
-  while (!usart_tx_ready) {
-    __NOP();
-  }
+  while (!usart_tx_ready);
 
   usart_tx_ready = false; // block future Tx until cleared by interrupt callback, found in main.c 'void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)' 
   HAL_UART_Transmit_IT(&huart1, (uint8_t*)data, strlen(data));  

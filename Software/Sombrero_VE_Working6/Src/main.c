@@ -74,8 +74,8 @@ bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms,
 bool ledBlink = true; // enable or disable LED blinking.
 
 // version information
-char hwVersion[] = "Sombrero_v0.8";
-char fwVersion[] = "v0.1";
+char hwVersion[] = "1.1";
+char fwVersion[] = "0.1";
 
 //-------------
 // MODES
@@ -85,7 +85,7 @@ char fwVersion[] = "v0.1";
 // 2 = ESP32
 // 3 = testing
 int _mode = 0; // init mode
-
+bool rpi_connected = false;
 
 // approximating the BIAS.
 #define MID_ADC_READING 2048
@@ -175,7 +175,7 @@ channel_results_t channel_results[CTn] = {0}; //  init the channel results.
 const double VOLTS_PER_DIV = (2.048 / 4096.0);
 //const double VCAL = 268.97; // default ideal power UK
 // const double VCAL = 493.502184547; // measured by DB for testing.
-const double VCAL = 240;
+const double VCAL = 287.882;
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
@@ -267,7 +267,9 @@ static uint32_t pulseCount1 = 0;
 static uint32_t pulseCount2 = 0;
 extern char json_response[40];
 extern int boot_number;
-
+bool debugFlag_pulse1 = false;
+bool debugFlag_pulse2 = false;
+bool debugFlag_Button1 = false;
 
 
 /* USER CODE END PV */
@@ -352,7 +354,7 @@ int pf_mode_array[5]; // stores the phase_corrections value at the point of swit
 int *pf_ptr = pf_mode_array;
 int phase_corrections_store_previous_value;
 void pfHunt(int ch) {
-  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+  while (!usart_tx_ready); // force wait while usart Tx finishes.
   if (hunt_PF[ch] == 0 || hunt_PF[ch] == 5) { 
     return;
   }
@@ -475,7 +477,7 @@ void process_frame (uint16_t offset)
   if(ledBlink){HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); } // blink the led
   
   //set_highest_phase_correction(); // could be called after a phase correction routine instead.
-  while (!check_dma_index_for_phase_correction(offset)) __NOP();
+  while (!check_dma_index_for_phase_correction(offset));
 
   int16_t sample_V, sample_I, signed_V, signed_I;
   
@@ -526,7 +528,7 @@ void process_frame (uint16_t offset)
        
       // if (ch == 4) {
       //   char valuebuff[10];
-      //   while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+      //   while (!usart_tx_ready); // force wait while usart Tx finishes.
       //   sprintf(valuebuff, "%d\r\n", sample_I);
       //   debug_printf(valuebuff);
       // }
@@ -768,7 +770,7 @@ int main(void)
       
       // ADC read start
       HAL_ADC_Start(&hadc4);
-      while (HAL_ADC_PollForConversion(&hadc4, 1000) != HAL_OK) __NOP();
+      while (HAL_ADC_PollForConversion(&hadc4, 1000) != HAL_OK);
       reading = HAL_ADC_GetValue(&hadc4);
       HAL_ADC_Stop(&hadc4);
       // ADC read end.
@@ -777,7 +779,7 @@ int main(void)
       HAL_Delay(100);
       RadDelayCount++;
     }
-    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+    while (!usart_tx_ready); // force wait while usart Tx finishes.
     sprintf(log_buffer, "RadioDelay:%d\r\n", RadioDelay);
     debug_printf(log_buffer); 
     HAL_Delay(RadioDelay);
@@ -792,7 +794,7 @@ int main(void)
   // see stm32f3xx_hal_rtc_ex.c  line 1118 onwards.
   //uint32_t bkp_write = 123456789;
   uint32_t bkp_ = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
-  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+  while (!usart_tx_ready); // force wait while usart Tx finishes.
   sprintf(log_buffer, "Number of boots:%ld\r\n", bkp_);
   debug_printf(log_buffer);
   boot_number = bkp_;
@@ -801,7 +803,7 @@ int main(void)
   
   // RESET CAUSE
   reset_cause_store = reset_cause_get();
-  while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+  while (!usart_tx_ready); // force wait while usart Tx finishes.
   sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
   debug_printf(log_buffer);
   
@@ -840,7 +842,8 @@ int main(void)
   if (HAL_GPIO_ReadPin(rPi_PWR_GPIO_Port, rPi_PWR_Pin) == 1)
   {
     debug_printf("rPi connected!\r\n");
-    _mode = 1;
+    _mode = 1; // rpi mode.
+    rpi_connected = true;
   }
   else {
     debug_printf("rPi not connected.\r\n");
@@ -855,7 +858,7 @@ int main(void)
   HAL_Delay(20);
   if (RFM69_initialize(freqBand, nodeID, networkID))
   {
-    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+    while (!usart_tx_ready); // force wait while usart Tx finishes.
     sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
     debug_printf(log_buffer);
     //RFM69_readAllRegs(); // debug output
@@ -957,15 +960,16 @@ int main(void)
           first_readings = true; 
           previous_millis_course = current_millis;
           
-          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          while (!usart_tx_ready); // force wait while usart Tx finishes.
           sprintf(log_buffer, "Start Sampling Millis: %ld\r\n", current_millis); // initital write to buffer.
           debug_printf(log_buffer);
           
           goto EndJump;
         } // discard the first set as beginning of 1st waveform not tracked.
         
-        while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
-        sprintf(log_buffer, "{STM:1.0,\r\n"); // initital write to buffer.
+        while (!usart_tx_ready); // force wait while usart Tx finishes.
+        sprintf(log_buffer, "{STM_HW:%s,STM_FW:%s,\r\n", hwVersion, fwVersion); // initital write to buffer.
+        if (rpi_connected) sprintf(log_buffer, "STM_HW:%s,STM_FW:%s,", hwVersion, fwVersion); // initital write to buffer.
 
         // CALCULATE POWER
         for (int ch = 0; ch < CTn; ch++)
@@ -1007,7 +1011,7 @@ int main(void)
         if(ledBlink) { HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); } // blink the led
         
         if (no_volts_flag) {
-          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          while (!usart_tx_ready); // force wait while usart Tx finishes.
           sprintf(log_buffer, "No voltage waveform present.\r\n"); // initital write to buffer.
           debug_printf(log_buffer);
           no_volts_flag = false; // reset.
@@ -1025,7 +1029,8 @@ int main(void)
 
           int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
           //if (_ch == 1) { // single channel debug output.
-          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount);
+          if (rpi_connected) { sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); }
+          else { sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); }
           strcat(log_buffer, string_buffer);
           //} // single channel debug output
           chn_result->Clipped = false;
@@ -1033,7 +1038,7 @@ int main(void)
         
 
         // Main frequency estimate.
-        sprintf(string_buffer, "Hz:%.1f,", mains_frequency);
+        sprintf(string_buffer, "Hz:%.2f,", mains_frequency);
         strcat(log_buffer, string_buffer);
         
         // Millis
@@ -1052,7 +1057,8 @@ int main(void)
         strcat(log_buffer, string_buffer);
 
         // close the string and add some whitespace for clarity.
-        strcat(log_buffer, "}\r\n");
+        if (!rpi_connected) { strcat(log_buffer, "}"); }
+        strcat(log_buffer, "\r\n");
         debug_printf(log_buffer);
 
         // RFM69 send.
@@ -1062,7 +1068,7 @@ int main(void)
           radioData.uptime = HAL_GetTick();
           if(ledBlink) { HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 1); HAL_TIM_Base_Start_IT(&htim16); }// LED blink
           RFM69_send(toAddress, (const void *)(&radioData), sizeof(radioData), requestACK);
-          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          while (!usart_tx_ready); // force wait while usart Tx finishes.
           debug_printf("radio Tx\r\n");
           //RFM69_sendWithRetry(toAddress, (const void *)(&radioData), sizeof(radioData), 3,20);
         }
@@ -1101,7 +1107,7 @@ int main(void)
           //PrintStruct();
           //PrintByteByByte();
           //RFM69_interruptHandler();
-          while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+          while (!usart_tx_ready); // force wait while usart Tx finishes.
           sprintf(log_buffer, "RSSI:%d\r\n", rssi);
           debug_printf(log_buffer);
 
@@ -1141,7 +1147,7 @@ int main(void)
       huart1.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
       //json_parser("{G:RTC}"); // calling this loads json_response[] with a response.
       json_parser(rx_string); // calling this loads json_response[] with a response.
-      while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+      while (!usart_tx_ready); // force wait while usart Tx finishes.
       sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
       debug_printf(log_buffer);
     }
@@ -1158,7 +1164,7 @@ int main(void)
     //   huart2.hdmarx->Instance->CNDTR = sizeof(rx_buff);
     //   huart2.hdmarx->Instance->CCR |= DMA_CCR_EN; // reset dma counter
     //   json_parser(rx_string); // calling this loads json_response[] with a response.
-    //   while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+    //   while (!usart_tx_ready); // force wait while usart Tx finishes.
     //   sprintf(log_buffer, "{STM32:%s}\r\n", json_response);
     //   debug_printf(log_buffer);
     // }
@@ -1181,6 +1187,18 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+    if (debugFlag_pulse1) {
+      debug_printf("Pulse Ch1 Detected.\r\n");
+      debugFlag_pulse1 = false;
+    }
+    if (debugFlag_pulse2) {
+      debug_printf("Pulse Ch2 Detected.\r\n");
+      debugFlag_pulse2 = false;
+    }
+    if (debugFlag_Button1) {
+      debug_printf("Button Pressed!\r\n");
+      debugFlag_Button1 = false;
+    }  
   }
   /* USER CODE END 3 */
 
@@ -1266,12 +1284,15 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
   if (GPIO_Pin == PULSE1_Pin) {
-    debug_printf("Pulse Ch1 Detected.\r\n");
+    debugFlag_pulse1 = true;    
     pulseCount1++;
   }
   if (GPIO_Pin == PULSE2_Pin) {
-    debug_printf("Pulse Ch2 Detected.\r\n");
+    debugFlag_pulse2 = true;    
     pulseCount2++;
+  }
+  if (GPIO_Pin == BUTTON1_Pin) {
+    debugFlag_Button1 = true;    
   }
 }
 
@@ -1296,7 +1317,7 @@ void _Error_Handler(char *file, int line)
   /* User can add his own implementation to report the HAL error return state */
   while (1)
   {
-    while (!usart_tx_ready) __NOP(); // force wait while usart Tx finishes.
+    while (!usart_tx_ready); // force wait while usart Tx finishes.
     sprintf(log_buffer, "sys_error:%s,line:%d\r\n", file, line);
     debug_printf(log_buffer);
   }

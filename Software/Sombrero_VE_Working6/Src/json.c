@@ -118,7 +118,7 @@ void json_parser(char *string)
 
   if (r < 0)
   {
-    while (!usart_tx_ready) {__NOP();} // force wait while usart Tx finishes.
+    while (!usart_tx_ready); // force wait while usart Tx finishes.
     sprintf(log_buffer, "ERROR:json parse error.%d\r\n", r);
     debug_printf(log_buffer);
   }
