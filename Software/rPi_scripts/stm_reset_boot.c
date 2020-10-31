@@ -7,13 +7,9 @@
 int main (void)
 {
   wiringPiSetup () ;
-  pinMode (0, OUTPUT) ; // reset
+  pinMode (4, OUTPUT) ; // reset
   pinMode (7, INPUT) ; // BOOT0 set to input for safety
-  pinMode (27, OUTPUT) ; // GPIO16
-  pinMode (28, OUTPUT) ; // GPIO20
-  digitalWrite (27, HIGH) ;
-  digitalWrite (28, HIGH) ; delay(5) ;
-  digitalWrite (0, LOW) ; delay(5) ;
+  digitalWrite (4, LOW) ; delay(20) ;
   pinMode (0, INPUT) ; // reset
   return 0 ;
 }
