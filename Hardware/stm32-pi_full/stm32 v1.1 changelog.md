@@ -14,3 +14,8 @@ v1.0 & v1.1 changes
 - 3-phase lmv824 op-amps typology implemented.
 - ref19x for VREF now 2.048V and supplied by analog 3v3 instead of 5v.
 - lmv824 3-phase feedback resistors changed to 330R.
+- universal input CT channels!
+- since bias input no longer loaded, opamp compensation done away with.
+- SMA connector change, though hole instead of edge mount, for manufacturability.
+- input protection changes. all are SOD-523 diode pairs. CT channels protected via bias' diodes.
+- boot mode button smt footprint for easier dev.
