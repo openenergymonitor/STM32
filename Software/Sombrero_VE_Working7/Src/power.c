@@ -8,31 +8,27 @@
 #include "main.h"
 #include "gpio.h"
 
+
+//--------------------------------
+// ADC SETTINGS / CALIBRATION
+//--------------------------------
+const double VOLTS_PER_DIV = (2.048 / 4096.0); // REF191
+// const double VOLTS_PER_DIV = (3.3 / 4096.0); // REF196
+
 //--------------------------------
 // VOLTAGE CALIBRATION
 //--------------------------------
-const double VOLTS_PER_DIV = (2.048 / 4096.0);
-//const double VCAL = 268.97; // default ideal power UK
-// const double VCAL = 493.502184547; // measured by DB for testing.
-const double VCAL = 287.882;
-
+// const double VCAL = 225.83; // default ideal power UK, for STM32 HW v1.0 (REF196?)
+const double VCAL = 290.64; // default ideal power UK, for STM32 HW v1.0 (REF191???)
 
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
-// const double ICAL = (100/0.05)/22.0; // (CT rated input / rated output) / burden value.
-// const double ICAL = (100/0.05)/11.0; // (CT rated input / rated output) / burden value.
 const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
-// const double ICAL = (100/0.05)/(26.8); // dan's stm32 consistency check board at 0.2% accuracy burden (53R6 x 2 in parallel).
-// const double ICAL = (100/0.05)/50.6; // dan's custom test board.
-// const double ICAL = (100/0.05)/456.3; // dan's custom test board.
-// const double ICAL = (100/0.05)/1.0; // dan's custom test board.
-// const double ICAL = (100/0.05)/(22.0/1000.0);
-// const double ICAL = (100.0/0.05)*11.0; // V=I*R. Convert to raw mV signal for testing.
-// const double ICAL = 88.8832;
-// const double ICAL = (100/0.05)/150.0; // dan's custom test board.
-// const double ICAL = 25.0/0.333; // 25Amp voltage output CT (Current rating divided by output voltage)
-// const double ICAL = 200.0/0.333; // 200Amp voltage output CT (Current rating divided by output voltage)
+
+
+
+
 
 
 double mains_frequency;

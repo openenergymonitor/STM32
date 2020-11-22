@@ -76,7 +76,7 @@ bool dontGiveAMonkeys = false; // don't wait for a VT adaptor to calculate Irms,
 bool ledBlink = true; // enable or disable LED blinking.
 
 // version information
-char hwVersion[] = "1.1";
+char hwVersion[] = "1.0";
 char fwVersion[] = "0.1";
 
 //-------------
