@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * COPYRIGHT(c) 2021 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -39,6 +39,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
+#include "adc.h"
+#include "dma.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "usb.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -93,6 +99,17 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_USB_PCD_Init();
+  MX_ADC4_Init();
+  MX_USART1_UART_Init();
+  MX_UART4_Init();
+  MX_TIM8_Init();
+  MX_SPI1_Init();
+  MX_ADC3_Init();
+  MX_ADC2_Init();
+  MX_ADC1_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -101,17 +118,19 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+    HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+    HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
+    HAL_Delay(500);
 
   /* USER CODE END WHILE */
-HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8);
-HAL_Delay(500);
+
   /* USER CODE BEGIN 3 */
 
   }
   /* USER CODE END 3 */
 
 }
-
 
 /**
   * @brief System Clock Configuration
@@ -122,14 +141,16 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -145,7 +166,23 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1
+                              |RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_UART5
+                              |RCC_PERIPHCLK_TIM8|RCC_PERIPHCLK_ADC12
+                              |RCC_PERIPHCLK_ADC34;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_SYSCLK;
+  PeriphClkInit.Uart5ClockSelection = RCC_UART5CLKSOURCE_SYSCLK;
+  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
+  PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
+  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
+  PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
