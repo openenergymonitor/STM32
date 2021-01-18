@@ -1,1 +1,0 @@
-this was to check if ADC1&2 can be used instead of 1&3. The reason is for syncronisation purposes, as the trigger goes to 1&2 equally, and is optionally forwarded to 3&4 resulting in a clock cycle delay.

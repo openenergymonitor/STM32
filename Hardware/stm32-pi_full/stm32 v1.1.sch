@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -21462,6 +21462,7 @@ protection</text>
 <wire x1="-60.96" y1="109.22" x2="-59.944" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="-60.96" y1="109.22" x2="-60.96" y2="104.14" width="0.1524" layer="91"/>
 <junction x="-60.96" y="104.14"/>
+<label x="-66.04" y="104.14" size="1.778" layer="95" rot="R270" xref="yes"/>
 </segment>
 <segment>
 <wire x1="58.42" y1="30.48" x2="63.5" y2="30.48" width="0.1524" layer="91"/>
