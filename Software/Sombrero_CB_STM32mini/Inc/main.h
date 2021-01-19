@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * COPYRIGHT(c) 2021 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -50,6 +50,19 @@ void onPulse();
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+
+#define RPI_CONNECTED_Pin GPIO_PIN_13
+#define RPI_CONNECTED_GPIO_Port GPIOC
+#define RFM_IRQ_Pin GPIO_PIN_1
+#define RFM_IRQ_GPIO_Port GPIOA
+#define RFM_RST_Pin GPIO_PIN_2
+#define RFM_RST_GPIO_Port GPIOA
+#define VSIG_Pin GPIO_PIN_2
+#define VSIG_GPIO_Port GPIOB
+#define LED_Pin GPIO_PIN_6
+#define LED_GPIO_Port GPIOB
+#define PULSE_INPUT_Pin GPIO_PIN_7
+#define PULSE_INPUT_GPIO_Port GPIOB
 
 /* ########################## Assert Selection ############################## */
 /**

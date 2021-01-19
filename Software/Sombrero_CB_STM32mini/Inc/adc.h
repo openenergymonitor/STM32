@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * COPYRIGHT(c) 2021 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -48,14 +48,32 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include <stdbool.h>
 
-#define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
-volatile uint16_t adc1_dma_buff[ADC_DMA_BUFFSIZE];
-volatile uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE];
+// #define ADC_DMA_BUFFSIZE 6000    // must me integer multiple of number of channels?
+// volatile uint16_t adcV_dma_buff[ADC_DMA_BUFFSIZE];
+// volatile uint16_t adcI_dma_buff[ADC_DMA_BUFFSIZE];
 
+// total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
+#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
+#define CTn 3 // !!! number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
+
+extern uint16_t const adc_buff_size;
+extern uint16_t const adc_buff_half_size;
+extern uint16_t adcV_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+extern uint16_t adcI_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+//uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
+bool conv_hfcplt_flag;
+bool conv_cplt_flag;
+bool adc_buffer_overflow;
+
+extern int32_t usec_lag;
+
+extern DMA_HandleTypeDef hdma_adc2;
+extern DMA_HandleTypeDef hdma_adc4;
 /* USER CODE END Includes */
 
-extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
 extern ADC_HandleTypeDef hadc4;
 
 /* USER CODE BEGIN Private defines */
@@ -64,11 +82,11 @@ extern ADC_HandleTypeDef hadc4;
 
 extern void _Error_Handler(char *, int);
 
-void MX_ADC1_Init(void);
+void MX_ADC2_Init(void);
 void MX_ADC4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void start_ADCs (void);
+void start_ADCs (int32_t usec_lag);
 void process_frame(uint16_t offset);
 /* USER CODE END Prototypes */
 

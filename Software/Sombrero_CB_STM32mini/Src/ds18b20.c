@@ -18,7 +18,7 @@ static uint8_t bus_status[MAX_1WIRE_BUS], crc_status[MAX_1WIRE_BUS];
 static float temp_f[MAX_1WIRE_BUS];
 static int16_t temp_i[MAX_1WIRE_BUS];
 
-char log_buffer[100];
+// char log_buffer[100];
 
 //
 // This code is NOT an example
