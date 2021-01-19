@@ -44,8 +44,8 @@
 /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
-
-void onPulse();
+#include <stdbool.h>
+bool ledBlink; // enable or disable LED blinking.
 
 /* USER CODE END Includes */
 

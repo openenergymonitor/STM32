@@ -44,22 +44,25 @@
 #include "dma.h"
 
 /* USER CODE BEGIN 0 */
-#include "tim.h"
-#include "usart.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include "tim.h"
+#include "usart.h"
+#include "phase.h"
+#include "power.h"
+
 int32_t usec_lag = 95;  // how many microseconds to pull the voltage channel back by.
                     // this is a single value for phase correction for both voltage and current ADCs, effecting all CT and VT channels.
 uint16_t const adc_buff_size = CTn * ADC_DMA_BUFFSIZE_PERCHANNEL;
 uint16_t const adc_buff_half_size = (CTn * ADC_DMA_BUFFSIZE_PERCHANNEL) / 2;
-uint16_t adcV_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-uint16_t adcI_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+// uint16_t adcV_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+// uint16_t adcI_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 
 bool adc_buffer_overflow = 0;
 // volatile uint16_t adcV_dma_buff[ADC_DMA_BUFFSIZE];
 // volatile uint16_t adcI_dma_buff[ADC_DMA_BUFFSIZE];
-//bool adc_conv_halfcplt_flag = 0;
-//bool adc_conv_cplt_flag = 0;
+// bool conv_halfcplt_flag = 0;
+// bool conv_cplt_flag = 0;
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc2;
@@ -75,7 +78,7 @@ void MX_ADC2_Init(void)
     /**Common config 
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc2.Init.ContinuousConvMode = ENABLE;
@@ -98,7 +101,7 @@ void MX_ADC2_Init(void)
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_601CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
@@ -115,13 +118,13 @@ void MX_ADC4_Init(void)
     /**Common config 
     */
   hadc4.Instance = ADC4;
-  hadc4.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc4.Init.Resolution = ADC_RESOLUTION_12B;
   hadc4.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc4.Init.ContinuousConvMode = ENABLE;
   hadc4.Init.DiscontinuousConvMode = DISABLE;
-  hadc4.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc4.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc4.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc4.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO2;
   hadc4.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc4.Init.NbrOfConversion = 3;
   hadc4.Init.DMAContinuousRequests = ENABLE;
@@ -138,7 +141,7 @@ void MX_ADC4_Init(void)
   sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_181CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_601CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc4, &sConfig) != HAL_OK)
@@ -203,6 +206,9 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc2);
 
+    /* ADC2 interrupt Init */
+    HAL_NVIC_SetPriority(ADC1_2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC1_2_IRQn);
   /* USER CODE BEGIN ADC2_MspInit 1 */
 
   /* USER CODE END ADC2_MspInit 1 */
@@ -242,6 +248,9 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc4);
 
+    /* ADC4 interrupt Init */
+    HAL_NVIC_SetPriority(ADC4_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC4_IRQn);
   /* USER CODE BEGIN ADC4_MspInit 1 */
 
   /* USER CODE END ADC4_MspInit 1 */
@@ -266,6 +275,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* ADC2 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
+
+    /* ADC2 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(ADC1_2_IRQn);
   /* USER CODE BEGIN ADC2_MspDeInit 1 */
 
   /* USER CODE END ADC2_MspDeInit 1 */
@@ -287,6 +299,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* ADC4 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
+
+    /* ADC4 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(ADC4_IRQn);
   /* USER CODE BEGIN ADC4_MspDeInit 1 */
 
   /* USER CODE END ADC4_MspDeInit 1 */
@@ -296,15 +311,20 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 /* USER CODE BEGIN 1 */
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  if(hadc == &hadc2) process_frame(0);
-  //if(hadc == &hadc1) adc_conv_halfcplt_flag = true;
+  if (hadc==&hadc2) {
+    if (conv_hfcplt_flag) adc_buffer_overflow = true; // has the buffer overrun?
+    conv_hfcplt_flag = true;
+  }
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
- if(hadc == &hadc2) process_frame(3000);
- // if(hadc == &hadc1) adc_conv_cplt_flag = true;
+  if (hadc==&hadc2) {
+    if (conv_cplt_flag) adc_buffer_overflow = true; // has the buffer overrun?
+    conv_cplt_flag = true;
+  }
 }
+
 void start_ADCs (int32_t usec_lag) {
 
   // while (!usart_tx_ready); // force wait while usart Tx finishes.
@@ -319,11 +339,12 @@ void start_ADCs (int32_t usec_lag) {
   //
   HAL_ADC_Stop_DMA(&hadc2);
   HAL_ADC_Stop_DMA(&hadc4);
-  
+
   if (usec_lag == 0) {
     //
     // Caller has requested no lag so set them all to the same edge.
     //
+
     MODIFY_REG(hadc2.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_RISING);
     MODIFY_REG(hadc4.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_RISING);
     usec_lag = 1;                                         // any pulse from the timer will do 
@@ -334,6 +355,7 @@ void start_ADCs (int32_t usec_lag) {
     //
     // Caller wants -ve lag, so Currents on rising, and Voltage on falling.
     //
+
     MODIFY_REG(hadc2.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_RISING);
     MODIFY_REG(hadc4.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_FALLING);
     usec_lag = abs(usec_lag);                             // turn it +ve for the timer
@@ -342,9 +364,11 @@ void start_ADCs (int32_t usec_lag) {
     //
     // Caller wants a +ve lag, so Currents on falling, and Voltage on rising.
     //
+
     MODIFY_REG(hadc2.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_FALLING);
     MODIFY_REG(hadc4.Instance->CFGR, ADC_CFGR_EXTEN, ADC_EXTERNALTRIGCONVEDGE_RISING);
     //isr_index = 3;                                        // process ISR when V comes in
+
   }
   if (usec_lag > 9999) usec_lag = 9999;                   // limit of the counter/timer
 
@@ -369,6 +393,8 @@ void start_ADCs (int32_t usec_lag) {
   // In the case where the caller has requested no timeshift, all four start on the
   // same edge, and the pulse duration makes no difference.
   //
+  
+
   HAL_ADC_Start_DMA(&hadc2, (uint16_t*)adcV_dma_buff, adc_buff_size);
   HAL_ADC_Start_DMA(&hadc4, (uint16_t*)adcI_dma_buff, adc_buff_size);
 

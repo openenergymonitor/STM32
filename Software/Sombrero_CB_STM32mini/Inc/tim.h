@@ -54,16 +54,15 @@
 extern TIM_HandleTypeDef htim8;
 
 /* USER CODE BEGIN Private defines */
-
+void pulse_tim8_ch2 (int pulse_width_usec);
 /* USER CODE END Private defines */
 
 extern void _Error_Handler(char *, int);
 
 void MX_TIM8_Init(void);
-                    
+                        
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                
-
+                    
 /* USER CODE BEGIN Prototypes */
 void pulse_tim8_ch2 (int pulse_width_usec);
 /* USER CODE END Prototypes */

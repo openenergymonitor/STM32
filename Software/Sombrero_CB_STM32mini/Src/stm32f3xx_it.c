@@ -36,12 +36,18 @@
 #include "stm32f3xx_it.h"
 
 /* USER CODE BEGIN 0 */
+#include "usart.h"
+#include "stdbool.h"
+bool rx1_enable = 0;
+bool rx2_enable = 0;
 
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc2;
 extern DMA_HandleTypeDef hdma_adc4;
+extern ADC_HandleTypeDef hadc2;
+extern ADC_HandleTypeDef hadc4;
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -70,6 +76,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles ADC1 and ADC2 interrupts.
+*/
+void ADC1_2_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_2_IRQn 0 */
+
+  /* USER CODE END ADC1_2_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc2);
+  /* USER CODE BEGIN ADC1_2_IRQn 1 */
+
+  /* USER CODE END ADC1_2_IRQn 1 */
+}
+
+/**
 * @brief This function handles DMA2 channel1 global interrupt.
 */
 void DMA2_Channel1_IRQHandler(void)
@@ -95,6 +115,20 @@ void DMA2_Channel2_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Channel2_IRQn 1 */
 
   /* USER CODE END DMA2_Channel2_IRQn 1 */
+}
+
+/**
+* @brief This function handles ADC4 interrupt.
+*/
+void ADC4_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC4_IRQn 0 */
+
+  /* USER CODE END ADC4_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc4);
+  /* USER CODE BEGIN ADC4_IRQn 1 */
+
+  /* USER CODE END ADC4_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

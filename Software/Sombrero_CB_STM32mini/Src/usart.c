@@ -39,9 +39,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
+
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
+// char log_buffer[500];
 
 #include <string.h>
 

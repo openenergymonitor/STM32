@@ -55,19 +55,19 @@
 // volatile uint16_t adcI_dma_buff[ADC_DMA_BUFFSIZE];
 
 // total buffer = ADC_DMA_BUFFSIZE_PERCHANNEL * CTn
-#define ADC_DMA_BUFFSIZE_PERCHANNEL 1000
+#define ADC_DMA_BUFFSIZE_PERCHANNEL 2000
 #define CTn 3 // !!! number of CT channels, changing this number sould correlate with scan conversion settings in cubeMx.
 
-extern uint16_t const adc_buff_size;
-extern uint16_t const adc_buff_half_size;
-extern uint16_t adcV_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
-extern uint16_t adcI_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t const adc_buff_size;
+uint16_t const adc_buff_half_size;
+uint16_t adcV_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
+uint16_t adcI_dma_buff[CTn * ADC_DMA_BUFFSIZE_PERCHANNEL];
 //uint16_t adc4_dma_buff[ADC_DMA_BUFFSIZE_PERCHANNEL];
 bool conv_hfcplt_flag;
 bool conv_cplt_flag;
 bool adc_buffer_overflow;
 
-extern int32_t usec_lag;
+int32_t usec_lag;
 
 extern DMA_HandleTypeDef hdma_adc2;
 extern DMA_HandleTypeDef hdma_adc4;
@@ -87,7 +87,7 @@ void MX_ADC4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 void start_ADCs (int32_t usec_lag);
-void process_frame(uint16_t offset);
+// void process_frame(uint16_t offset);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

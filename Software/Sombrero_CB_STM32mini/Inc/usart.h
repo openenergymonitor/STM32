@@ -55,7 +55,7 @@ extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
-char log_buffer[500];
+char log_buffer[1000];
 /* USER CODE END Private defines */
 
 extern void _Error_Handler(char *, int);

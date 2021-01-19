@@ -177,10 +177,11 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
 // negative pulse.
 //
 void pulse_tim8_ch2 (int pulse_width_usec) {
-
+  
   HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_2);         // In case it's running
   LL_TIM_OC_SetCompareCH2(htim8.Instance, 10000 - pulse_width_usec);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+  // https://community.openenergymonitor.org/t/stm32-development/6815/53
 }
 
 

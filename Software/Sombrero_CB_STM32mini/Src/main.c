@@ -82,8 +82,10 @@ bool first_readings = false;
 bool no_volts_flag = false;
 // bool readings_ready = false;
 bool rpi_connected;
-extern bool adc_conv_halfcplt_flag;
-extern bool adc_conv_cplt_flag;
+// extern bool conv_halfcplt_flag;
+// extern bool conv_cplt_flag;
+bool ledBlink = true; // enable or disable LED blinking.
+
 
 
 //------------------------
@@ -286,7 +288,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_OPAMP2_Init();
   MX_USART1_UART_Init();
   MX_TIM8_Init();
   MX_ADC2_Init();
@@ -294,24 +295,23 @@ int main(void)
   MX_I2C1_Init();
   MX_ADC4_Init();
   MX_SPI3_Init();
+  MX_OPAMP2_Init();
   /* USER CODE BEGIN 2 */
 
 
-  HAL_Delay(1200); // time necessary to catch first serial output on firmware launch after flash.
-
+  HAL_Delay(2000); // time necessary to catch first serial output on firmware launch after flash.
   debug_printf("\r\n\r\nStart, connect VT.\r\n");
-  
 
-  HAL_OPAMP_Start(&hopamp2);
 
-  // start_ADCs();
-
+  //------------------------
   // RESET CAUSE
+  //------------------------
   reset_cause_store = reset_cause_get();
   // while (!usart_tx_ready); // force wait while usart Tx finishes.
   sprintf(log_buffer, "Reset Cause:%s\r\n", reset_cause_get_name(reset_cause_store));
   debug_printf(log_buffer);
   
+
   //------------------------
   // is the rPi Connected?
   //------------------------
@@ -327,7 +327,6 @@ int main(void)
   }
 
 
-
   //------------------------
   // ADC & OPAMP Start
   //------------------------
@@ -339,14 +338,20 @@ int main(void)
   HAL_Delay(2);
   start_ADCs(usec_lag);
 
-  //init_ds18b20s(); // temperature sensor
 
-  debug_printf("\r\n");
+  //------------------------
+  // Temp Sensor Start
+  //------------------------
+  //init_ds18b20s(); // temperature sensor
   
   // sensible start times..
   current_millis = HAL_GetTick();
   previous_millis_course = current_millis;
   previous_millis_fine = current_millis;
+
+
+  // Done Init indcator.
+  debug_printf("\r\n.\r\n");
 
   /* USER CODE END 2 */
 
@@ -356,11 +361,14 @@ int main(void)
   {
     current_millis = HAL_GetTick();
 
+    //----------------------------
     // process_ds18b20s();
-    
-    //------------------------------------------
-    // Interval for accumulating power readings.
-    //------------------------------------------
+    //----------------------------
+
+
+    //------------------------------------------------
+    // Short interval for accumulating raw readings.
+    //------------------------------------------------
     if (current_millis - previous_millis_fine >= readings_interval) 
     {
       uint16_t correction = current_millis - previous_millis_fine - readings_interval;
@@ -377,9 +385,9 @@ int main(void)
     }
     
 
-    //------------------------------------------------
-    // ADC DMA buffer flags. Process Frames.
-    //------------------------------------------------
+    //---------------------------------------------------
+    // ADC DMA buffer flags. Process ADC Buffer Frames.
+    //---------------------------------------------------
     if (conv_hfcplt_flag)
     {
       conv_hfcplt_flag = false;
@@ -394,64 +402,67 @@ int main(void)
 
 
     
-    //------------------------------------------------
-    // To post primary data.
-    //------------------------------------------------
+    //------------------------------------------------------
+    // Calculate human-readable values.. volts, amps etc.
+    //------------------------------------------------------
     if (readings_ready)
     {
-        readings_ready = false;
-        memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
+      readings_ready = false;
+      memset(channel_rdy_bools, 0, sizeof(channel_rdy_bools)); // clear flags.
 
-        if (!first_readings) { 
-          readings_interval = _readings_interval;
-          first_readings = true; 
-          previous_millis_course = current_millis;
-          
-          // while (!usart_tx_ready); // force wait while usart Tx finishes.
-          sprintf(log_buffer, "Start Sampling Millis: %ld\r\n", current_millis); // initital write to buffer.
-          debug_printf(log_buffer);
-          
-          // goto EndJump;
-        } // discard the first set as beginning of 1st waveform not tracked.
+      if (!first_readings) { 
+        readings_interval = _readings_interval;
+        first_readings = true; 
+        previous_millis_course = current_millis;
         
         // while (!usart_tx_ready); // force wait while usart Tx finishes.
-        sprintf(log_buffer, "{HardwareVersion:%s,FirmwareVersion:%s,\r\n", hwVersion, fwVersion); // initital write to buffer.
-        // if (rpi_connected) sprintf(log_buffer, "STM_HW:%s,STM_FW:%s,", hwVersion, fwVersion); // initital write to buffer.
+        sprintf(log_buffer, "Start Sampling Millis: %ld\r\n", current_millis); // initital write to buffer.
+        debug_printf(log_buffer);
+        sprintf(log_buffer, "{HardwareVersion:%s,FirmwareVersion:%s}\r\n", hwVersion, fwVersion); // initital write to buffer.
+        debug_printf(log_buffer);
 
-        // CALCULATE POWER
-        for (int ch = 0; ch < CTn; ch++)
-        {
-          channel_t *chn = &channels_ready[ch];
-          channel_results_t *chn_result = &channel_results[ch];
+        goto EndJump;
+      } // discard the first set as beginning of 1st waveform not tracked.
+      
+      // initital write to buffer. sprintf or similar is crucial to prepare for strcat further along.
+      sprintf(log_buffer, "HW:%s,FW:%s\r\n", hwVersion, fwVersion); 
+      //debug_printf(log_buffer);
 
-          last_powerFactor[ch] = powerFactor_now[ch];
-          calcPower(ch);
-          powerFactor_now[ch] = powerFactor;
-          pfHunt(ch);
+      // CALCULATE POWER
+      for (int ch = 0; ch < CTn; ch++)
+      {
+        channel_t *chn = &channels_ready[ch];
+        channel_results_t *chn_result = &channel_results[ch];
 
-          if (chn->Iclipped) { chn_result->Clipped = true; chn->Iclipped = false; }
+        last_powerFactor[ch] = powerFactor_now[ch];
+        calcPower(ch);
+        powerFactor_now[ch] = powerFactor;
+        pfHunt(ch);
 
-          if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
-            mains_frequency = 1.0/(((chn->samplecount * CTn) / chn->cycles) * adc_conversion_time);
-          }
+        if (chn->Iclipped) { chn_result->Clipped = true; chn->Iclipped = false; }
 
-          chn_result->Vrms += Vrms;
-          chn_result->Irms += Irms;
-          chn_result->ApparentPower += apparentPower;
-          chn_result->RealPower += realPower;
-          chn_result->PowerFactor += powerFactor;
-          chn_result->Mains_AC_Cycles += chn->cycles;
-          chn_result->SampleCount += chn->samplecount;
-          chn_result->Count++;
+        if (ch == 0) { // estimate mains_frequency on a single channel, no need for more.
+          mains_frequency = 1.0/(((chn->samplecount * CTn) / chn->cycles) * adc_conversion_time);
         }
+
+        chn_result->Vrms += Vrms;
+        chn_result->Irms += Irms;
+        chn_result->ApparentPower += apparentPower;
+        chn_result->RealPower += realPower;
+        chn_result->PowerFactor += powerFactor;
+        chn_result->Mains_AC_Cycles += chn->cycles;
+        chn_result->SampleCount += chn->samplecount;
+        chn_result->Count++;
+      }
     }
 
-    // -----------------
-    // POSTING SECTION
-    // -----------------
+    //---------------------------------------------
+    // POST DATA.. Serial Output, Radio, etc.
+    //---------------------------------------------
     current_millis = HAL_GetTick();
+    // now to take the channel results, average them and post them.
     if (current_millis - previous_millis_course >= posting_interval)
-      { // now to take the channel results, average them and post them.
+      { 
         uint16_t correction = current_millis - previous_millis_course - posting_interval;
         previous_millis_course = current_millis - correction;
         
@@ -465,7 +476,8 @@ int main(void)
 
         for (int ch = 0; ch < CTn; ch++) {
           channel_results_t *chn_result = &channel_results[ch];
-
+          
+          // Calculate human-readable values.
           chn_result->Vrms /= chn_result->Count;
           chn_result->Irms /= chn_result->Count;
           chn_result->ApparentPower /= chn_result->Count;
@@ -495,8 +507,6 @@ int main(void)
         // Pulsecounters
         sprintf(string_buffer, "PC:%ld,", pulseCount);
         strcat(log_buffer, string_buffer);
-        // sprintf(string_buffer, "PC2:%ld,", pulseCount2);
-        // strcat(log_buffer, string_buffer);
 
         // has the adc buffer overrun?
         sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
@@ -505,8 +515,8 @@ int main(void)
 
         // close the string and add some whitespace for clarity.
         // if (!rpi_connected) { strcat(log_buffer, "}"); }
-        // strcat(log_buffer, "\r\n");
-        // debug_printf(log_buffer);
+        strcat(log_buffer, "\r\n");
+        debug_printf(log_buffer);
 
         // // RFM69 send.
         // if (radioSender) // sending data, test data only.
@@ -530,7 +540,7 @@ int main(void)
         
         // if(ledBlink) {HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); }
 
-      }// EndJump: // end main readings_ready function.
+      } EndJump:; // end main readings_ready function.
     
     // end main readings_ready functions.
     // end main readings_ready functions.
@@ -620,11 +630,10 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -648,13 +657,10 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART3
-                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM8
-                              |RCC_PERIPHCLK_ADC12|RCC_PERIPHCLK_ADC34;
+                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM8;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
-  PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_SYSCLK;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_SYSCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -675,10 +681,18 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-void onPulse()
-{
-  pulseCount++;
+// void onPulse()
+// {
+//   pulseCount++;
+// }
+
+void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin) {
+  if (GPIO_Pin == PULSE_INPUT_Pin) {
+    // debugFlag_pulse1 = true;    
+    pulseCount++;
+  }
 }
+
 
 /* USER CODE END 4 */
 
