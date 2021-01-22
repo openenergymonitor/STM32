@@ -20394,6 +20394,8 @@ SWDIO + SWCLK added to the top</text>
 <text x="-53.34" y="129.54" size="3.81" layer="91">STM32</text>
 <text x="-53.34" y="215.9" size="2.54" layer="91">Open Source Hardware: GNU General Public Licence v3</text>
 <text x="21.59" y="106.68" size="1.778" layer="91" rot="R90">Frequency 8MHZ to 32MHZ</text>
+<text x="210.82" y="-22.86" size="6.4516" layer="91">todo:
+. Protection Diode</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-25.4" y="170.18" smashed="yes">

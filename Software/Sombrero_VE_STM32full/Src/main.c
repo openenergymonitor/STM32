@@ -493,8 +493,8 @@ int main(void)
   if (encryptkey[0]) RFM69_encrypt(encryptkey);
 
   if (!radioReceiver && !radioSender) {
-    HAL_SPI_MspDeInit(&hspi4); // disable SPI4 if radio is disabled.
-    debug_printf("SPI4 DeInit'd.\r\n");
+    HAL_SPI_MspDeInit(&hspi4); // disable SPI if radio is not wanted.
+    debug_printf("Radio SPI DeInit'd.\r\n");
   }
   //else {
   //RFM69_interruptHandler();

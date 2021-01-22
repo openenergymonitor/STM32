@@ -59,10 +59,13 @@ bool ledBlink; // enable or disable LED blinking.
 #define RFM_RST_GPIO_Port GPIOA
 #define VSIG_Pin GPIO_PIN_2
 #define VSIG_GPIO_Port GPIOB
+#define RFM_CS_Pin GPIO_PIN_15
+#define RFM_CS_GPIO_Port GPIOA
 #define LED_Pin GPIO_PIN_6
 #define LED_GPIO_Port GPIOB
 #define PULSE_INPUT_Pin GPIO_PIN_7
 #define PULSE_INPUT_GPIO_Port GPIOB
+#define PULSE_INPUT_EXTI_IRQn EXTI9_5_IRQn
 
 /* ########################## Assert Selection ############################## */
 /**

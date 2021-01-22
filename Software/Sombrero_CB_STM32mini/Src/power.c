@@ -30,7 +30,8 @@ const double VOLTS_PER_DIV = (3.3 / 4096.0); // REF196 or Vreg+
 // VOLTAGE CALIBRATION
 //--------------------------------
 // const double VCAL = 225.83; // default ideal power UK, for STM32 HW v1.0 (REF196?)
-const double VCAL = 290.64; // default ideal power UK, for STM32 HW v1.0 (REF191???)
+// const double VCAL = 290.64; // default ideal power UK, for STM32 HW v1.0 (REF191???)
+const double VCAL = 290.64*0.85296217; // testing.. DB Jan,2021
 
 //--------------------------------
 // AMPERAGE CALIBRATION

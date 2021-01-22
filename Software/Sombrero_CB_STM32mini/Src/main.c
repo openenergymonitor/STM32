@@ -56,6 +56,8 @@
 #include "power.h"
 #include "reset.h"
 #include "phase.h"
+#include "RFM69.h"
+#include "RFM69_ext.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -68,6 +70,15 @@ char hwVersion[] = "0.2";
 char fwVersion[] = "0.1";
 
 
+//--------------------------------
+// Radio Settings
+//--------------------------------
+// See RFM69.c for networkID, band, 
+// and other settings.
+bool radioSender = false; // set 'true' to send test data with RFM69.
+bool radioReceiver = false; // set 'true' to enable rfm69cw receiving. 
+static char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
+//char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
 
 //------------------------------------------------
 // timing variables
@@ -114,7 +125,6 @@ channel_results_t channel_results[CTn] = {0}; //  init the channel results.
 #define COMMAND_BUFFER_SIZE 30
 char rx_string[COMMAND_BUFFER_SIZE];
 char string_buffer[200];
-// char log_buffer[500];
 
 
 //--------------------
@@ -132,44 +142,10 @@ uint32_t time_diff;
 // MISC
 //----------------
 static uint32_t pulseCount = 0;
-// static uint32_t pulseCount2 = 0;
-// extern char json_response[40];
 extern int boot_number;
-
 
 #define MID_ADC_READING 2048
 
-
-
-// // Calibration
-// float VCAL = 268.97;
-// float ICAL = 90.9;
-
-// // Number of waveforms to count
-// uint8_t waveforms = 250;
-
-// // ISR accumulators
-// typedef struct channel_
-// {
-//   int64_t sum_P;
-//   uint64_t sum_V_sq;
-//   uint64_t sum_I_sq;
-//   int32_t sum_V;
-//   int32_t sum_I;
-//   uint32_t count;
-  
-//   uint32_t positive_V;
-//   uint32_t last_positive_V;
-//   uint32_t cycles;
-// } channel_t;
-
-// #define NUMBER_OF_CHANNELS 3
-// static channel_t channels[NUMBER_OF_CHANNELS];
-// static channel_t channels_copy[NUMBER_OF_CHANNELS];
-
-// double Ws_acc[NUMBER_OF_CHANNELS] = {0}; // Watt second accumulator
-
-// uint32_t pulseCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -181,75 +157,6 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
-// void process_frame(uint16_t offset)
-// {
-//   int32_t sample_V, sample_I, signed_V, signed_I;
-
-//   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-//   for (int i = 0; i < 3000; i += NUMBER_OF_CHANNELS)
-//   {
-//     // Cycle through channels
-//     for (int n = 0; n < NUMBER_OF_CHANNELS; n++)
-//     {
-//       channel_t *channel = &channels[n];
-
-//       // ----------------------------------------
-//       // Voltage
-//       sample_V = adcV_dma_buff[offset + i + n];
-//       signed_V = sample_V - MID_ADC_READING;
-//       channel->sum_V += signed_V;
-//       channel->sum_V_sq += signed_V * signed_V;
-//       // ----------------------------------------
-//       // Current
-//       sample_I = adcI_dma_buff[offset + i + n];
-//       signed_I = sample_I - MID_ADC_READING;
-//       channel->sum_I += signed_I;
-//       channel->sum_I_sq += signed_I * signed_I;
-//       // ----------------------------------------
-//       // Power
-//       channel->sum_P += signed_V * signed_I;
-//       // ----------------------------------------
-//       // Sample Count
-//       channel->count++;
-//       // ----------------------------------------
-//       // Zero crossing detection
-//       channel->last_positive_V = channel->positive_V;
-//       if (signed_V > 5)
-//       {
-//         channel->positive_V = true;
-//       }
-//       else if (signed_V < -5)
-//       {
-//         channel->positive_V = false;
-//       }
-      
-//       if (!channel->last_positive_V && channel->positive_V)
-//       {
-//         channel->cycles++;
-//       }
-
-//       // ----------------------------------------
-//       // Complete Waveform Cycles to count
-//       if (channel->cycles == waveforms)
-//       {
-//         channel->cycles = 0;
-
-//         channel_t *channel_copy = &channels_copy[n];
-//         // Copy accumulators for use in main loop
-//         memcpy((void *)channel_copy, (void *)channel, sizeof(channel_t));
-//         // Reset accumulators to zero ready for next set of measurements
-//         memset((void *)channel, 0, sizeof(channel_t));
-
-//         if (n == NUMBER_OF_CHANNELS - 1)
-//         {
-//           readings_ready = true;
-//         }
-//       }
-//     }
-//   }
-//   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-// }
 
 /* USER CODE END 0 */
 
@@ -300,8 +207,10 @@ int main(void)
 
 
   HAL_Delay(2000); // time necessary to catch first serial output on firmware launch after flash.
+  
+  sprintf(log_buffer, "{HardwareVersion:%s,FirmwareVersion:%s}\r\n", hwVersion, fwVersion); // initital write to buffer.
+  debug_printf(log_buffer);
   debug_printf("\r\n\r\nStart, connect VT.\r\n");
-
 
   //------------------------
   // RESET CAUSE
@@ -324,6 +233,32 @@ int main(void)
   else {
     debug_printf("rPi not connected.\r\n");
     // _mode = 0;
+  }
+
+
+  //--------------------------------
+  // Radio Init
+  //--------------------------------
+  RFM69_RST();
+  HAL_Delay(20);
+  if (RFM69_initialize(freqBand, nodeID, networkID))
+  {
+    // while (!usart_tx_ready); // force wait while usart Tx finishes.
+    sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
+    debug_printf(log_buffer);
+    //RFM69_readAllRegs(); // debug output
+  }
+  else {
+    debug_printf("RFM69 not connected.\r\n");
+    radioSender = false; radioSender = false;
+  }
+  
+  // if we have a encryption key, radio encryption will be set.
+  if (encryptkey[0]) RFM69_encrypt(encryptkey);
+
+  if (!radioReceiver && !radioSender) {
+    HAL_SPI_MspDeInit(&hspi3); // disable SPI if radio is not wanted.
+    debug_printf("Radio SPI Deinitialised.\r\n");
   }
 
 
@@ -360,11 +295,6 @@ int main(void)
   while (1)
   {
     current_millis = HAL_GetTick();
-
-    //----------------------------
-    // process_ds18b20s();
-    //----------------------------
-
 
     //------------------------------------------------
     // Short interval for accumulating raw readings.
@@ -403,7 +333,7 @@ int main(void)
 
     
     //------------------------------------------------------
-    // Calculate human-readable values.. volts, amps etc.
+    // Calculate volts, amps etc. and store in accumulator.
     //------------------------------------------------------
     if (readings_ready)
     {
@@ -413,12 +343,11 @@ int main(void)
       if (!first_readings) { 
         readings_interval = _readings_interval;
         first_readings = true; 
+        
         previous_millis_course = current_millis;
         
         // while (!usart_tx_ready); // force wait while usart Tx finishes.
         sprintf(log_buffer, "Start Sampling Millis: %ld\r\n", current_millis); // initital write to buffer.
-        debug_printf(log_buffer);
-        sprintf(log_buffer, "{HardwareVersion:%s,FirmwareVersion:%s}\r\n", hwVersion, fwVersion); // initital write to buffer.
         debug_printf(log_buffer);
 
         goto EndJump;
@@ -484,15 +413,15 @@ int main(void)
           chn_result->RealPower /= chn_result->Count;
           chn_result->PowerFactor /= chn_result->Count;
 
-          int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
-          //if (_ch == 1) { // single channel debug output.
-          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n",
-                                _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, 
-                                _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, 
+          int _ch = ch + 1; // nicer looking channel numbers.
+          //if (_ch == 1) { //---uncomment for single channel debug output---
+          sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,RP%d:%.1lf,AP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n",
+                                _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->RealPower, 
+                                _ch, chn_result->ApparentPower, _ch, chn_result->PowerFactor, 
                                 _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, 
                                 _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount);
           strcat(log_buffer, string_buffer);
-          //} // single channel debug output
+          //} //---uncomment for single channel debug output---
           chn_result->Clipped = false;
         }
 
@@ -510,8 +439,14 @@ int main(void)
 
         // has the adc buffer overrun?
         sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
-        adc_buffer_overflow = 0; // reset
+        adc_buffer_overflow = false; // reset
         strcat(log_buffer, string_buffer);
+        
+        //------------------------------------
+        // Process Temperature Sesnor Data
+        //------------------------------------
+        // process_ds18b20s();
+        // todo
 
         // close the string and add some whitespace for clarity.
         // if (!rpi_connected) { strcat(log_buffer, "}"); }

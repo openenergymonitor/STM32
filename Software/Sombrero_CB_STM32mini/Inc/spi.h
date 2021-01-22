@@ -62,7 +62,7 @@ extern void _Error_Handler(char *, int);
 void MX_SPI3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+uint8_t SPI_transfer8 (uint8_t tx_byte);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
