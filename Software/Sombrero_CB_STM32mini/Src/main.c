@@ -229,6 +229,14 @@ int main(void)
     debug_printf("rPi connected!\r\n");
     // _mode = 1; // rpi mode.
     rpi_connected = true;
+    // HAL_SPI_MspDeInit(&hspi3); // DeInit rPi SPI 
+    //----
+    // Necessary? Does DeInit put the pins into a safe high impedance state?
+    // GPIO_InitTypeDef GPIO_InitStruct;
+    // GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+    // GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    // GPIO_InitStruct.Pull = GPIO_NOPULL;
+    // HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
   }
   else {
     debug_printf("rPi not connected.\r\n");

@@ -24,7 +24,7 @@
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
@@ -5266,6 +5266,33 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </package3d>
 </packages3d>
 </library>
+<library name="MOLEX 47219-2001">
+<packages>
+<package name="47219-2001_MICROSD">
+<wire x1="0" y1="-3.058" x2="13.6" y2="-3.058" width="0.1" layer="21"/>
+<wire x1="13.6" y1="-3.058" x2="13.6" y2="11.95" width="0.1" layer="21"/>
+<wire x1="13.6" y1="11.95" x2="0" y2="11.95" width="0.1" layer="21"/>
+<wire x1="0" y1="11.95" x2="0" y2="-3.058" width="0.1" layer="21"/>
+<smd name="P$1" x="0" y="0" dx="2" dy="1.45" layer="1" rot="R90"/>
+<smd name="P$2" x="13.75" y="0" dx="2" dy="1.45" layer="1" rot="R90"/>
+<smd name="P$3" x="0" y="8.3" dx="2" dy="1.45" layer="1" rot="R90"/>
+<smd name="P$4" x="13.75" y="8.3" dx="2" dy="1.45" layer="1" rot="R90"/>
+<smd name="PIN1" x="10.08" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN2" x="8.98" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN3" x="7.88" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN4" x="6.78" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN5" x="5.68" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN6" x="4.58" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN7" x="3.48" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<smd name="PIN8" x="2.38" y="2.6" dx="1.5" dy="0.8" layer="1" rot="R90"/>
+<text x="6.985" y="7.62" size="1.27" layer="25" align="center">47219-2001
+MICRO_SD</text>
+<wire x1="0.552396875" y1="10.125075" x2="0.552396875" y2="-7.62" width="0.127" layer="21"/>
+<wire x1="0.552396875" y1="-7.62" x2="13.252396875" y2="-7.62" width="0.127" layer="21"/>
+<wire x1="13.252396875" y1="10.125075" x2="13.252396875" y2="-7.62" width="0.127" layer="21"/>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -5777,25 +5804,25 @@ STM Mini Rules. Nov 2020</description>
 <attribute name="TYPE" value="" x="10.228840625" y="57.041290625" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="12.4282125" y="61.0936" size="1.27" layer="25" rot="SR270"/>
 </element>
-<element name="SMA" library="5-1814400-1 sma connector" package="518144001" package3d_urn="urn:adsk.eagle:package:21918551/2" value="5-1814400-1" x="73.37933125" y="58.823859375" smashed="yes" rot="R270">
-<attribute name="ALLIED_NUMBER" value="70084631" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="DESCRIPTION" value="SMA Connector Jack, Female Socket 50 Ohm Through Hole, Right Angle Solder" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="HEIGHT" value="10.43mm" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="MANUFACTURER_NAME" value="TE Connectivity" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="5-1814400-1" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="76.99733125" y="58.823859375" size="1.27" layer="25" rot="R270" align="center"/>
-<attribute name="RS_PART_NUMBER" value="6163400" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="RS_PRICE-STOCK" value="http://uk.rs-online.com/web/p/products/6163400" x="90.3445" y="70.54418125" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="VALUE" x="76.99733125" y="58.823859375" size="1.27" layer="27" rot="R270" align="center"/>
+<element name="SMA" library="5-1814400-1 sma connector" package="518144001" package3d_urn="urn:adsk.eagle:package:21918551/2" value="5-1814400-1" x="73.508871875" y="59.687459375" smashed="yes" rot="R270">
+<attribute name="ALLIED_NUMBER" value="70084631" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="DESCRIPTION" value="SMA Connector Jack, Female Socket 50 Ohm Through Hole, Right Angle Solder" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="HEIGHT" value="10.43mm" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="TE Connectivity" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="5-1814400-1" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="75.9498125" y="65.8548625" size="1.27" layer="25" align="center"/>
+<attribute name="RS_PART_NUMBER" value="6163400" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="http://uk.rs-online.com/web/p/products/6163400" x="90.474040625" y="71.40778125" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VALUE" x="77.126871875" y="59.687459375" size="1.27" layer="27" rot="R270" align="center"/>
 </element>
 <element name="C13" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="100nF" x="62.982596875" y="54.71719375" smashed="yes" rot="R90">
-<attribute name="NAME" x="62.347596875" y="54.08219375" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="63.249553125" y="56.3273" size="1.27" layer="25" rot="R90"/>
 <attribute name="POPULARITY" value="73" x="62.982596875" y="54.71719375" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="62.982596875" y="54.71719375" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="64.887596875" y="54.08219375" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="C17" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0603" package3d_urn="urn:adsk.eagle:package:23616/2" value="2.2uF" x="60.762640625" y="54.724809375" smashed="yes" rot="R90">
-<attribute name="NAME" x="60.127640625" y="54.089809375" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="59.967365625" y="54.270403125" size="1.27" layer="25" rot="R90"/>
 <attribute name="POPULARITY" value="73" x="60.762640625" y="54.724809375" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="SPICEPREFIX" value="C" x="60.762640625" y="54.724809375" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="62.667640625" y="54.089809375" size="1.27" layer="27" rot="R90"/>
@@ -5849,6 +5876,13 @@ STM Mini Rules. Nov 2020</description>
 <attribute name="NAME" x="26.91790625" y="35.15340625" size="1.27" layer="25" rot="R135"/>
 <attribute name="VALUE" x="28.983365625" y="37.218865625" size="1.27" layer="27" rot="R135"/>
 </element>
+<element name="C7" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="22uF" x="65.2851125" y="54.877715625" smashed="yes" rot="R90">
+<attribute name="NAME" x="65.980815625" y="56.700165625" size="1.27" layer="25" rot="R90"/>
+<attribute name="POPULARITY" value="88" x="65.2851125" y="54.877715625" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="65.2851125" y="54.877715625" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="67.8251125" y="53.607715625" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="U$3" library="MOLEX 47219-2001" package="47219-2001_MICROSD" value="47219-2001_MICROSD" x="36.594796875" y="41.3583125" smashed="yes"/>
 </elements>
 <signals>
 <signal name="GND">
@@ -6022,21 +6056,21 @@ STM Mini Rules. Nov 2020</description>
 <via x="50.4604" y="54.397728125" extent="1-16" drill="0.5"/>
 <via x="47.949865625" y="54.236946875" extent="1-16" drill="0.5"/>
 <via x="47.5957875" y="51.984221875" extent="1-16" drill="0.5"/>
-<via x="60.49848125" y="57.542503125" extent="1-16" drill="0.5"/>
-<via x="63.13931875" y="57.4249" extent="1-16" drill="0.5"/>
+<via x="61.119765625" y="57.181825" extent="1-16" drill="0.5"/>
+<via x="64.041528125" y="57.6654375" extent="1-16" drill="0.5"/>
 <via x="58.275725" y="55.9603375" extent="1-16" drill="0.5"/>
-<via x="74.583796875" y="54.277584375" extent="1-16" drill="0.5"/>
-<via x="73.580496875" y="55.79675625" extent="1-16" drill="0.5"/>
-<via x="71.95311875" y="54.19605" extent="1-16" drill="0.5"/>
-<via x="68.53605625" y="54.4945" extent="1-16" drill="0.5"/>
-<via x="68.5904125" y="57.12619375" extent="1-16" drill="0.5"/>
-<via x="68.6173375" y="60.24633125" extent="1-16" drill="0.5"/>
-<via x="68.508878125" y="62.98648125" extent="1-16" drill="0.5"/>
-<via x="71.2480125" y="63.90875625" extent="1-16" drill="0.5"/>
-<via x="73.390246875" y="62.30805" extent="1-16" drill="0.5"/>
-<via x="74.773278125" y="63.827478125" extent="1-16" drill="0.5"/>
-<via x="76.997303125" y="63.935934375" extent="1-16" drill="0.5"/>
-<via x="76.075028125" y="58.8622875" extent="1-16" drill="0.5"/>
+<via x="74.7133375" y="55.141184375" extent="1-16" drill="0.5"/>
+<via x="73.7100375" y="56.66035625" extent="1-16" drill="0.5"/>
+<via x="72.082659375" y="55.05965" extent="1-16" drill="0.5"/>
+<via x="69.31355" y="55.574" extent="1-16" drill="0.5"/>
+<via x="68.719953125" y="57.98979375" extent="1-16" drill="0.5"/>
+<via x="68.746878125" y="61.10993125" extent="1-16" drill="0.5"/>
+<via x="68.63841875" y="63.85008125" extent="1-16" drill="0.5"/>
+<via x="71.377553125" y="64.77235625" extent="1-16" drill="0.5"/>
+<via x="73.5197875" y="63.17165" extent="1-16" drill="0.5"/>
+<via x="74.90281875" y="64.691078125" extent="1-16" drill="0.5"/>
+<via x="77.12684375" y="64.799534375" extent="1-16" drill="0.5"/>
+<via x="76.20456875" y="59.7258875" extent="1-16" drill="0.5"/>
 <via x="47.55693125" y="75.276203125" extent="1-16" drill="0.5"/>
 <via x="66.140834375" y="37.15900625" extent="1-16" drill="0.5"/>
 <wire x1="71.4203875" y1="33.227971875" x2="71.4203875" y2="34.96725625" width="0.8128" layer="1"/>
@@ -6071,8 +6105,8 @@ STM Mini Rules. Nov 2020</description>
 <via x="62.44285" y="46.10565" extent="1-16" drill="0.5"/>
 <via x="61.074553125" y="46.11631875" extent="1-16" drill="0.5"/>
 <contactref element="R9" pad="1"/>
-<via x="48.68519375" y="36.070034375" extent="1-16" drill="0.5"/>
-<via x="49.668428125" y="36.830003125" extent="1-16" drill="0.5"/>
+<via x="53.506365625" y="34.214565625" extent="1-16" drill="0.5"/>
+<via x="47.347375" y="39.5676125" extent="1-16" drill="0.5"/>
 <via x="37.76166875" y="22.70226875" extent="1-16" drill="0.5"/>
 <via x="37.42029375" y="23.78811875" extent="1-16" drill="0.5"/>
 <via x="40.46194375" y="16.215109375" extent="1-16" drill="0.5"/>
@@ -6096,22 +6130,34 @@ STM Mini Rules. Nov 2020</description>
 <via x="22.804121875" y="31.472640625" extent="1-16" drill="0.5"/>
 <via x="12.6563125" y="7.71805" extent="1-16" drill="0.5"/>
 <contactref element="BOOT1" pad="2"/>
-<wire x1="74.773278125" y1="63.827478125" x2="76.997303125" y2="63.935934375" width="0" layer="19" extent="1-1"/>
-<wire x1="73.390246875" y1="62.30805" x2="74.773278125" y2="63.827478125" width="0" layer="19" extent="1-1"/>
-<wire x1="71.2480125" y1="63.90875625" x2="73.390246875" y2="62.30805" width="0" layer="19" extent="1-1"/>
-<wire x1="70.83933125" y1="61.363859375" x2="71.2480125" y2="63.90875625" width="0" layer="19" extent="1-1"/>
-<wire x1="68.6173375" y1="60.24633125" x2="70.83933125" y2="61.363859375" width="0" layer="19" extent="1-1"/>
-<wire x1="75.91933125" y1="61.363859375" x2="73.390246875" y2="62.30805" width="0" layer="19" extent="1-1"/>
-<wire x1="76.075028125" y1="58.8622875" x2="75.91933125" y2="61.363859375" width="0" layer="19" extent="1-1"/>
-<wire x1="75.91933125" y1="56.283859375" x2="76.075028125" y2="58.8622875" width="0" layer="19" extent="1-1"/>
-<wire x1="73.580496875" y1="55.79675625" x2="75.91933125" y2="56.283859375" width="0" layer="19" extent="1-1"/>
-<wire x1="74.583796875" y1="54.277584375" x2="73.580496875" y2="55.79675625" width="0" layer="19" extent="1-1"/>
-<wire x1="71.95311875" y1="54.19605" x2="73.580496875" y2="55.79675625" width="0" layer="19" extent="1-1"/>
-<wire x1="70.83933125" y1="56.283859375" x2="71.95311875" y2="54.19605" width="0" layer="19" extent="1-1"/>
-<wire x1="68.5904125" y1="57.12619375" x2="70.83933125" y2="56.283859375" width="0" layer="19" extent="1-1"/>
-<wire x1="68.53605625" y1="54.4945" x2="68.5904125" y2="57.12619375" width="0" layer="19" extent="1-1"/>
-<wire x1="68.508878125" y1="62.98648125" x2="68.6173375" y2="60.24633125" width="0" layer="19" extent="1-1"/>
-<wire x1="71.4203875" y1="50.227971875" x2="71.95311875" y2="54.19605" width="0" layer="19" extent="1-1"/>
+<contactref element="C7" pad="2"/>
+<contactref element="U$3" pad="P$2"/>
+<contactref element="U$3" pad="P$4"/>
+<contactref element="U$3" pad="P$1"/>
+<contactref element="U$3" pad="P$3"/>
+<contactref element="U$3" pad="PIN6"/>
+<wire x1="74.90281875" y1="64.691078125" x2="77.12684375" y2="64.799534375" width="0" layer="19" extent="1-1"/>
+<wire x1="73.5197875" y1="63.17165" x2="74.90281875" y2="64.691078125" width="0" layer="19" extent="1-1"/>
+<wire x1="71.377553125" y1="64.77235625" x2="73.5197875" y2="63.17165" width="0" layer="19" extent="1-1"/>
+<wire x1="70.968871875" y1="62.227459375" x2="71.377553125" y2="64.77235625" width="0" layer="19" extent="1-1"/>
+<wire x1="68.746878125" y1="61.10993125" x2="70.968871875" y2="62.227459375" width="0" layer="19" extent="1-1"/>
+<wire x1="76.048871875" y1="62.227459375" x2="73.5197875" y2="63.17165" width="0" layer="19" extent="1-1"/>
+<wire x1="76.20456875" y1="59.7258875" x2="76.048871875" y2="62.227459375" width="0" layer="19" extent="1-1"/>
+<wire x1="76.048871875" y1="57.147459375" x2="76.20456875" y2="59.7258875" width="0" layer="19" extent="1-1"/>
+<wire x1="73.7100375" y1="56.66035625" x2="76.048871875" y2="57.147459375" width="0" layer="19" extent="1-1"/>
+<wire x1="74.7133375" y1="55.141184375" x2="73.7100375" y2="56.66035625" width="0" layer="19" extent="1-1"/>
+<wire x1="72.082659375" y1="55.05965" x2="73.7100375" y2="56.66035625" width="0" layer="19" extent="1-1"/>
+<wire x1="70.968871875" y1="57.147459375" x2="72.082659375" y2="55.05965" width="0" layer="19" extent="1-1"/>
+<wire x1="69.31355" y1="55.574" x2="70.968871875" y2="57.147459375" width="0" layer="19" extent="1-1"/>
+<wire x1="68.719953125" y1="57.98979375" x2="70.968871875" y2="57.147459375" width="0" layer="19" extent="1-1"/>
+<wire x1="68.63841875" y1="63.85008125" x2="68.746878125" y2="61.10993125" width="0" layer="19" extent="1-1"/>
+<wire x1="65.2851125" y1="55.827715625" x2="69.31355" y2="55.574" width="0" layer="19" extent="1-1"/>
+<wire x1="64.041528125" y1="57.6654375" x2="65.2851125" y2="55.827715625" width="0" layer="19" extent="1-1"/>
+<wire x1="62.982596875" y1="55.56719375" x2="65.2851125" y2="55.827715625" width="0" layer="19" extent="1-1"/>
+<wire x1="60.762640625" y1="55.574809375" x2="62.982596875" y2="55.56719375" width="0" layer="19" extent="1-1"/>
+<wire x1="61.119765625" y1="57.181825" x2="60.762640625" y2="55.574809375" width="0" layer="19" extent="1-1"/>
+<wire x1="58.275725" y1="55.9603375" x2="60.762640625" y2="55.574809375" width="0" layer="19" extent="1-1"/>
+<wire x1="71.4203875" y1="50.227971875" x2="72.082659375" y2="55.05965" width="0" layer="19" extent="1-1"/>
 <wire x1="66.4032375" y1="48.30140625" x2="71.4203875" y2="50.227971875" width="0" layer="19" extent="1-16"/>
 <wire x1="63.73545625" y1="46.213346875" x2="66.4032375" y2="48.30140625" width="0" layer="19" extent="16-16"/>
 <wire x1="62.44285" y1="46.10565" x2="63.73545625" y2="46.213346875" width="0" layer="19" extent="1-1"/>
@@ -6126,11 +6172,6 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="63.9203875" y1="42.727971875" x2="63.264284375" y2="44.436359375" width="0" layer="19" extent="1-1"/>
 <wire x1="66.16750625" y1="38.499871875" x2="63.9203875" y2="42.727971875" width="0" layer="19" extent="1-1"/>
 <wire x1="66.140834375" y1="37.15900625" x2="66.16750625" y2="38.499871875" width="0" layer="19" extent="1-1"/>
-<wire x1="63.13931875" y1="57.4249" x2="68.5904125" y2="57.12619375" width="0" layer="19" extent="1-1"/>
-<wire x1="62.982596875" y1="55.56719375" x2="63.13931875" y2="57.4249" width="0" layer="19" extent="1-1"/>
-<wire x1="60.762640625" y1="55.574809375" x2="62.982596875" y2="55.56719375" width="0" layer="19" extent="1-1"/>
-<wire x1="60.49848125" y1="57.542503125" x2="60.762640625" y2="55.574809375" width="0" layer="19" extent="1-1"/>
-<wire x1="58.275725" y1="55.9603375" x2="60.762640625" y2="55.574809375" width="0" layer="19" extent="1-1"/>
 <wire x1="53.9103875" y1="47.442971875" x2="60.51423125" y2="44.66750625" width="0" layer="19" extent="1-1"/>
 <wire x1="50.4032375" y1="52.30140625" x2="53.9103875" y2="47.442971875" width="0" layer="19" extent="1-16"/>
 <wire x1="50.4604" y1="54.397728125" x2="50.4032375" y2="52.30140625" width="0" layer="19" extent="16-16"/>
@@ -6162,6 +6203,10 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="15.8028625" y1="39.68191875" x2="13.680184375" y2="38.631628125" width="0" layer="19" extent="1-1"/>
 <wire x1="10.888728125" y1="38.4931875" x2="13.680184375" y2="38.631628125" width="0" layer="19" extent="1-1"/>
 <wire x1="9.449340625" y1="38.028709375" x2="10.888728125" y2="38.4931875" width="0" layer="19" extent="1-1"/>
+<wire x1="20.70150625" y1="30.631640625" x2="19.878040625" y2="33.755325" width="0" layer="19" extent="1-1"/>
+<wire x1="22.804121875" y1="31.472640625" x2="20.70150625" y2="30.631640625" width="0" layer="19" extent="1-1"/>
+<wire x1="25.63776875" y1="31.885584375" x2="22.804121875" y2="31.472640625" width="0" layer="19" extent="1-1"/>
+<wire x1="25.051765625" y1="33.5178375" x2="25.63776875" y2="31.885584375" width="0" layer="19" extent="1-1"/>
 <wire x1="33.86168125" y1="54.08205625" x2="34.733484375" y2="50.91861875" width="0" layer="19" extent="1-1"/>
 <wire x1="32.559753125" y1="55.5569125" x2="33.86168125" y2="54.08205625" width="0" layer="19" extent="1-1"/>
 <wire x1="29.295315625" y1="54.08205625" x2="32.559753125" y2="55.5569125" width="0" layer="19" extent="1-1"/>
@@ -6172,9 +6217,6 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="18.631915625" y1="55.363871875" x2="20.162584375" y2="54.08205625" width="0" layer="19" extent="1-1"/>
 <wire x1="15.5597875" y1="53.890159375" x2="18.631915625" y2="55.363871875" width="0" layer="19" extent="1-1"/>
 <wire x1="16.403575" y1="50.506628125" x2="15.5597875" y2="53.890159375" width="0" layer="19" extent="1-1"/>
-<wire x1="22.804121875" y1="31.472640625" x2="19.878040625" y2="33.755325" width="0" layer="19" extent="1-1"/>
-<wire x1="25.63776875" y1="31.885584375" x2="22.804121875" y2="31.472640625" width="0" layer="19" extent="1-1"/>
-<wire x1="25.051765625" y1="33.5178375" x2="25.63776875" y2="31.885584375" width="0" layer="19" extent="1-1"/>
 <wire x1="21.189440625" y1="50.48326875" x2="20.162584375" y2="54.08205625" width="0" layer="19" extent="1-1"/>
 <wire x1="38.784025" y1="55.08650625" x2="33.86168125" y2="54.08205625" width="0" layer="19" extent="1-1"/>
 <wire x1="11.354053125" y1="27.5132875" x2="16.16684375" y2="33.49143125" width="0" layer="19" extent="1-1"/>
@@ -6186,8 +6228,7 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="42.3578" y1="39.308278125" x2="37.498528125" y2="39.887396875" width="0" layer="19" extent="1-1"/>
 <wire x1="43.65625" y1="38.751765625" x2="42.3578" y2="39.308278125" width="0" layer="19" extent="1-1"/>
 <wire x1="43.5635375" y1="40.09669375" x2="43.65625" y2="38.751765625" width="0" layer="19" extent="1-1"/>
-<wire x1="48.68519375" y1="36.070034375" x2="43.65625" y2="38.751765625" width="0" layer="19" extent="1-1"/>
-<wire x1="49.668428125" y1="36.830003125" x2="48.68519375" y2="36.070034375" width="0" layer="19" extent="1-1"/>
+<wire x1="47.347375" y1="39.5676125" x2="43.65625" y2="38.751765625" width="0" layer="19" extent="1-1"/>
 <wire x1="37.42029375" y1="23.78811875" x2="37.6704875" y2="29.61106875" width="0" layer="19" extent="1-1"/>
 <wire x1="37.76166875" y1="22.70226875" x2="37.42029375" y2="23.78811875" width="0" layer="19" extent="1-1"/>
 <wire x1="33.817559375" y1="21.681696875" x2="37.76166875" y2="22.70226875" width="0" layer="19" extent="1-1"/>
@@ -6236,10 +6277,15 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="54.285246875" y1="24.343478125" x2="55.887746875" y2="24.145978125" width="0" layer="19" extent="1-1"/>
 <wire x1="50.695096875" y1="28.860825" x2="53.327553125" y2="23.93594375" width="0" layer="19" extent="1-1"/>
 <wire x1="51.740815625" y1="29.745759375" x2="50.695096875" y2="28.860825" width="0" layer="19" extent="1-1"/>
+<wire x1="53.506365625" y1="34.214565625" x2="51.740815625" y2="29.745759375" width="0" layer="19" extent="1-1"/>
 <wire x1="46.25949375" y1="22.6442375" x2="49.38649375" y2="17.8490875" width="0" layer="19" extent="1-1"/>
 <wire x1="16.5696625" y1="12.91566875" x2="17.978625" y2="20.165321875" width="0" layer="19" extent="1-1"/>
 <wire x1="12.6563125" y1="7.71805" x2="16.5696625" y2="12.91566875" width="0" layer="19" extent="1-1"/>
-<wire x1="20.70150625" y1="30.631640625" x2="12.6563125" y2="7.71805" width="0" layer="19" extent="1-1"/>
+<wire x1="50.344796875" y1="41.3583125" x2="12.6563125" y2="7.71805" width="0" layer="19" extent="1-1"/>
+<wire x1="50.344796875" y1="49.6583125" x2="50.344796875" y2="41.3583125" width="0" layer="19" extent="1-1"/>
+<wire x1="41.174796875" y1="43.9583125" x2="50.344796875" y2="41.3583125" width="0" layer="19" extent="1-1"/>
+<wire x1="36.594796875" y1="41.3583125" x2="41.174796875" y2="43.9583125" width="0" layer="19" extent="1-1"/>
+<wire x1="36.594796875" y1="49.6583125" x2="41.174796875" y2="43.9583125" width="0" layer="19" extent="1-1"/>
 <wire x1="10.228840625" y1="63.391290625" x2="15.5597875" y2="53.890159375" width="0" layer="19" extent="1-1"/>
 <wire x1="26.112728125" y1="67.83578125" x2="28.100275" y2="55.535578125" width="0" layer="19" extent="1-1"/>
 <wire x1="27.9748" y1="76.335128125" x2="26.112728125" y2="67.83578125" width="0" layer="19" extent="1-1"/>
@@ -6393,7 +6439,8 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="29.5250875" y1="19.921603125" x2="29.5250875" y2="28.808046875" width="0.8128" layer="1"/>
 <wire x1="29.5250875" y1="28.808046875" x2="32.415225" y2="31.698184375" width="0.8128" layer="1"/>
 <wire x1="32.415225" y1="31.698184375" x2="38.098728125" y2="31.698184375" width="0.8128" layer="1"/>
-<wire x1="39.8708875" y1="33.47034375" x2="39.8708875" y2="42.224196875" width="0.8128" layer="1"/>
+<wire x1="39.8708875" y1="33.47034375" x2="39.8708875" y2="36.632640625" width="0.8128" layer="1"/>
+<wire x1="39.8708875" y1="36.632640625" x2="39.8708875" y2="42.224196875" width="0.8128" layer="1"/>
 <wire x1="37.355765625" y1="44.73931875" x2="39.8708875" y2="42.224196875" width="0.8128" layer="1"/>
 <wire x1="37.355765625" y1="44.73931875" x2="37.355765625" y2="44.76395" width="0.8128" layer="1"/>
 <wire x1="38.098728125" y1="31.698184375" x2="39.8708875" y2="33.47034375" width="0.8128" layer="1"/>
@@ -6424,13 +6471,24 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="70.1503875" y1="48.508571875" x2="70.12101875" y2="48.479203125" width="0.508" layer="1"/>
 <via x="70.12101875" y="48.479203125" extent="1-16" drill="0.5"/>
 <wire x1="70.12101875" y1="48.479203125" x2="68.298815625" y2="50.30140625" width="0.508" layer="16"/>
+<contactref element="C7" pad="1"/>
+<wire x1="62.982596875" y1="53.86719375" x2="65.224590625" y2="53.86719375" width="0.508" layer="1"/>
+<wire x1="65.224590625" y1="53.86719375" x2="65.2851125" y2="53.927715625" width="0.508" layer="1"/>
+<wire x1="65.2851125" y1="53.927715625" x2="65.5253" y2="54.167903125" width="0.508" layer="1"/>
+<wire x1="68.046990625" y1="54.167903125" x2="70.1365125" y2="52.07838125" width="0.508" layer="1" curve="-90"/>
+<wire x1="42.94073125" y1="35.36315" x2="42.19143125" y2="36.11245" width="0.254" layer="1" curve="-90"/>
+<wire x1="42.19143125" y1="36.11245" x2="41.629584375" y2="36.674296875" width="0.254" layer="1" curve="90"/>
+<wire x1="39.91254375" y1="36.674296875" x2="39.8708875" y2="36.632640625" width="0.254" layer="1" curve="90"/>
+<wire x1="48.18673125" y1="35.36315" x2="42.94073125" y2="35.36315" width="0.254" layer="1"/>
+<wire x1="41.629584375" y1="36.674296875" x2="39.91254375" y2="36.674296875" width="0.254" layer="1"/>
+<contactref element="U$3" pad="PIN4"/>
+<wire x1="43.374796875" y1="43.9583125" x2="11.412309375" y2="35.268253125" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="BOOT0">
 <contactref element="BOOT0" pad="1"/>
 <contactref element="R2" pad="1"/>
 <contactref element="STM32" pad="44"/>
 <contactref element="J1" pad="7"/>
-<contactref element="IC1" pad="28"/>
 <wire x1="16.719778125" y1="36.58954375" x2="18.66039375" y2="36.58954375" width="0.254" layer="1"/>
 <wire x1="18.66039375" y1="36.58954375" x2="20.562140625" y2="38.491290625" width="0.254" layer="1"/>
 <wire x1="16.719778125" y1="36.58954375" x2="15.2736" y2="36.58954375" width="0.254" layer="1"/>
@@ -6438,7 +6496,6 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="57.00649375" y1="20.3890875" x2="54.85765" y2="22.53793125" width="0.254" layer="1"/>
 <wire x1="53.36184375" y1="22.53793125" x2="52.3709875" y2="23.5287875" width="0.254" layer="1"/>
 <wire x1="52.3709875" y1="23.5287875" x2="52.3709875" y2="24.243028125" width="0.254" layer="1"/>
-<wire x1="53.0739375" y1="24.945978125" x2="54.087746875" y2="24.945978125" width="0.254" layer="1"/>
 <wire x1="54.85765" y1="22.53793125" x2="53.36184375" y2="22.53793125" width="0.254" layer="1"/>
 <wire x1="52.3709875" y1="24.243028125" x2="53.0739375" y2="24.945978125" width="0.254" layer="1"/>
 <wire x1="13.952309375" y1="35.268253125" x2="14.96568125" y2="34.25488125" width="0.2032" layer="1"/>
@@ -6810,9 +6867,7 @@ STM Mini Rules. Nov 2020</description>
 <contactref element="R4" pad="1"/>
 <contactref element="C2" pad="1"/>
 <contactref element="J1" pad="11"/>
-<contactref element="IC1" pad="24"/>
 <contactref element="JP2" pad="1"/>
-<wire x1="54.087746875" y1="26.945978125" x2="53.055965625" y2="26.945978125" width="0.254" layer="1"/>
 <wire x1="53.055965625" y1="26.945978125" x2="52.8233625" y2="27.17858125" width="0.254" layer="1"/>
 <via x="52.8233625" y="27.17858125" extent="1-16" drill="0.5"/>
 <wire x1="52.8233625" y1="27.17858125" x2="51.41595" y2="25.77116875" width="0.254" layer="16"/>
@@ -6986,11 +7041,11 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="26.980896875" y1="24.58599375" x2="27.981146875" y2="25.58624375" width="0.2286" layer="1"/>
 <wire x1="19.16226875" y1="33.107121875" x2="19.16226875" y2="30.344871875" width="0.2286" layer="16"/>
 <wire x1="18.464784375" y1="33.80460625" x2="19.16226875" y2="33.107121875" width="0.2286" layer="16"/>
-<wire x1="50.508153125" y1="34.542475" x2="50.76069375" y2="34.795015625" width="0.2286" layer="1"/>
-<wire x1="50.76069375" y1="34.795015625" x2="50.93131875" y2="34.795015625" width="0.2286" layer="1"/>
-<via x="50.93131875" y="34.795015625" extent="1-16" drill="0.5"/>
-<wire x1="50.93131875" y1="34.795015625" x2="51.250675" y2="35.114371875" width="0.2286" layer="16"/>
-<wire x1="51.250675" y1="35.114371875" x2="52.0475125" y2="35.114371875" width="0.2286" layer="16"/>
+<wire x1="51.062128125" y1="34.6438875" x2="51.03831875" y2="34.667696875" width="0.2286" layer="1"/>
+<wire x1="51.03831875" y1="34.667696875" x2="41.743378125" y2="34.667696875" width="0.2286" layer="1"/>
+<via x="51.062128125" y="34.6438875" extent="1-16" drill="0.5"/>
+<wire x1="51.062128125" y1="34.6438875" x2="51.5326125" y2="35.114371875" width="0.2286" layer="16"/>
+<wire x1="51.5326125" y1="35.114371875" x2="52.0475125" y2="35.114371875" width="0.2286" layer="16"/>
 <wire x1="52.0475125" y1="35.114371875" x2="53.328546875" y2="36.39540625" width="0.2286" layer="16"/>
 <wire x1="53.328546875" y1="36.39540625" x2="57.180225" y2="36.39540625" width="0.2286" layer="16"/>
 <wire x1="57.407553125" y1="36.73735625" x2="57.407553125" y2="36.622734375" width="0.2286" layer="16"/>
@@ -6998,7 +7053,6 @@ STM Mini Rules. Nov 2020</description>
 <via x="57.407553125" y="36.73735625" extent="1-16" drill="0.5"/>
 <wire x1="27.981146875" y1="29.052709375" x2="33.384553125" y2="34.456115625" width="0.2286" layer="1"/>
 <wire x1="33.384553125" y1="34.456115625" x2="37.713921875" y2="34.456115625" width="0.2286" layer="1"/>
-<wire x1="41.95800625" y1="34.542475" x2="50.508153125" y2="34.542475" width="0.2286" layer="1"/>
 <wire x1="27.981146875" y1="25.58624375" x2="27.981146875" y2="29.052709375" width="0.2286" layer="1"/>
 <wire x1="57.407553125" y1="36.73735625" x2="57.407553125" y2="35.1495375" width="0.2286" layer="1"/>
 <wire x1="61.152021875" y1="34.85006875" x2="61.677803125" y2="35.37585" width="0.2286" layer="1"/>
@@ -7013,8 +7067,8 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="38.478459375" y1="35.194746875" x2="41.2148" y2="35.194746875" width="0.2032" layer="16"/>
 <wire x1="41.2148" y1="35.194746875" x2="41.247059375" y2="35.22700625" width="0.2032" layer="16"/>
 <via x="41.247059375" y="35.22700625" extent="1-16" drill="0.5"/>
-<wire x1="41.247059375" y1="35.22700625" x2="41.95800625" y2="34.516059375" width="0.2032" layer="1"/>
-<wire x1="41.95800625" y1="34.516059375" x2="41.95800625" y2="34.542475" width="0.2032" layer="1"/>
+<wire x1="41.247059375" y1="35.22700625" x2="41.247059375" y2="35.164015625" width="0.2032" layer="1"/>
+<wire x1="41.743378125" y1="34.667696875" x2="41.247059375" y2="35.164015625" width="0.2032" layer="1"/>
 </signal>
 <signal name="+3V3RPI">
 <contactref element="J1" pad="1"/>
@@ -7133,16 +7187,21 @@ STM Mini Rules. Nov 2020</description>
 </signal>
 <signal name="ESP_BOOT0">
 <contactref element="U1" pad="25"/>
+<contactref element="IC1" pad="23"/>
+<wire x1="54.087746875" y1="27.445978125" x2="54.9103875" y2="33.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="ESP_RST">
 <contactref element="U1" pad="3"/>
+<contactref element="IC1" pad="24"/>
+<wire x1="68.8803875" y1="51.41059375" x2="68.8803875" y2="50.227971875" width="0.254" layer="1"/>
+<wire x1="54.087746875" y1="26.945978125" x2="68.8803875" y2="50.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$18">
 <contactref element="U$2" pad="8"/>
 <contactref element="SMA" pad="1"/>
-<wire x1="66.4032375" y1="52.30140625" x2="66.4032375" y2="56.283859375" width="1.016" layer="16"/>
-<wire x1="66.4032375" y1="56.283859375" x2="68.9432375" y2="58.823859375" width="1.016" layer="16" curve="-90"/>
-<wire x1="68.9432375" y1="58.823859375" x2="73.37933125" y2="58.823859375" width="1.016" layer="16"/>
+<wire x1="66.4032375" y1="52.30140625" x2="66.4032375" y2="57.01791875" width="1.016" layer="16"/>
+<wire x1="66.4032375" y1="57.01791875" x2="69.072778125" y2="59.687459375" width="1.016" layer="16" curve="-90"/>
+<wire x1="69.072778125" y1="59.687459375" x2="73.508871875" y2="59.687459375" width="1.016" layer="16"/>
 </signal>
 <signal name="N$19">
 <contactref element="JP2" pad="5"/>
@@ -7192,6 +7251,8 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="9.70635625" y1="55.771290625" x2="10.228840625" y2="55.771290625" width="0.2032" layer="16"/>
 <wire x1="8.439403125" y1="50.214278125" x2="8.439403125" y2="54.5043375" width="0.2032" layer="16"/>
 <wire x1="8.439403125" y1="54.5043375" x2="9.70635625" y2="55.771290625" width="0.2032" layer="16"/>
+<contactref element="U1" pad="28"/>
+<wire x1="57.00649375" y1="17.8490875" x2="58.7203875" y2="33.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="STM_TX">
 <contactref element="STM32" pad="30"/>
@@ -7237,6 +7298,8 @@ STM Mini Rules. Nov 2020</description>
 <contactref element="JP2" pad="2"/>
 <wire x1="10.228840625" y1="53.231290625" x2="11.223496875" y2="53.231290625" width="0.2032" layer="1"/>
 <wire x1="11.223496875" y1="53.231290625" x2="11.2529625" y2="53.201825" width="0.2032" layer="1"/>
+<contactref element="U1" pad="27"/>
+<wire x1="54.46649375" y1="17.8490875" x2="57.4503875" y2="33.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SPI3_NSS">
 <contactref element="STM32" pad="38"/>
@@ -7409,7 +7472,6 @@ STM Mini Rules. Nov 2020</description>
 </signal>
 <signal name="RPI_CONNECTED">
 <contactref element="STM32" pad="2"/>
-<contactref element="U1" pad="23"/>
 <contactref element="R8" pad="2"/>
 <contactref element="R9" pad="2"/>
 <wire x1="44.131740625" y1="24.356175" x2="45.1286875" y2="24.356175" width="0.2032" layer="1"/>
@@ -7427,10 +7489,9 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="49.78526875" y1="34.481009375" x2="49.673509375" y2="34.481009375" width="0.2032" layer="16"/>
 <wire x1="49.673509375" y1="34.481009375" x2="49.673509375" y2="35.285425" width="0.2032" layer="16"/>
 <wire x1="49.673509375" y1="35.285425" x2="51.103784375" y2="36.7157" width="0.2032" layer="16"/>
-<wire x1="51.103784375" y1="36.7157" x2="51.9303" y2="36.7157" width="0.2032" layer="16"/>
-<via x="51.9303" y="36.7157" extent="1-16" drill="0.5"/>
-<wire x1="51.9303" y1="36.7157" x2="52.497571875" y2="37.282971875" width="0.2032" layer="1"/>
-<wire x1="52.497571875" y1="37.282971875" x2="53.9103875" y2="37.282971875" width="0.2032" layer="1"/>
+<wire x1="51.103784375" y1="36.7157" x2="51.866546875" y2="36.963096875" width="0.2032" layer="16"/>
+<via x="51.866546875" y="36.963096875" extent="1-16" drill="0.5"/>
+<wire x1="51.866546875" y1="36.963096875" x2="52.497571875" y2="37.282971875" width="0.2032" layer="1"/>
 <wire x1="45.207428125" y1="27.02534375" x2="46.38624375" y2="28.204159375" width="0.2032" layer="16"/>
 <wire x1="24.451228125" y1="37.430628125" x2="25.151334375" y2="36.730521875" width="0.2032" layer="1"/>
 <wire x1="25.151334375" y1="34.8543875" x2="24.2577625" y2="33.960815625" width="0.2032" layer="1"/>
@@ -7459,6 +7520,9 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="32.702753125" y1="30.947359375" x2="38.547546875" y2="30.947359375" width="0.2032" layer="1"/>
 <wire x1="38.547546875" y1="30.947359375" x2="40.809671875" y2="33.209484375" width="0.2032" layer="1"/>
 <wire x1="40.809671875" y1="33.209484375" x2="50.4022375" y2="33.209484375" width="0.2032" layer="1"/>
+<wire x1="51.866546875" y1="36.963096875" x2="51.866546875" y2="36.99241875" width="0.254" layer="1"/>
+<contactref element="U1" pad="13"/>
+<wire x1="52.497571875" y1="37.282971875" x2="56.1803875" y2="50.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="RPI_CONNECTED_PR">
 <contactref element="J1" pad="17"/>
@@ -7471,18 +7535,24 @@ STM Mini Rules. Nov 2020</description>
 <contactref element="JP9" pad="1"/>
 <wire x1="70.1503875" y1="33.227971875" x2="70.2000125" y2="33.178346875" width="0.254" layer="1"/>
 <wire x1="70.2000125" y1="33.178346875" x2="70.2000125" y2="31.028134375" width="0.254" layer="1"/>
+<contactref element="U$3" pad="PIN3"/>
+<wire x1="44.474796875" y1="43.9583125" x2="70.2000125" y2="31.028134375" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="ESP_MISO">
 <contactref element="U1" pad="31"/>
 <contactref element="JP8" pad="1"/>
 <wire x1="62.5303875" y1="33.227971875" x2="62.5303875" y2="31.7831125" width="0.254" layer="1"/>
 <wire x1="62.5303875" y1="31.7831125" x2="63.192153125" y2="31.121346875" width="0.254" layer="1"/>
+<contactref element="U$3" pad="PIN7"/>
+<wire x1="40.074796875" y1="43.9583125" x2="62.5303875" y2="33.227971875" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="ESP_CLK">
 <contactref element="U1" pad="30"/>
 <contactref element="JP7" pad="1"/>
 <wire x1="61.2603875" y1="33.227971875" x2="61.2603875" y2="31.224315625" width="0.254" layer="1"/>
 <wire x1="61.2603875" y1="31.224315625" x2="61.33896875" y2="31.145734375" width="0.254" layer="1"/>
+<contactref element="U$3" pad="PIN5"/>
+<wire x1="42.274796875" y1="43.9583125" x2="61.33896875" y2="31.145734375" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="ESP_CS">
 <contactref element="U1" pad="29"/>
@@ -7493,9 +7563,7 @@ STM Mini Rules. Nov 2020</description>
 <signal name="RPI_MISO">
 <contactref element="JP8" pad="2"/>
 <contactref element="J1" pad="21"/>
-<contactref element="JP4" pad="2"/>
 <wire x1="39.22649375" y1="20.3890875" x2="39.22649375" y2="22.279609375" width="0.254" layer="1"/>
-<wire x1="39.22649375" y1="22.279609375" x2="39.2404625" y2="22.293578125" width="0.254" layer="1"/>
 <wire x1="39.22649375" y1="20.3890875" x2="39.22649375" y2="21.040346875" width="0.254" layer="16"/>
 <wire x1="39.22649375" y1="21.040346875" x2="41.534334375" y2="23.3481875" width="0.254" layer="16"/>
 <wire x1="41.534334375" y1="23.3481875" x2="42.092878125" y2="23.3481875" width="0.254" layer="16"/>
@@ -7519,14 +7587,11 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="64.179446875" y1="30.105346875" x2="63.192153125" y2="30.105346875" width="0.254" layer="1"/>
 <wire x1="58.971940625" y1="30.5076875" x2="61.453775" y2="30.5076875" width="0.254" layer="16"/>
 <wire x1="61.453775" y1="30.5076875" x2="61.802771875" y2="30.158690625" width="0.254" layer="16"/>
+<contactref element="JP3" pad="2"/>
+<wire x1="39.22649375" y1="22.279609375" x2="41.78096875" y2="22.293578125" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="RPI_MOSI">
 <contactref element="JP9" pad="2"/>
-<contactref element="J1" pad="19"/>
-<contactref element="JP3" pad="2"/>
-<wire x1="41.76649375" y1="20.3890875" x2="41.76649375" y2="22.279103125" width="0.254" layer="1"/>
-<wire x1="41.76649375" y1="22.279103125" x2="41.78096875" y2="22.293578125" width="0.254" layer="1"/>
-<wire x1="41.76649375" y1="20.3890875" x2="41.76649375" y2="22.334478125" width="0.254" layer="16"/>
 <wire x1="41.76649375" y1="22.334478125" x2="43.272203125" y2="23.8401875" width="0.254" layer="16"/>
 <wire x1="43.272203125" y1="25.950671875" x2="46.00118125" y2="28.67965" width="0.254" layer="16"/>
 <wire x1="46.00118125" y1="28.67965" x2="48.1498125" y2="28.67965" width="0.254" layer="16"/>
@@ -7549,6 +7614,10 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="65.061596875" y1="32.85845625" x2="53.902609375" y2="32.85845625" width="0.254" layer="16"/>
 <wire x1="51.823365625" y1="32.446721875" x2="51.47436875" y2="32.097725" width="0.254" layer="1"/>
 <wire x1="51.47436875" y1="32.097725" x2="49.909984375" y2="32.097725" width="0.254" layer="1"/>
+<contactref element="JP4" pad="2"/>
+<contactref element="J1" pad="19"/>
+<wire x1="41.76649375" y1="20.3890875" x2="41.76649375" y2="22.334478125" width="0" layer="19" extent="16-16"/>
+<wire x1="39.2404625" y1="22.293578125" x2="41.76649375" y2="22.334478125" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="CP2102_TX">
 <contactref element="IC1" pad="26"/>
@@ -7597,6 +7666,11 @@ STM Mini Rules. Nov 2020</description>
 <wire x1="27.765815625" y1="30.6835" x2="26.839853125" y2="30.6835" width="0.254" layer="1"/>
 <wire x1="28.9184875" y1="31.836171875" x2="28.9184875" y2="34.410059375" width="0.254" layer="1"/>
 <wire x1="28.9184875" y1="34.410059375" x2="27.518946875" y2="35.8096" width="0.254" layer="1"/>
+</signal>
+<signal name="MICROSD_CS">
+<contactref element="U$3" pad="PIN2"/>
+<contactref element="U1" pad="16"/>
+<wire x1="45.574796875" y1="43.9583125" x2="53.9103875" y2="46.172971875" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
@@ -7722,6 +7796,10 @@ STM Mini Rules. Nov 2020</description>
 </board>
 </drawing>
 <compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
 <note version="8.2" severity="warning">
 Since Version 8.2, EAGLE supports online libraries. The ids
 of those online libraries will not be understood (or retained)
