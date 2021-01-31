@@ -12,7 +12,7 @@
 //--------------------------------
 // ADC SETTINGS / CALIBRATION
 //--------------------------------
-const double VOLTS_PER_DIV = (2.048 / 4096.0); // REF191
+const double VOLTS_PER_DIV = (2.5 / 4096.0); // REF191
 // const double VOLTS_PER_DIV = (3.3 / 4096.0); // REF196
 
 //--------------------------------

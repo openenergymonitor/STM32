@@ -130,11 +130,20 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 /* USER CODE BEGIN 1 */
 uint8_t SPI_transfer8 (uint8_t tx_byte) { // function to transfer 1byte on SPI with readback
   uint8_t rx_byte;
-
   HAL_SPI_TransmitReceive(&hspi3, &tx_byte, &rx_byte, 1, 10);
   return rx_byte;
-
 }
+
+// void SPI_transmit8 (uint8_t tx_byte) { // function to transfer 1byte on SPI with readback
+//   HAL_SPI_Transmit(&hspi3, &tx_byte, 1, 10);
+// }
+
+// uint8_t SPI_read8 (void) { // function to transfer 1byte on SPI with readback
+//   uint8_t rx_byte;     
+//   HAL_SPI_Receive(&hspi3, rx_byte, 1, 10);
+//   return rx_byte;
+// }
+
 /* USER CODE END 1 */
 
 /**

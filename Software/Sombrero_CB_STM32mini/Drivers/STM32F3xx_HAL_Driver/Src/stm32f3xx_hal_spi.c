@@ -36,7 +36,7 @@
               (+++) Associate the initialized hdma_tx handle to the hspi DMA Tx or Rx handle
               (+++) Configure the priority and enable the NVIC for the transfer complete interrupt on the DMA Tx or Rx Stream/Channel
 
-      (#) Program the Mode, BidirectionalMode , Data size, Baudrate Prescaler, NSS
+      (#) Program the Mode, BidirectionalMode, Data size, Baudrate Prescaler, NSS
           management, Clock polarity and phase, FirstBit and CRC configuration in the hspi Init structure.
 
       (#) Initialize the SPI registers by calling the HAL_SPI_Init() API:

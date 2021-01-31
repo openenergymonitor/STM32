@@ -16,7 +16,7 @@
 //--------------------------------
 // DEBUG
 //--------------------------------
-bool dontGiveAMonkeys = false;
+bool dontGiveAMonkeys = true;
 
 
 //--------------------------------

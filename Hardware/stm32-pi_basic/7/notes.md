@@ -1,0 +1,3 @@
+- the ferrite connecting 3v3 to 3v3ANA is helpful.
+- any ferrite on the ground path seems to make things worse.
+- 

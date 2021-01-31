@@ -56,8 +56,9 @@
 #include "power.h"
 #include "reset.h"
 #include "phase.h"
-#include "RFM69.h"
-#include "RFM69_ext.h"
+// #include "rfm.h"
+// #include "RFM69.h"
+// #include "RFM69_ext.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -79,6 +80,13 @@ bool radioSender = false; // set 'true' to send test data with RFM69.
 bool radioReceiver = false; // set 'true' to enable rfm69cw receiving. 
 static char encryptkey[20] = {'\0'}; // twenty character encrypt key, or  '\0'  for nothing.
 //char encryptkey[20] = "asdfasdfasdfasdf"; // twenty character encrypt key, or  '\0'  for nothing.
+
+#define RFM69CW
+// #define RFMSELPIN 10                                    // RFM pins
+// #define RFMIRQPIN 2                                     // RFM pins
+#define RFPWR 0x99                                      // RFM Power setting - see rfm.ino for more
+
+
 
 //------------------------------------------------
 // timing variables
@@ -247,28 +255,32 @@ int main(void)
   //--------------------------------
   // Radio Init
   //--------------------------------
-  RFM69_RST();
-  HAL_Delay(20);
-  if (RFM69_initialize(freqBand, nodeID, networkID))
-  {
-    // while (!usart_tx_ready); // force wait while usart Tx finishes.
-    sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
-    debug_printf(log_buffer);
-    //RFM69_readAllRegs(); // debug output
-  }
-  else {
-    debug_printf("RFM69 not connected.\r\n");
-    radioSender = false; radioSender = false;
-  }
+  // rfm_rst();
+  // rfm_init(1);
+
+  // RFM69_RST();
+  // HAL_Delay(20);
+  // if (RFM69_initialize(freqBand, nodeID, networkID))
+  // {
+  //   // while (!usart_tx_ready); // force wait while usart Tx finishes.
+  //   sprintf(log_buffer, "RFM69 Initialized. Freq %dMHz. Node %d. Group %d.\r\n", freqBand, nodeID, networkID);
+  //   debug_printf(log_buffer);
+  //   //RFM69_readAllRegs(); // debug output
+  // }
+  // else {
+  //   debug_printf("RFM69 not connected.\r\n");
+  //   radioSender = false; radioSender = false;
+  // }
   
-  // if we have a encryption key, radio encryption will be set.
-  if (encryptkey[0]) RFM69_encrypt(encryptkey);
+  // // if we have a encryption key, radio encryption will be set.
+  // if (encryptkey[0]) RFM69_encrypt(encryptkey);
 
-  if (!radioReceiver && !radioSender) {
-    HAL_SPI_MspDeInit(&hspi3); // disable SPI if radio is not wanted.
-    debug_printf("Radio SPI Deinitialised.\r\n");
-  }
+  // if (!radioReceiver && !radioSender) {
+  //   HAL_SPI_MspDeInit(&hspi3); // disable SPI if radio is not wanted.
+  //   debug_printf("Radio SPI Deinitialised.\r\n");
+  // }
 
+  HAL_SPI_MspDeInit(&hspi3); // disable SPI if radio is not wanted.
 
   //------------------------
   // ADC & OPAMP Start

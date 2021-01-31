@@ -71,11 +71,10 @@ Src/power.c \
 Src/reset.c \
 Src/phase.c \
 Src/opamp.c \
-Src/RFM69.c \
-Src/RFM69_ext.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp_ex.c
-
+#Src/rfm.c \
+# Src/RFM69_ext.c \
 
 # ASM sources
 ASM_SOURCES =  \
