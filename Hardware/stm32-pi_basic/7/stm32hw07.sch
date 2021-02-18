@@ -74,7 +74,7 @@
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
@@ -21827,6 +21827,7 @@ SWDIO + SWCLK added to the top</text>
 for esp32</text>
 <text x="-30.48" y="-88.9" size="3.81" layer="91">microSD card
 adaptor</text>
+<text x="270.764" y="200.152" size="1.778" layer="97">2.0-2.35mm center pin dia.</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-25.4" y="170.18" smashed="yes">

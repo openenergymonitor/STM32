@@ -19574,7 +19574,6 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <part name="C60" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="22uF"/>
 <part name="C57" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="22uF"/>
 <part name="C61" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
-<part name="D12" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="DIODE" device="SOD-523" package3d_urn="urn:adsk.eagle:package:6240751/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -20832,10 +20831,6 @@ protection</text>
 <instance part="C61" gate="G$1" x="123.19" y="167.64" smashed="yes">
 <attribute name="NAME" x="124.714" y="168.021" size="1.778" layer="95"/>
 <attribute name="VALUE" x="124.714" y="162.941" size="1.778" layer="96"/>
-</instance>
-<instance part="D12" gate="G$1" x="-25.4" y="71.12" smashed="yes">
-<attribute name="NAME" x="-27.178" y="73.025" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-27.178" y="67.691" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -23939,16 +23934,6 @@ protection</text>
 <pinref part="JP2" gate="A" pin="13"/>
 </segment>
 </net>
-<net name="N$16" class="0">
-<segment>
-<pinref part="R8" gate="G$1" pin="1"/>
-<pinref part="C7" gate="G$1" pin="1"/>
-<wire x1="-20.32" y1="71.12" x2="-20.32" y2="67.31" width="0.1524" layer="91"/>
-<junction x="-20.32" y="71.12"/>
-<pinref part="D12" gate="G$1" pin="C"/>
-<wire x1="-22.86" y1="71.12" x2="-20.32" y2="71.12" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$19" class="0">
 <segment>
 <wire x1="121.92" y1="-68.58" x2="30.48" y2="-236.22" width="0.1524" layer="91"/>
@@ -24567,8 +24552,11 @@ protection</text>
 <net name="N$44" class="0">
 <segment>
 <pinref part="IC_VBAT" gate="G$1" pin="OUT"/>
-<pinref part="D12" gate="G$1" pin="A"/>
-<wire x1="-27.94" y1="71.12" x2="-33.02" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="R8" gate="G$1" pin="1"/>
+<pinref part="C7" gate="G$1" pin="1"/>
+<wire x1="-20.32" y1="71.12" x2="-20.32" y2="67.31" width="0.1524" layer="91"/>
+<junction x="-20.32" y="71.12"/>
+<wire x1="-33.02" y1="71.12" x2="-20.32" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$37" class="3">

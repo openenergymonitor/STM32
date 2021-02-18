@@ -19191,15 +19191,17 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <part name="CT1" library="SJ-3523-SMT" deviceset="SJ-3523-SMT" device="SJ-352X-SMT_SERIES-1313220" value="SJ-3523-SMT">
 <attribute name="MPN" value="SJ-3523-SMT"/>
 </part>
-<part name="VT1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="2.1MMJACK" device="SMT" package3d_urn="urn:adsk.eagle:package:6240730/1" value="ADC-028-2-T">
-<attribute name="MPN" value="FC68148S"/>
+<part name="VT1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="2.1MMJACK" device="SMT" package3d_urn="urn:adsk.eagle:package:6240730/1" value="ADC-028-1-T">
+<attribute name="MPN" value="PJ-002AH-SMT-TR"/>
+<attribute name="MPN2" value="ADC-028-1-T"/>
+<attribute name="NOTE" value="2.0-2.35mm PIN DIA."/>
 </part>
 <part name="RJ1" library="95501-6889 rj45 smt" deviceset="95501-6889" device="" value="95501-6889"/>
 <part name="STM32F303VET6" library="stm32f303" deviceset="STM32F303XB" device="" value="STM32F303VE"/>
-<part name="R43" library="resistor" deviceset="R-EU_" device="R0603" value="220k"/>
+<part name="R43" library="resistor" deviceset="R-EU_" device="R0603" value="140k"/>
 <part name="CV2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10nF 5%"/>
 <part name="CV1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10nF 5%"/>
-<part name="R53" library="resistor" deviceset="R-EU_" device="R0603" value="9k53"/>
+<part name="R53" library="resistor" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="RF6" library="resistor" deviceset="R-EU_" device="R0603" value="9k1 0.1%"/>
 <part name="CF6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="10nF 5%"/>
 <part name="RF5" library="resistor" deviceset="R-EU_" device="R0603" value="9k1 0.1%"/>
@@ -19293,7 +19295,7 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <part name="C40" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
 <part name="C42" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
 <part name="SUPPLY42" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="DGND" device=""/>
-<part name="KSS331GLFS" library="KSS221GLFS" deviceset="KSS221GLFS" device="">
+<part name="RST" library="KSS221GLFS" deviceset="KSS221GLFS" device="">
 <attribute name="MPN" value="KSS331GLFS"/>
 </part>
 <part name="USB-C" library="CSP-USC16-TR" deviceset="CSP-USC16-TR" device=""/>
@@ -19555,11 +19557,11 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <part name="AGND20" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="AGND" device=""/>
 <part name="AGND22" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="AGND" device=""/>
 <part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="0R"/>
-<part name="LED_PWR" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="LED" device="CHIP-LED0805" package3d_urn="urn:adsk.eagle:package:6240557/1" value="Green">
+<part name="PWR" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="LED" device="CHIP-LED0805" package3d_urn="urn:adsk.eagle:package:6240557/1" value="Green">
 <attribute name="MPN" value="C2297"/>
 </part>
 <part name="C53" library="resistor" deviceset="C-EU" device="C0603" value="100nF"/>
-<part name="S3" library="Switch" library_urn="urn:adsk.eagle:library:11396471" deviceset="KSC222JLFS" device="" package3d_urn="urn:adsk.eagle:package:19992274/4">
+<part name="BOOT_" library="Switch" library_urn="urn:adsk.eagle:library:11396471" deviceset="KSC222JLFS" device="" package3d_urn="urn:adsk.eagle:package:19992274/4">
 <attribute name="MPN2" value="C318887"/>
 </part>
 <part name="D2" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="DIODE" device="SOD-523" package3d_urn="urn:adsk.eagle:package:6240751/1" value="ESD5Z3.3T1G"/>
@@ -19619,6 +19621,8 @@ protection</text>
 <text x="195.834" y="19.558" size="10.16" layer="91" ratio="15">BIAS</text>
 <text x="289.56" y="304.8" size="1.778" layer="91">3ph bias ESD diodes</text>
 <text x="282.448" y="-58.42" size="2.54" layer="91" ratio="15">I2C etc.</text>
+<text x="404.368" y="356.616" size="1.778" layer="95">2.0-2.35mm PIN DIA.</text>
+<text x="393.954" y="326.898" size="1.778" layer="95">9.333kOhm equiv. output impedance</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-45.72" y="172.72" smashed="yes">
@@ -19726,6 +19730,8 @@ protection</text>
 <instance part="VT1" gate="G$1" x="414.02" y="345.44" smashed="yes" rot="R180">
 <attribute name="NAME" x="416.052" y="350.774" size="2.54" layer="95" rot="R270"/>
 <attribute name="MPN" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MPN2" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="NOTE" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
 </instance>
 <instance part="RJ1" gate="G$1" x="411.48" y="-66.04" smashed="yes">
 <attribute name="NAME" x="420.116" y="-76.708" size="3.81" layer="95" rot="R90"/>
@@ -20015,7 +20021,7 @@ protection</text>
 <instance part="SUPPLY42" gate="G$1" x="373.38" y="-86.36" smashed="yes">
 <attribute name="VALUE" x="371.475" y="-89.535" size="1.778" layer="96"/>
 </instance>
-<instance part="KSS331GLFS" gate="G$1" x="-37.084" y="96.774" smashed="yes" rot="R90">
+<instance part="RST" gate="G$1" x="-37.084" y="96.774" smashed="yes" rot="R90">
 <attribute name="NAME" x="-41.148" y="102.108" size="1.778" layer="95" rot="R90" align="center-left"/>
 <attribute name="MPN" x="-37.084" y="96.774" size="1.27" layer="96" rot="R90" display="off"/>
 </instance>
@@ -20777,7 +20783,7 @@ protection</text>
 <attribute name="NAME" x="161.0614" y="-201.93" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="165.862" y="-201.93" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="LED_PWR" gate="G$1" x="-3.556" y="166.624" smashed="yes">
+<instance part="PWR" gate="G$1" x="-3.556" y="166.624" smashed="yes">
 <attribute name="NAME" x="0" y="162.052" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="2.921" y="162.052" size="1.778" layer="96" rot="R90"/>
 <attribute name="MPN" x="-3.556" y="166.624" size="1.778" layer="96" display="off"/>
@@ -20786,7 +20792,7 @@ protection</text>
 <attribute name="NAME" x="-206.756" y="-185.039" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-206.756" y="-190.119" size="1.778" layer="96"/>
 </instance>
-<instance part="S3" gate="G$1" x="-66.04" y="109.22" smashed="yes" rot="R90">
+<instance part="BOOT_" gate="G$1" x="-66.04" y="109.22" smashed="yes" rot="R90">
 <attribute name="NAME" x="-70.866" y="106.172" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="-68.834" y="111.252" size="1.778" layer="96" rot="R90"/>
 <attribute name="MPN2" x="-66.04" y="109.22" size="1.27" layer="96" rot="R90" display="off"/>
@@ -21001,7 +21007,7 @@ protection</text>
 <segment>
 <pinref part="SUPPLY36" gate="G$1" pin="DGND"/>
 <wire x1="-3.556" y1="161.544" x2="-3.556" y2="159.004" width="0.1524" layer="91"/>
-<pinref part="LED_PWR" gate="G$1" pin="C"/>
+<pinref part="PWR" gate="G$1" pin="C"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND"/>
@@ -21066,7 +21072,7 @@ protection</text>
 <segment>
 <pinref part="SUPPLY3" gate="G$1" pin="DGND"/>
 <wire x1="-37.084" y1="96.774" x2="-37.084" y2="91.948" width="0.1524" layer="91"/>
-<pinref part="KSS331GLFS" gate="G$1" pin="1"/>
+<pinref part="RST" gate="G$1" pin="1"/>
 <pinref part="RST_STM" gate="G$1" pin="2"/>
 <wire x1="-32.004" y1="106.68" x2="-32.004" y2="96.774" width="0.1524" layer="91"/>
 <wire x1="-32.004" y1="96.774" x2="-37.084" y2="96.774" width="0.1524" layer="91"/>
@@ -21285,8 +21291,8 @@ protection</text>
 </segment>
 <segment>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
-<pinref part="S3" gate="G$1" pin="3"/>
-<pinref part="S3" gate="G$1" pin="4"/>
+<pinref part="BOOT_" gate="G$1" pin="3"/>
+<pinref part="BOOT_" gate="G$1" pin="4"/>
 <wire x1="-55.88" y1="116.84" x2="-55.88" y2="123.19" width="0.1524" layer="91"/>
 <wire x1="-66.04" y1="116.84" x2="-63.5" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="-63.5" y1="116.84" x2="-60.96" y2="116.84" width="0.1524" layer="91"/>
@@ -21457,8 +21463,8 @@ protection</text>
 <wire x1="-60.96" y1="104.14" x2="-55.88" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="-55.88" y1="104.14" x2="-55.88" y2="101.6" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="1"/>
-<pinref part="S3" gate="G$1" pin="1"/>
-<pinref part="S3" gate="G$1" pin="2"/>
+<pinref part="BOOT_" gate="G$1" pin="1"/>
+<pinref part="BOOT_" gate="G$1" pin="2"/>
 <wire x1="-66.04" y1="104.14" x2="-63.5" y2="104.14" width="0.1524" layer="91"/>
 <junction x="-63.5" y="104.14"/>
 <pinref part="BOOT" gate="G$1" pin="2"/>
@@ -22296,7 +22302,7 @@ protection</text>
 <segment>
 <pinref part="R10" gate="G$1" pin="1"/>
 <wire x1="-3.556" y1="175.26" x2="-3.556" y2="169.164" width="0.1524" layer="91"/>
-<pinref part="LED_PWR" gate="G$1" pin="A"/>
+<pinref part="PWR" gate="G$1" pin="A"/>
 </segment>
 </net>
 <net name="TXD0_ESP" class="0">
@@ -22483,7 +22489,7 @@ protection</text>
 <segment>
 <label x="-36.576" y="122.936" size="1.778" layer="95"/>
 <wire x1="-37.084" y1="117.094" x2="-37.084" y2="122.936" width="0.1524" layer="91"/>
-<pinref part="KSS331GLFS" gate="G$1" pin="2"/>
+<pinref part="RST" gate="G$1" pin="2"/>
 <pinref part="RST_STM" gate="G$1" pin="1"/>
 <wire x1="-32.004" y1="109.22" x2="-32.004" y2="117.094" width="0.1524" layer="91"/>
 <wire x1="-32.004" y1="117.094" x2="-37.084" y2="117.094" width="0.1524" layer="91"/>
@@ -22512,8 +22518,8 @@ protection</text>
 <junction x="-50.8" y="-33.02"/>
 </segment>
 <segment>
-<wire x1="33.02" y1="114.3" x2="34.544" y2="114.3" width="0.1524" layer="91"/>
-<label x="33.02" y="114.3" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="27.94" y1="114.3" x2="34.544" y2="114.3" width="0.1524" layer="91"/>
+<label x="27.94" y="114.3" size="1.27" layer="95" rot="R180" xref="yes"/>
 <pinref part="R33" gate="G$1" pin="2"/>
 <wire x1="34.544" y1="119.38" x2="34.544" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="34.544" y1="114.3" x2="35.56" y2="114.3" width="0.1524" layer="91"/>

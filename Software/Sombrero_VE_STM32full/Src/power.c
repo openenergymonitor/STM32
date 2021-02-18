@@ -12,20 +12,26 @@
 //--------------------------------
 // ADC SETTINGS / CALIBRATION
 //--------------------------------
-const double VOLTS_PER_DIV = (2.5 / 4096.0); // REF191
-// const double VOLTS_PER_DIV = (3.3 / 4096.0); // REF196
+#define VREF 2.5
+const double VOLTS_PER_DIV = (VREF / 4096.0);
+#define BURDEN_RESISTOR 5.1
+#define BLEED_RESISTOR 680.0
+#define FEEDBACK_RESISTOR 1800.0
+
+const double OPAMP_GAIN = 2.627;
 
 //--------------------------------
 // VOLTAGE CALIBRATION
 //--------------------------------
 // const double VCAL = 225.83; // default ideal power UK, for STM32 HW v1.0 (REF196?)
-const double VCAL = 290.64; // default ideal power UK, for STM32 HW v1.0 (REF191???)
+const double VCAL = 290.64*(249.48/139.86); // dan's test feb2021
 
 //--------------------------------
 // AMPERAGE CALIBRATION
 //--------------------------------
-const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
-
+// const double ICAL = (100/0.05)/6.8; // (CT rated input / rated output) / burden value.
+// const double ICAL = (100/0.05)/5.1/OPAMP_GAIN; // confirmed dan's test feb2021
+const double ICAL = (100/0.05)/5.1/OPAMP_GAIN; // confirmed dan's test feb2021
 
 
 
@@ -75,8 +81,6 @@ void calcPower (int ch)
   // if (realPower < 1.0) {
   //   realPower = 0.0;
   // }
-
-  
 }
 
 void calcEnergy (int ch, double power, int interval) {
