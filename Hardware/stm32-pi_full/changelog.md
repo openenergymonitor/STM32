@@ -2,7 +2,7 @@ v1.2 changes
 - diode placed between backup battery regulator and vbat, stopping reverse current from vbat to gnd through regulator.
 - rotated the boot and reset headers.
 - ac-ac input voltage divider changed to 140k/10k divider. new output impedance 9.33kOhms
-
+- ac-ac input pins swapped. the new opamp based ct inputs causes an inversion of the signal, thus the ac-ac pins have been swapped to keep it in phase.
 
 v1.0 & v1.1 changes
 

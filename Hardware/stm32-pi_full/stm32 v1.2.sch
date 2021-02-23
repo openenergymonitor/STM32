@@ -19727,11 +19727,11 @@ protection</text>
 <attribute name="NAME" x="264.922" y="187.452" size="1.27" layer="94" rot="R270"/>
 <attribute name="MPN" x="246.38" y="182.88" size="1.778" layer="96" rot="R180" display="off"/>
 </instance>
-<instance part="VT1" gate="G$1" x="414.02" y="345.44" smashed="yes" rot="R180">
-<attribute name="NAME" x="416.052" y="350.774" size="2.54" layer="95" rot="R270"/>
-<attribute name="MPN" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
-<attribute name="MPN2" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
-<attribute name="NOTE" x="414.02" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
+<instance part="VT1" gate="G$1" x="421.64" y="345.44" smashed="yes" rot="R180">
+<attribute name="NAME" x="423.672" y="350.774" size="2.54" layer="95" rot="R270"/>
+<attribute name="MPN" x="421.64" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MPN2" x="421.64" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="NOTE" x="421.64" y="345.44" size="1.778" layer="96" rot="R180" display="off"/>
 </instance>
 <instance part="RJ1" gate="G$1" x="411.48" y="-66.04" smashed="yes">
 <attribute name="NAME" x="420.116" y="-76.708" size="3.81" layer="95" rot="R90"/>
@@ -23867,12 +23867,7 @@ protection</text>
 <label x="256.54" y="355.6" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="VT1" gate="G$1" pin="RING_SW"/>
-<pinref part="VT1" gate="G$1" pin="RING"/>
-<wire x1="408.94" y1="347.98" x2="408.94" y2="345.44" width="0.1524" layer="91"/>
-<junction x="408.94" y="347.98"/>
 <wire x1="408.94" y1="355.6" x2="408.94" y2="350.52" width="0.1524" layer="91"/>
-<wire x1="408.94" y1="350.52" x2="408.94" y2="347.98" width="0.1524" layer="91"/>
 <wire x1="393.7" y1="355.6" x2="408.94" y2="355.6" width="0.1524" layer="91"/>
 <pinref part="R53" gate="G$1" pin="2"/>
 <wire x1="393.7" y1="340.36" x2="393.7" y2="355.6" width="0.1524" layer="91"/>
@@ -23880,8 +23875,10 @@ protection</text>
 <label x="388.62" y="355.6" size="1.27" layer="95" rot="R180" xref="yes"/>
 <pinref part="R34" gate="G$1" pin="2"/>
 <wire x1="406.908" y1="350.52" x2="408.94" y2="350.52" width="0.1524" layer="91"/>
-<junction x="408.94" y="350.52"/>
 <wire x1="388.62" y1="355.6" x2="393.7" y2="355.6" width="0.1524" layer="91"/>
+<pinref part="VT1" gate="G$1" pin="TIP"/>
+<wire x1="416.56" y1="342.9" x2="408.94" y2="350.52" width="0.1524" layer="91"/>
+<junction x="408.94" y="350.52"/>
 </segment>
 <segment>
 <pinref part="D1" gate="G$1" pin="C"/>
@@ -23963,12 +23960,15 @@ protection</text>
 <net name="_AC1" class="0">
 <segment>
 <pinref part="R43" gate="G$1" pin="2"/>
-<pinref part="VT1" gate="G$1" pin="TIP"/>
-<wire x1="408.94" y1="342.9" x2="408.94" y2="340.36" width="0.1524" layer="91"/>
-<junction x="408.94" y="340.36"/>
 <pinref part="R34" gate="G$1" pin="1"/>
 <wire x1="406.908" y1="340.36" x2="408.94" y2="340.36" width="0.1524" layer="91"/>
 <label x="415.036" y="340.36" size="1.778" layer="95"/>
+<pinref part="VT1" gate="G$1" pin="RING"/>
+<pinref part="VT1" gate="G$1" pin="RING_SW"/>
+<wire x1="416.56" y1="347.98" x2="416.56" y2="345.44" width="0.1524" layer="91"/>
+<wire x1="416.56" y1="345.44" x2="408.94" y2="340.36" width="0.1524" layer="91"/>
+<junction x="416.56" y="345.44"/>
+<junction x="408.94" y="340.36"/>
 </segment>
 </net>
 <net name="+5V_BATT" class="1">

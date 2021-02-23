@@ -10471,8 +10471,6 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <wire x1="123.353203125" y1="77.901546875" x2="127.902609375" y2="77.901546875" width="0.3048" layer="1"/>
 <wire x1="127.18029375" y1="72.644084375" x2="128.711421875" y2="71.11295625" width="0.3048" layer="16"/>
 <wire x1="128.711421875" y1="71.11295625" x2="129.282953125" y2="69.733159375" width="0.3048" layer="16" curve="-45"/>
-<contactref element="VT1" pad="GND"/>
-<contactref element="VT1" pad="GNDBREAK"/>
 <contactref element="R53" pad="2"/>
 <contactref element="R34" pad="2"/>
 <wire x1="116.709528125" y1="57.33936875" x2="113.99918125" y2="57.33936875" width="0.4064" layer="1"/>
@@ -10480,8 +10478,6 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <wire x1="116.709528125" y1="57.33936875" x2="120.345403125" y2="55.833340625" width="0.4064" layer="1" curve="-45"/>
 <wire x1="120.345403125" y1="55.833340625" x2="120.345403125" y2="55.12409375" width="0.4064" layer="1"/>
 <wire x1="120.345403125" y1="55.12409375" x2="122.552953125" y2="52.91654375" width="0.4064" layer="1"/>
-<wire x1="122.552953125" y1="52.91654375" x2="123.8" y2="52.4" width="0.4064" layer="1" curve="45"/>
-<wire x1="123.8" y1="52.4" x2="130" y2="52.4" width="0.3556" layer="1"/>
 <contactref element="D1" pad="K"/>
 <contactref element="D4" pad="A"/>
 <wire x1="120.345403125" y1="55.12409375" x2="120.345403125" y2="56.136303125" width="0.4064" layer="1"/>
@@ -10493,7 +10489,9 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <wire x1="118.582584375" y1="59.441340625" x2="118.92915" y2="58.604659375" width="0.4064" layer="1" curve="-45"/>
 <wire x1="127.18029375" y1="58.644084375" x2="127.18029375" y2="56.832396875" width="0.4064" layer="1"/>
 <wire x1="127.18029375" y1="56.832396875" x2="126.43634375" y2="55.03634375" width="0.4064" layer="1" curve="-45"/>
-<wire x1="126.43634375" y1="55.03634375" x2="123.8" y2="52.4" width="0.4064" layer="1"/>
+<contactref element="VT1" pad="PWR2"/>
+<wire x1="122.552953125" y1="52.91654375" x2="126.43634375" y2="55.03634375" width="0" layer="19" extent="1-1"/>
+<wire x1="123.8" y1="41.4" x2="122.552953125" y2="52.91654375" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="L1-">
 <contactref element="TB3" pad="P$2"/>
@@ -10572,20 +10570,21 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <signal name="N$19">
 </signal>
 <signal name="_AC1">
-<contactref element="VT1" pad="PWR2"/>
 <contactref element="R43" pad="2"/>
 <contactref element="R34" pad="1"/>
-<wire x1="123.8" y1="43.1171125" x2="123.8" y2="41.4" width="0.3048" layer="1"/>
 <wire x1="113.824821875" y1="51.934403125" x2="115.5788125" y2="52.66093125" width="0.4064" layer="1" curve="45"/>
 <wire x1="115.5788125" y1="52.66093125" x2="116.8614875" y2="53.94360625" width="0.4064" layer="1"/>
 <wire x1="117.044096875" y1="54.6227875" x2="117.545403125" y2="55.12409375" width="0.4064" layer="1"/>
-<wire x1="123.8" y1="41.4" x2="123.8" y2="45.952990625" width="0.4064" layer="1"/>
 <wire x1="123.8" y1="45.952990625" x2="123.05605" y2="47.74904375" width="0.4064" layer="1" curve="45"/>
 <wire x1="123.05605" y1="47.74904375" x2="116.8614875" y2="53.94360625" width="0.4064" layer="1"/>
 <wire x1="113.824821875" y1="51.934403125" x2="115.578809375" y2="52.660928125" width="0.4064" layer="1" curve="45"/>
 <wire x1="115.578809375" y1="52.660928125" x2="115.5788125" y2="52.66093125" width="0.4064" layer="1"/>
 <wire x1="117.545403125" y1="55.12409375" x2="117.194275" y2="54.27639375" width="0.4064" layer="1" curve="-45"/>
 <wire x1="117.194275" y1="54.27639375" x2="116.8614875" y2="53.94360625" width="0.4064" layer="1"/>
+<contactref element="VT1" pad="GND"/>
+<contactref element="VT1" pad="GNDBREAK"/>
+<wire x1="123.8" y1="52.4" x2="130" y2="52.4" width="0" layer="19" extent="1-1"/>
+<wire x1="123.8" y1="45.952990625" x2="123.8" y2="52.4" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="AC1">
 <contactref element="R43" pad="1"/>
