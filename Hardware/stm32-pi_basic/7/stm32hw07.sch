@@ -74,7 +74,7 @@
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
 <layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
@@ -21778,7 +21778,9 @@ Source: www.kingbright.com</description>
 <part name="PAD2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="1,6/0,8" device="" package3d_urn="urn:adsk.eagle:package:30830/1"/>
 <part name="PAD3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="1,6/0,8" device="" package3d_urn="urn:adsk.eagle:package:30830/1"/>
 <part name="PAD4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="1,6/0,8" device="" package3d_urn="urn:adsk.eagle:package:30830/1"/>
-<part name="U2" library="microbuilder" deviceset="ESDDIODEARRAY_SINGLE_UNIDIR" device=""/>
+<part name="U2" library="microbuilder" deviceset="ESDDIODEARRAY_SINGLE_UNIDIR" device="">
+<attribute name="MPN" value="NUP1301ML3T1G"/>
+</part>
 <part name="R12" library="resistor" deviceset="R-EU_" device="R0603" value="510R"/>
 <part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0805" package3d_urn="urn:adsk.eagle:package:15818/2"/>
 <part name="SUPPLY19" library="supply2" deviceset="GND" device=""/>
@@ -21790,7 +21792,7 @@ Source: www.kingbright.com</description>
 <part name="AGND6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="AGND" device=""/>
 <part name="R13" library="resistor" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="5VUSB" library="adafruit" deviceset="USB" device="MOLEX"/>
-<part name="Q3" library="adafruit" deviceset="XTAL-4" device="-3225"/>
+<part name="Y1" library="adafruit" deviceset="XTAL-4" device="-3225"/>
 </parts>
 <sheets>
 <sheet>
@@ -21827,7 +21829,6 @@ SWDIO + SWCLK added to the top</text>
 for esp32</text>
 <text x="-30.48" y="-88.9" size="3.81" layer="91">microSD card
 adaptor</text>
-<text x="270.764" y="200.152" size="1.778" layer="97">2.0-2.35mm center pin dia.</text>
 </plain>
 <instances>
 <instance part="MCP1825" gate="G$1" x="-25.4" y="170.18" smashed="yes">
@@ -22177,8 +22178,9 @@ adaptor</text>
 <attribute name="VALUE" x="161.798" y="-120.777" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="U2" gate="G$1" x="129.54" y="129.54" smashed="yes" rot="R180">
-<attribute name="NAME" x="120.65" y="128.27" size="1.27" layer="95" rot="R180"/>
+<attribute name="NAME" x="121.412" y="131.826" size="1.27" layer="95" rot="R180"/>
 <attribute name="VALUE" x="120.65" y="130.81" size="1.27" layer="96" rot="R180"/>
+<attribute name="MPN" x="130.048" y="124.46" size="1.778" layer="96"/>
 </instance>
 <instance part="R12" gate="G$1" x="-55.88" y="165.1" smashed="yes" rot="R90">
 <attribute name="NAME" x="-57.3786" y="161.29" size="1.778" layer="95" rot="R90"/>
@@ -22217,7 +22219,7 @@ adaptor</text>
 <attribute name="NAME" x="83.82" y="186.436" size="1.27" layer="95"/>
 <attribute name="VALUE" x="83.82" y="167.64" size="1.27" layer="96"/>
 </instance>
-<instance part="Q3" gate="G$1" x="48.26" y="124.46" smashed="yes" rot="R90">
+<instance part="Y1" gate="G$1" x="48.26" y="124.46" smashed="yes" rot="R90">
 <attribute name="NAME" x="44.45" y="121.92" size="1.27" layer="95" font="vector" rot="R90"/>
 <attribute name="VALUE" x="53.34" y="120.65" size="1.27" layer="96" font="vector" rot="R90"/>
 </instance>
@@ -22894,7 +22896,7 @@ adaptor</text>
 <pinref part="C15" gate="G$1" pin="1"/>
 <wire x1="38.1" y1="114.3" x2="38.1" y2="119.38" width="0.1524" layer="91"/>
 <label x="38.1" y="129.54" size="1.778" layer="95" rot="R90"/>
-<pinref part="Q3" gate="G$1" pin="X1"/>
+<pinref part="Y1" gate="G$1" pin="X1"/>
 <wire x1="38.1" y1="119.38" x2="38.1" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="119.38" x2="48.26" y2="119.38" width="0.1524" layer="91"/>
 <junction x="38.1" y="119.38"/>
@@ -23431,7 +23433,7 @@ adaptor</text>
 <pinref part="C14" gate="G$1" pin="1"/>
 <wire x1="27.94" y1="114.3" x2="27.94" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="R10" gate="G$1" pin="1"/>
-<pinref part="Q3" gate="G$1" pin="X2"/>
+<pinref part="Y1" gate="G$1" pin="X2"/>
 <wire x1="27.94" y1="121.92" x2="48.26" y2="129.54" width="0.1524" layer="91"/>
 <junction x="27.94" y="121.92"/>
 </segment>

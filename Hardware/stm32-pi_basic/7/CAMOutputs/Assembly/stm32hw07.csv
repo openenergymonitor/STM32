@@ -1,34 +1,57 @@
-Qty,Value,Device,Package,Parts,Description,ALLIED_NUMBER,AVAILABILITY,CATEGORY,DESCRIPTION,FILTER_TYPE,HEIGHT,IMPEDANCE_FREQ,MANUFACTURER,MANUFACTURER_NAME,MANUFACTURER_PART_NUMBER,MF,MP,MPN,OC_FARNELL,OC_NEWARK,OPERATING_TEMP,PACKAGE,PART_STATUS,POPULARITY,PRICE,REVERSE_VOLTAGE,ROHS_COMPLIANT,RS_PART_NUMBER,RS_PRICE-STOCK,SERIES,SPICEPREFIX,SUB-CATEGORY,THERMALLOSS,TYPE,VENDOR
-1,,ESDDIODEARRAY_SINGLE_UNIDIR,SOT23-WIDE,U2,ESD Protection Diode Array - Single Channel Unidirectional,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,,LEDCHIP-LED0805,CHIP-LED0805,LED2,LED,,,,,,,,,,,,,,,,,,,68,,,,,,,,,,,
-3,,R-EU_0207/10,0207/10,"R5, R6, R7","RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,81,,,,,,,R,,,,
-2,,TRANSISTOR_NPN,SOT23-R,"Q1, Q2",NPN Transistor,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-2,0R,FBCHIP-0603(1608-METRIC),BEADC1608X95N,"FB1, FB2",Ferrite Bead - Generic,,,Filter,,,,,,,,,,,,,,,,,,,,,,,,Ferrite bead,,,
-1,0R,R-EU_R0603,R0603,R13,"RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-3,100nF,C-EUC0603,C0603,"C10, C11, C13","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,73,,,,,,,C,,,,
-6,100nF,C-EUC0603,C0603,"C1, C5, C6, C8, C9, C16","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-8,10k,R-EU_R0603,R0603,"R2, R4, R9, R10, R11, R19, R22, R23","RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-4,10nF,C-EUC0805,C0805,"CF1, CF2, CF3, CFV","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,88,,,,,,,C,,,,
-2,120k,R-EU_R0603,R0603,"R8, R20","RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-2,15pF,C-EUC0603,C0603,"C14, C15","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-2,2.2uF,C-EUC0603,C0603,"C12, C17","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,73,,,,,,,C,,,,
-1,2.2uF,C-EUC0603,C0603,C2,"CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,22r,R-EU_R0603,R0603,RB1,"RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-5,22uF,C-EUC0805,C0805,"C3, C4, C7, C18, C22","CAPACITOR, European symbol",,,,,,,,,,,,,,,,,,,88,,,,,,,C,,,,
-1,330R,R-EU_R0603,R0603,R3,"RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,4.7k,R-EU_R0603,R0603,R1,"RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,47219-2001_MICROSD,47219-2001_MICROSD,47219-2001_MICROSD,U$3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,510R,R-EU_R0603,R0603,R12,"RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-2,6R8,R-EU_R0603,R0603,"RB2, RB3","RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,8MHZ,CRYSTALCTS406,CTS406,HSE,CRYSTAL,,,,,,,,,,,,,,unknown,unknown,,,,,,,,,,,,,,,
-4,9k1,R-EU_R0603,R0603,"RF1, RF2, RF3, RFV","RESISTOR, European symbol",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,CONN_12X2,CONN_12X2,2X12,J1,Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,CP2102,CP2102,MLP28,IC1,Single-Chip USB to UART Bridge,,,,,,,,,,,FARNELL,,CP2102-GM,9282130,30K5635,,,,0,,,,,,,,,,,
-1,ESP32-WROOM-32D,ESP32-WROOM-32D,MODULE_ESP32-WROOM-32D,U1,"IC: SoC; GPIO, I2C, I2S, IR, SD, SDIO, SPI, UART; 2.7÷3.6VDC; 20dBm",,Unavailable,, IC: SoC," GPIO, I2C, I2S, IR, SD, SDIO, SPI, UART", 2.7÷3.6VDC, 20dBm ,,,,,,,Espressif Systems,ESP32-WROOM-32D,,,,,Module Espressif Systems,,,None,,,,,,,
-1,JUMPER-SMT_2_NC_TRACE_NO-SILK,JUMPER-SMT_2_NC_TRACE_NO-SILK,SMT-JUMPER_2_NC_TRACE_NO-SILK,JP6,Normally closed trace jumper,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,MCP1825SOT-223-3,MCP1825SOT-223-3,SOT-223,MCP1825,MCP1825 3.3v LDO Linear Regulator,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,RFM12_SMDSMD,RFM12_SMDSMD,RFM12,U$2,RFM12 is a low costing ISM band transceiver,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,Red 1.85V,LEDCHIP-LED0805,CHIP-LED0805,LED1,LED,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-3,STEREO_SMD,STEREO_SMD,STEREO_SMT,"CT1, CT2, CT3",3.5mm Stereo Jack SMT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-1,STM32F302_303C2,STM32F302_303C2,LQFP48-7X7MM,STM32,,,,,,,,,,,stm32f302_303c2,,,,,,,,,,,,,,,,,,,,STMicroelectronics
-1,UART_STM,PINHD-1X6,1X06,JP2,PIN HEADER,,,CONNECTOR,,,,,,,,,,,,,,,,,,,,,,,,PIN-HEADER,,,
+Designator;Comment;Footprint
+C1;100nF;C0603
+C2;2.2uF;C0603
+C3;22uF;C0805
+C4;22uF;C0805
+C5;100nF;C0603
+C6;100nF;C0603
+C7;22uF;C0805
+C8;100nF;C0603
+C9;100nF;C0603
+C10;100nF;C0603
+C11;100nF;C0603
+C12;2.2uF;C0603
+C13;100nF;C0603
+C14;15pF;C0603
+C15;15pF;C0603
+C16;100nF;C0603
+C17;2.2uF;C0603
+C18;22uF;C0805
+C22;22uF;C0805
+CF1;10nF;C0805
+CF2;10nF;C0805
+CF3;10nF;C0805
+CFV;10nF;C0805
+FB1;0R;BEADC1608X95N
+FB2;0R;BEADC1608X95N
+IC1;CP2102;MLP28
+LED1;LED;CHIP-LED0805
+LED2;LED;CHIP-LED0805
+MCP1825;MCP1825SOT-223-3;SOT-223
+Q1;NPN Transistor;SOT23-R
+Q2;NPN Transistor;SOT23-R
+R1;4.7k;R0603
+R2;10k;R0603
+R3;330R;R0603
+R4;10k;R0603
+R8;120k;R0603
+R9;10k;R0603
+R10;10k;R0603
+R11;10k;R0603
+R12;510R;R0603
+R13;0R;R0603
+R19;10k;R0603
+R20;120k;R0603
+R22;10k;R0603
+R23;10k;R0603
+RB1;22r;R0603
+RB2;6R8;R0603
+RB3;6R8;R0603
+RF1;9k1;R0603
+RF2;9k1;R0603
+RF3;9k1;R0603
+RFV;9k1;R0603
+STM32;STM32F302_303C2;LQFP48-7X7MM
+U$3;47219-2001_MICROSD;47219-2001_MICROSD
+U2;NUP1301ML3T1G;SOT23-WIDE
+Y1;NX3225;NX3225

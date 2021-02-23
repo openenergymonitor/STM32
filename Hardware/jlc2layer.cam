@@ -6,7 +6,7 @@
     "description": {
         "EN": "EAGLE default 2 layer CAM job."
     },
-    "output_type": "zip",
+    "output_type": "directory",
     "outputs": [
         {
             "filename_prefix": "CAMOutputs/GerberFiles",
@@ -255,8 +255,8 @@
                 {
                     "filename_format": "%ASSEMBLYPREFIX/%N",
                     "list_attribute": true,
-                    "list_type": "values",
-                    "name": "Bill of Material",
+                    "list_type": "parts",
+                    "name": "Bill of Materials",
                     "output_format": "csv",
                     "type": "bom"
                 },
@@ -275,7 +275,7 @@
             ]
         }
     ],
-    "timestamp": "2021-01-28T12:10:32",
+    "timestamp": "2021-02-01T19:44:00",
     "type": "EAGLE CAM job",
     "units": "metric",
     "version": "9.2.0"
