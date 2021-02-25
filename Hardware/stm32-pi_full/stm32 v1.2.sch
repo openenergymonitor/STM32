@@ -19521,12 +19521,12 @@ Feel free to contact us at &lt;a href="mailto:Support@PCBLayout.com"&gt;Support@
 <part name="LMV3" library="LMV824IDG4" deviceset="LMV824IDG4" device=""/>
 <part name="R67" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="510R 0.1%"/>
 <part name="R68" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="510R 0.1%"/>
-<part name="RB19" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
-<part name="RB20" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
-<part name="RB21" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
+<part name="RB11" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
 <part name="RB22" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
-<part name="RB23" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
-<part name="RB24" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
+<part name="RB33" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
+<part name="RB77" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
+<part name="RB88" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
+<part name="RB99" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0603" package3d_urn="urn:adsk.eagle:package:23555/3" value="680R | 681R 0.1%"/>
 <part name="FB6" library="microbuilder" deviceset="FERRITE" device="_0603" value="600R">
 <attribute name="MPN" value="BLM18BD252SN1D"/>
 </part>
@@ -20279,6 +20279,7 @@ protection</text>
 </instance>
 <instance part="RB1" gate="G$1" x="231.14" y="185.42" smashed="yes" rot="R90">
 <attribute name="NAME" x="229.6414" y="181.61" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="234.442" y="181.61" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="RB4" gate="G$1" x="304.8" y="185.42" smashed="yes" rot="R90">
 <attribute name="NAME" x="303.3014" y="181.61" size="1.778" layer="95" rot="R90"/>
@@ -20654,6 +20655,7 @@ protection</text>
 </instance>
 <instance part="R60" gate="G$1" x="220.98" y="274.32" smashed="yes">
 <attribute name="NAME" x="217.17" y="275.8186" size="1.778" layer="95"/>
+<attribute name="VALUE" x="217.17" y="271.018" size="1.778" layer="96"/>
 </instance>
 <instance part="LMV1" gate="G$1" x="228.6" y="276.86" smashed="yes">
 <attribute name="NAME" x="257.81" y="284.48" size="1.778" layer="95" align="center-left"/>
@@ -20678,22 +20680,23 @@ protection</text>
 <instance part="R68" gate="G$1" x="408.94" y="264.16" smashed="yes">
 <attribute name="NAME" x="405.13" y="265.6586" size="1.778" layer="95"/>
 </instance>
-<instance part="RB19" gate="G$1" x="251.46" y="193.04" smashed="yes">
+<instance part="RB11" gate="G$1" x="251.46" y="193.04" smashed="yes">
 <attribute name="NAME" x="247.65" y="194.5386" size="1.778" layer="95"/>
+<attribute name="VALUE" x="247.65" y="189.738" size="1.778" layer="96"/>
 </instance>
-<instance part="RB20" gate="G$1" x="248.92" y="137.16" smashed="yes">
+<instance part="RB22" gate="G$1" x="248.92" y="137.16" smashed="yes">
 <attribute name="NAME" x="245.11" y="138.6586" size="1.778" layer="95"/>
 </instance>
-<instance part="RB21" gate="G$1" x="248.92" y="81.28" smashed="yes">
+<instance part="RB33" gate="G$1" x="248.92" y="81.28" smashed="yes">
 <attribute name="NAME" x="245.11" y="82.7786" size="1.778" layer="95"/>
 </instance>
-<instance part="RB22" gate="G$1" x="401.32" y="193.04" smashed="yes">
+<instance part="RB77" gate="G$1" x="401.32" y="193.04" smashed="yes">
 <attribute name="NAME" x="397.51" y="194.5386" size="1.778" layer="95"/>
 </instance>
-<instance part="RB23" gate="G$1" x="401.32" y="137.16" smashed="yes">
+<instance part="RB88" gate="G$1" x="401.32" y="137.16" smashed="yes">
 <attribute name="NAME" x="397.51" y="138.6586" size="1.778" layer="95"/>
 </instance>
-<instance part="RB24" gate="G$1" x="401.32" y="81.28" smashed="yes">
+<instance part="RB99" gate="G$1" x="401.32" y="81.28" smashed="yes">
 <attribute name="NAME" x="397.51" y="82.7786" size="1.778" layer="95"/>
 </instance>
 <instance part="FB6" gate="G$1" x="125.222" y="175.768" smashed="yes" rot="R180">
@@ -24182,10 +24185,10 @@ protection</text>
 <junction x="246.38" y="266.7"/>
 </segment>
 <segment>
-<pinref part="RB19" gate="G$1" pin="2"/>
-<pinref part="RB20" gate="G$1" pin="2"/>
+<pinref part="RB11" gate="G$1" pin="2"/>
+<pinref part="RB22" gate="G$1" pin="2"/>
 <wire x1="254" y1="137.16" x2="259.08" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="RB21" gate="G$1" pin="2"/>
+<pinref part="RB33" gate="G$1" pin="2"/>
 <wire x1="259.08" y1="193.04" x2="259.08" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="259.08" y1="137.16" x2="259.08" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="259.08" y1="81.28" x2="254" y2="81.28" width="0.1524" layer="91"/>
@@ -24272,12 +24275,12 @@ protection</text>
 <junction x="386.08" y="266.7"/>
 </segment>
 <segment>
-<pinref part="RB22" gate="G$1" pin="2"/>
+<pinref part="RB77" gate="G$1" pin="2"/>
 <wire x1="406.4" y1="193.04" x2="408.94" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="408.94" y1="193.04" x2="408.94" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="RB23" gate="G$1" pin="2"/>
+<pinref part="RB88" gate="G$1" pin="2"/>
 <wire x1="408.94" y1="137.16" x2="406.4" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="RB24" gate="G$1" pin="2"/>
+<pinref part="RB99" gate="G$1" pin="2"/>
 <wire x1="406.4" y1="81.28" x2="408.94" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="408.94" y1="137.16" x2="408.94" y2="81.28" width="0.1524" layer="91"/>
 <junction x="408.94" y="137.16"/>
@@ -24346,7 +24349,7 @@ protection</text>
 <pinref part="RB1" gate="G$1" pin="2"/>
 <pinref part="RB1_" gate="G$1" pin="2"/>
 <wire x1="231.14" y1="190.5" x2="236.22" y2="190.5" width="0.1524" layer="91"/>
-<pinref part="RB19" gate="G$1" pin="1"/>
+<pinref part="RB11" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="190.5" x2="231.14" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="231.14" y1="193.04" x2="241.3" y2="193.04" width="0.1524" layer="91"/>
 <junction x="231.14" y="190.5"/>
@@ -24361,7 +24364,7 @@ protection</text>
 <pinref part="RB2_" gate="G$1" pin="2"/>
 <pinref part="RB2" gate="G$1" pin="2"/>
 <wire x1="236.22" y1="134.62" x2="231.14" y2="134.62" width="0.1524" layer="91"/>
-<pinref part="RB20" gate="G$1" pin="1"/>
+<pinref part="RB22" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="134.62" x2="231.14" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="231.14" y1="137.16" x2="241.3" y2="137.16" width="0.1524" layer="91"/>
 <junction x="231.14" y="134.62"/>
@@ -24376,7 +24379,7 @@ protection</text>
 <pinref part="RB3_" gate="G$1" pin="2"/>
 <pinref part="RB3" gate="G$1" pin="2"/>
 <wire x1="236.22" y1="78.74" x2="231.14" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="RB21" gate="G$1" pin="1"/>
+<pinref part="RB33" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="78.74" x2="231.14" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="231.14" y1="81.28" x2="241.3" y2="81.28" width="0.1524" layer="91"/>
 <junction x="231.14" y="78.74"/>
@@ -24391,7 +24394,7 @@ protection</text>
 <pinref part="RB9_" gate="G$1" pin="2"/>
 <pinref part="RB9" gate="G$1" pin="2"/>
 <wire x1="388.62" y1="78.74" x2="383.54" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="RB24" gate="G$1" pin="1"/>
+<pinref part="RB99" gate="G$1" pin="1"/>
 <wire x1="383.54" y1="78.74" x2="383.54" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="383.54" y1="81.28" x2="393.7" y2="81.28" width="0.1524" layer="91"/>
 <junction x="383.54" y="78.74"/>
@@ -24406,7 +24409,7 @@ protection</text>
 <pinref part="RB8_" gate="G$1" pin="2"/>
 <pinref part="RB8" gate="G$1" pin="2"/>
 <wire x1="388.62" y1="134.62" x2="383.54" y2="134.62" width="0.1524" layer="91"/>
-<pinref part="RB23" gate="G$1" pin="1"/>
+<pinref part="RB88" gate="G$1" pin="1"/>
 <wire x1="383.54" y1="134.62" x2="383.54" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="383.54" y1="137.16" x2="393.7" y2="137.16" width="0.1524" layer="91"/>
 <junction x="383.54" y="134.62"/>
@@ -24421,7 +24424,7 @@ protection</text>
 <pinref part="RB7_" gate="G$1" pin="2"/>
 <pinref part="RB7" gate="G$1" pin="2"/>
 <wire x1="388.62" y1="190.5" x2="383.54" y2="190.5" width="0.1524" layer="91"/>
-<pinref part="RB22" gate="G$1" pin="1"/>
+<pinref part="RB77" gate="G$1" pin="1"/>
 <wire x1="383.54" y1="190.5" x2="383.54" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="383.54" y1="193.04" x2="393.7" y2="193.04" width="0.1524" layer="91"/>
 <junction x="383.54" y="190.5"/>
