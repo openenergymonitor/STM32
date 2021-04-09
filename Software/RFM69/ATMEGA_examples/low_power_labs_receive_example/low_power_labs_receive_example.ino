@@ -10,17 +10,17 @@ typedef struct {
 } Payload;
 Payload theData;
 
-int nodeid = 10;
-int networkGroup = 100;
+int nodeid = 1;
+int networkGroup = 210;
 
 void setup() {
   Serial.begin(115200);
   Serial.println("start");
   delay(10);
   radio.initialize(RF69_433MHZ,nodeid,networkGroup);
-  radio.spyMode(true);
+  //radio.spyMode(true);
 
-  radio.encrypt("asdfasdfasdfasdf");
+  //radio.encrypt("asdfasdfasdfasdf");
   //radio.readAllRegs(); 
 }
 

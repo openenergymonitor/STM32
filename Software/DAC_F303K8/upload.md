@@ -1,0 +1,1 @@
+make && cp ./build/DAC_F303K8.bin /Volumes/NODE_F303K8/ && pio device monitor -b 115200 -p /dev/cu.usbmodemFA133 
