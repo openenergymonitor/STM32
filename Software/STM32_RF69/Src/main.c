@@ -116,8 +116,10 @@ int main(void)
     {
       HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
       
-      // OK and Node ID  
-      sprintf(str,"OK %d",nativeMsg[1] & 0x3F);
+      // OK and Node ID
+      debug_printf("OK ");
+      
+      sprintf(str,"%d",nativeMsg[1] & 0x3F);
       debug_printf(str);
       
       // Data

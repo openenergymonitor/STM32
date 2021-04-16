@@ -55,6 +55,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include "jsmn.h"
 #include "reset.h"
@@ -571,8 +572,9 @@ int main(void)
         } // discard the first set as beginning of 1st waveform not tracked.
         
         while (!usart_tx_ready); // force wait while usart Tx finishes.
-        sprintf(log_buffer, "{STM_HW:%s,STM_FW:%s,\r\n", hwVersion, fwVersion); // initital write to buffer.
-        if (rpi_connected) sprintf(log_buffer, "STM_HW:%s,STM_FW:%s,", hwVersion, fwVersion); // initital write to buffer.
+        sprintf(log_buffer,"");
+        // sprintf(log_buffer, "{STM_HW:%s,STM_FW:%s,\r\n", hwVersion, fwVersion); // initital write to buffer.
+        // if (rpi_connected) sprintf(log_buffer, "STM_HW:%s,STM_FW:%s,", hwVersion, fwVersion); // initital write to buffer.
 
         // CALCULATE POWER
         for (int ch = 0; ch < CTn; ch++)
@@ -632,8 +634,19 @@ int main(void)
 
           int _ch = ch + 1; // nicer looking channel numbers. First channel starts at 1 instead of 0.
           //if (_ch == 1) { // single channel debug output.
-          if (rpi_connected) { sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); }
-          else { sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); }
+          if (rpi_connected) { 
+              // sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); 
+              if (ch==0) {
+                  sprintf(string_buffer, "V:%.1lf,", chn_result->Vrms);
+                  strcat(log_buffer, string_buffer);             
+              }
+              
+              sprintf(string_buffer, "P%d:%.1lf,", _ch, chn_result->RealPower);               
+          }
+          else 
+          { 
+              sprintf(string_buffer, "V%d:%.2lf,I%d:%.3lf,AP%d:%.1lf,RP%d:%.1lf,PF%d:%.6lf,Joules%d:%.3lf,Clip%d:%d,cycles%d:%d,samples%d:%ld,\r\n", _ch, chn_result->Vrms, _ch, chn_result->Irms, _ch, chn_result->ApparentPower, _ch, chn_result->RealPower, _ch, chn_result->PowerFactor, _ch, Ws_accumulator[ch], _ch, chn_result->Clipped, _ch, chn_result->Mains_AC_Cycles, _ch, chn_result->SampleCount); 
+          }
           strcat(log_buffer, string_buffer);
           //} // single channel debug output
           chn_result->Clipped = false;
@@ -645,19 +658,19 @@ int main(void)
         strcat(log_buffer, string_buffer);
         
         // Millis
-        sprintf(string_buffer, "millis:%ld,", current_millis);
-        strcat(log_buffer, string_buffer);
+        // sprintf(string_buffer, "millis:%ld,", current_millis);
+        // strcat(log_buffer, string_buffer);
         
         // Pulsecounters
         sprintf(string_buffer, "PC1:%ld,", pulseCount1);
         strcat(log_buffer, string_buffer);
-        sprintf(string_buffer, "PC2:%ld,", pulseCount2);
+        sprintf(string_buffer, "PC2:%ld", pulseCount2);
         strcat(log_buffer, string_buffer);
 
         // has the adc buffer overrun?
-        sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
+        // sprintf(string_buffer, "buffOverrun:%d", adc_buffer_overflow);
         adc_buffer_overflow = 0; // reset
-        strcat(log_buffer, string_buffer);
+        //strcat(log_buffer, string_buffer);
 
         // close the string and add some whitespace for clarity.
         if (!rpi_connected) { strcat(log_buffer, "}"); }
@@ -704,19 +717,22 @@ int main(void)
       {
         //HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
         
-        // OK and Node ID  
+        // OK and Node ID
         sprintf(log_buffer,"OK %d",nativeMsg[1] & 0x3F);
-        debug_printf(log_buffer);
         
         // Data
         for (uint8_t i = 2; i < n; ++i) {
-          sprintf(log_buffer," %d",nativeMsg[i]);
-          debug_printf(log_buffer);
+          sprintf(string_buffer," %d",nativeMsg[i]);
+          strcat(log_buffer, string_buffer);
         }
         
         // RSSI value after packet data
-        sprintf(log_buffer," (%d)\r\n",-(rssi>>1));
+        sprintf(string_buffer," (%d)\r\n",-(rssi>>1));
+        strcat(log_buffer, string_buffer);
+        
+        while (!usart_tx_ready);
         debug_printf(log_buffer);
+        sprintf(log_buffer,"");
         
         //HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
       }
